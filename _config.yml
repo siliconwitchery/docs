@@ -1,1 +1,38 @@
 remote_theme: pmarsceill/just-the-docs
+
+# Site settings
+title: SuperStack User Guides
+description: A complete set of guides on how to user the SuperStack Embedded Platform for your IoT project.
+permalink: pretty
+heading_anchors: true
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+
+# Header
+# Aux links for the upper right navigation
+search_enabled: true
+aux_links_new_tab: true
+aux_links:
+  "Get the hardware":
+    - "https://siliconwitchery.com"
+
+
+# Footer
+footer_content: "Copyright &copy; 2020 <a href="https://siliconwitchery.com">Silicon Witchery AB</a>
+last_edit_timestamp: true # Page must have `last_modified_date` defined in the frontmatter
+last_edit_time_format: "%b %e %Y at %I:%M %p"
+
+# Google analytics tracking
+# ga_tracking: UA-1234567-89 TODO
+ga_tracking_anonymize_ip: true # Use GDPR compliant Google Analytics settings
+
+# Optimisations
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  startings: []
+  blanklines: false
+  profile: false
