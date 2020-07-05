@@ -1,5 +1,5 @@
 # Site settings
-title: "SuperStack User Guides"
+title: "SuperStack"
 remote_theme: pmarsceill/just-the-docs
 description: "A complete set of guides on how to user the SuperStack Embedded Platform for your IoT project."
 permalink: pretty
