@@ -1,6 +1,6 @@
 # Site settings
 title: "Documentation"
-image: sw-logo.png
+image: logo.png
 remote_theme: pmarsceill/just-the-docs
 description: "A complete set of guides on how to user the SuperStack Embedded Platform for your IoT project."
 permalink: pretty
