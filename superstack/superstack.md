@@ -1,7 +1,8 @@
 ---
 layout: default
 title: SuperStack
-nav-order: 4
+nav_order: 4
+has_children: true
 ---
 
 # 

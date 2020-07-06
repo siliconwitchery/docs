@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Downloads
-nav-order: 7
+nav_order: 7
 ---
 
 # 

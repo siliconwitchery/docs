@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Hardware
-nav-order: 2
+nav_order: 2
+has_children: true
 ---
 
 # Supported Hardware
