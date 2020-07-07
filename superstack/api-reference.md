@@ -23,12 +23,61 @@ parent: SuperStack
 1. TOC
 {:toc}
 
-### Initialise Objects `"initialise":{...}`
+### Initialise Objects `"init":{...}`
 {: .d-inline-block }
-
 Command
 {: .label .label-green }
 
+Initialises an **Object** with new values, fully removing any **Objects** of the same name if they previously existed.
+
+### Example:
+
+1. The SuperStack Database currently does **not** contain an Object named `"sensor 1"`.
+2. Issue an **Initialise Command**:
+```json
+{
+    "init":{
+        "sensor 1":{
+            "chip":"BME280",
+            "return": ["temperature","pressure"],
+            "change.morethan": 10.5 
+        }
+    }
+}
+```
+3. The SuperStack Database now contains the `"sensor 1"` Object as shown:
+```json
+{
+    "sensor 1":{
+        "chip":"BME280",
+        "return": ["temperature","pressure"],
+        "change.morethan": 10.5 
+    }
+}
+```
+4. Issue another **Initialise Command**:
+```json
+{
+    "init":{
+        "sensor 1":{
+            "chip":"BME280",
+            "return": ["humidity"],
+            "period.sec": 30
+        }
+    }
+}
+```
+5. The SuperStack Database now contains the `"sensor 1"` Object as shown:
+```json
+{
+    "sensor 1":{
+        "chip":"BME280",
+        "return": ["humidity"],
+        "period.sec": 30
+    }
+}
+```
+Note that the `"change.morethan"` parameter was removed. This is because the Initialise Command always overwrites all entries in the Object.
 
 ### Modify Objects `"modify":{...}`
 {: .d-inline-block }
@@ -36,6 +85,7 @@ Command
 Command
 {: .label .label-green }
 
+Updates an **Object** with the parameters give, but keeps existing parameters unchanged.
 
 ### Remove Objects `"remove":[...]`
 {: .d-inline-block }
