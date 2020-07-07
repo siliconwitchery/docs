@@ -47,13 +47,11 @@ Initialises an **Object** with new values, fully removing any **Objects** of the
 ```
 3. The SuperStack Database now contains the `"sensor 1"` Object as shown:
 ```json
-{
     "sensor 1":{
         "chip":"BME280",
         "return": ["temperature","pressure"],
         "change.morethan": 10.5 
     }
-}
 ```
 4. Issue another **Initialise Command**:
 ```json
@@ -79,13 +77,52 @@ Initialises an **Object** with new values, fully removing any **Objects** of the
 ```
 Note that the `"change.morethan"` parameter was removed. This is because the Initialise Command always overwrites all entries in the Object.
 
-### Modify Objects `"modify":{...}`
+### Append Objects `"append":{...}`
 {: .d-inline-block }
 
 Command
 {: .label .label-green }
 
-Updates an **Object** with the parameters give, but keeps existing parameters unchanged.
+Updates an **Object** with the parameters given, but keeps existing parameters unchanged.
+
+### Example:
+
+1. The SuperStack Database already contains an Object named `"sensor 1"`.
+```json
+{
+    "sensor 1":{
+        "chip":"BME280",
+        "return": ["temperature","pressure"],
+        "change.morethan": 10.5 
+    }
+}
+```
+2. Issue an **Append Command**:
+```json
+{
+    "append":{
+        "sensor 1":{
+            "return": ["humidity"],
+            "period.sec": 30
+        }
+    }
+}
+```
+3. The SuperStack Database now contains the `"sensor 1"` Object as shown:
+```json
+{
+    "sensor 1":{
+        "chip":"BME280",
+        "return": ["humidity"],
+        "change.morethan": 10.5,
+        "period.sec": 30
+    }
+}
+```
+The `"period.sec"` parameter was added to the Object and the `"return"` parameter was appended. All other parameters remain unchanged.
+Note that indavidual parameters are still fully overwritten. In this case `"return": ["temperature","pressure"]` → `"return": ["humidity"]`. It is not possible to append the content within a parameter. It must be fully overwritten.
+
+
 
 ### Remove Objects `"remove":[...]`
 {: .d-inline-block }
