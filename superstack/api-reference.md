@@ -5,7 +5,7 @@ nav_order: 1
 parent: SuperStack
 ---
 
-# API Reference
+# API Contents
 {: .no_toc }
 1. TOC
 {:toc}
@@ -42,7 +42,7 @@ These rules describe everything there is to know about about communicating with 
 }
 ```
 
-- **Objects** cannot be directly modified, they must be issued inside the relevant **Command** for the required operation. To read the `"device"` **Object**, the `"request"` **Command** must be used.
+- **Objects** cannot be directly modified, they must be issued inside the relevant **Command** for the required operation. To read the `"device"` **Object**, the `"request"` **Command** must be used:
 ```json
 {
     "request": ["device"]
@@ -59,7 +59,7 @@ These rules describe everything there is to know about about communicating with 
 }
 ```
 
-- **Commands** will trigger a **Response** to be sent back from the device. These can be an array of **Object Names** denoting the current operation, or an **Object** itself with returnable parameters.
+- **Commands** will trigger a **Response** to be sent back from the device. These can be an array of **Object Names** denoting the current operation, or an **Object** itself with returnable parameters:
 ```json
 "added": [
     "sensor 1",
@@ -253,6 +253,7 @@ Command
 {: .label .label-green }
 
 
+
 ## Reseting the Device `"reset":{...}`
 {: .d-inline-block }
 Command
@@ -264,6 +265,18 @@ Command
 Object
 {: .label .label-yellow }
 
+The `"device"` Object is a persistant **read-only** object that contains device information. It can only be **Requested**.
+
+### Returns:
+{: .no_toc }
+
+- `"device": {...}` with device information parameters shown below
+- `"read-only": ["device"]` if the user attempts to **Remove** or **Append** the Object.
+
+### Parameters:
+
+`"device"` holds the following parameters:
+- 
 
 ## Getting Network Info Object `"network":{...}`
 {: .d-inline-block }
@@ -283,13 +296,13 @@ Object
 {: .label .label-yellow }
 
 
-## Getting/Configuring Security Settings `"security":{...}`
+## Getting/Configuring Security `"security":{...}`
 {: .d-inline-block }
 Object
 {: .label .label-yellow }
 
 
-## Working with Sensors & Custom Objects `"_YOUR_SENSOR_":{...}`
+## Sensors & Custom Objects `"_YOUR_SENSOR_":{...}`
 {: .d-inline-block }
 Object
 {: .label .label-yellow }
