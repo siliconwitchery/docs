@@ -6,14 +6,7 @@ parent: SuperStack RTOS
 has_children: true
 ---
 
-# API Contents
-{: .no_toc }
-1. TOC
-{:toc}
-
-## Things to know before using this API
-
-These rules describe everything there is to know about about communicating with the SuperStack API.
+# API Rules 
 
 - The SuperStack API interface uses the [JSON Schema](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON).
 
@@ -27,7 +20,7 @@ These rules describe everything there is to know about about communicating with 
 }
 ```
 
-- **Objects** can contain parameters of the following data types:
+- **Objects** can contain **Parameters** of the following data types:
 ```json
 "some object": {
     "string": "Hello this is a string. It can be quite long",
@@ -43,7 +36,7 @@ These rules describe everything there is to know about about communicating with 
 }
 ```
 
-- **Objects** cannot be directly modified, they must be issued inside the relevant **Command** for the required operation. To read the `"device"` **Object**, the `"request"` **Command** must be used:
+- **Objects** cannot be directly modified, they must be issued inside the relevant **Command** for the required operation. To read the `device` **Object**, the `request` **Command** must be used:
 ```json
 "request": ["device"]
 ```
@@ -87,5 +80,6 @@ These rules describe everything there is to know about about communicating with 
 }
 ```
 
-- The internal SuperStack Database is limited in size. Care must be taken to keep **Object** and **Parameter** names short to save space, but understandable enough for convenience in development. It's recomended that un-needed Objects are removed with the `"remove"` command once no longer needed. The `"reset"` command can also be used to clear the databse of all user content if needed.
+- The internal SuperStack Database is limited in size. Care must be taken to keep **Object** and **Parameter** names short to save space, but understandable enough for convenience in development. It's recomended that un-needed Objects are removed with the `remove` command once no longer needed. The `reset` command can also be used to clear the databse of all user content if needed.
 
+# API Reference
