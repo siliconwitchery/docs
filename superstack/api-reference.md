@@ -5,13 +5,12 @@ nav_order: 1
 parent: SuperStack
 ---
 
-## API Reference
+# API Reference
 {: .no_toc }
 1. TOC
 {:toc}
 
-## Commands and Objects
-{: .no_toc }
+## Things to know before using the API
 
 These rules describe everything there is to know about about communicating with the SuperStack API.
 
@@ -91,25 +90,29 @@ These rules describe everything there is to know about about communicating with 
 
 - The internal SuperStack Database is limited in size. Care must be taken to keep **Object** and **Parameter** names short to save space, but understandable enough for convenience in development. It's recomended that un-needed Objects are removed with the `"remove"` command once no longer needed. The `"reset"` command can also be used to clear the databse of all user content if needed.
 
-## API Reference
+# API Reference
+{: .no_toc }
 
-### Add Object `"add":{...}`
+## Add Object `"add":{...}`
 {: .d-inline-block }
 Command
 {: .label .label-green }
 
-Initialises an **Object** with new values, fully removing any **Objects** of the same name if they previously existed.
+Initialises **Objects** with the parameters given, fully removing any **Objects** of the same name if they already exist in the Database.
 
-Returns:
-- `"added": ["object names", ... ]` if object didn't exist but was successfully added
-- `"re-added": ["object names", ... ]` if object existed and was successfully re-added
-- `"no-space": ["object names", ... ]` if there isn't enough space in the database to store the object
+### Returns:
+{: .no_toc }
+
+- `"added": ["object name", ... ]` if the object didn't exist but was successfully added
+- `"re-added": ["object name", ... ]` if the object existed and was successfully re-added
+- `"no-space": ["object name", ... ]` if there isn't enough space in the database to store the object
 - `"bad-json": null` if an error was encountered in parsing the provided JSON data
 
 ### Example:
 {: .no_toc }
 
 1. Assume The SuperStack Database does **not** already contain an Object named `"sensor 1"`.
+
 2. Issue an **Add Command**:
 ```json
 "add":{
@@ -120,6 +123,7 @@ Returns:
     }
 }
 ```
+
 3. The SuperStack Database now contains the `"sensor 1"` Object as shown:
 ```json
 "sensor 1":{
@@ -128,6 +132,7 @@ Returns:
     "change.morethan": 10.5 
 }
 ```
+
 4. Issue another **Add Command**:
 ```json
 "add":{
@@ -138,6 +143,7 @@ Returns:
     }
 }
 ```
+
 5. The SuperStack Database now contains the `"sensor 1"` Object as shown:
 ```json
 "sensor 1":{
@@ -146,20 +152,22 @@ Returns:
     "period.sec": 30
 }
 ```
+
 Note that the `"change.morethan"` parameter was removed. This is because the `"add"` Command always overwrites all entries in the Object.
 
-### Append Objects `"append":{...}`
+## Append Objects `"append":{...}`
 {: .d-inline-block }
-
 Command
 {: .label .label-green }
 
-Updates an **Object** with the parameters given, but keeps existing parameters unchanged.
+Updates **Objects** with the parameters given, but keeps existing parameters unchanged.
 
-Returns:
-- `"added": ["object names", ... ]` if object didn't exist but was successfully added 
-- `"appended": ["object names", ... ]` if object existed and was successfully appended
-- `"no-space": ["object names", ... ]` if there isn't enough space in the database to store the object
+### Returns:
+{: .no_toc }
+
+- `"appended": ["object name", ... ]` if the object existed and was successfully appended
+- `"not-found": ["object name", ... ]` if the object was not found in the Database
+- `"no-space": ["object name", ... ]` if there isn't enough space in the database to store the object
 - `"bad-json": null` if an error was encountered in parsing the provided JSON data
 
 ### Example:
@@ -168,98 +176,120 @@ Returns:
 1. The SuperStack Database already contains an Object named `"sensor 1"`.
 ```json
 {
-    "sensor 1":{
-        "chip":"BME280",
+    "sensor 1": {
+        "chip": "BME280",
         "return": ["temperature","pressure"],
         "change.morethan": 10.5 
     }
 }
 ```
+
 2. Issue an **Append Command**:
 ```json
 {
-    "append":{
-        "sensor 1":{
+    "append": {
+        "sensor 1": {
             "return": ["humidity"],
             "period.sec": 30
         }
     }
 }
 ```
+
 3. The SuperStack Database now contains the `"sensor 1"` Object as shown:
 ```json
 {
-    "sensor 1":{
-        "chip":"BME280",
+    "sensor 1": {
+        "chip": "BME280",
         "return": ["humidity"],
         "change.morethan": 10.5,
         "period.sec": 30
     }
 }
 ```
+
 The `"period.sec"` parameter was added to the Object and the `"return"` parameter was appended. All other parameters remain unchanged.
 Note that indavidual parameters are still fully overwritten. In this case `"return": ["temperature","pressure"]` → `"return": ["humidity"]`. It is not possible to append the content within a parameter. It must be fully overwritten.
 
-
-
 ### Remove Objects `"remove":[...]`
 {: .d-inline-block }
-
 Command
 {: .label .label-green }
 
+Removes **Objects** given in the array.
+
+### Returns:
+{: .no_toc }
+
+- `"removed": ["object name", ... ]` if the object was successfully removed
+- `"not-found": ["object name", ... ]` if the object was not found in the Database
+- `"bad-json": null` if an error was encountered in parsing the provided JSON data
+
+### Example:
+{: .no_toc }
+
+1. The SuperStack Database already contains an Object named `"sensor 1"`.
+```json
+{
+    "sensor 1": {
+        "chip":"BME280",
+        "return": ["temperature","pressure"]
+    }
+}
+```
+
+2. Issue aa **Remove Command**:
+```json
+{
+    "remove": ["sensor 1"]
+}
+```
+
+3. The SuperStack Database no longer contains the `"sensor 1"` Object.
 
 ### Request Objects `"request":[...]`
 {: .d-inline-block }
-
 Command
 {: .label .label-green }
 
 
 ### Reset Device `"reset":{...}`
 {: .d-inline-block }
-
 Command
 {: .label .label-green }
 
 
 ### Device Info `"device":{...} `
 {: .d-inline-block }
-
 Object
 {: .label .label-yellow }
 
 
 ### Network Info `"network":{...}`
 {: .d-inline-block }
-
 Object
 {: .label .label-yellow }
 
 
 ### Power Info & Configuration `"power":{...}`
 {: .d-inline-block }
-
 Object
 {: .label .label-yellow }
 
 
 ### FPGA Configuration `"fpga":{...}`
 {: .d-inline-block }
-
 Object
 {: .label .label-yellow }
 
 
 ### Security Configuration `"security":{...}`
 {: .d-inline-block }
-
 Object
 {: .label .label-yellow }
 
 
 ### Sensor Info & Configuration `"_YOUR_SENSOR_":{...}`
 {: .d-inline-block }
-
 Object
 {: .label .label-yellow }
