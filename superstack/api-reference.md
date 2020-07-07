@@ -265,15 +265,15 @@ Command
 Object
 {: .label .label-yellow }
 
-The `device` Object is a persistant **read-only** object that contains device information. It can only be **Requested**.
+The `device` Object is a persistant object with **read-only** Parameters containing device information.
 
 ### Returns:
 {: .no_toc }
 
 - `"device": {...}` device Object with **Parameters** shown below
-- `"read-only": ["device"]` if the user attempts to **Remove** or **Append** the Object.
+- `"read-only": ["device"]` if the user attempts to **Remove** or **Append** the read only Parameters.
 
-### Parameters:
+### Read Only Parameters:
 {: .no_toc }
 
 - `"model": string` - Model name of the device. Format: `"Silicon Witchery S1 Module"`
@@ -284,15 +284,15 @@ The `device` Object is a persistant **read-only** object that contains device in
 Object
 {: .label .label-yellow }
 
-The `network` Object is a persistant **read-only** object that contains network status. It can only be **Requested**.
+The `network` Object is a persistant object with **read-only** Parameters containing network status.
 
 ### Returns:
 {: .no_toc }
 
 - `"network": {...}` network Object with **Parameters** shown below.
-- `"read-only": ["network"]` if the user attempts to **Remove** or **Append** the Object.
+- `"read-only": ["network"]` if the user attempts to **Remove** or **Append** the read only Parameters.
 
-### Parameters:
+### Read Only Parameters:
 {: .no_toc }
 
 - `"connected": bool` - Connected state of the device. `true` if connected.
@@ -305,6 +305,29 @@ The `network` Object is a persistant **read-only** object that contains network 
 Object
 {: .label .label-yellow }
 
+The `power` Object is a persistant object with both **writable** as well as **read-only** Parameters containing device power status and configuration.
+
+### Returns:
+{: .no_toc }
+
+- `"power": {...}` power Object with **Parameters** shown below.
+- `"read-only": ["power"]` if the user attempts to **Remove** or **Append** the read only Parameters.
+
+### Read Only Parameters:
+{: .no_toc }
+
+- `"battery": string` - Battery charger state. Values: `"no-battery"`, `"discharging"`, `"charging"`, `"charged"`
+- `"level": integer` - Battery level percentage. Values: `0` to `100`
+- `"uptime": string` - Time device has been powered. Format in [ISO8601 Duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) `"P46DT12H30M5S"`
+
+### Writable Parameters:
+{: .no_toc }
+
+- `"io1-v": float` - User configurable IO1 voltage (V). Value `0` to `5.0`. Default `1.8`
+- `"io2-v": float` - User configurable IO2 voltage (V). Value `0` to `5.0`. Default `1.8`
+- `"charge-v": float` - Battery charger constant voltage limit (V). Value `4.1` to `4.7`. Default `4.1`
+- `"charge-i": float` - Battery charger constant current limit (mA). Value `5` to `250`. Default `5`
+- `"charge-enable: bool"` - Enable or disable the battery charger. Default `false`
 
 ## Getting/Configuring the FPGA `"fpga":{...}`
 {: .d-inline-block }
