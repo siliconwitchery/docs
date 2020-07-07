@@ -9,7 +9,9 @@ parent: SuperStack
 {: .no_toc }
 
 - The SuperStack API interface uses the [JSON Schema](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON).
+
 - **Commands** are top level instructions to work with **Objects**.
+
 - **Objects** take the form:
 ```json
 "some object": {
@@ -17,6 +19,7 @@ parent: SuperStack
     "parameter 2": "another value"
 }
 ```
+
 - Objects can contain parameters of the following data types:
 ```json
 "some object": {
