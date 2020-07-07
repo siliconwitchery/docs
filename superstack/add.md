@@ -7,7 +7,7 @@ grand_parent: SuperStack RTOS
 ---
 
 # Adding Objects `"add":{...}`
-{: .d-inline-block }
+
 Command
 {: .label .label-green }
 
@@ -24,7 +24,7 @@ Initialises **Objects** with the parameters given, fully removing any **Objects*
 ## Example:
 {: .no_toc }
 
-1. Assume The SuperStack Database does **not** already contain an Object named `"sensor 1"`.
+1. Assume The SuperStack Database does **not** already contain an Object named `sensor 1`.
 
 2. Issue an **Add Command**:
 ```json
@@ -37,7 +37,7 @@ Initialises **Objects** with the parameters given, fully removing any **Objects*
 }
 ```
 
-3. The SuperStack Database now contains the `"sensor 1"` Object as shown:
+3. The SuperStack Database now contains the `sensor 1` Object as shown:
 ```json
 "sensor 1":{
     "chip": "BME280",
@@ -57,7 +57,7 @@ Initialises **Objects** with the parameters given, fully removing any **Objects*
 }
 ```
 
-5. The SuperStack Database now contains the `"sensor 1"` Object as shown:
+5. The SuperStack Database now contains the `sensor 1` Object as shown:
 ```json
 "sensor 1":{
     "chip": "BME280",
@@ -66,4 +66,4 @@ Initialises **Objects** with the parameters given, fully removing any **Objects*
 }
 ```
 
-Note that the `"change.morethan"` parameter was removed. This is because the `"add"` Command always overwrites all entries in the Object.
+Note that the `change.morethan` parameter was removed. This is because the `add` Command always overwrites all entries in the Object.
