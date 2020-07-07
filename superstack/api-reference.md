@@ -44,9 +44,7 @@ These rules describe everything there is to know about about communicating with 
 
 - **Objects** cannot be directly modified, they must be issued inside the relevant **Command** for the required operation. To read the `"device"` **Object**, the `"request"` **Command** must be used:
 ```json
-{
-    "request": ["device"]
-}
+"request": ["device"]
 ```
 
 - Some **Commands** may only take the **Object Name** in an array as shown above. But some may take the entire **Object** with **Parameters**:
@@ -103,9 +101,9 @@ Initialises **Objects** with the parameters given, fully removing any **Objects*
 ### Returns:
 {: .no_toc }
 
-- `"added": ["object name", ... ]` if the object didn't exist but was successfully added
-- `"re-added": ["object name", ... ]` if the object existed and was successfully re-added
-- `"no-space": ["object name", ... ]` if there isn't enough space in the database to store the object
+- `"added": ["object", ... ]` if the object didn't exist but was successfully added
+- `"re-added": ["object", ... ]` if the object existed and was successfully re-added
+- `"no-space": ["object", ... ]` if there isn't enough space in the database to store the object
 - `"bad-json": null` if an error was encountered in parsing the provided JSON data
 
 ### Example:
@@ -165,9 +163,9 @@ Updates **Objects** with the parameters given, but keeps existing parameters unc
 ### Returns:
 {: .no_toc }
 
-- `"appended": ["object name", ... ]` if the object existed and was successfully appended
-- `"not-found": ["object name", ... ]` if the object was not found in the Database
-- `"no-space": ["object name", ... ]` if there isn't enough space in the database to store the object
+- `"appended": ["object", ... ]` if the object existed and was successfully appended
+- `"not-found": ["object", ... ]` if the object was not found in the Database
+- `"no-space": ["object", ... ]` if there isn't enough space in the database to store the object
 - `"bad-json": null` if an error was encountered in parsing the provided JSON data
 
 ### Example:
@@ -175,36 +173,30 @@ Updates **Objects** with the parameters given, but keeps existing parameters unc
 
 1. The SuperStack Database already contains an Object named `"sensor 1"`.
 ```json
-{
-    "sensor 1": {
-        "chip": "BME280",
-        "return": ["temperature","pressure"],
-        "change.morethan": 10.5 
-    }
+"sensor 1": {
+    "chip": "BME280",
+    "return": ["temperature","pressure"],
+    "change.morethan": 10.5 
 }
 ```
 
 2. Issue an **Append Command**:
 ```json
-{
-    "append": {
-        "sensor 1": {
-            "return": ["humidity"],
-            "period.sec": 30
-        }
+"append": {
+    "sensor 1": {
+        "return": ["humidity"],
+        "period.sec": 30
     }
 }
 ```
 
 3. The SuperStack Database now contains the `"sensor 1"` Object as shown:
 ```json
-{
-    "sensor 1": {
-        "chip": "BME280",
-        "return": ["humidity"],
-        "change.morethan": 10.5,
-        "period.sec": 30
-    }
+"sensor 1": {
+    "chip": "BME280",
+    "return": ["humidity"],
+    "change.morethan": 10.5,
+    "period.sec": 30
 }
 ```
 
@@ -221,8 +213,8 @@ Removes **Objects** given in the array.
 ### Returns:
 {: .no_toc }
 
-- `"removed": ["object name", ... ]` if the object was successfully removed
-- `"not-found": ["object name", ... ]` if the object was not found in the Database
+- `"removed": ["object", ... ]` if the object was successfully removed
+- `"not-found": ["object", ... ]` if the object was not found in the Database
 - `"bad-json": null` if an error was encountered in parsing the provided JSON data
 
 ### Example:
@@ -247,18 +239,78 @@ Removes **Objects** given in the array.
 
 3. The SuperStack Database no longer contains the `"sensor 1"` Object.
 
-## Requesting Objects `"request":[...]`
+## Requesting Objects `"request":[...]` `"request":{...}`
 {: .d-inline-block }
 Command
 {: .label .label-green }
 
+Instructs SuperStack to respond with the objects provided. Optionally, individual parameters may be requested within objects.
 
+### Returns:
+{: .no_toc }
 
-## Reseting the Device `"reset":{...}`
+- `"object": {"parameters", ... }` if the object was found in the Database
+- `"not-found": ["object", ... ]` if the object was not found in the Database
+- `"bad-json": null` if an error was encountered in parsing the provided JSON data
+
+### Example:
+{: .no_toc }
+
+1. The SuperStack Database already contains an Object named `sensor 1`.
+```json
+"sensor 1": {
+    "chip":"BME280",
+    "return": ["temperature","pressure"]
+}
+```
+
+2. Request `sensor 1` and `network` objects
+```json
+"request":["sensor 1", "network"]
+```
+
+3. The two objects will be returned in full
+```json
+"sensor 1": {
+    "chip": "BME280",
+    "return": ["temperature","pressure"]
+},
+"network": {
+    "connected": true,
+    "address": "12-23-34-AB-BA-CD"
+}
+```
+
+4. If we only want specific parameters from an object. It's possible to specify the parameters in a list:
+```json
+"request": {
+    "sensor 1":["chip"]
+}
+```
+
+5. The response will therefore become"
+```json
+"sensor 1": {
+    "chip": "BME280"
+}
+```
+
+## Reseting the Device `"reset":{}`
 {: .d-inline-block }
 Command
 {: .label .label-green }
 
+Clears all user configured information from the device and appends default settings for `power`, `fpga` and `security`.
+
+Takes no arguments. Simply issue:
+```json
+"reset":{}
+```
+
+### Returns:
+{: .no_toc }
+
+- `"reset":"okay"` - Reset has completed successfully
 
 ## Getting Device Info Object `"device":{...} `
 {: .d-inline-block }
@@ -276,7 +328,7 @@ The `device` Object is a persistant object with **read-only** Parameters contain
 ### Read Only Parameters:
 {: .no_toc }
 
-- `"model": string` - Model name of the device. Format: `"Silicon Witchery S1 Module"`
+- `"model": string` - Model name of the device. e.g. `"Silicon Witchery S1 Module"`
 - `"fw-version": string` - Firmware version stamp of the device. Format: `"YYYYMMDD.HHMM"`
 
 ## Getting Network Info Object `"network":{...}`
@@ -318,13 +370,13 @@ The `power` Object is a persistant object with both **writable** as well as **re
 
 - `"battery": string` - Battery charger state. Values: `"no-battery"`, `"discharging"`, `"charging"`, `"charged"`
 - `"level": integer` - Battery level percentage. Values: `0` to `100`
-- `"uptime": string` - Time device has been powered. Format in [ISO8601 Duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) `"P46DT12H30M5S"`
+- `"uptime": string` - Time device has been powered. Format in [ISO8601 Duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) e.g. `"P46DT12H30M5S"`
 
 ### Writable Parameters:
 {: .no_toc }
 
-- `"io1-v": float` - User configurable IO1 voltage (V). Value `0` to `5.0`. Default `1.8`
-- `"io2-v": float` - User configurable IO2 voltage (V). Value `0` to `5.0`. Default `1.8`
+- `"io1-v": float` - User configurable IO1 voltage (V). Value `0` to `5.0`. Default `0`
+- `"io2-v": float` - User configurable IO2 voltage (V). Value `0` to `5.0`. Default `0`
 - `"charge-v": float` - Battery charger constant voltage limit (V). Value `4.1` to `4.7`. Default `4.1`
 - `"charge-i": float` - Battery charger constant current limit (mA). Value `5` to `250`. Default `5`
 - `"charge-enable: bool"` - Enable or disable the battery charger. Default `false`
