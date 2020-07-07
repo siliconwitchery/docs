@@ -265,25 +265,40 @@ Command
 Object
 {: .label .label-yellow }
 
-The `"device"` Object is a persistant **read-only** object that contains device information. It can only be **Requested**.
+The `device` Object is a persistant **read-only** object that contains device information. It can only be **Requested**.
 
 ### Returns:
 {: .no_toc }
 
-- `"device": {...}` with device information parameters shown below
+- `"device": {...}` device Object with **Parameters** shown below
 - `"read-only": ["device"]` if the user attempts to **Remove** or **Append** the Object.
 
 ### Parameters:
+{: .no_toc }
 
-`"device"` holds the following parameters:
-- `"model": string` - model name of the device - string
-- `"fw-version": string` - firmware version of the device
+- `"model": string` - Model name of the device. Format: `"Silicon Witchery S1 Module"`
+- `"fw-version": string` - Firmware version stamp of the device. Format: `"YYYYMMDD.HHMM"`
 
 ## Getting Network Info Object `"network":{...}`
 {: .d-inline-block }
 Object
 {: .label .label-yellow }
 
+The `network` Object is a persistant **read-only** object that contains network status. It can only be **Requested**.
+
+### Returns:
+{: .no_toc }
+
+- `"network": {...}` network Object with **Parameters** shown below.
+- `"read-only": ["network"]` if the user attempts to **Remove** or **Append** the Object.
+
+### Parameters:
+{: .no_toc }
+
+- `"connected": bool` - Connected state of the device. `true` if connected.
+- `"address": string` - Network 48bit MAC address of the device. Format: `"01-23-45-67-89-AB"`
+- `"buffer-size": integer` - Maximum buffer size for single transfers.
+- `"tx-pending: bool"` - Flag to indicate that a **Response** is pending. `true` if pending.
 
 ## Getting/Configuring Power `"power":{...}`
 {: .d-inline-block }
