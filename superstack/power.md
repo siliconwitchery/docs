@@ -3,7 +3,7 @@ layout: default
 title: Get/Configure Power
 nav_order: 8
 parent: API Reference
-grand_parent: SuperStack
+grand_parent: SuperStack RTOS
 ---
 
 # Getting/Configuring Power `"power":{...}`

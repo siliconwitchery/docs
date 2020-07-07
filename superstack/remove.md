@@ -3,7 +3,7 @@ layout: default
 title: Remove Object
 nav_order: 3
 parent: API Reference
-grand_parent: SuperStack
+grand_parent: SuperStack RTOS
 ---
 
 # Removing Objects `"remove":[...]`

@@ -3,7 +3,7 @@ layout: default
 title: Get Network Info
 nav_order: 7
 parent: API Reference
-grand_parent: SuperStack
+grand_parent: SuperStack RTOS
 ---
 
 # Getting Network Info Object `"network":{...}`

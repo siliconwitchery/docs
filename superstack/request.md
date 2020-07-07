@@ -3,7 +3,7 @@ layout: default
 title: Request Object
 nav_order: 4
 parent: API Reference
-grand_parent: SuperStack
+grand_parent: SuperStack RTOS
 ---
 
 # Requesting Objects `"request":[...]` `"request":{...}`

@@ -3,7 +3,7 @@ layout: default
 title: Reset Database
 nav_order: 5
 parent: API Reference
-grand_parent: SuperStack
+grand_parent: SuperStack RTOS
 ---
 
 # Reseting the Device `"reset":{}`
