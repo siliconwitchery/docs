@@ -3,6 +3,7 @@ layout: default
 title: Get Device Info
 nav_order: 6
 parent: API Reference
+grand_parent: SuperStack
 ---
 
 # Getting Device Info Object `"device":{...} `

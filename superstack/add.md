@@ -3,6 +3,7 @@ layout: default
 title: Add Object
 nav_order: 1
 parent: API Reference
+grand_parent: SuperStack
 ---
 
 # Adding Objects `"add":{...}`
