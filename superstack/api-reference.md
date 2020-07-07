@@ -276,7 +276,8 @@ The `"device"` Object is a persistant **read-only** object that contains device 
 ### Parameters:
 
 `"device"` holds the following parameters:
-- 
+- `"model": string` - model name of the device - string
+- `"fw-version": string` - firmware version of the device
 
 ## Getting Network Info Object `"network":{...}`
 {: .d-inline-block }
