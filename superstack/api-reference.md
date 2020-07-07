@@ -10,63 +10,91 @@ parent: SuperStack
 
 *Commands* are top level instructions to work with *Objects*. *Objects* cannot be modified directly, they must be issued inside the relevant *Command* for the required operation. The example below shows how to request device information. Here the **device** is the *Object*, and **request** is the *command*.
 
-``` JSON
+<div class="code-example" markdown="1">
+```json
 {
     "request":["device"]
 }
 ```
+</div>
 
 ## API Reference
 {: .no_toc }
 1. TOC
 {:toc}
 
-### "initialise":{...}
+### Initialise Objects `"initialise":{...}`
 {: .d-inline-block }
-Command {: .label .label-green }
+
+Command
+{: .label .label-green }
 
 
-### "modify":{...}
+### Modify Objects `"modify":{...}`
 {: .d-inline-block }
-Command {: .label .label-green }
+
+Command
+{: .label .label-green }
 
 
-### "remove":[...]
+### Remove Objects `"remove":[...]`
 {: .d-inline-block }
-Command {: .label .label-green }
+
+Command
+{: .label .label-green }
 
 
-### "request":[...]
+### Request Objects `"request":[...]`
 {: .d-inline-block }
-Command {: .label .label-green }
+
+Command
+{: .label .label-green }
 
 
-### "reset":{...}
+### Reset Device `"reset":{...}`
 {: .d-inline-block }
-Command {: .label .label-green }
+
+Command
+{: .label .label-green }
 
 
-### "device":{...} 
+### Device Info `"device":{...} `
 {: .d-inline-block }
-Object {: .label .label-yellow }
 
-### "network":{...}
+Object
+{: .label .label-yellow }
+
+
+### Network Info `"network":{...}`
 {: .d-inline-block }
-Object {: .label .label-yellow }
 
-### "power":{...} 
+Object
+{: .label .label-yellow }
+
+
+### Power Info & Configuration `"power":{...}`
 {: .d-inline-block }
-Object {: .label .label-yellow }
 
-### "fpga":{...}
+Object
+{: .label .label-yellow }
+
+
+### FPGA Configuration `"fpga":{...}`
 {: .d-inline-block }
-Object {: .label .label-yellow }
+
+Object
+{: .label .label-yellow }
 
 
-### "security":{...}
+### Security Configuration `"security":{...}`
 {: .d-inline-block }
-Object {: .label .label-yellow }
 
-### "_YOUR_SENSOR_":{...}
+Object
+{: .label .label-yellow }
+
+
+### Sensor Info & Configuration `"_YOUR_SENSOR_":{...}`
 {: .d-inline-block }
-Object {: .label .label-yellow }
+
+Object
+{: .label .label-yellow }
