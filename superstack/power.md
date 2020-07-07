@@ -6,7 +6,7 @@ parent: API Reference
 grand_parent: SuperStack RTOS
 ---
 
-# Getting/Configuring Power `"power":{...}`
+# `"power": {...}`
 {: .d-inline-block }
 Object
 {: .label .label-yellow }

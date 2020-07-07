@@ -6,8 +6,8 @@ parent: API Reference
 grand_parent: SuperStack RTOS
 ---
 
-# Adding Objects `"add":{...}`
-
+# `"add": {...}`
+{: .d-inline-block }
 Command
 {: .label .label-green }
 

@@ -6,8 +6,9 @@ parent: API Reference
 grand_parent: SuperStack RTOS
 ---
 
-# Getting/Configuring Security `"security":{...}`
+# `"security": {...}`
 {: .d-inline-block }
 Object
 {: .label .label-yellow }
 
+Todo

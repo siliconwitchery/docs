@@ -6,7 +6,7 @@ parent: API Reference
 grand_parent: SuperStack RTOS
 ---
 
-# Removing Objects `"remove":[...]`
+# `"remove": [...]`
 {: .d-inline-block }
 Command
 {: .label .label-green }

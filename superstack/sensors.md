@@ -6,7 +6,9 @@ parent: API Reference
 grand_parent: SuperStack RTOS
 ---
 
-# Sensors & Custom Objects `"_YOUR_SENSOR_":{...}`
+# `"_YOUR_SENSOR_": {...}`
 {: .d-inline-block }
 Object
 {: .label .label-yellow }
+
+Todo

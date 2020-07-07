@@ -6,7 +6,7 @@ parent: API Reference
 grand_parent: SuperStack RTOS
 ---
 
-# Requesting Objects `"request":[...]` `"request":{...}`
+# `"request": [...]` and `"request": {...}`
 {: .d-inline-block }
 Command
 {: .label .label-green }

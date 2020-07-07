@@ -6,7 +6,7 @@ parent: API Reference
 grand_parent: SuperStack RTOS
 ---
 
-# Getting Network Info Object `"network":{...}`
+# `"network": {...}`
 {: .d-inline-block }
 Object
 {: .label .label-yellow }

@@ -6,7 +6,9 @@ parent: API Reference
 grand_parent: SuperStack RTOS
 ---
 
-# Getting/Configuring the FPGA `"fpga":{...}`
+# `"fpga": {...}`
 {: .d-inline-block }
 Object
 {: .label .label-yellow }
+
+Todo

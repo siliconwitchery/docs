@@ -6,7 +6,7 @@ parent: API Reference
 grand_parent: SuperStack RTOS
 ---
 
-# Reseting the Device `"reset":{}`
+# `"reset": {}`
 {: .d-inline-block }
 Command
 {: .label .label-green }

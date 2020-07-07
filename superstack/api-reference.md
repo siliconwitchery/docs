@@ -6,7 +6,7 @@ parent: SuperStack RTOS
 has_children: true
 ---
 
-# API Rules 
+# API General Rules 
 
 - The SuperStack API interface uses the [JSON Schema](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON).
 

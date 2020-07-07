@@ -6,7 +6,7 @@ parent: API Reference
 grand_parent: SuperStack RTOS
 ---
 
-# Getting Device Info Object `"device":{...} `
+# `"device": {...} `
 {: .d-inline-block }
 Object
 {: .label .label-yellow }
