@@ -10,7 +10,7 @@ parent: SuperStack
 1. TOC
 {:toc}
 
-## Things to know before using the API
+## Things to know before using this API
 
 These rules describe everything there is to know about about communicating with the SuperStack API.
 
@@ -93,7 +93,7 @@ These rules describe everything there is to know about about communicating with 
 # API Reference
 {: .no_toc }
 
-## Add Object `"add":{...}`
+## Adding Objects `"add":{...}`
 {: .d-inline-block }
 Command
 {: .label .label-green }
@@ -155,7 +155,7 @@ Initialises **Objects** with the parameters given, fully removing any **Objects*
 
 Note that the `"change.morethan"` parameter was removed. This is because the `"add"` Command always overwrites all entries in the Object.
 
-## Append Objects `"append":{...}`
+## Appending Objects `"append":{...}`
 {: .d-inline-block }
 Command
 {: .label .label-green }
@@ -211,7 +211,7 @@ Updates **Objects** with the parameters given, but keeps existing parameters unc
 The `"period.sec"` parameter was added to the Object and the `"return"` parameter was appended. All other parameters remain unchanged.
 Note that indavidual parameters are still fully overwritten. In this case `"return": ["temperature","pressure"]` → `"return": ["humidity"]`. It is not possible to append the content within a parameter. It must be fully overwritten.
 
-### Remove Objects `"remove":[...]`
+## Removing Objects `"remove":[...]`
 {: .d-inline-block }
 Command
 {: .label .label-green }
@@ -247,49 +247,49 @@ Removes **Objects** given in the array.
 
 3. The SuperStack Database no longer contains the `"sensor 1"` Object.
 
-### Request Objects `"request":[...]`
+## Requesting Objects `"request":[...]`
 {: .d-inline-block }
 Command
 {: .label .label-green }
 
 
-### Reset Device `"reset":{...}`
+## Reseting the Device `"reset":{...}`
 {: .d-inline-block }
 Command
 {: .label .label-green }
 
 
-### Device Info `"device":{...} `
+## Getting Device Info Object `"device":{...} `
 {: .d-inline-block }
 Object
 {: .label .label-yellow }
 
 
-### Network Info `"network":{...}`
+## Getting Network Info Object `"network":{...}`
 {: .d-inline-block }
 Object
 {: .label .label-yellow }
 
 
-### Power Info & Configuration `"power":{...}`
+## Getting/Configuring Power `"power":{...}`
 {: .d-inline-block }
 Object
 {: .label .label-yellow }
 
 
-### FPGA Configuration `"fpga":{...}`
+## Getting/Configuring the FPGA `"fpga":{...}`
 {: .d-inline-block }
 Object
 {: .label .label-yellow }
 
 
-### Security Configuration `"security":{...}`
+## Getting/Configuring Security Settings `"security":{...}`
 {: .d-inline-block }
 Object
 {: .label .label-yellow }
 
 
-### Sensor Info & Configuration `"_YOUR_SENSOR_":{...}`
+## Working with Sensors & Custom Objects `"_YOUR_SENSOR_":{...}`
 {: .d-inline-block }
 Object
 {: .label .label-yellow }
