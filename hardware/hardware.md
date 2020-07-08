@@ -28,7 +28,7 @@ As a **Flexible Module** conformable to any application.
 - Best in class power consumption
 - Solderable, Pluggable or Sewable
 
-[Datasheet]({{ site.baseurl }}{% link hardware/s1-module/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Find a Distributer](#){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Datasheet]({{ site.baseurl }}{% link hardware/s1-module/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Find a Distributor]({{ site.baseurl }}{% link hardware/distributors.md %}){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
