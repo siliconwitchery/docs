@@ -11,4 +11,4 @@ grand_parent: SuperStack RTOS
 Coming Soon
 {: .label .label-blue }
 
-Todo
+Details to follow shortly
