@@ -31,3 +31,5 @@ Built to Work with Our Ultra-Small Wearable Modules
 [Get Started Now](#){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Order a Development Kit](#){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
+
+[Let us know](https://github.com/siliconwitchery/docs/issues) if you spot any mistakes 📝. These pages are GDPR compliant.
