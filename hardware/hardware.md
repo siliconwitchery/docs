@@ -3,6 +3,7 @@ layout: default
 title: Hardware
 nav_order: 3
 has_children: true
+has_toc: false
 ---
 
 ## S1 Wearable Module
