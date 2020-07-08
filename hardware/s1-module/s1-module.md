@@ -3,9 +3,10 @@ layout: default
 title: S1 Module
 nav_order: 1
 parent: Hardware
+has_children: true
 ---
 
-# S1 Wearable Module | Product Brief
+# S1 Wearable Module | **Product Brief**
 {: .fs-9 }
 {: .d-inline-block }
 Preliminary
@@ -14,36 +15,42 @@ Preliminary
 Bluetooth 5.2 Wearable Module with FPGA & Battery Management
 {: .fs-6 .fw-300 }
 
+---
+
+[Download as PDF](#){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } 
+
+---
+
 ## Features
 
-- Bluetooth 5.2
+- **Bluetooth 5.2**
     - Direction Finding
     - 2Mbps Data Rate
     - +4dBm TX Power
     - -97dBm RX Sensitivity
     - Preconfigured Firmware
     - iOS/Android Ready
-- Dedicated FPGA
+- **Dedicated FPGA**
     - 5k LUT
     - 8 DSP Blocks
     - 1Mb SRAM
     - 10kHz & 48MHz Clocks
-- 4Mb Flash Storage
-- Power Management
+- **4Mb Flash Storage**
+- **Power Management**
     - Integrated Single Cell Charger
     - Over Charge/Discharge/Short Protection
     - Li-ion, Li-poly, Li-Ceramic Support
     - Button Cell (non rechargable) Support
-- Flexible IO
+- **Flexible IO**
     - 2x 0-5V Configurable Voltage Rails
     - I3C/I2C Master
     - 8Mbps SPI Master
     - 2x ADC Channels
     - 4x GPIO
     - 1x Differential Lane (USB Ready)
-- Solderable, Pluggable or Sewable
-- 500μA Standby Current
-- [SuperStack<sup>TM</sup>](#) Ready Out of the Box
+- **Solderable, Pluggable or Sewable**
+- **500μA Standby Current**
+- **[SuperStack]({{ site.baseurl }}{% link superstack/superstack.md %})<sup>TM</sup> Ready Out of the Box**
 
 ## Applications
 - Body/Garment Sensor Processing
@@ -58,7 +65,7 @@ Bluetooth 5.2 Wearable Module with FPGA & Battery Management
 - DSP Heavy Pre-processing
 - Sensitive Data Pre-processing
 
-![Example Image](#)
+![Example Application](#)
 
 ## Description 
 
@@ -75,37 +82,3 @@ A built in multi output boost convertor allows for up to two user configurable v
 Finally the device features numerous low power modes to ensure your application runs just as you need without wasting energy under idle.
 
 The S1 is loaded with a magnitude of IO for connecting sensors and other interfaces. It can attached in multiple configurations, ranging from IO requirements, to high speed data transfer.
-
----
-
-[Download as PDF](#){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } 
-
-
----
-(P) Datasheet
-- (P) Specifications
-    - Absolute max ratings
-    - ESD
-    - Vibration & Flex
-    - Thermal information
-    - Electrical characteristics 
-    - RF characters 
-- (P) detailed description
-    - Functional Block diagram
-    - Pinout 
-        - I2C/I3C
-        - SPI
-        - DIO
-        - ADC
-        - Power
-        - Antenna
-    - Radio
-    - FPGA
-    - Memory
-    - Power 
-- (P) application implementation 
-    - Typical applications
-    - Layout Guideline
-- (P) Mechanical Information
-    - Drawing
-- (P) Ordering information
