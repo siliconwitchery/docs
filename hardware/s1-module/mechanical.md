@@ -7,3 +7,7 @@ grand_parent: Hardware
 ---
 
 ## Drawing
+
+## Vibration
+
+## Flex

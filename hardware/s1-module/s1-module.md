@@ -6,7 +6,7 @@ parent: Hardware
 has_children: true
 ---
 
-# S1 Wearable Module | **Product Brief**
+# S1 Wearable Module | **Datasheet**
 {: .fs-9 }
 {: .d-inline-block }
 Preliminary
@@ -17,7 +17,7 @@ Bluetooth 5.2 Wearable Module with FPGA & Battery Management
 
 ---
 
-[Download as PDF](#){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } 
+[Download Product Brief as PDF](#){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } 
 
 ---
 
