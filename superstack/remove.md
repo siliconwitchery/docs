@@ -8,7 +8,7 @@ grand_parent: SuperStack RTOS
 
 # `"remove": [...]`
 {: .d-inline-block }
-Command
+Stable
 {: .label .label-green }
 
 Removes **Objects** given in the array.

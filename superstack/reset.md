@@ -8,7 +8,7 @@ grand_parent: SuperStack RTOS
 
 # `"reset": {}`
 {: .d-inline-block }
-Command
+Stable
 {: .label .label-green }
 
 Clears all user configured information from the device and appends default settings for `power`, `fpga` and `security`.

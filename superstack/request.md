@@ -8,8 +8,8 @@ grand_parent: SuperStack RTOS
 
 # `"request": [...]` and `"request": {...}`
 {: .d-inline-block }
-Command
-{: .label .label-green }
+Preliminary
+{: .label .label-yellow }
 
 Instructs SuperStack to respond with the objects provided. Optionally, individual parameters may be requested within objects.
 

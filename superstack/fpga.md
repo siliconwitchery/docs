@@ -8,7 +8,7 @@ grand_parent: SuperStack RTOS
 
 # `"fpga": {...}`
 {: .d-inline-block }
-Object
-{: .label .label-yellow }
+Coming Soon
+{: .label .label-blue }
 
 Todo

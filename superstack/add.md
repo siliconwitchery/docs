@@ -8,7 +8,7 @@ grand_parent: SuperStack RTOS
 
 # `"add": {...}`
 {: .d-inline-block }
-Command
+Stable
 {: .label .label-green }
 
 Initialises **Objects** with the parameters given, fully removing any **Objects** of the same name if they already exist in the Database.

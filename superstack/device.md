@@ -8,8 +8,8 @@ grand_parent: SuperStack RTOS
 
 # `"device": {...} `
 {: .d-inline-block }
-Object
-{: .label .label-yellow }
+Stable
+{: .label .label-green }
 
 The `device` Object is a persistant object with **read-only** Parameters containing device information.
 

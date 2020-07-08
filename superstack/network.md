@@ -8,7 +8,7 @@ grand_parent: SuperStack RTOS
 
 # `"network": {...}`
 {: .d-inline-block }
-Object
+Preliminary
 {: .label .label-yellow }
 
 The `network` Object is a persistant object with **read-only** Parameters containing network status.

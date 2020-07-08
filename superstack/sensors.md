@@ -8,7 +8,7 @@ grand_parent: SuperStack RTOS
 
 # `"_YOUR_SENSOR_": {...}`
 {: .d-inline-block }
-Object
-{: .label .label-yellow }
+Coming Soon
+{: .label .label-blue }
 
-Todo
+Details to follow shortly

@@ -8,8 +8,8 @@ grand_parent: SuperStack RTOS
 
 # `"append": {...}`
 {: .d-inline-block }
-Command
-{: .label .label-green }
+Preliminary
+{: .label .label-yellow }
 
 Updates **Objects** with the parameters given, but keeps existing parameters unchanged.
 

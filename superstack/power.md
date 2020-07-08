@@ -8,7 +8,7 @@ grand_parent: SuperStack RTOS
 
 # `"power": {...}`
 {: .d-inline-block }
-Object
+Preliminary
 {: .label .label-yellow }
 
 The `power` Object is a persistant object with both **writable** as well as **read-only** Parameters containing device power status and configuration.
