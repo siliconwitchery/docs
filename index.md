@@ -12,9 +12,11 @@ Technical Documentation for all Silicon Witchery Solutions.
 
 ---
 
-## Get Started With SuperStack RTOS
+## Get Started With SuperStack RTOS 🚀
 
 Wirelessly deploy ASIC algorithms onto the edge
+{: .fs-6 .fw-300 }
+
 - Realtime ML Infrencing
 - Realtime Learning
 - Bespoke AI Applications
