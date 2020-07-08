@@ -28,7 +28,7 @@ Wirelessly deploy ASIC algorithms onto the edge
 
 Built to Work with Our Ultra-Small Wearable Modules
 {: .fs-6 .fw-300 }
-[Get Started Now]({{ site.baseurl }}{% link getting-started.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Order a Development Kit]({{ site.baseurl }}{% link hardware/d1-devkit.md %}){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Get Started Now]({{ site.baseurl }}{% link getting-started.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Order a Development Kit]({{ site.baseurl }}{% link hardware/d1-dev-kit.md %}){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 

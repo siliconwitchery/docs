@@ -41,7 +41,7 @@ Coming Soon
 Designed to work with our S range of modules
 {: .fs-6 .fw-300 }
 
-We'll be releasin more info soon so keep an eye on this page.
+We'll be releasing more info soon. Register here if you want to be notified about availability. We won't spam you.
 
 [Get Notified](#){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
