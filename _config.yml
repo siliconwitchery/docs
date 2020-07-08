@@ -1,8 +1,7 @@
 # Site settings
-title: "Documentation"
 image: logo.png
 remote_theme: pmarsceill/just-the-docs
-description: "A complete set of guides on how to user the SuperStack Embedded Platform for your IoT project."
+description: "Silicon Witchery Technical Documentation"
 permalink: pretty
 heading_anchors: true
 
