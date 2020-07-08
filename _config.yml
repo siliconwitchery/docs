@@ -1,5 +1,5 @@
 # Site settings
-image: logo.png
+image: "logo.png"
 remote_theme: pmarsceill/just-the-docs
 description: "Silicon Witchery Technical Documentation"
 permalink: pretty
