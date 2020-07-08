@@ -7,6 +7,7 @@ grand_parent: Hardware
 ---
 
 ## Absolute Maximum Ratings
+
 |                   |                               | Min   | Max   | Unit  |
 |:------------------|:------------------------------|:------|:------|:------|
 |V<sub>CHG-MAX</sub>| Charge input terminal voltage |       |       |  V    |
@@ -19,6 +20,7 @@ grand_parent: Hardware
 |T<sub>stg</sub>    | Storage temperature           |       |       | °C    |
 
 ## Electrostatic Discharge (ESD)
+
 |                   |                               | Value | Unit  |
 |:------------------|:------------------------------|:------|:------|
 |V<sub>ESD-HBM</sub>| ESD - Human body model        |       |  V    |
@@ -26,15 +28,19 @@ grand_parent: Hardware
 
 
 ## Thermal Information
+
 V<sub>CHG</sub> = 0V, V<sub>BAT</sub> = 3.7V unless specified
+
 |                   |                               | Value | Unit  |
 |:------------------|:------------------------------|:------|:------|
 |T<sub>RF</sub>| 1Mbps cont. TX radio temperature * |       |  °C   |
 |T<sub>RF+FPGA</sub>| Full speed FPGA temperature * |       |  °C   |
 |T<sub>CHG</sub>| Charge IC temperature V<sub>CHG</sub> = 5V * |   | °C  |
+
 \* lab measured values
 
 ## Electrical Characteristics 
+
 |                   |                               | Min   | Max   | Unit  |
 |:------------------|:------------------------------|:------|:------|:------|
 |V<sub>CHG</sub>    | Charger supply voltage        |       |       |  V    |
@@ -53,6 +59,7 @@ V<sub>CHG</sub> = 0V, V<sub>BAT</sub> = 3.7V unless specified
 |I<sub>FPGA</sub>   | FPGA active current           |       |       |  mA   |
 
 ## RF Characteristics 
+
 |                   |                               | Value | Unit  |
 |:------------------|:------------------------------|:------|:------|
 |V<sub>ESD-HBM</sub>| Max transmit power            | +4    |  dBm  |
