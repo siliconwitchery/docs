@@ -8,9 +8,14 @@ has_children: true
 
 ## S1 Wearable Module
 {: .fs-9 }
+{: .d-inline-block }
+Preliminary
+{: .label .label-yellow }
 
-Advanced Compute on a **6x20mm flexible PCB** conformable to any application.
+Advanced Compute in only **6 x 20mm**
 {: .fs-6 .fw-300 }
+
+As a **Flexible Module** conformable to any application.
 
 - Bluetooth 5.2
 - Direction Finding
@@ -30,6 +35,10 @@ Advanced Compute on a **6x20mm flexible PCB** conformable to any application.
 
 ## D1 Dev Board
 {: .fs-9 }
+{: .fs-9 }
+{: .d-inline-block }
+Coming Soon
+{: .label .label-purple }
 
 Designed to work with our S range of modules
 {: .fs-6 .fw-300 }
