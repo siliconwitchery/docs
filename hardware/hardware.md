@@ -44,7 +44,7 @@ Designed to work with our S range of modules
 
 We'll be releasing more info soon. Register here if you want to be notified about availability. We won't spam you.
 
-[Get Notified](#){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Get Notified]({{ site.baseurl }}{% link hardware/d1-dev-kit.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
 ---
 
@@ -56,4 +56,4 @@ Need something specific?
 
 Get in touch and let's see if we can help you design your very own custom devices. Our platform is flexible and portable and can be run on many **ARM Cortex M**, **Cortex A** and **RISC-V** based devices.
 
-[Get in Touch](#){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Get in Touch](mailto:info@siliconwitchery.com?subject=Hello!){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
