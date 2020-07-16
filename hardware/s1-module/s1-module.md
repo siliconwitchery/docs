@@ -17,9 +17,7 @@ Bluetooth 5.2 Wearable Module with FPGA & Battery Management
 
 ---
 
-[Download this brief as a PDF](#){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } 
-
----
+![Silicon Witchery S1 Module]()
 
 ## Description 
 
@@ -60,5 +58,3 @@ The compact and flexible module allows for tight integration into existing produ
 - Enabling IoT on non-connected devices
 - Lightweight Battery Management
 - General Wearable/IoT applications
-
-![Example Application](#)
