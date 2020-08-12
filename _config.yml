@@ -9,6 +9,7 @@ heading_anchors: true
 # Plugins
 plugins:
   - jekyll-seo-tag
+  - jekyll-sitemap
 
 # Header
 search_enabled: true
