@@ -1,5 +1,6 @@
 # Site settings
-title: "Documentation"
+# title: "Documentation"
+logo: "/images/title-logo.png"
 remote_theme: pmarsceill/just-the-docs
 description: "Silicon Witchery Technical Documentation"
 permalink: pretty
@@ -13,8 +14,8 @@ plugins:
 search_enabled: true
 aux_links_new_tab: true
 aux_links:
-  "Get the hardware":
-   - "https://siliconwitchery.com"
+  "Homepage":
+   - "https://www.siliconwitchery.com"
 
 
 # Footer
@@ -23,8 +24,8 @@ last_edit_timestamp: true # Page must have last_modified_date defined in the fro
 last_edit_time_format: "%b %e %Y at %I:%M %p"
 
 # Google analytics tracking
-# ga_tracking: UA-1234567-89 TODO
-# ga_tracking_anonymize_ip: true # Use GDPR compliant Google Analytics settings
+ga_tracking: UA-162687810-2
+ga_tracking_anonymize_ip: true # Use GDPR compliant Google Analytics settings
 
 # Optimisations
 compress_html:

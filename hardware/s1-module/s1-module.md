@@ -1,9 +1,9 @@
 ---
 layout: default
 title: S1 Module
-nav_order: 1
-parent: Hardware
-has_children: true
+nav_order: 3
+# parent: Hardware
+# has_children: true
 ---
 
 # S1 Wearable Module | **Datasheet**

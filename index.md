@@ -3,33 +3,61 @@ layout: default
 title: Introduction
 nav_order: 1
 ---
+![Construction banner](images/construction.png)
 
-# Welcome!
+## Under construction 🔧
 {: .fs-9 }
 
-Technical Documentation for all Silicon Witchery Solutions.
+But feel free to poke around.
 {: .fs-6 .fw-300 }
+
+During this stage we're refining and re-writing all aspects of our documentation in tandem with development. Any specifications listed here may be incorrect or out-of-date, but eventually once things fall into place, we'll make it official. Take everything here with a pinch of salt, and expect things to change.
 
 ---
 
-## Get Started With SuperStack RTOS 🚀
+## Get in the know 💌
+{: .fs-9 }
 
-Wirelessly deploy ASIC algorithms onto the edge
+Get an alert once our solutions are available.
 {: .fs-6 .fw-300 }
 
-- Realtime ML Infrencing
-- Realtime Learning
-- Bespoke AI Applications
-- Sensor Aggrigation
-- DSP Heavy Pre-processing
-- Sensitive Data Pre-processing
-- Translationless Cloud Compatibility
-- Remotly Scriptable Workflow (No C/C++ Needed)
+Want to know when we go live? Sign up to our newsletter and we'll send out an announcement when things are ready. Don't worry, we won't spam you, and you're free to unsubscribe at anytime by re-entering your email into this box and selecting 'unsubscribe' on the next page.
 
-Built to Work with Our Ultra-Small Wearable Modules
-{: .fs-6 .fw-300 }
-[Get Started Now]({{ site.baseurl }}{% link getting-started.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Order a Development Kit]({{ site.baseurl }}{% link hardware/d1-dev-kit.md %}){: .btn .fs-5 .mb-4 .mb-md-0 }
+<!-- Begin Mailchimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+	/* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
+	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+</style>
+<div id="mc_embed_signup">
+<form action="https://siliconwitchery.us10.list-manage.com/subscribe/post?u=6747b072e5819c7b7af925e6e&amp;id=91054b3543" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+	
+	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_6747b072e5819c7b7af925e6e_91054b3543" tabindex="-1" value=""></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+    </div>
+</form>
+</div>
+
+<!--End mc_embed_signup-->
 
 ---
 
-[Let us know](https://github.com/siliconwitchery/docs/issues) if you spot any mistakes 📝. These pages are GDPR compliant.
+## Can't wait? 🚀
+{: .fs-9 }
+
+Join the beta program.
+{: .fs-6 .fw-300 }
+
+We're currently running beta programs with customers who are keen to test our solutions and can provide valuable feedback. If you're interested in trying out products ahead of general availability. Get in touch and we'll be happy to tell you more.
+
+[Email Us](mailto:info@siliconwitchery.com?subject=Beta){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+
+---
+
+[Let us know](https://github.com/siliconwitchery/docs/issues) if you spot any mistakes. We're hosted on GitHub. 📝
+
+[Privacy Policy](https://github.com/siliconwitchery/website#privacy-policy) 🔒

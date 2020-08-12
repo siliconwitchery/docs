@@ -4,6 +4,7 @@ title: Specification
 nav_order: 1
 parent: S1 Module
 grand_parent: Hardware
+published: false
 ---
 
 ## Absolute Maximum Ratings

@@ -4,6 +4,7 @@ title: Pinout
 nav_order: 3
 parent: S1 Module
 grand_parent: Hardware
+published: false
 ---
 
 ## I2C/I3C

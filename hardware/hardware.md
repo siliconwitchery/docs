@@ -1,8 +1,8 @@
 ---
 layout: default
 title: Hardware
-nav_order: 3
-has_children: true
+nav_order: 2
+# has_children: true
 has_toc: false
 ---
 
@@ -29,7 +29,7 @@ As a **Flexible Module** conformable to any application.
 - Best in class power consumption
 - Solderable, Pluggable or Sewable
 
-[Datasheet]({{ site.baseurl }}{% link hardware/s1-module/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Find a Distributor]({{ site.baseurl }}{% link hardware/distributors.md %}){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Datasheet]({{ site.baseurl }}{% link hardware/s1-module/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } 
 
 ---
 
@@ -44,7 +44,7 @@ Designed to work with our S range of modules
 
 We'll be releasing more info soon. Register here if you want to be notified about availability. We won't spam you.
 
-[Get Notified]({{ site.baseurl }}{% link hardware/d1-dev-kit.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Get Notified]({{ site.baseurl }}{% link index.md %}#get-in-the-know-){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
 ---
 
