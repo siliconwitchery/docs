@@ -12,10 +12,8 @@ has_toc: false
 Preliminary
 {: .label .label-yellow }
 
-Advanced Compute in only **6 x 20mm**
+Wireless Hardware Acceleration in only **6 x 12mm**
 {: .fs-6 .fw-300 }
-
-As a **Flexible Module** conformable to any application.
 
 - Bluetooth 5.2
 - Direction Finding
@@ -24,12 +22,12 @@ As a **Flexible Module** conformable to any application.
 - 4Mb Flash Storage
 - Li charger
 - Configurable Voltage Rails
-- Hi Speed I2C/I3C/SPI/USB
-- ADC & GPIO
+- Hi Speed I2C/I3C/SPI/USB/GPIO
+- ADC
 - Best in class power consumption
-- Solderable, Pluggable or Sewable
+- Solderable and pick-and-place friendly module form factor
 
-[Datasheet]({{ site.baseurl }}{% link hardware/s1-module/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } 
+[Datasheet]({{ site.baseurl }}{% link hardware/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } 
 
 ---
 
