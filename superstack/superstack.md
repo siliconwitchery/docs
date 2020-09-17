@@ -39,4 +39,4 @@ Securely manage your fleet of devices and update fully remotely with our qualifi
 
 The S1 module is the first generation of hardware supporting SuperStack out of the box. The S1 comes pre-loaded with a production binary of SuperStack as well as commissioning keys for deployment.
 
-[Learn more about the S1]({{ site.baseurl }}{% link hardware/s1-module/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Learn more about the S1]({{ site.baseurl }}{% link hardware/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
