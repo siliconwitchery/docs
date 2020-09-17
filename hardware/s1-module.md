@@ -6,13 +6,13 @@ nav_order: 3
 # has_children: true
 ---
 
-# S1 Wearable Module | **Datasheet**
+# S1 Module | **Datasheet**
 {: .fs-9 }
 {: .d-inline-block }
 Preliminary
 {: .label .label-yellow }
 
-Bluetooth 5.2 Wearable Module with FPGA & Battery Management
+Bluetooth 5.2 Module with FPGA & Battery Management
 {: .fs-6 .fw-300 }
 
 ---

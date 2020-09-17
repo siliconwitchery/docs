@@ -35,7 +35,7 @@ Securely manage your fleet of devices and update fully remotely with our qualifi
 
 ![SuperStack Device Management]()
 
-## Works with the S1 Wearable Module
+## Works with the S1 Module
 
 The S1 module is the first generation of hardware supporting SuperStack out of the box. The S1 comes pre-loaded with a production binary of SuperStack as well as commissioning keys for deployment.
 

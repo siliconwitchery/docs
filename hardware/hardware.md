@@ -6,7 +6,7 @@ nav_order: 2
 has_toc: false
 ---
 
-## S1 Wearable Module
+## S1 Module
 {: .fs-9 }
 {: .d-inline-block }
 Preliminary
