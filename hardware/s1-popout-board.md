@@ -7,11 +7,10 @@ has_toc: false
 ---
 
 # S1 Popout Board | **Manual**
-
 {: .fs-9 .no_toc }
 {: .d-inline-block }
-Preliminary
-{: .label .label-yellow }
+Coming Soon
+{: .label .label-blue }
 
 Get started with the S1 Module quickly and easily.
 {: .fs-6 .fw-300 }

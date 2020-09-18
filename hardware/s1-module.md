@@ -3,8 +3,6 @@ layout: default
 title: S1 Module
 nav_order: 2
 has_toc: false
-# parent: Hardware
-# has_children: true
 ---
 
 # S1 Module | **Datasheet**

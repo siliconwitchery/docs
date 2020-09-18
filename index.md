@@ -2,16 +2,16 @@
 layout: default
 title: Welcome
 nav_order: 1
+has_toc: false
 ---
 
 # Documentation Center
-
 {: .fs-9 .no_toc }
 {: .d-inline-block }
 Preliminary
 {: .label .label-yellow }
 
-Here you'll find technical information for all of our products.
+Technical information for all Silicon Witchery products.
 {: .fs-6 .fw-300 }
 
 ---
@@ -40,10 +40,10 @@ Get started with the S1 Module quickly and easily.
 
 ## SuperStack Runtime
 
-Get started with the S1 Module quickly and easily.
+Firmware built for edge AI & DSP.
 {: .fs-6 .fw-300 }
 
-![Silicon Witchery S1 Popout Board]()
+![SuperStack Platform]()
 
 [More Info]({{ site.baseurl }}{% link superstack/superstack.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
