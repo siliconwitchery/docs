@@ -1,17 +1,57 @@
 ---
 layout: default
-title: Introduction
+title: Welcome
 nav_order: 1
 ---
-![Construction banner](images/construction.png)
 
-## Under construction 🔧
-{: .fs-9 }
+# Documentation Center
 
-But feel free to poke around.
+{: .fs-9 .no_toc }
+{: .d-inline-block }
+Preliminary
+{: .label .label-yellow }
+
+Here you'll find technical information for all of our products.
 {: .fs-6 .fw-300 }
 
-During this stage we're refining and re-writing all aspects of our documentation in tandem with development. Any specifications listed here may be incorrect or out-of-date, but eventually once things fall into place, we'll make it official. Take everything here with a pinch of salt, and expect things to change.
+---
+
+## S1 Module
+
+Bluetooth – FPGA – Battery management – one tiny form factor.
+{: .fs-6 .fw-300 }
+
+![Silicon Witchery S1 Module]()
+
+[More Info]({{ site.baseurl }}{% link hardware/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+
+---
+
+## S1 Popout Board
+
+Get started with the S1 Module quickly and easily.
+{: .fs-6 .fw-300 }
+
+![Silicon Witchery S1 Popout Board]()
+
+[More Info]({{ site.baseurl }}{% link hardware/s1-popout-board.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+
+---
+
+## SuperStack Runtime
+
+Get started with the S1 Module quickly and easily.
+{: .fs-6 .fw-300 }
+
+![Silicon Witchery S1 Popout Board]()
+
+[More Info]({{ site.baseurl }}{% link superstack/superstack.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+
+---
+
+## For source code and code:
+
+[Visit our GitHub](https://github.com/siliconwitchery){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
 ---
 
@@ -33,12 +73,12 @@ Want to know when we go live? Sign up to our newsletter and we'll send out an an
 <div id="mc_embed_signup">
 <form action="https://siliconwitchery.us10.list-manage.com/subscribe/post?u=6747b072e5819c7b7af925e6e&amp;id=91054b3543" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
     <div id="mc_embed_signup_scroll">
-	
+
 	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_6747b072e5819c7b7af925e6e_91054b3543" tabindex="-1" value=""></div>
-    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-    </div>
+	<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+	<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_6747b072e5819c7b7af925e6e_91054b3543" tabindex="-1" value=""></div>
+	<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+	</div>
 </form>
 </div>
 
@@ -46,15 +86,15 @@ Want to know when we go live? Sign up to our newsletter and we'll send out an an
 
 ---
 
-## Can't wait? 🚀
+## Your Specifications
 {: .fs-9 }
 
-Join the beta program.
+Need something specific?
 {: .fs-6 .fw-300 }
 
-We're currently running beta programs with customers who are keen to test our solutions and can provide valuable feedback. If you're interested in trying out products ahead of general availability. Get in touch and we'll be happy to tell you more.
+Get in touch and let's see if we can help you design your very own custom devices. Our platform is flexible and portable and can be run on many **ARM Cortex M**, **Cortex A** and **RISC-V** based devices.
 
-[Email Us](mailto:info@siliconwitchery.com?subject=Beta){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Get in Touch](mailto:info@siliconwitchery.com?subject=Hello!){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
 ---
 
