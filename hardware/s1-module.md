@@ -74,6 +74,8 @@ The device hardare design is open source and is licensed under a [Creative Commo
 
 ## Block Diagram
 
+![S1 Module Block Diagram]({{ site.baseurl }}{% link hardware/s1-module-images/s1-block-diagram.png %})
+
 
 ---
 
