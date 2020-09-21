@@ -11,7 +11,7 @@ has_toc: false
 Preliminary
 {: .label .label-yellow }
 
-Bluetooth – FPGA – Battery Management – 6x12mm
+Bluetooth – FPGA – Battery Management – One Tiny Footprint
 {: .fs-6 .fw-300 }
 
 ---
