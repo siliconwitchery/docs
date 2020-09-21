@@ -81,6 +81,7 @@ The device hardare design is open source and is licensed under a [Creative Commo
 
 ## Pinout
 
+![S1 Module Pinout]({{ site.baseurl }}{% link hardware/s1-module-images/s1-pinout-diagram.png %})
 
 ---
 
