@@ -83,11 +83,34 @@ The device hardare design is open source and is licensed under a [Creative Commo
 
 ![S1 Module Pinout]({{ site.baseurl }}{% link hardware/s1-module-images/s1-pinout-diagram.png %})
 
+|       Pin Number       |       Signal        | Direction | Description                                                  |
+| :--------------------: | :-----------------: | :-------: | ------------------------------------------------------------ |
+|       1, 20, 14        |         GND         |     –     | Ground. Pins 1 and 20 are close to the antenna and must connect to a good ground plane for optimal antenna performance. Pin 14 isn't as critical, however is strongly recommended when high currents may be required from the power rails, or when using the battery charging feature. |
+|           2            |        USBN         |    IO     | USB data – signal. May be used as general purpose complementary IO. |
+|           5            |        USBP         |    IO     | USB data + signal. May be used as general purpose complementary IO. |
+| 2, 3, 4, 5, 6, 7, 8, 9 |       D1 - D8       |    IO     | General purpose IO pins directly connected to the FPGA. Signal voltage range is set internally to the V<sub>IO</sub> pin. |
+|           10           |   V<sub>CHG</sub>   |     I     | Main power input                                             |
+|           11           |  V<sub>BATT</sub>   |    IO     |                                                              |
+|           12           |   V<sub>AUX</sub>   |     O     |                                                              |
+|           13           |   V<sub>IO</sub>    |     O     |                                                              |
+|         15, 16         |     ADC1, ADC2      |   I(O*)   |                                                              |
+|           17           | V<sub>nRF/ADC</sub> |     O     |                                                              |
+|           18           |        SWDIO        |    IO     |                                                              |
+|           19           |       SWDCLK        |     I     |                                                              |
+
+
+
 ---
 
 ## Wireless Radio
 
 ### Programming Interface
+
+The S1 Module comes pre-programmed with the [SuperStack]() Runtime so do not need factory programming if a custom Bluetooth application is not required.
+
+However it is possible to program or re-program the S1 module via the exposed programming pins.
+
+![S1 Module JLINK Connection Diagram]({{ site.baseurl }}{% link hardware/s1-module-images/s1-jlink-pinout.png %})
 
 ### ADC
 
