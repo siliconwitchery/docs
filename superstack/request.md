@@ -4,6 +4,7 @@ title: Request Object
 nav_order: 4
 parent: API Reference
 grand_parent: SuperStack RTOS
+published: false
 ---
 
 # `"request": [...]` and `"request": {...}`

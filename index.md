@@ -18,7 +18,7 @@ Technical information for all Silicon Witchery products.
 
 ## S1 Module
 
-Bluetooth – FPGA – Battery management – one tiny form factor.
+Integrated Bluetooth, FPGA & battery management.
 {: .fs-6 .fw-300 }
 
 ![Silicon Witchery S1 Module](/photos/s1-micro-sd.png)
@@ -32,7 +32,7 @@ Bluetooth – FPGA – Battery management – one tiny form factor.
 Get started with the S1 Module quickly and easily.
 {: .fs-6 .fw-300 }
 
-![Silicon Witchery S1 Popout Board](/photos/dev-kit-annotated.png)
+![Silicon Witchery S1 Popout Board](/photos/devkit-annotated.png)
 
 [More Info]({{ site.baseurl }}{% link hardware/s1-popout-board.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 

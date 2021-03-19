@@ -4,6 +4,7 @@ title: Append Object
 nav_order: 2
 parent: API Reference
 grand_parent: SuperStack RTOS
+published: false
 ---
 
 # `"append": {...}`

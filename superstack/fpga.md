@@ -4,6 +4,7 @@ title: Get/Configure FPGA
 nav_order: 9
 parent: API Reference
 grand_parent: SuperStack RTOS
+published: false
 ---
 
 # `"fpga": {...}`
