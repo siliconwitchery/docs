@@ -21,7 +21,7 @@ Technical information for all Silicon Witchery products.
 Bluetooth – FPGA – Battery management – one tiny form factor.
 {: .fs-6 .fw-300 }
 
-![Silicon Witchery S1 Module]()
+![Silicon Witchery S1 Module](/photos/s1-micro-sd.png)
 
 [More Info]({{ site.baseurl }}{% link hardware/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
@@ -32,20 +32,9 @@ Bluetooth – FPGA – Battery management – one tiny form factor.
 Get started with the S1 Module quickly and easily.
 {: .fs-6 .fw-300 }
 
-![Silicon Witchery S1 Popout Board]()
+![Silicon Witchery S1 Popout Board](/photos/dev-kit-annotated.png)
 
 [More Info]({{ site.baseurl }}{% link hardware/s1-popout-board.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-
----
-
-## SuperStack Runtime
-
-Firmware built for edge AI & DSP.
-{: .fs-6 .fw-300 }
-
-![SuperStack Platform]()
-
-[More Info]({{ site.baseurl }}{% link superstack/superstack.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
 ---
 
