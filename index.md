@@ -23,7 +23,9 @@ Integrated Bluetooth, FPGA & battery management.
 
 ![Silicon Witchery S1 Module](/photos/s1-micro-sd.png)
 
-[More Info]({{ site.baseurl }}{% link hardware/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Datasheet]({{ site.baseurl }}{% link hardware/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[SDK](https://github.com/siliconwitchery/s1-sdk){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Order Soon](https://github.com/siliconwitchery/s1-sdk){: .btn .btn-secondary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
 ---
 
