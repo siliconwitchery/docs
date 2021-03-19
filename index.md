@@ -7,10 +7,6 @@ has_toc: false
 
 # Documentation Center
 {: .fs-9 .no_toc }
-{: .d-inline-block }
-Preliminary
-{: .label .label-yellow }
-
 Technical information for all Silicon Witchery products.
 {: .fs-6 .fw-300 }
 
@@ -25,7 +21,7 @@ Integrated Bluetooth, FPGA & battery management.
 
 [Datasheet]({{ site.baseurl }}{% link hardware/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [SDK](https://github.com/siliconwitchery/s1-sdk){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[Order Soon](https://github.com/siliconwitchery/s1-sdk){: .btn .btn-secondary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Order Soon](#){: .btn .btn-secondary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
 ---
 
@@ -36,11 +32,13 @@ Get started with the S1 Module quickly and easily.
 
 ![Silicon Witchery S1 Popout Board](/photos/devkit-annotated.png)
 
-[More Info]({{ site.baseurl }}{% link hardware/s1-popout-board.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[User Guide]({{ site.baseurl }}{% link hardware/s1-popout-board.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Reference Design](https://github.com/siliconwitchery/s1-popout-board){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Order Soon](#){: .btn .btn-secondary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
 ---
 
-## For source code and code:
+## For more tools and examples:
 
 [Visit our GitHub](https://github.com/siliconwitchery){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
@@ -49,10 +47,10 @@ Get started with the S1 Module quickly and easily.
 ## Get in the know 💌
 {: .fs-9 }
 
-Get an alert once our solutions are available.
+Occasional news and updates to our solutions. No spam.
 {: .fs-6 .fw-300 }
 
-Want to know when we go live? Sign up to our newsletter and we'll send out an announcement when things are ready. Don't worry, we won't spam you, and you're free to unsubscribe at anytime by re-entering your email into this box and selecting 'unsubscribe' on the next page.
+We'll send announcements when we release new products or make important changes our customers should know about. You're free to unsubscribe at anytime by re-entering your email into this box and selecting 'unsubscribe' on the following page.
 
 <!-- Begin Mailchimp Signup Form -->
 <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
@@ -77,7 +75,7 @@ Want to know when we go live? Sign up to our newsletter and we'll send out an an
 
 ---
 
-## Your Specifications
+## Your Custom Device
 {: .fs-9 }
 
 Need something specific?
@@ -85,7 +83,7 @@ Need something specific?
 
 Get in touch and let's see if we can help you design your very own custom devices. Our platform is flexible and portable and can be run on many **ARM Cortex M**, **Cortex A** and **RISC-V** based devices.
 
-[Get in Touch](mailto:info@siliconwitchery.com?subject=Hello!){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Email us direct](mailto:info@siliconwitchery.com?subject=Hello!){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
 ---
 
