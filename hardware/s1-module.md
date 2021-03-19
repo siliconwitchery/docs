@@ -36,7 +36,7 @@ The wireless portion of the module uses a [Nordic nRF52811](https://www.nordicse
 
 To manage power, the module contains a dedicated PMIC (Power management IC). It integrates a Li charger, battery monitor (via an nRF52811 ADC pin), three buck-boost regulator outputs and one LDO regulator output. All of which are independently configurable. This architecture allows the module to output several voltage rails for external circuits, one of which can be boosted to 5.5V, even from a single Lithium cell. Additionally, the voltage rails may be dynamically adjusted or switched off all-together to save power.
 
-Finally, 4Mb of on board flash storage is availble for holding the FPGA boot data, and any remaining space may be used for user application data.
+Finally, 4Mb of on board flash storage is available for holding the FPGA boot data, and any remaining space may be used for user application data.
 
 The device hardare design is open source and is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 
