@@ -40,7 +40,7 @@ A dev kit to quickly get you started with the S1 Module.
 
 ---
 
-## Customization and design consultation
+## Customization & Consultation
 {: .fs-8 }
 
 Let's get your product to market!
