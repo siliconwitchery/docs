@@ -13,8 +13,9 @@ Technical information for all Silicon Witchery products.
 ---
 
 ## S1 Module
+{: .fs-8 }
 
-Integrated Bluetooth, FPGA & battery management.
+Integrated Bluetooth, FPGA & battery management in one tiny form factor.
 {: .fs-6 .fw-300 }
 
 ![Silicon Witchery S1 Module](/photos/annotated-module.png)
@@ -26,8 +27,9 @@ Integrated Bluetooth, FPGA & battery management.
 ---
 
 ## S1 Popout Board
+{: .fs-8 }
 
-Get started with the S1 Module quickly and easily.
+A dev kit to quickly get you started with the S1 Module.
 {: .fs-6 .fw-300 }
 
 ![Silicon Witchery S1 Popout Board](/photos/devkit-annotated.png)
@@ -38,14 +40,20 @@ Get started with the S1 Module quickly and easily.
 
 ---
 
-## For more tools and examples:
+## Customization and design consultation
+{: .fs-8 }
 
-[Visit our GitHub](https://github.com/siliconwitchery){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+Let's get your product to market!
+{: .fs-6 .fw-300 }
+
+We have already helped many customers get their designs verified for production. Whether you need full design assistance or just a sanity check, get in touch today, and we'll arrange a call to discuss your requirements and find a way forward to get your product to market on time and within budget.
+
+[Email us direct](mailto:info@siliconwitchery.com?subject=Hello!){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
 ---
 
 ## Get in the know 💌
-{: .fs-9 }
+{: .fs-8 }
 
 Occasional news and updates to our solutions. No spam.
 {: .fs-6 .fw-300 }
@@ -72,18 +80,6 @@ We'll send announcements when we release new products or make important changes 
 </div>
 
 <!--End mc_embed_signup-->
-
----
-
-## Your Custom Device
-{: .fs-9 }
-
-Need something specific?
-{: .fs-6 .fw-300 }
-
-Get in touch and let's see if we can help you design your very own custom devices. Our platform is flexible and portable and can be run on many **ARM Cortex M**, **Cortex A** and **RISC-V** based devices.
-
-[Email us direct](mailto:info@siliconwitchery.com?subject=Hello!){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
 ---
 
