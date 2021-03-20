@@ -32,7 +32,7 @@ Integrated Bluetooth, FPGA & battery management in one tiny form factor.
 A dev kit to quickly get you started with the S1 Module.
 {: .fs-6 .fw-300 }
 
-![Silicon Witchery S1 Popout Board](/photos/devkit-annotated.png)
+![Silicon Witchery S1 Popout Board](/photos/annotated-devkit.png)
 
 [User Guide]({{ site.baseurl }}{% link hardware/s1-popout-board.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [Reference Design](https://github.com/siliconwitchery/s1-popout-board){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
