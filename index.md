@@ -17,7 +17,7 @@ Technical information for all Silicon Witchery products.
 Integrated Bluetooth, FPGA & battery management.
 {: .fs-6 .fw-300 }
 
-![Silicon Witchery S1 Module](/photos/s1-micro-sd.png)
+![Silicon Witchery S1 Module](/photos/annotated-module.png)
 
 [Datasheet]({{ site.baseurl }}{% link hardware/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [SDK](https://github.com/siliconwitchery/s1-sdk){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
