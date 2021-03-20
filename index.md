@@ -6,7 +6,7 @@ has_toc: false
 ---
 
 # Documentation Center
-{: .fs-9 .fw-600 .no_toc }
+{: .fs-9 .fw-300 .no_toc }
 Technical information for all Silicon Witchery products.
 {: .fs-6 .fw-300 }
 
