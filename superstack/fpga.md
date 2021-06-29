@@ -13,3 +13,5 @@ Coming Soon
 {: .label .label-blue }
 
 Details to follow shortly
+
+Migen / LiteX Setup
