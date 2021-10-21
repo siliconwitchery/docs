@@ -56,17 +56,41 @@ To read more about the S1 Module, be sure to check out the full datasheet [here]
 
 ## Block Diagram
 
+The block diagram below shows the simplistic nature of devices built with the S1 Module.
+
+This design features a single ECG frontend amplifier as the only active external component in the system. All other processing is done within the S1 Module.
+
+![S1 ECG kit system block diagram](/s1-ecg-kit/images/s1-ecg-kit-block-diagram.png)
+
 ---
 
 ## ECG Frontend
 
+The ECG frontend is based on the Analog Devices [AD8233](https://www.analog.com/en/products/ad8233.html). It contains low noise signal conditioning for amplifying ECG signals along with leads-off detection to allow for auto-sleep when the probes are not in contact with the skin.
+
+The S1 ECG kit makes full use of the device by exposing all three probes (two on the front, and one on the back) which come into contact with the user when they hold the board with both hands.
+
+The leads-off detection allows for automatic sleep-wake depending on if the user is holding the device. Application targeted for low power can therefore be designed using the board.
+
 ---
+
+## Built-in Battery
+
+For ease of portability, as well as low noise measurements. The board features a build in 150mAh lithium battery. The battery charges automatically when the USB-C is connected. Thanks to the auto-sleep features, there is no need for any power switch, and the device can retain its charge for weeks in standby.
+
+A 0.1" jumper and pin header is exposed on the back of the board for measuring the battery current (both charging and discharging) during development.
+
+**WARNING** The S1 ECG Kit standard firmware comes with the appropriate settings configured for safely charging the included lithium battery. These settings should be changed with care as higher charge currents and voltages can be set which may damage the battery and risk fire. If in doubt, the current sense jumper should be removed which will fully disconnect the battery from the S1 charge circuit.
+
+--- 
 
 ## LEDs & IO
 
 ---
 
 ## Programming
+
+
 
 ---
 
@@ -81,6 +105,14 @@ The complete schematic for the S1 ECG Kit is shown below. A PDF version is avail
 ## Design Files & Source Code
 
 All the design files can be found within the S1 ECG Kit [repository](https://github.com/siliconwitchery/s1-ecg-demo).
+
+---
+
+## Suitability for Critical Applications
+
+The S1 ECG Kit is intended for development, and is not verified for real medical use where performance and accuracy would be critical to human health and well-being.
+
+Additionally, it has not been designed according to any standards in order to guarantee performance or accuracy. No responsibility is assumed by Silicon Witchery for its use.
 
 ---
 
