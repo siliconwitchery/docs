@@ -1,18 +1,15 @@
 ---
-title: S1 Module Datasheet
+title: S1 Module
 description: Hardware datasheet for the S1 Bluetooth-FPGA Module.
 image: images/annotated-module.png
 nav_order: 2
 last_modified_date: 21st October 2021, 12:51 PM
 ---
 
-# S1 Module | **Datasheet**
-{: .fs-9 .no_toc }
+# S1 Module
+{: .no_toc }
 {: .d-inline-block }
-Preliminary datasheet
-{: .label .label-yellow }
-{: .d-inline-block}
-Launching Q4
+Launching Q4 - Preliminary datasheet
 {: .label}
 
 Bluetooth – FPGA – Battery Management – One Tiny Footprint
@@ -20,21 +17,23 @@ Bluetooth – FPGA – Battery Management – One Tiny Footprint
 
 ---
 
-![Silicon Witchery S1 Module]()
+![Silicon Witchery S1 Module](/images/annotated-module.png)
 
 ## Contents
-{: .no_toc .text-delta }
+{: .no_toc}
 
 1. TOC
 {:toc}
 
+---
+
 ## General Description 
 
-The S1 module combines an FPGA with wireless and battery management suitable for low power applicaions such as wearables or small IoT devices*. 
+The S1 module combines an FPGA with wireless and battery management suitable for low power applications such as wearables or small IoT devices*. 
 
 Occupying a volume of just 6 x 12 x 1.6mm, the device can be integrated into very small designs, with little to no external components. Ground and Vcc are the only required connections required for the device to function.
 
-There are 8 exposed IO pins which go directly to the [Lattice ICE40UP5K](https://www.latticesemi.com/en/Products/FPGAandCPLD/iCE40UltraPlus) FPGA. These pins may be used as general purpose IO, or serial lines. The FPGA contains two hardware SPI/I2C blocks routable to any pins, as well as I3C compatible IO for use with a user provided I3C IP block. The FPGA features 5280 LUTs, 1Mb of SPRAM and 8 DSP blocks.
+There are 8 exposed IO pins which go directly to the [Lattice ICE40UP5K](https://www.latticesemi.com/en/Products/FPGAandCPLD/iCE40UltraPlus) FPGA. These pins may be used as general purpose IO, or serial lines. The FPGA contains two hardware SPI/I2C blocks rotatable to any pins, as well as I3C compatible IO for use with a user provided I3C IP block. The FPGA features 5280 LUTs, 1Mb of SPRAM and 8 DSP blocks.
 
 The wireless portion of the module uses a [Nordic nRF52811](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/nRF52811) Bluetooth SoC featuring support for Bluetooth 5.2 (with direction finding) as well as Zigbee, Thread or Bluetooth Mesh. The SoC is user programmable via the exposed debug port, or may be preloaded with our [SuperStack]() Firmware should you choose. Additionally, 2 ADC lines are also conveniently exposed for general purpose use.
 
@@ -78,7 +77,7 @@ The device hardare design is open source and is licensed under a [Creative Commo
 
 ## Block Diagram
 
-![S1 Module Block Diagram]({{ site.baseurl }}{% link s1-module/images/s1-block-diagram.png %})
+![S1 Module Block Diagram](/s1-module/images/s1-block-diagram.png)
 
 
 ---

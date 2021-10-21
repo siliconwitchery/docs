@@ -6,7 +6,11 @@
         {
             "label": "Launch site",
             "type": "shell",
-            "command": "bundle exec jekyll serve --livereload --open-url"
+            "command": "bundle exec jekyll serve --livereload --open-url",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }
