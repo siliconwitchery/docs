@@ -66,21 +66,23 @@ This design features a single ECG frontend amplifier as the only active external
 
 ## ECG Frontend
 
-The ECG frontend is based on the Analog Devices [AD8233](https://www.analog.com/en/products/ad8233.html). It contains low noise signal conditioning for amplifying ECG signals along with leads-off detection to allow for auto-sleep when the probes are not in contact with the skin.
+The ECG frontend is based on the Analog Devices [AD8233](https://www.analog.com/en/products/ad8233.html). It contains the low noise signal conditioning for amplifying ECG signals along with leads-off detection to allow for auto-sleep when the probes are not in contact with the skin. Applications targeted for low power can therefore be designed using the board.
 
 The S1 ECG kit makes full use of the device by exposing all three probes (two on the front, and one on the back) which come into contact with the user when they hold the board with both hands.
-
-The leads-off detection allows for automatic sleep-wake depending on if the user is holding the device. Application targeted for low power can therefore be designed using the board.
 
 ---
 
 ## Built-in Battery
 
-For ease of portability, as well as low noise measurements. The board features a build in 150mAh lithium battery. The battery charges automatically when the USB-C is connected. Thanks to the auto-sleep features, there is no need for any power switch, and the device can retain its charge for weeks in standby.
+For ease of portability, as well as low noise measurements. The board features a 150mAh lithium polymer battery mounted on the back of the device. The battery charges automatically when a USB-C power adaptor is connected.
 
-A 0.1" jumper and pin header is exposed on the back of the board for measuring the battery current (both charging and discharging) during development.
+Thanks to the auto-sleep feature, there is no need for any power switch, and the device can retain its charge for weeks in standby.
 
-**WARNING** The S1 ECG Kit standard firmware comes with the appropriate settings configured for safely charging the included lithium battery. These settings should be changed with care as higher charge currents and voltages can be set which may damage the battery and risk fire. If in doubt, the current sense jumper should be removed which will fully disconnect the battery from the S1 charge circuit.
+A 0.1" jumper and pin header is exposed on the back of the board for measuring the battery current *(both in charging and discharging)* during development.
+
+Note that the high gain nature of the ECG amplifier is very sensitive to external noise sources and ground loops which may be created when using external power. For accuracy, especially if using the device for data logging, it's recommended to run the device from the internal battery without external power being connected.
+
+**Battery safety**: The S1 ECG Kit standard firmware comes with the appropriate settings configured for safely charging the included lithium battery. These settings should be changed with care as higher charge currents and voltages can be set which may damage the battery and risk fire. If in doubt, the current sense jumper should be removed which will fully disconnect the battery from the S1 charge circuit.
 
 --- 
 
@@ -98,9 +100,9 @@ Additionally, the raw ECG analog output is also exposed for ease of testing.
 
 ## Programming
 
-To program the S1 ECG Kit, you will need a [J-Link enabled debugger](https://www.segger.com/products/debug-probes/j-link/) as well as a Tag Connect [6pin ARM debug connector](https://www.tag-connect.com/product/tc2030-ctx-nl-6-pin-no-legs-cable-with-10-pin-micro-connector-for-cortex-processors). It is also possible to use the [Nordic nRF52 Development kit](https://www.nordicsemi.com/Products/Development-hardware/nrf52-dk).
+To program the S1 ECG Kit, you will need a [J-Link enabled debugger](https://www.segger.com/products/debug-probes/j-link/) as well as a Tag Connect [6pin ARM debug cable](https://www.tag-connect.com/product/tc2030-ctx-nl-6-pin-no-legs-cable-with-10-pin-micro-connector-for-cortex-processors). It is also possible to use the [Nordic nRF52 development kit](https://www.nordicsemi.com/Products/Development-hardware/nrf52-dk) as a programmer via the port labeled **Debug out** on the corner of the board.
 
-For educational purposes, the [J-Link EDU mini](https://www.digikey.se/product-detail/en/segger-microcontroller-systems/8-08-91-J-LINK-EDU-MINI/899-1061-ND/7387472) is also a great that is low cost and small.
+For educational purposes, the [J-Link EDU mini](https://www.digikey.se/product-detail/en/segger-microcontroller-systems/8-08-91-J-LINK-EDU-MINI/899-1061-ND/7387472) is also a great option that is low cost and small.
 
 ---
 
@@ -110,7 +112,7 @@ The base firmware is designed to be minimal and easily highly expandable as a pe
 
 The operation is largely documented within the [source code](https://github.com/siliconwitchery/s1-ecg-demo).
 
-To get started, begin by cloning this repository.
+To get started, begin by cloning the repository.
 
 ``` bash
 git clone --recurse-submodules https://github.com/siliconwitchery/s1-ecg-demo.git
@@ -119,7 +121,7 @@ cd s1-ecg-demo
 
 If you haven't already, set up these [tools](https://github.com/siliconwitchery/s1-sdk/blob/main/README.md#setting-up-the-tools) in order to build the project.
 
-You should then be able to run `make`. *Be sure to include the path to your NRF SDK folder*.
+You should then be able to run `make`. Be sure to include the path to your NRF SDK folder.
 
 ``` bash
 make -C firmware build-verilog NRF_SDK_PATH=${HOME}/nRF5_SDK
@@ -144,13 +146,21 @@ The complete schematic for the S1 ECG Kit is shown below. A PDF version is avail
 
 ## Design Files & Source Code
 
-All the design files can be found within the S1 ECG Kit [repository](https://github.com/siliconwitchery/s1-ecg-demo).
+All source files for the hardware and firmware can be found within the S1 ECG Kit [repository](https://github.com/siliconwitchery/s1-ecg-demo).
+
+The PCB design is produced in [KiCad v5.1](https://www.kicad.org/download/) which is free and open source.
+
+---
+
+## Bugs & Improvements
+
+If you have any questions, or if something is unclear, feel free to create an [issue](https://github.com/siliconwitchery/s1-ecg-demo/issues) and we'll try our best to improve it.
 
 ---
 
 ## Suitability for Critical Applications
 
-The S1 ECG Kit is intended for development, and is not verified for real medical use where performance and accuracy would be critical to human health and well-being.
+The S1 ECG Kit is intended for development, and is not verified for real medical use where performance and accuracy would be critical to human health or well-being.
 
 Additionally, it has not been designed according to any standards in order to guarantee performance or accuracy. No responsibility is assumed by Silicon Witchery for its use.
 
