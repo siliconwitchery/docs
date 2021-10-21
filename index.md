@@ -1,64 +1,58 @@
 ---
-layout: default
 title: Welcome
+description: Technical documentation for all Silicon Witchery products.
 nav_order: 1
-has_toc: false
 ---
 
 # Documentation Center
-{: .fs-10 .fw-500 .no_toc }
-Technical information for all Silicon Witchery products.
-{: .fs-6 .fw-300 }
+
+Technical documentation for all Silicon Witchery products. For the most up to date code and design files, be sure to visit our [GitHub](https://github.com/siliconwitchery).
 
 ---
 
 ## S1 Module
-{: .fs-8 }
 
-Integrated Bluetooth, FPGA & battery management in one tiny form factor.
-{: .fs-6 .fw-300 }
+Integrated Bluetooth, FPGA & battery management all in one tiny form factor.
 
-[![Silicon Witchery S1 Module](/photos/annotated-module.png)]({{ site.baseurl }}{% link hardware/s1-module.md %})
+[![Silicon Witchery S1 Module](/images/annotated-module.png)](/s1-module/s1-module)
 
-[Datasheet]({{ site.baseurl }}{% link hardware/s1-module.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[SDK](https://github.com/siliconwitchery/s1-sdk){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[Order Soon](#){: .btn .btn-secondary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Datasheet](s1-module/s1-module){: .btn .btn-purple}
+[SDK](https://github.com/siliconwitchery/s1-sdk){: .btn .btn-purple}
+[Order soon](#){: .btn}
 
 ---
 
 ## S1 Popout Board
-{: .fs-8 }
 
-A dev kit to quickly get you started with the S1 Module.
-{: .fs-6 .fw-300 }
+A low cost development kit to quickly get started with the S1 Module.
 
-![Silicon Witchery S1 Popout Board](/photos/annotated-devkit.png)
+[![Silicon Witchery S1 Popout Board](/images/annotated-devkit.png)](/s1-popout-board/s1-popout-board)
 
-[User Guide]({{ site.baseurl }}{% link hardware/s1-popout-board.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[Reference Design](https://github.com/siliconwitchery/s1-popout-board){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[Order Soon](#){: .btn .btn-secondary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Get started](s1-popout-board/s1-popout-board){: .btn .btn-purple}
+[Design files](https://github.com/siliconwitchery/s1-popout-board){: .btn .btn-purple}
+[Order soon](#){: .btn}
 
 ---
 
-## Customization & Consultation
-{: .fs-8 }
+## S1 ECG Reference Kit
 
-Let's get your product to market!
-{: .fs-6 .fw-300 }
+An all-in-kit to build and test heart algorithms with ease.
 
-We have already helped many customers get their designs verified for production. Whether you need full design assistance or just a sanity check, get in touch today, and we'll arrange a call to discuss your requirements and find a way forward to get your product to market on time and within budget.
+[![Silicon Witchery S1 ECG Reference Kit](/images/annotated-ecg-kit.png)](/s1-ecg-kit/s1-ecg-kit)
 
-[Email us direct](mailto:info@siliconwitchery.com?subject=Hello!){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Get started](s1-ecg-kit/s1-ecg-kit){: .btn .btn-purple}
+[Design files & codebase](https://github.com/siliconwitchery/s1-ecg-demo){: .btn .btn-purple}
+[Order soon](#){: .btn}
 
 ---
 
-## Get in the know 💌
-{: .fs-8 }
+## Need something special? 💌
 
-Occasional news and updates to our solutions. No spam.
-{: .fs-6 .fw-300 }
+We help companies large and small with a variety of work. From hardware layout, to firmware, to production and certification.
 
-We'll send announcements when we release new products or make important changes our customers should know about. You're free to unsubscribe at anytime by re-entering your email into this box and selecting 'unsubscribe' on the following page.
+[Get in touch](mailto:info@siliconwitchery.com?subject=Hello!) today and let's see how we can help bring your next product to market.
+
+Additionally, feel free to sign up to our mailing list for occasional news about our products. We promise not to spam you.
 
 <!-- Begin Mailchimp Signup Form -->
 <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
@@ -81,8 +75,4 @@ We'll send announcements when we release new products or make important changes 
 
 <!--End mc_embed_signup-->
 
----
-
-[Let us know](https://github.com/siliconwitchery/docs/issues) if you spot any mistakes. We're hosted on GitHub. 📝
-
-[Privacy Policy](https://github.com/siliconwitchery/website#privacy-policy) 🔒
+You can unsubscribe anytime by re-entering your email into this box and selecting 'unsubscribe' on the following page.
