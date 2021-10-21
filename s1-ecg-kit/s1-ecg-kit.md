@@ -86,11 +86,51 @@ A 0.1" jumper and pin header is exposed on the back of the board for measuring t
 
 ## LEDs & IO
 
+Seven LEDs on the front of the board display a smooth waveform of the measured ECG pattern. These LEDs can be used for visualization and debugging purposes, while high frequency data can be streamed over Bluetooth to a mobile device.
+
+If required, up to four of the LED pins (**D1 - D4**) can be repurposed as GPIO lines via the solder points on the back of the PCB. This allows you to add additional sensors or peripherals to develop your application.
+
+![Back side IO connections of the S1 ECG Kit](/s1-ecg-kit/images/ecg-back-pcb.png)
+
+Additionally, the raw ECG analog output is also exposed for ease of testing.
+
 ---
 
 ## Programming
 
+To program the S1 ECG Kit, you will need a [J-Link enabled debugger](https://www.segger.com/products/debug-probes/j-link/) as well as a Tag Connect [6pin ARM debug connector](https://www.tag-connect.com/product/tc2030-ctx-nl-6-pin-no-legs-cable-with-10-pin-micro-connector-for-cortex-processors). It is also possible to use the [Nordic nRF52 Development kit](https://www.nordicsemi.com/Products/Development-hardware/nrf52-dk).
 
+For educational purposes, the [J-Link EDU mini](https://www.digikey.se/product-detail/en/segger-microcontroller-systems/8-08-91-J-LINK-EDU-MINI/899-1061-ND/7387472) is also a great that is low cost and small.
+
+---
+
+## Building the Code
+
+The base firmware is designed to be minimal and easily highly expandable as a perfect starting point for new designs.
+
+The operation is largely documented within the [source code](https://github.com/siliconwitchery/s1-ecg-demo).
+
+To get started, begin by cloning this repository.
+
+``` bash
+git clone --recurse-submodules https://github.com/siliconwitchery/s1-ecg-demo.git
+cd s1-ecg-demo
+```
+
+If you haven't already, set up these [tools](https://github.com/siliconwitchery/s1-sdk/blob/main/README.md#setting-up-the-tools) in order to build the project.
+
+You should then be able to run `make`. *Be sure to include the path to your NRF SDK folder*.
+
+``` bash
+make -C firmware build-verilog NRF_SDK_PATH=${HOME}/nRF5_SDK
+make -C firmware flash NRF_SDK_PATH=${HOME}/nRF5_SDK
+```
+
+The first `make` command will build the Verilog project, and convert the binary file into a header file. The nRF application transfers this binary to the FPGA after boot up. In your application, you could download this binary dynamically over Bluetooth rather than storing it within the flash of the nRF chip.
+
+The second `make` command builds the nRF code, and flashes the module using the J-Link debugger.
+
+Once you're up and running, you can begin customizing the application to your needs. Be sure to check out the full [S1 Datasheet](/s1-module/s1-module) to learn more about the module, as well as its features.
 
 ---
 
