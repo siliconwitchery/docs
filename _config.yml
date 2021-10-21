@@ -1,8 +1,8 @@
 # Site settings
-# title: "Documentation"
+title: "Silicon Witchery Documentation Center"
 logo: "/title-logo.png"
 remote_theme: pmarsceill/just-the-docs
-description: "Silicon Witchery Technical Documentation"
+description: "Technical documentation for all Silicon Witchery hardware and firmware products."
 permalink: pretty
 heading_anchors: true
 
@@ -17,18 +17,31 @@ aux_links_new_tab: true
 aux_links:
   "Homepage":
    - "https://www.siliconwitchery.com"
-
+  "GitHub":
+   - "https://github.com/siliconwitchery"
 
 # Footer
-footer_content: "Copyright &copy; 2020 <a href=\"https://siliconwitchery.com\">Silicon Witchery AB</a>"
-last_edit_timestamp: true # Page must have last_modified_date defined in the frontmatter
-last_edit_time_format: "%b %e %Y at %I:%M %p"
+footer_content: "Copyright &copy; 2021 <a href=\"https://siliconwitchery.com\">Silicon Witchery AB</a> (<a href=\"https://github.com/siliconwitchery/website#privacy-policy\">Privacy policy</a>)"
+last_edit_timestamp: true
+last_edit_time_format: "%b %e %Y"
+timezone: Europe/Stockholm
+
+# SEO settings
+twitter:
+  username: siliconwitchery
+  card: summary_large_image
+social:
+  name: Silicon Witchery
+  links:
+    - https://twitter.com/siliconwitchery
+    - https://www.linkedin.com/company/siliconwitchery/
+    - https://github.com/siliconwitchery
 
 # Google analytics tracking
 ga_tracking: UA-162687810-2
 ga_tracking_anonymize_ip: true # Use GDPR compliant Google Analytics settings
 
-# Optimisations
+# Optimizations
 compress_html:
   clippings: all
   comments: all

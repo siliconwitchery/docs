@@ -1,15 +1,19 @@
 ---
-layout: default
-title: S1 Module
+title: S1 Module Datasheet
+description: Hardware datasheet for the S1 Bluetooth-FPGA Module.
+image: images/annotated-module.png
 nav_order: 2
-has_toc: false
+last_modified_date: 21st October 2021, 12:51 PM
 ---
 
 # S1 Module | **Datasheet**
 {: .fs-9 .no_toc }
 {: .d-inline-block }
-Preliminary
+Preliminary datasheet
 {: .label .label-yellow }
+{: .d-inline-block}
+Launching Q4
+{: .label}
 
 Bluetooth – FPGA – Battery Management – One Tiny Footprint
 {: .fs-6 .fw-300 }
@@ -74,14 +78,14 @@ The device hardare design is open source and is licensed under a [Creative Commo
 
 ## Block Diagram
 
-![S1 Module Block Diagram]({{ site.baseurl }}{% link hardware/s1-module-images/s1-block-diagram.png %})
+![S1 Module Block Diagram]({{ site.baseurl }}{% link s1-module/images/s1-block-diagram.png %})
 
 
 ---
 
 ## Pinout
 
-![S1 Module Pinout]({{ site.baseurl }}{% link hardware/s1-module-images/s1-pinout-diagram.png %})
+![S1 Module Pinout]({{ site.baseurl }}{% link s1-module/images/s1-pinout-diagram.png %})
 
 |       Pin Number       |       Signal        | Direction | Description                                                  |
 | :--------------------: | :-----------------: | :-------: | ------------------------------------------------------------ |
@@ -110,7 +114,7 @@ The S1 Module comes pre-programmed with the [SuperStack]() Runtime so do not nee
 
 However it is possible to program or re-program the S1 module via the exposed programming pins.
 
-![S1 Module JLINK Connection Diagram]({{ site.baseurl }}{% link hardware/s1-module-images/s1-jlink-pinout.png %})
+![S1 Module JLINK Connection Diagram]({{ site.baseurl }}{% link s1-module/images/s1-jlink-pinout.png %})
 
 ### ADC
 
