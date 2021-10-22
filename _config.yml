@@ -5,6 +5,7 @@ remote_theme: pmarsceill/just-the-docs
 description: "Technical documentation for all Silicon Witchery hardware and firmware products."
 permalink: pretty
 heading_anchors: true
+url: "https://docs.siliconwitchery.com"
 
 # Plugins
 plugins:
