@@ -167,14 +167,14 @@ However it is possible to program or re-program the S1 module via the exposed pr
 
 |                   |                               | Min   | Max   | Unit  |
 |:------------------|:------------------------------|:------|:------|:------|
-|V<sub>CHG-MAX</sub>| Charge input terminal voltage |       |       |  V    |
-|V<sub>BAT-MAX</sub>| Battery terminal voltage      |       |       |  V    |
-|V<sub>IO-MAX</sub> | Bus/GPIO voltage              |       |       |  V    |
-|V<sub>ADC-MAX</sub>| ADC voltage                   |       |       |  V    |
+|V<sub>CHG-MAX</sub>| Charge input terminal voltage | -0.3  |  30   |  V    |
+|V<sub>BAT-MAX</sub>| Battery terminal voltage      | -0.3  |   6   |  V    |
+|V<sub>IO-MAX</sub> | Bus/GPIO voltage              | -0.3  |  2.1  |  V    |
+|V<sub>ADC-MAX</sub>| ADC voltage                   | -0.3  |  2.1  |  V    |
 |P<sub>VO1</sub>    | V<sub>OUT1</sub> power draw   |       |       |  W    |
 |P<sub>VO2</sub>    | V<sub>OUT2</sub> power draw   |       |       |  W    |
-|T<sub>amb</sub>    | Operating ambient temperature |       |       | °C    |
-|T<sub>stg</sub>    | Storage temperature           |       |       | °C    |
+|T<sub>amb</sub>    | Operating ambient temperature | -40   |  85   | °C    |
+|T<sub>stg</sub>    | Storage temperature           | -40   |  125  | °C    |
 
 ### Electrostatic Discharge (ESD)
 
@@ -200,7 +200,7 @@ V<sub>CHG</sub> = 0V, V<sub>BAT</sub> = 3.7V unless specified
 
 |                   |                               | Min   | Max   | Unit  |
 |:------------------|:------------------------------|:------|:------|:------|
-|V<sub>CHG</sub>    | Charger supply voltage        |       |       |  V    |
+|V<sub>CHG</sub>    | Charger supply voltage        |  4.1  |  7.25 |  V    |
 |V<sub>BAT</sub>    | Battery input voltage         |       |       |  V    |
 |V<sub>BAT-CV</sub> | Charge constant voltage range |       |       |  V    |
 |I<sub>BAT-CC</sub> | Charge constant current range |       |       |  mA   |
@@ -208,8 +208,8 @@ V<sub>CHG</sub> = 0V, V<sub>BAT</sub> = 3.7V unless specified
 |V<sub>VO1</sub>    | Configurable rail 1 current   |       |       |  mA   |
 |V<sub>VO2</sub>    | Configurable rail 2 V range   |       |       |  V    |
 |I<sub>VO2</sub>    | Configurable rail 2 current   |       |       |  mA   |
-|V<sub>ADC</sub>    | Usable ADC range              |       |       |  V    |
-|I<sub>IO</sub>     | GPIO/Bus current source/sink  |       |       |  mA   |
+|V<sub>ADC</sub>    | Usable ADC range              |       |  0.6  |  V    |
+|I<sub>IO</sub>     | GPIO/Bus current source/sink  |   1   |   4   |  mA   |
 |I<sub>sleep</sub>  | Sleep mode current            |       |       |  mA   |
 |I<sub>RF-TX</sub>  | RF TX mode current            |       |       |  mA   |
 |I<sub>RF-RX</sub>  | RF RX mode current            |       |       |  mA   |
