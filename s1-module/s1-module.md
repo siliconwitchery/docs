@@ -109,7 +109,7 @@ The device hardare design is open source and is licensed under a [Creative Commo
 
 ### Programming Interface
 
-The S1 Module comes pre-programmed with the [SuperStack]() Runtime so do not need factory programming if a custom Bluetooth application is not required.
+<mark>The S1 Module comes pre-programmed with the [SuperStack]() Runtime so do not need factory programming if a custom Bluetooth application is not required.
 
 However it is possible to program or re-program the S1 module via the exposed programming pins.
 
@@ -130,6 +130,11 @@ However it is possible to program or re-program the S1 module via the exposed pr
 ## FPGA
 
 ### Programming Interface
+The FPGA bitstream is written to the onboard flash using the nRF chip. The makefile handles this in the [S1 Blinky](https://github.com/siliconwitchery/s1-blinky-demo), and can be invoked as:
+```
+make build-verilog NRF_SDK_PATH=path_to_nrf5sdk GNU_INSTALL_ROOT=path_to_gcc
+```
+Alternately, you can use the configured tasks on VSCode. Note that the FPGA bitstream cannot be uploaded in an application using Softdevice, due to flash size constraints. See [S1 ECG Demo](https://github.com/siliconwitchery/s1-ecg-demo) for an example of Softdevice usage.
 
 ### Auto-Boot
 
@@ -138,6 +143,15 @@ However it is possible to program or re-program the S1 module via the exposed pr
 ### Power Options
 
 ### Recommended Tools & Software
+
+- [yosys](https://yosyshq.net/yosys/download.html), [icestorm & NextPNR](http://www.clifford.at/icestorm/).
+- Optionally [gtkwave](http://gtkwave.sourceforge.net) and [iVerilog](http://iverilog.icarus.com) are useful for simulation and verification.
+
+MacOS - We recommend using [homebrew](https://brew.sh) along with our [brew formula](https://github.com/siliconwitchery/homebrew-oss-fpga) to install everything.
+
+Windows - Most of these tools are available as installers, but some of them might need Cygwin or similar. It's best to Google how to do this, and we will update this page once we've tested it.
+
+Linux - Most of these tools are available from standard package managers, but you can build them for source quite easily.
 
 
 
