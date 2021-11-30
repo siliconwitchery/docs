@@ -134,7 +134,7 @@ The FPGA bitstream is written to the onboard flash using the nRF chip. The makef
 ```
 make build-verilog NRF_SDK_PATH=path_to_nrf5sdk GNU_INSTALL_ROOT=path_to_gcc
 ```
-Alternately, you can use the configured tasks on VSCode. Note that the FPGA bitstream cannot be uploaded in an application using Softdevice, due to flash size constraints. See [S1 ECG Demo](https://github.com/siliconwitchery/s1-ecg-demo) for an example of Softdevice usage.
+Alternately, you can use the configured tasks on VSCode. Note that the FPGA bitstream cannot be uploaded in an application using Softdevice, due to flash size constraints.
 
 ### Auto-Boot
 
@@ -165,9 +165,15 @@ Linux - Most of these tools are available from standard package managers, but yo
 
 ## Power Management
 
+The S1 Module comes with a MAX77654 power management IC, with a buck-boost regulated outputs and a built-in LDO. The PMIC interfaces with the nRF52811 over I2C and a ADC line for battery monitoring.
+
 ### How to not Blow Up the Module
+We recommend you use the helper functions from the [s1-sdk](https://github.com/siliconwitchery/s1-sdk). However, if you wish to manually modify PMIC settings, ensure that:
+- FPGA core voltage is at 1.1V
+- nRF voltage is at 1.8V (limited by flash chip)
 
 ### Battery Charging
+which regs enable battery charging
 
 ### Buck-Boost Supplies
 
@@ -210,14 +216,14 @@ V<sub>CHG</sub> = 0V, V<sub>BAT</sub> = 3.7V unless specified
 
 \* lab measured values
 
-### DC Characteristics & Power Consumption
+### DC Characteristics & Power Consumption TODO
 
 |                   |                               | Min   | Max   | Unit  |
 |:------------------|:------------------------------|:------|:------|:------|
 |V<sub>CHG</sub>    | Charger supply voltage        |  4.1  |  7.25 |  V    |
-|V<sub>BAT</sub>    | Battery input voltage         |       |       |  V    |
-|V<sub>BAT-CV</sub> | Charge constant voltage range |       |       |  V    |
-|I<sub>BAT-CC</sub> | Charge constant current range |       |       |  mA   |
+|V<sub>BAT</sub>    | Battery input voltage         |  3.6  |  4.6  |  V    |
+|V<sub>BAT-CV</sub> | Charge constant voltage range |  3.6  |  4.6   |  V    |
+|I<sub>BAT-CC</sub> | Charge constant current range | 7.5   |  300  |  mA   |
 |V<sub>VO1</sub>    | Configurable rail 1 V range   |       |       |  V    |
 |V<sub>VO1</sub>    | Configurable rail 1 current   |       |       |  mA   |
 |V<sub>VO2</sub>    | Configurable rail 2 V range   |       |       |  V    |
@@ -242,9 +248,13 @@ V<sub>CHG</sub> = 0V, V<sub>BAT</sub> = 3.7V unless specified
 
 ## Footprint & Layout
 
+![S1 Module Footprint](/s1-module/images/s1-footprint.png)
+![S1 Module Pads](/s1-module/images/s1-pad-dim.png)
+
 ### PCB Footprint Guide
 
 ### Antenna Considerations
+The antenna should ideally be placed on the host PCB’s longest edge at the centre. Where the centre is not a viable option, the antenna can be placed offset on the PCB to within  the  limits  shown  below.  A  minimum  of  6mm  from  either  PCB  edge should  be observed. Where possible this distance should be greater than 6mm.
 
 ### Mechanical Drawing
 
