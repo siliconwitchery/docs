@@ -92,14 +92,14 @@ The device hardare design is open source and is licensed under a [Creative Commo
 |           2            |        USBN         |    IO     | USB data – signal. May be used as general purpose complementary IO. |
 |           5            |        USBP         |    IO     | USB data + signal. May be used as general purpose complementary IO. |
 | 2, 3, 4, 5, 6, 7, 8, 9 |       D1 - D8       |    IO     | General purpose IO pins directly connected to the FPGA. Signal voltage range is set internally to the V<sub>IO</sub> pin. |
-|           10           |   V<sub>CHG</sub>   |     I     | Main power input                                             |
-|           11           |  V<sub>BATT</sub>   |    IO     |                                                              |
-|           12           |   V<sub>AUX</sub>   |     O     |                                                              |
-|           13           |   V<sub>IO</sub>    |     O     |                                                              |
-|         15, 16         |     ADC1, ADC2      |   I(O*)   |                                                              |
-|           17           | V<sub>nRF/ADC</sub> |     O     |                                                              |
-|           18           |        SWDIO        |    IO     |                                                              |
-|           19           |       SWDCLK        |     I     |                                                              |
+|           10           |   V<sub>CHG</sub>   |     I     | Main power input.                                            |
+|           11           |  V<sub>BATT</sub>   |    IO     | Battery terminal pin. Supports cell voltages from 3.6-4.6V.  |
+|           12           |   V<sub>AUX</sub>   |     O     | Configurable buck-boost converter output rail.               |
+|           13           |   V<sub>IO</sub>    |     O     | Configurable low-dropout regulator output rail.              |
+|         15, 16         |     ADC1, ADC2      |   I(O*)   | AD converter pins connected to the nRF chip.                 |
+|           17           | V<sub>nRF/ADC</sub> |     O     | Reference voltage of nRF chip.                               |
+|           18           |        SWDIO        |    IO     | Serial Wire Debug I/O.                                       |
+|           19           |       SWDCLK        |     I     | Serial Wire Debug clock.                                     |
 
 
 
@@ -115,17 +115,16 @@ However it is possible to program or re-program the S1 module via the exposed pr
 
 ![S1 Module JLINK Connection Diagram]({{ site.baseurl }}{% link s1-module/images/s1-jlink-pinout.png %})
 
+### Firmware Information
+
+Check out the [s1-sdk](https://github.com/siliconwitchery/s1-sdk) for toolchain setup and usage information. We also have some example projects at [S1 Blinky Demo](https://github.com/siliconwitchery/s1-blinky-demo) and [S1 ECG Demo](https://github.com/siliconwitchery/s1-ecg-demo) to help you get started.
+
 ### ADC
 
 ### FPGA & Flash Storage Interface
 
 ### Power Options
 
-### Recommended Tools & Software
-
-
-
----
 
 ## FPGA
 
@@ -134,26 +133,16 @@ The FPGA bitstream is written to the onboard flash using the nRF chip. The makef
 ```
 make build-verilog NRF_SDK_PATH=path_to_nrf5sdk GNU_INSTALL_ROOT=path_to_gcc
 ```
-Alternately, you can use the configured tasks on VSCode. Note that the FPGA bitstream cannot be uploaded in an application using Softdevice, due to flash size constraints.
+Alternately, you can use the configured tasks on VSCode. Note that the FPGA bitstream cannot be currently uploaded in an application using Softdevice, due to flash size constraints.
+
 
 ### Auto-Boot
+boot process
+// lattice application note SYSCONFIG
 
 ### IO
 
 ### Power Options
-
-### Recommended Tools & Software
-
-- [yosys](https://yosyshq.net/yosys/download.html), [icestorm & NextPNR](http://www.clifford.at/icestorm/).
-- Optionally [gtkwave](http://gtkwave.sourceforge.net) and [iVerilog](http://iverilog.icarus.com) are useful for simulation and verification.
-
-MacOS - We recommend using [homebrew](https://brew.sh) along with our [brew formula](https://github.com/siliconwitchery/homebrew-oss-fpga) to install everything.
-
-Windows - Most of these tools are available as installers, but some of them might need Cygwin or similar. It's best to Google how to do this, and we will update this page once we've tested it.
-
-Linux - Most of these tools are available from standard package managers, but you can build them for source quite easily.
-
-
 
 ---
 
@@ -173,7 +162,6 @@ We recommend you use the helper functions from the [s1-sdk](https://github.com/s
 - nRF voltage is at 1.8V (limited by flash chip)
 
 ### Battery Charging
-which regs enable battery charging
 
 ### Buck-Boost Supplies
 
@@ -185,30 +173,31 @@ which regs enable battery charging
 
 ### Absolute Maximum Ratings
 
-|                   |                               | Min   | Max   | Unit  |
+| Symbol            | Parameter                     | Min   | Max   | Unit  |
 |:------------------|:------------------------------|:------|:------|:------|
 |V<sub>CHG-MAX</sub>| Charge input terminal voltage | -0.3  |  30   |  V    |
 |V<sub>BAT-MAX</sub>| Battery terminal voltage      | -0.3  |   6   |  V    |
-|V<sub>IO-MAX</sub> | Bus/GPIO voltage              | -0.3  |  2.1  |  V    |
+|V<sub>IO-MAX</sub> | Bus/GPIO voltage to FPGA      | -0.5  |  3.6  |  V    |
 |V<sub>ADC-MAX</sub>| ADC voltage                   | -0.3  |  2.1  |  V    |
-|P<sub>VO1</sub>    | V<sub>OUT1</sub> power draw   |       |       |  W    |
-|P<sub>VO2</sub>    | V<sub>OUT2</sub> power draw   |       |       |  W    |
+|P<sub>Vio</sub>    | V<sub>Vio</sub> power draw <mark> not mentioned   |       |       |  W    |
+|P<sub>Vaux</sub>    | V<sub>Vaux</sub> power draw <mark> not mentioned   |       |       |  W    |
 |T<sub>amb</sub>    | Operating ambient temperature | -40   |  85   | °C    |
 |T<sub>stg</sub>    | Storage temperature           | -40   |  125  | °C    |
 
-### Electrostatic Discharge (ESD)
+### Electrostatic Discharge (ESD) *
 
-|                   |                               | Value | Unit  |
-|:------------------|:------------------------------|:------|:------|
-|V<sub>ESD-HBM</sub>| ESD - Human body model        |       |  V    |
-|V<sub>ESD-CDM</sub>| ESD - Charged device model    |       |  V    |
+| Symbol             | Parameter                     | Value | Unit  |
+|:-------------------|:------------------------------|:------|:------|
+|V<sub>ESD-HBM</sub> | ESD - Human body model        |   2   |  kV   |
+|V<sub>ESD-CDM</sub> | ESD - Charged device model    |   1   |  kV   |
 
+\* values for nRF52811, FPGA ESD data available on demand from Lattice Semiconductor
 
 ### Thermal Information
 
 V<sub>CHG</sub> = 0V, V<sub>BAT</sub> = 3.7V unless specified
 
-|                   |                               | Value | Unit  |
+| Symbol            | Parameter                     | Value | Unit  |
 |:------------------|:------------------------------|:------|:------|
 |T<sub>RF</sub>| 1Mbps cont. TX radio temperature * |       |  °C   |
 |T<sub>RF+FPGA</sub>| Full speed FPGA temperature * |       |  °C   |
@@ -216,32 +205,36 @@ V<sub>CHG</sub> = 0V, V<sub>BAT</sub> = 3.7V unless specified
 
 \* lab measured values
 
-### DC Characteristics & Power Consumption TODO
+### DC Characteristics & Power Consumption
 
-|                   |                               | Min   | Max   | Unit  |
+| Symbol            | Parameter                     | Min   | Max   | Unit  |
 |:------------------|:------------------------------|:------|:------|:------|
 |V<sub>CHG</sub>    | Charger supply voltage        |  4.1  |  7.25 |  V    |
 |V<sub>BAT</sub>    | Battery input voltage         |  3.6  |  4.6  |  V    |
-|V<sub>BAT-CV</sub> | Charge constant voltage range |  3.6  |  4.6   |  V    |
+|V<sub>BAT-CV</sub> | Charge constant voltage range |  3.6  |  4.6  |  V    |
 |I<sub>BAT-CC</sub> | Charge constant current range | 7.5   |  300  |  mA   |
-|V<sub>VO1</sub>    | Configurable rail 1 V range   |       |       |  V    |
-|V<sub>VO1</sub>    | Configurable rail 1 current   |       |       |  mA   |
-|V<sub>VO2</sub>    | Configurable rail 2 V range   |       |       |  V    |
-|I<sub>VO2</sub>    | Configurable rail 2 current   |       |       |  mA   |
-|V<sub>ADC</sub>    | Usable ADC range              |       |  0.6  |  V    |
+|V<sub>Vio</sub> *  | Configurable rail 1 V range   |  0.8  | 3.975 |  V    |
+|V<sub>Vio</sub> ** | Configurable rail 1 current   |   -   | 50    |  mA   |
+|V<sub>Vaux</sub>   | Configurable rail 2 V range     |  0.8  | 5.5  |  V    |
+|I<sub>Vaux</sub>   | Configurable rail 2 max current |  335  | 1000 |  mA   |
+|V<sub>ADC</sub>    | ADC internal voltage reference  |   -   |  0.6  |  V    |
 |I<sub>IO</sub>     | GPIO/Bus current source/sink  |   1   |   4   |  mA   |
 |I<sub>sleep</sub>  | Sleep mode current            |       |       |  mA   |
-|I<sub>RF-TX</sub>  | RF TX mode current            |       |       |  mA   |
+|I<sub>RF-TX</sub>  | RF TX mode current generic option            |       |       |  mA   |
 |I<sub>RF-RX</sub>  | RF RX mode current            |       |       |  mA   |
 |I<sub>FPGA</sub>   | FPGA active current           |       |       |  mA   |
 
+\* for V<sub>Vio</sub> > V<sub>Vaux</sub> + 0.5V \
+\** for V<sub>Vaux</sub> = 1.8V \
+See [MAX77654 datasheet](https://datasheets.maximintegrated.com/en/ds/MAX77654.pdf) for more information.
+
 ### RF Characteristics 
 
-|                   |                               | Value | Unit  |
+| Symbol            | Parameter                     | Value | Unit  |
 |:------------------|:------------------------------|:------|:------|
-|V<sub>ESD-HBM</sub>| Max transmit power            | +4    |  dBm  |
-|V<sub>ESD-CDM</sub>| Receive sensitivity           | -96   |  dBm  |
-|V<sub>ESD-CDM</sub>| Whip antenna gain             | 3     |  dBi  |
+|P<sub>ESD-HBM</sub>| Max transmit power            | +4    |  dBm  |
+|P<sub>ESD-CDM</sub>| Receive sensitivity           | -96   |  dBm  |
+|A<sub>antenna</sub>| Whip antenna gain             | 3     |  dBi  |
 
 
 ---
@@ -249,22 +242,14 @@ V<sub>CHG</sub> = 0V, V<sub>BAT</sub> = 3.7V unless specified
 ## Footprint & Layout
 
 ![S1 Module Footprint](/s1-module/images/s1-footprint.png)
-![S1 Module Pads](/s1-module/images/s1-pad-dim.png)
 
-### PCB Footprint Guide
+### PCB Considerations
 
-### Antenna Considerations
-The antenna should ideally be placed on the host PCB’s longest edge at the centre. Where the centre is not a viable option, the antenna can be placed offset on the PCB to within  the  limits  shown  below.  A  minimum  of  6mm  from  either  PCB  edge should  be observed. Where possible this distance should be greater than 6mm.
+The antenna performance is improved with a bigger ground plane around it, however the area below the S1 module needs to be cutout as shown above. The antenna should ideally be placed on the host PCB’s longest edge at the centre. Where the centre is not a viable option, the antenna can be placed offset on the PCB with a  distance >6mm  from  either  PCB  edge.
 
 ### Mechanical Drawing
 
----
-
-## Firmware Information
-
-
-
----
+![S1 Mechanical Drawing](/s1-module/images/s1-mechanical.png)
 
 ## Ordering Information
 
@@ -272,4 +257,5 @@ The antenna should ideally be placed on the host PCB’s longest edge at the cen
 
 ---
 
-## Schematics & PCB Design
+## Schematics
+![S1 Module Schematic](/s1-module/images/s1-schematic.png)
