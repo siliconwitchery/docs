@@ -16,7 +16,7 @@ Integrated Bluetooth, FPGA & battery management all in one tiny form factor.
 
 [![Silicon Witchery S1 Module](/images/annotated-module.png)](/s1-module/s1-module)
 
-[Datasheet](s1-module/s1-module){: .btn .btn-purple}
+[Datasheet](/s1-module/s1-module){: .btn .btn-purple}
 [SDK](https://github.com/siliconwitchery/s1-sdk){: .btn .btn-purple}
 [Order soon](#){: .btn}
 
