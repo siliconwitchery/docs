@@ -129,7 +129,7 @@ In order to boot the FPGA, the nRF must first load a binary onto the flash memor
 1. nRF brings the FPGA reset line HIGH.
 1. Once the nRF detects the FPGA CDONE pin goes high, then the FPGA is ready.
 
-Futher details of this process can be found in the [iCE40 Programming and Configuration Technical note](https://www.latticesemi.com/view_document?document_id=46502).
+Further details of this process can be found in the [iCE40 Programming and Configuration Technical note](https://www.latticesemi.com/view_document?document_id=46502).
 
 Once the flash is programmed, it remains so until erased. The nRF application can on power on check the flash contents and only update when needed. While the nRF can hold the entire FPGA application, it's recommended that this binary is downloaded dynamically over Bluetooth and saved directly to flash to save space for the user application and Bluetooth stack.
 
@@ -142,15 +142,37 @@ In order for direct communication between the FPGA and flash IC, the nRF must re
 
 ## Power management
 
-<mark>TODO update this
+All the internal devices of the S1 Module are powered from an ultra low power PMIC. This device contains a buck-boost convertor with three independent outputs, two LDOs, a lithium cell charger, as well as software control for adjusting many of their parameters.
 
-<mark>analog mux
+This device is I2C controlled from the nRF52 device which allow the user to dynamically adjust power requirements on they fly, and wirelessly if required.
+
+![S1 Module power internal management](/s1-module/images/s1-power-management.png)
+
+### Battery management
+
+A wide range of lithium technologies are supported. The integrated battery charger can be configured for charge regulation voltages between 3.6V and 4.6V, as well as charging currents between 7.4mA, and 300mA. Various timing and rate controls are available, details of which can be found within the MAX77654 datasheet.
+
+A battery voltage/current monitor output is also available for measuring battery consumption and discharge. It is internally routed to a third ADC pin on the nRF52.
+
+### Power rails
+
+The buck-boost rails can provide a total combined output current of 1A. The LDO is sourced from V<sub>AUX</sub> and can be used as either a low noise supply rail, or load switch.
+
+Each rail provides specific functions:
+
+- V<sub>nRF</sub> - Main supply rail for the nRF52 and flash IC. This rail is typically 1.8V and can be used to support external 1.8V circuits. It is also the nRF ADC reference voltage when the ADC is set to use the VDD reference.
+- V<sub>FPGA</sub> - Main supply rail for the FPGA core. This rail is typically 1.1V and is not externally exposed. It can be software controlled to totally shut down the FPGA if not required.
+- V<sub>AUX</sub> - User axuilary rail. Can be set between 0.8 and 5.5V for external use. It also powers the LDO which powers V<sub>IO</sub>.
+- V<sub>IO</sub> - This rail can either be used as a 100mA low noise LDO, or 100mA load switch. It also powers the FPGA IO bank for D1 - D8 so is limited to 3.6V.
+
+The PMIC is highly user configurable and full details can be found in the [MAX77654 datasheet](https://datasheets.maximintegrated.com/en/ds/MAX77654.pdf).
 
 ### Limitations
 
 In order to avoid damage to the internal components of the module. Some constraints must be kept on the following rails.
 
 - FPGA core voltage connected on **PMIC pin SBB1** must not exceed **1.42V**.
+- FPGA IO voltage connected on **PMIC pin LDO0** must not exceed **3.6V**.
 - nRF52 / flash IC voltage connected on **PMIC pin SBB2** must not exceed **2.4V**.
 
 ### Battery safety
@@ -234,15 +256,17 @@ Some of the operating characteristics are listed here, but may not reflect all c
 
 ## Schematics
 
-<mark>TODO update this
+The full schematics of the S1 Module is shown here. A PDF version is also available [here](/s1-module/images/s1-module-schematic-rev-5.pdf).
 
-![S1 Module Schematic](/s1-module/images/s1-schematic.png)
+![S1 Module Schematic](/s1-module/images/s1-module-schematic-rev-5.png)
 
 ## Footprint & layout
 
-<mark>TODO update this
+![S1 Module Footprint](/s1-module/images/s1-module-footprint-drawing.png)
 
-![S1 Module Footprint](/s1-module/images/s1-footprint.png)
+Module footprint is symmetrical left-to-right. Ensure soldermask is present between the pads to prevent shorting. 
+
+A cutout should be present on the carrier board to clear the passive components on the underside of the module.
 
 ### PCB considerations
 
@@ -260,9 +284,9 @@ In the case of highly integrated designs where the module must reside in a tight
 
 ### Mechanical drawing
 
-<mark>TODO update this
+![S1 Mechanical Drawing](/s1-module/images/s1-module-mechanical-drawing.png)
 
-![S1 Mechanical Drawing](/s1-module/images/s1-mechanical.png)
+Dimensions shown are in mm.
 
 ## Ordering information
 
