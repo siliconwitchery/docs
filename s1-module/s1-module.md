@@ -192,7 +192,7 @@ Precautions should be taken when developing software and changing configurations
 | V<sub>nRF-MAX</sub>     | V<sub>nRF</sub> terminal voltage            | -0.3 | 2.4                    | V               |
 | V<sub>FPGA-IO-MAX</sub> | Voltage on FPGA IO pins D1 - D8             | -0.5 | 3.6                    | V               |
 | V<sub>nRF-IO-MAX</sub>  | Voltage on ADC1, ADC2 and SWD pins          | -0.3 | V<sub>nRF</sub>+0.3    | V               |
-| I<sub>SYS</sub>         | Continuos current through module            | –    | 1.2                    | A<sub>RMS</sub> |
+| I<sub>SYS</sub>         | Continuous current through module           | –    | 1.2                    | A<sub>RMS</sub> |
 | T<sub>AMB-OP</sub>      | Operating temperature range                 | -40  | 85                     | °C              |
 | T<sub>AMB-STG</sub>     | Storage temperature range                   | -40  | 125                    | °C              |
 
@@ -235,7 +235,7 @@ Some of the operating characteristics are listed here, but may not reflect all c
 
 \*\* Range is limited to avoid damage to the nRF52, Flash and FPGA which uses the respective rails.
 
-\*\*\* I<sub>IO</sub> is a dependent on  V<sub>AUX</sub> voltage and current availability. See [MAX77654 datasheet](https://datasheets.maximintegrated.com/en/ds/MAX77654.pdf) for full details.
+\*\*\* I<sub>IO</sub> is dependent on  V<sub>AUX</sub> voltage and current availability. See [MAX77654 datasheet](https://datasheets.maximintegrated.com/en/ds/MAX77654.pdf) for full details.
 
 \*\*\*\* Up to 1A of peak current can be shared across all of the combined power rails. These include V<sub>AUX</sub>, V<sub>nRF</sub> as well as the internal FPGA rail.
 
