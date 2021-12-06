@@ -36,7 +36,7 @@ A low cost development kit to quickly get started with the S1 Module.
 
 ## S1 ECG Reference Kit
 
-An all-in-kit to build and test heart algorithms with ease.
+An all-in-one kit to build and test heart algorithms with ease.
 
 [![Silicon Witchery S1 ECG Reference Kit](/images/annotated-ecg-kit.png)](/s1-ecg-kit/s1-ecg-kit)
 
