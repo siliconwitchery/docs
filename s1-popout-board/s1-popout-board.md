@@ -10,7 +10,6 @@ last_modified_date: 21st October 2021, 03:51 PM
 {: .no_toc }
 {: .d-inline-block }
 Active
-Launching Q4
 {: .label .label-blue }
 
 The S1 Popout board is a straightforward development to help you get started with the [S1 Module](https://www.siliconwitchery.com/module).

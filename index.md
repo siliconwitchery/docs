@@ -1,5 +1,5 @@
 ---
-title: Welcome
+title: Welcome & Order
 description: Technical documentation for all Silicon Witchery products.
 nav_order: 1
 ---
