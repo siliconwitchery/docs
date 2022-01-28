@@ -18,7 +18,7 @@ Integrated Bluetooth, FPGA & battery management all in one tiny form factor.
 
 [Datasheet](/s1-module/s1-module){: .btn .btn-purple}
 [SDK](https://github.com/siliconwitchery/s1-sdk){: .btn .btn-purple}
-[Order soon](#){: .btn}
+[Order](https://www.digikey.com/en/products/detail/silicon-witchery/S1-MODULE/15926537){: .btn}
 
 ---
 
@@ -30,7 +30,7 @@ A low cost development kit to quickly get started with the S1 Module.
 
 [Get started](s1-popout-board/s1-popout-board){: .btn .btn-purple}
 [Design files](https://github.com/siliconwitchery/s1-popout-board){: .btn .btn-purple}
-[Order soon](#){: .btn}
+[Order](https://www.digikey.com/en/products/detail/silicon-witchery/S1-POPOUT-BOARD/15926536){: .btn}
 
 ---
 
@@ -42,7 +42,7 @@ An all-in-one kit to build and test heart algorithms with ease.
 
 [Get started](s1-ecg-kit/s1-ecg-kit){: .btn .btn-purple}
 [Design files & codebase](https://github.com/siliconwitchery/s1-ecg-demo){: .btn .btn-purple}
-[Order soon](#){: .btn}
+[Order](https://www.digikey.com/en/products/detail/silicon-witchery/S1-ECG-KIT/15926538){: .btn}
 
 ---
 

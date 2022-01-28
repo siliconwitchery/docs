@@ -9,7 +9,7 @@ last_modified_date: 21st October 2021, 03:51 PM
 # S1 ECG Kit
 {: .no_toc }
 {: .d-inline-block }
-Launching Q4
+Active
 {: .label .label-blue }
 
 A powerful analog frontend combined with the S1 Module makes this an all-in-one kit to deploy and test algorithms with ease. Be that for learning, research, or as the starting point for your next product.

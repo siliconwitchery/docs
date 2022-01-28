@@ -9,10 +9,10 @@ last_modified_date: December 5th 2021, 09:09 PM
 # S1 Module
 {: .no_toc }
 {: .d-inline-block }
-Launching Q4
+Active
 {: .label}
 
-![Silicon Witchery S1 Module](/images/annotated-module.png)
+![Silicon Witchery S1 Module](https://github.com/siliconwitchery/docs/raw/master/images/annotated-module.png)
 
 The S1 module combines Bluetooth, FPGA and power management into a single module. It's intended for low power applications where the flexibility of an FPGA is required, while still having the conveniences of a wireless microcontroller.
 
