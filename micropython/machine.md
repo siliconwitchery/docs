@@ -1,7 +1,7 @@
 ---
 title: machine
 description: machine class
-image: images/s1-micropython.png
+image: /images/annotated-micropython.png
 nav_order: 1
 parent: MicroPython
 last_modified_date: May 10th 2022, 06:27 PM

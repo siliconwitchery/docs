@@ -1,6 +1,7 @@
 ---
 title: Welcome & Order
 description: Technical documentation for all Silicon Witchery products.
+image: /images/annotated-module.png
 nav_order: 1
 ---
 

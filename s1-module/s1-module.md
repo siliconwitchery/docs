@@ -1,7 +1,7 @@
 ---
 title: S1 Module
 description: Hardware datasheet for the S1 Bluetooth-FPGA Module.
-image: images/annotated-module.png
+image: /images/annotated-module.png
 nav_order: 2
 last_modified_date: April 1st 2022, 04:16 PM
 ---
