@@ -10,7 +10,7 @@ last_modified_date: May 11th 2022, 07:00 PM
 # MicroPython on the S1 Module
 {: .no_toc }
 {: .d-inline-block }
-v1.18-386
+v1.18-387
 {: .label .label-blue }
 
 ---
