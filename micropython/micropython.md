@@ -4,13 +4,13 @@ description: MicroPython docs for the S1 Module series products
 image: images/s1-micropython.png
 nav_order: 5
 has_children: true
-last_modified_date: May 10th 2022, 06:27 PM
+last_modified_date: May 11th 2022, 07:00 PM
 ---
 
 # MicroPython on the S1 Module
 {: .no_toc }
 {: .d-inline-block }
-v1.18-382
+v1.18-386
 {: .label .label-blue }
 
 ---
@@ -40,7 +40,7 @@ while True:
 
 MicroPython works great on all of our S1 products. 
 
-1. Download the latest release from [here](#) 📁 <!-- TODO add link-->
+1. Download the latest `.hex` release from [here](https://github.com/siliconwitchery/micropython/releases) 📁 <!-- TODO add link-->
 
 1. You'll need a [J-Link compatible programmer](https://docs.siliconwitchery.com/s1-popout-board/s1-popout-board/#programming) and the [J-Link software](https://www.segger.com/downloads/jlink/) installed 
 
@@ -49,7 +49,7 @@ MicroPython works great on all of our S1 products.
 1. Flash the binary using the command
 
     ```bash
-    nrfjprog --program micropython-vxxx.hex --chiperase -f nrf52
+    nrfjprog --program micropython-s1-*.hex --chiperase -f nrf52 --verify -r
     ```
 
 1. Access MicroPython wirelessly using our [Web REPL](https://repl.siliconwitchery.com)
