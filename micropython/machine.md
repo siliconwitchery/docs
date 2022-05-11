@@ -57,7 +57,7 @@ help(machine)
 
 `machine.mac_address()`
 
-- Returns the 48bit MAC address as a 11 character hex *string*
+- Returns the 48bit MAC address as a 12 character hex *string*
 
 `machine.reset()`
 

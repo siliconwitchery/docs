@@ -97,7 +97,7 @@ help(PMIC)
 
 - If Vio is set to be in load switch mode, the Vaux rail will be limited to 3.45V
 
-`PMIC.vio_config(lsw=False, voltage)`
+`PMIC.vio_config(voltage, lsw=False)`
 
 - Configures the FPGA IO rail voltage, either in LDO mode, or load switch mode
 
@@ -116,7 +116,7 @@ help(PMIC)
 - Can be set between 0.8V or 3.45V in LDO mode
 
     ```python
-    PMIC.vio_config(lsw=False, 3.3) # Set Vio to regulate 3.3V in LDO mode
+    PMIC.vio_config(3.3, lsw=False) # Set Vio to regulate 3.3V in LDO mode
 
     PMIC.vio_config(3.3) # The same as above. lsw=False by default
     ```
@@ -124,7 +124,7 @@ help(PMIC)
 - Vio can also be configured as a load switch. In this mode the Vaux voltage is passed through directly to Vio. In this case, Vaux must not exceed 3.45V
 
     ```python
-    PMIC.vio_config(lsw=True, True) # Turn on the load switch (pass Vaux to Vio)
+    PMIC.vio_config(True, lsw=True) # Turn on the load switch (pass Vaux to Vio)
     
-    PMIC.vio_config(lsw=True, False) # Turn off the load switch
+    PMIC.vio_config(False, lsw=True) # Turn off the load switch
     ```
