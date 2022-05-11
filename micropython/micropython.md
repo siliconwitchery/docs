@@ -1,7 +1,7 @@
 ---
 title: MicroPython
 description: MicroPython docs for the S1 Module series products
-image: images/s1-micropython.png
+image: /images/s1-micropython.png
 nav_order: 5
 has_children: true
 last_modified_date: May 11th 2022, 07:00 PM
