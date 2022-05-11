@@ -92,4 +92,12 @@ MicroPython works great on all of our S1 products.
     help(Pin)
     ```
 
-1. That's it! For the full list of classes and methods, check out the pages below. Happy tinkering!
+## Improvements
+
+Spotted something? Feel free to report any bugs you find, and suggest improvements. We're always willing to improve things.
+
+Submit an issue to our [GitHub](https://github.com/siliconwitchery/micropython/issues) or [contact us](mailto:info@siliconwitchery.com?subject=MicroPython) if something is unclear.
+
+---
+
+That's it! For the full list of classes and methods, check out the pages below. Happy tinkering!
