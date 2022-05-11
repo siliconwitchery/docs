@@ -11,13 +11,13 @@ last_modified_date: May 10th 2022, 06:27 PM
 
 ---
 
-The `machine.Flash` class contains all of the classes and methods to read and write to the flash IC. Import it with:
+The `machine.Flash` class contains all of the functions to read and write to the flash IC. Import it using
 
 ```python
 from machine import Flash
 ```
 
-To see what's contained inside the class you can use the `help()` command:
+To see what's contained inside the class you can use the `help()` command
 
 ```python
 help(Flash)
@@ -29,20 +29,20 @@ help(Flash)
 
 `Flash.sleep()`
 
-- Puts the flash IC into deep sleep for saving power.
+- Puts the flash IC into deep sleep for saving power
 
-- The flash will automatically be woken up if one of the other flash operations are called.
+- The flash IC will automatically be woken up if any of the flash operations below are called
 
 `Flash.erase(blockNum)`
 
-- Erases a 4k block from the flash IC:
+- Erases a 4kB block from the flash IC
     
     ```python
     Flash.erase(0) # Erase block 0
     Flash.erase(5) # Erase block 5
     ```
 
-- If no block number is given, the chip is fully erased. This can take a while:
+- If no block number is given, the chip is fully erased. This can take a while
 
     ```python
     Flash.erase() # Full chip erase can take up to 80 seconds
@@ -50,7 +50,7 @@ help(Flash)
 
 `Flash.read(pageNum, rxBuffer)`
 
-- Reads the flash from the page number provided. Each page is 256 bytes long, therefore up to 256 bytes can be read at a time:
+- Reads the flash from the page number provided. Each page is 256 bytes long, therefore up to 256 bytes can be read at a time
 
     ```python
     rx = bytearray(256)
@@ -58,12 +58,12 @@ help(Flash)
 
     # Shorter amounts can also be read using a smaller buffer
     rx = bytearray(10)
-    Flash.read(10, rx) # Read 10 bytes from page 10
+    Flash.read(4, rx) # Read 10 bytes from page 4
     ```
 
 `Flash.write(pageNum, txBuffer)`
 
-- Writes to the flash to the page number provided. Each page is 256 bytes long, therefore up to 256 bytes can be written at a time:
+- Writes to the flash at the page number provided. Each page is 256 bytes long, therefore up to 256 bytes can be written at a time
 
     ```python
     tx = bytearray(256)
@@ -73,5 +73,5 @@ help(Flash)
     
     Flash.write(0, tx) # Write 256 bytes to page 0
     
-    #Again, smaller amounts can also be written
+    # Again, smaller amounts can also be written
     ```

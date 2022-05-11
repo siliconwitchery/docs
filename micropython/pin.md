@@ -7,17 +7,17 @@ parent: MicroPython
 last_modified_date: May 10th 2022, 06:27 PM
 ---
 
-# `machine.Pin` – Functions to control the nRF GPIO
+# `machine.Pin` – Functions to control the nRF GPIO pins
 
 ---
 
-The `machine.Pin` class contains all of the classes and methods to control the nRF52 GPIO. Import it with:
+The `machine.Pin` class contains all of the functions to control the nRF52 GPIO. Import it using
 
 ```python
 from machine import Pin
 ```
 
-To see what's contained inside the class you can use the `help()` command:
+To see what's contained inside the class you can use the `help()` command
 
 ```python
 help(Pin)
@@ -29,15 +29,15 @@ help(Pin)
 
 `class machine.Pin(pin, mode=IN, pull=PULL_DISABLED, drive=S0S1)`
 
-- The S1 module breaks out two nRF GPIO pins. `PIN_A1` and `PIN_A2`. These can be configured as inputs, outputs, interrupts, or ADC inputs (see the ADC class for more info).
+- The S1 Module breaks out two nRF52 GPIO pins. `PIN_A1` and `PIN_A2`. These can be configured as inputs, outputs, interrupts, or ADC inputs *(see the ADC class for more info about how to use the pins as ADC inputs)*
 
-- To initialize a pin, call the `Pin` constructor:
+- To initialize a pin, call the `Pin` constructor
 
     ```python
     myPin = Pin(Pin.PIN_A1, mode=Pin.OUT, pull=Pin.PULL_DISABLED, drive=Pin.S0H1)
     ```
 
-- To view the current configuration, you can simply print the object:
+- To view the current configuration, you can simply print the object
 
     ```python
     myPin
@@ -45,18 +45,18 @@ help(Pin)
     Pin(Pin.PIN_A1, mode=OUT, pull=PULL_DISABLED)
     ```
 
-- Various options can be provided when setting up the pin:
+- Various options can be provided when setting up the pin
 
     | mode | |
     |---|---|
-    | `IN` | Pin is input. **Default** |
-    | `OUT` | Pin is output |
+    | `IN` | Pin will be an input. **Default** |
+    | `OUT` | Pin will be an output |
 
     | pull | |
     |---|---|
-    | `PULL_DISABLED` | Internal pull resistor is disabled. **Default** |
+    | `PULL_DISABLED` | Internal pull resistor will be disabled. **Default** |
     | `PULL_UP` | Pin will be pulled up |
-    | `PULL_DOWN` | Pin will pulled down |
+    | `PULL_DOWN` | Pin will be pulled down |
 
     | drive | Drive strength only applicable in output mode |
     |---|---|
@@ -71,35 +71,32 @@ help(Pin)
 
 ## Functions
 
-`Pin.value(outputValue)`
+`Pin(outputValue)`
 
-- Gets or sets the pin value depending on the mode. The pin can also be called directly:
+- Gets or sets the pin value depending on the mode that is configured
 
     ```python
-    myPin.value() # Reads the value on the pin
-
-    myPin.value(1) # Sets the output of the pin if in output mode
-
-    myPin() # The same as calling myPin.value()
+    myPin() # Reads the value on the pin
+    myPin(True) # Sets the value of the pin if in output mode
     ```
 
 `Pin.irq(callback, trigger=IRQ_TOGGLE)`
 
-- Sets up an interrupt for a pin that's configured as an input. When a trigger is detected, MicroPython will run the callback provided:
+- Sets up an interrupt for a pin that's configured as an input. When a trigger is detected, MicroPython will run the callback provided
 
     ```python
     # First set up a callback
-    def myCallback(pin):
+    def myCallback():
         print("Do stuff")
 
-    # Set up a pin as input
+    # Set up a pin as an input
     myPin = Pin(Pin.PIN_A1, mode=Pin.IN, pull=Pin.PULL_DOWN)
 
-    #Set up the interrupt
+    # Set up the interrupt
     myPin.irq(myCallback, toggle=Pin.IRQ_RISING)
     ```
 
-- One of three trigger modes can be selected when enabling an interrupt:
+- One of three trigger modes can be selected when configuring an interrupt
 
     | trigger | |
     |---|---|
@@ -109,8 +106,10 @@ help(Pin)
 
 `Pin.irq_disable()`
 
-- Disables any interrupt set up on a pin:
+- Disables any interrupt set up for that pin
 
     ```python
     myPin.irq_disable()
+
+    ## myCallback will no longer trigger on a rising edge of PIN_A1
     ```
