@@ -29,7 +29,7 @@ A low cost development kit to quickly get started with the S1 Module.
 
 [![Silicon Witchery S1 Popout Board](/images/annotated-devkit.png)](/s1-popout-board/s1-popout-board)
 
-[Get started](s1-popout-board/s1-popout-board){: .btn .btn-purple}
+[Get started](/s1-popout-board/s1-popout-board){: .btn .btn-purple}
 [Design files](https://github.com/siliconwitchery/s1-popout-board){: .btn .btn-purple}
 [Order](https://www.digikey.com/en/products/detail/silicon-witchery/S1-POPOUT-BOARD/15926536){: .btn}
 
@@ -41,9 +41,20 @@ An all-in-one kit to build and test heart algorithms with ease.
 
 [![Silicon Witchery S1 ECG Reference Kit](/images/annotated-ecg-kit.png)](/s1-ecg-kit/s1-ecg-kit)
 
-[Get started](s1-ecg-kit/s1-ecg-kit){: .btn .btn-purple}
+[Get started](/s1-ecg-kit/s1-ecg-kit){: .btn .btn-purple}
 [Design files & codebase](https://github.com/siliconwitchery/s1-ecg-demo){: .btn .btn-purple}
 [Order](https://www.digikey.com/en/products/detail/silicon-witchery/S1-ECG-KIT/15926538){: .btn}
+
+---
+
+## MicroPython on the S1
+
+For those looking for something easier and faster to use than the C SDK. The S1 now supports MicroPython out of the box.
+
+[![Silicon Witchery S1 MicroPython](/images/annotated-micropython.png)](/micropython/micropython)
+[Get started](/micropython/micropython){: .btn .btn-purple}
+[Download](https://github.com/siliconwitchery/micropython/releases){: .btn .btn-purple}
+[Source code](https://github.com/siliconwitchery/micropython){: .btn}
 
 ---
 

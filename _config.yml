@@ -16,10 +16,12 @@ plugins:
 search_enabled: true
 aux_links_new_tab: true
 aux_links:
-  "Homepage":
-   - "https://www.siliconwitchery.com"
+  "YouTube":
+   - "https://www.youtube.com/channel/UCIThq9I8dlz9rRT46Q0q9qw"
   "GitHub":
    - "https://github.com/siliconwitchery"
+  "Homepage":
+   - "https://www.siliconwitchery.com"
 
 # Footer
 footer_content: "Copyright &copy; 2021 <a href=\"https://siliconwitchery.com\">Silicon Witchery AB</a> (<a href=\"https://github.com/siliconwitchery/website#privacy-policy\">Privacy policy</a>)"
