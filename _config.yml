@@ -24,7 +24,7 @@ aux_links:
    - "https://www.siliconwitchery.com"
 
 # Footer
-footer_content: "Copyright &copy; 2021 <a href=\"https://siliconwitchery.com\">Silicon Witchery AB</a> (<a href=\"https://github.com/siliconwitchery/website#privacy-policy\">Privacy policy</a>)"
+footer_content: "Copyright &copy; 2022 <a href=\"https://siliconwitchery.com\">Silicon Witchery AB</a> (<a href=\"https://github.com/siliconwitchery/website#privacy-policy\">Privacy policy</a>)"
 last_edit_timestamp: true
 last_edit_time_format: "%b %e %Y"
 timezone: Europe/Stockholm
