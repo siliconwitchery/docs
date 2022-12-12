@@ -3,7 +3,7 @@ title: S1 Module
 description: Hardware datasheet for the S1 Bluetooth-FPGA Module.
 image: /images/annotated-module.png
 nav_order: 2
-last_modified_date: April 1st 2022, 04:16 PM
+last_modified_date: December 12th 2022, 13:56 UTC
 ---
 
 # S1 Module
@@ -307,3 +307,5 @@ Purchasing parties agree to take responsibility that any delivered hardware, sof
 Silicon Witchery may hold back from delivering goods, services, or any other materials in its position, if it suspects they may be used outside the accordance of these Regulations.
 
 The Purchasing Parties agree to indemnify and hold harmless Silicon Witchery against any damages, costs, losses, and/or liabilities arising out of any non-compliance with Regulations.
+
+Copyright 2022 © Silicon Witchery.

@@ -3,7 +3,7 @@ title: S1 ECG Kit
 description: An all-in-kit to build and test heart algorithms with ease.
 image: /images/annotated-ecg-kit.png
 nav_order: 4
-last_modified_date: 21st October 2021, 03:51 PM
+last_modified_date: December 12th 2022, 13:56 UTC
 ---
 
 # S1 ECG Kit
@@ -168,30 +168,6 @@ Additionally, it has not been designed according to any standards in order to gu
 
 ## Licence
 
-**This design is released under the [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/) Licence.**
+Copyright 2022 © Silicon Witchery.
 
-This is a human-readable summary of (and not a substitute for) the [license](https://creativecommons.org/licenses/by/4.0/legalcode).
-
-### You are free to:
-{: .no_toc }
-
-**Share** — copy and redistribute the material in any medium or format
-
-**Adapt** — remix, transform, and build upon the material
-for any purpose, even commercially.
-
-The licensor cannot revoke these freedoms as long as you follow the license terms.
-
-### Under the following terms:
-{: .no_toc }
-
-**Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-
-**No additional restrictions** — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
-
-### Notices:
-{: .no_toc }
-
-You do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an applicable exception or limitation.
-
-No warranties are given. The license may not give you all of the permissions necessary for your intended use. For example, other rights such as publicity, privacy, or moral rights may limit how you use the material.
+This design is licenced under: [CERN Open Hardware Licence Version 2 - Permissive](https://ohwr.org/cern_ohl_p_v2.pdf).
