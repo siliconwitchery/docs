@@ -53,8 +53,8 @@ For those looking for something easier and faster to use than the C SDK. The S1 
 
 [![Silicon Witchery S1 MicroPython](/images/annotated-micropython.png)](/micropython/micropython)
 [Get started](/micropython/micropython){: .btn .btn-purple}
-[Download](https://github.com/siliconwitchery/micropython/releases){: .btn .btn-purple}
-[Source code](https://github.com/siliconwitchery/micropython){: .btn}
+[Download](https://github.com/siliconwitchery/s1-micropython/releases){: .btn .btn-purple}
+[Source code](https://github.com/siliconwitchery/s1-micropython){: .btn}
 
 ---
 
