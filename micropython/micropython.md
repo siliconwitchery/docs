@@ -40,7 +40,7 @@ while True:
 
 MicroPython works great on all of our S1 products. 
 
-1. Download the latest `.hex` release from [here](https://github.com/siliconwitchery/micropython/releases) 📁 <!-- TODO add link-->
+1. Download the latest `.hex` release from [here](https://github.com/siliconwitchery/s1-micropython/releases) 📁 <!-- TODO add link-->
 
 1. You'll need a [J-Link compatible programmer](https://docs.siliconwitchery.com/s1-popout-board/s1-popout-board/#programming) and the [J-Link software](https://www.segger.com/downloads/jlink/) installed 
 
@@ -96,7 +96,7 @@ MicroPython works great on all of our S1 products.
 
 Spotted something? Feel free to report any bugs you find, or suggest improvements. We're always willing to improve things.
 
-Submit an issue to our [GitHub](https://github.com/siliconwitchery/micropython/issues) or [contact us](mailto:info@siliconwitchery.com?subject=MicroPython) if something is unclear.
+Submit an issue to our [GitHub](https://github.com/siliconwitchery/s1-micropython/issues) or [contact us](mailto:info@siliconwitchery.com?subject=MicroPython) if something is unclear.
 
 ---
 
