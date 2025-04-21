@@ -12,7 +12,7 @@ redirect_from:
 {: .no_toc }
 {: .d-inline-block }
 Active
-{: .label}
+{: .label .label-blue }
 
 ![Silicon Witchery S1 Module](/assets/images/s1-module-annotated-masthead.png)
 
