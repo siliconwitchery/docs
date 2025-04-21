@@ -1,6 +1,6 @@
 # Site settings
 title: "Silicon Witchery Documentation Center"
-logo: "/title-logo.png"
+logo: "/assets/images/site-title.png"
 remote_theme: pmarsceill/just-the-docs
 description: "Technical documentation for all Silicon Witchery hardware and firmware products."
 permalink: pretty
@@ -9,6 +9,8 @@ url: "https://docs.siliconwitchery.com"
 
 # Plugins
 plugins:
+  - jekyll-include-cache
+  - jekyll-redirect-from
   - jekyll-seo-tag
   - jekyll-sitemap
 
@@ -24,10 +26,9 @@ aux_links:
    - "https://www.siliconwitchery.com"
 
 # Footer
-footer_content: "Copyright &copy; 2022 <a href=\"https://siliconwitchery.com\">Silicon Witchery AB</a> (<a href=\"https://github.com/siliconwitchery/website#privacy-policy\">Privacy policy</a>)"
+footer_content: "Copyright &copy; 2022-2025 <a href=\"https://siliconwitchery.com\">Silicon Witchery AB</a> (<a href=\"https://github.com/siliconwitchery/website#privacy-policy\">Privacy policy</a>)"
 last_edit_timestamp: true
 last_edit_time_format: "%b %e %Y"
-timezone: Europe/Stockholm
 
 # SEO settings
 twitter:
@@ -40,9 +41,8 @@ social:
     - https://www.linkedin.com/company/siliconwitchery/
     - https://github.com/siliconwitchery
 
-# Google analytics tracking
-ga_tracking: UA-162687810-2
-ga_tracking_anonymize_ip: true # Use GDPR compliant Google Analytics settings
+# Umami analytics settings
+umami_id: 64d2de71-75d2-42a7-a7c2-a870e1acd348
 
 # Optimizations
 compress_html:
@@ -52,3 +52,24 @@ compress_html:
   startings: []
   blanklines: false
   profile: false
+
+# Exclude files from being processed by Jekyll
+exclude:
+  # from https://github.com/jekyll/jekyll/blob/master/lib/site_template/_config.yml:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  # specific to this site:
+  - .gitignore
+  - CNAME
+  - "*.gemspec"
+  - "*.gem"
+  - LICENSE.md
+  - README.md
