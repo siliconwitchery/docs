@@ -18,12 +18,12 @@ plugins:
 search_enabled: true
 aux_links_new_tab: true
 aux_links:
+  "Homepage":
+   - "https://www.siliconwitchery.com"
   "YouTube":
    - "https://www.youtube.com/channel/UCIThq9I8dlz9rRT46Q0q9qw"
   "GitHub":
    - "https://github.com/siliconwitchery"
-  "Homepage":
-   - "https://www.siliconwitchery.com"
 
 # Footer
 footer_content: "Copyright &copy; 2022-2025 <a href=\"https://siliconwitchery.com\">Silicon Witchery AB</a> (<a href=\"https://github.com/siliconwitchery/website#privacy-policy\">Privacy policy</a>)"
@@ -43,6 +43,9 @@ social:
 
 # Umami analytics settings
 umami_id: 64d2de71-75d2-42a7-a7c2-a870e1acd348
+
+# Other settings
+enable_copy_code_button: true
 
 # Optimizations
 compress_html:
@@ -67,9 +70,9 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
   # specific to this site:
+  - .vscode/
+  - diagrams/
   - .gitignore
   - CNAME
-  - "*.gemspec"
-  - "*.gem"
   - LICENSE.md
   - README.md

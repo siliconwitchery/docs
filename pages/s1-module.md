@@ -1,9 +1,11 @@
 ---
 title: S1 Module
 description: Hardware datasheet for the S1 Bluetooth-FPGA Module.
-image: /images/annotated-module.png
-nav_order: 2
+image: /assets/images/s1-module-annotated-masthead.png
+nav_order: 4
 last_modified_date: December 12th 2022, 13:56 UTC
+redirect_from:
+  - /s1-module/s1-module/
 ---
 
 # S1 Module
@@ -12,7 +14,7 @@ last_modified_date: December 12th 2022, 13:56 UTC
 Active
 {: .label}
 
-![Silicon Witchery S1 Module](https://github.com/siliconwitchery/docs/raw/master/images/annotated-module.png)
+![Silicon Witchery S1 Module](/assets/images/s1-module-annotated-masthead.png)
 
 The S1 module combines Bluetooth, FPGA and power management into a single module. It's intended for low power applications where the flexibility of an FPGA is required, while still having the conveniences of a wireless microcontroller.
 
@@ -67,7 +69,7 @@ The S1 Module consists of four key devices:
 - 32-Mbit flash - [Adesto AT25SL321](https://www.mouser.se/datasheet/2/590/AT25SL321_112-1385816.pdf)
 <br>
 <br>
-![S1 Module Block Diagram](/s1-module/images/s1-block-diagram.png)
+![S1 Module Block Diagram](/assets/images/s1-module-block-diagram.png)
 
 The devices are fully supported internally including all RF, power and decoupling circuitry. Simply connecting a battery powers up the module and brings it into its normal operating mode.
 
@@ -75,7 +77,7 @@ It's recommended to study the [module schematics](#schematics) as well as the da
 
 ## Pinout
 
-![S1 Module pinout](/s1-module/images/s1-module-pinout.png)
+![S1 Module pinout](/assets/images/s1-module-pinout.png)
 
 | Pin Number | Signal                            | Direction | Description |
 | :--------: | :-------------------------------: | :-------: | ----------- |
@@ -92,7 +94,7 @@ It's recommended to study the [module schematics](#schematics) as well as the da
 | 18         | SWDIO                             | IO        | Serial wire debug IO for the ARM core of the nRF52. Should not exceed the V<sub>NRF</sub> voltage. |
 | 19         | SWDCLK                            | I         | Serial wire debug clock for the ARM core of the nRF52. Should not exceed the V<sub>NRF</sub> voltage. |
 
-Download and print out a [S1 Module reference card](/s1-module/images/s1-module-pinout-card.png).
+Download and print out a [S1 Module reference card](/assets/images/s1-module-pinout-card.png).
 
 ## Programming interface
 
@@ -100,13 +102,13 @@ Download and print out a [S1 Module reference card](/s1-module/images/s1-module-
 
 The module may be programmed after assembly through the SWD pins located on pins 18 and 19. Many ARM Cortex debuggers are suitable such as the [J-Link probes](https://www.segger.com/products/debug-probes/j-link/).
 
-![S1 Module JLINK connection diagram](/s1-module/images/s1-module-programming-interface.png)
+![S1 Module JLINK connection diagram](/assets/images/s1-module-programming-interface.png)
 
 Note, it is important that the interface voltage matches the voltage of the V<sub>nRF</sub> pin, otherwise the module may be damaged. Additionally, the module shouldn't be powered through the V<sub>nRF</sub> pin during programming, but rather through the V<sub>CHG</sub> or V<sub>BATT</sub> pins.
 
 It is also possible to program the module using a [Nordic nRF52 development kit](https://www.nordicsemi.com/Products/Development-hardware/nrf52-dk) which includes an integrated J-Link debugger. Further details of this method can be found [here](https://infocenter.nordicsemi.com/index.jsp?topic=%2Fug_nrf52832_dk%2FUG%2Fnrf52_DK%2Fintro.html).
 
-![Programming S1 Module using Nordic nRF development kit](/s1-popout-board/images/s1-nrfdk-wiring.jpg)
+![Programming S1 Module using Nordic nRF development kit](/assets/images/s1-popout-board-nrfdk-wiring.jpg)
 
 ### Programming the FPGA
 
@@ -116,7 +118,7 @@ The module does not expose the FPGA programming interface directly. It is intend
 
 The three devices are internally connected via SPI. The nRF52 controls overall communication flow, though communication is possible in any direction between the three devices. 
 
-![Internal communication bus of the S1 Module](/s1-module/images/s1-internal-spi-interface.png)
+![Internal communication bus of the S1 Module](/assets/images/s1-module-internal-spi-interface.png)
 
 In order to configure the FPGA with an application binary, the nRF52 must first load the binary onto the flash memory. After this, the FPGA will automatically use that binary after power cycling or resets. The procedure shown below describes this process.
 
@@ -144,7 +146,7 @@ All of the internal devices of the S1 Module are powered from an ultra low power
 
 The PMIC is I2C controlled from the nRF52 which allow the user to dynamically adjust power requirements on they fly.
 
-![S1 Module power internal management](/s1-module/images/s1-power-management.png)
+![S1 Module power internal management](/assets/images/s1-module-power-management.png)
 
 ### Battery management
 
@@ -254,13 +256,13 @@ Some of the operating characteristics are listed here, but may not reflect all c
 
 ## Schematics
 
-The full schematics of the S1 Module. A PDF version can be downloaded [here](/s1-module/images/s1-module-schematic-rev-5.pdf).
+The full schematics of the S1 Module. A PDF version can be downloaded [here](/assets/files/s1-module-schematic-rev-5.pdf).
 
-![S1 Module Schematic](/s1-module/images/s1-module-schematic-rev-5.png)
+![S1 Module Schematic](/assets/images/s1-module-schematic-rev-5.png)
 
 ## Footprint & layout
 
-![S1 Module Footprint](/s1-module/images/s1-module-footprint-drawing.png)
+![S1 Module Footprint](/assets/images/s1-module-footprint-drawing.png)
 
 Module footprint is symmetrical left-to-right. Ensure soldermask is present between the pads to prevent shorting. 
 
@@ -270,11 +272,11 @@ A cutout should be present on the carrier board to clear the passive components 
 
 To ensure good antenna performance, the antenna side of the module should be placed along the edge of the carrier PCB. A good ground connection should be made from pins 1 and 20 to the ground plane of the carrier PCB.
 
-![S1 Module antenna edge placement on PCB](/s1-module/images/s1-antenna-edge-placement.png)
+![S1 Module antenna edge placement on PCB](/assets/images/s1-module-antenna-edge-placement.png)
 
 The area directly below the antenna should not contain any ground pour or signal traces, however on either side of the antenna, a ground fill is recommended.
 
-![S1 Module antenna corner placement on PCB](/s1-module/images/s1-antenna-corner-clearance.png)
+![S1 Module antenna corner placement on PCB](/assets/images/s1-module-antenna-corner-clearance.png)
 
 When the module cannot be placed centered to the board edge, it may be placed offset from a corner by 6mm.
 
@@ -282,7 +284,7 @@ In the case of highly integrated designs where the module must reside in a tight
 
 ### Mechanical drawing
 
-![S1 Mechanical Drawing](/s1-module/images/s1-module-mechanical-drawing.png)
+![S1 Mechanical Drawing](/assets/images/s1-module-mechanical-drawing.png)
 
 Dimensions shown are in mm.
 
@@ -307,5 +309,3 @@ Purchasing parties agree to take responsibility that any delivered hardware, sof
 Silicon Witchery may hold back from delivering goods, services, or any other materials in its position, if it suspects they may be used outside the accordance of these Regulations.
 
 The Purchasing Parties agree to indemnify and hold harmless Silicon Witchery against any damages, costs, losses, and/or liabilities arising out of any non-compliance with Regulations.
-
-Copyright 2022 © Silicon Witchery.
