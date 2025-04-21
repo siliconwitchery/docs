@@ -84,7 +84,6 @@ exclude:
   - vendor/ruby/
   # specific to this site:
   - .vscode/
-  - diagrams/
   - .gitignore
   - CNAME
   - LICENSE.md
