@@ -151,9 +151,15 @@ For optimum GPS accuracy, the antenna should have line of sight to open sky.
 
 ## Power & battery interface
 
+![Silicon Witchery S2 Module power section](/assets/images/s2-module-power-interfaces-diagram.png)
+
 ## Programming
 
+![Silicon Witchery S2 Module programming interface](/assets/images/s2-module-programming-interface-diagram.png)
+
 ## Schematics
+
+![Silicon Witchery S2 Module Schematics](/assets/images/s2-module-schematics.png)
 
 ---
 
@@ -167,9 +173,15 @@ For optimum GPS accuracy, the antenna should have line of sight to open sky.
 
 ## Mechanical dimensions
 
+![Silicon Witchery S2 Module Mechanical Drawing](/assets/images/s2-module-mechanical-drawing.png)
+
 ## Antenna considerations
 
-## Packaging
+![Silicon Witchery S2 Module Antenna clearance](/assets/images/s2-module-antenna-clearance.png)
+
+## Labeling & part numbering
+
+![Silicon Witchery S2 Module Labeling & Part Numbering](/assets/images/s2-module-labeling-and-part-numbering.png)
 
 ## Compliance
 

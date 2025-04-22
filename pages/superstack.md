@@ -12,8 +12,6 @@ last_modified_date: April 21th 2025, 13:07 UTC
 In development
 {: .label .label-yellow }
 
-TODO: Tagline
-
 {: .note }
 This page is actively being updated. Information may change so be sure to check back frequently 
 
@@ -32,4 +30,28 @@ TODO: Blurb & feature-set
 {:toc}
 
 ---
+
+## Connecting your first module
+
+## Lua programming
+
+### Hardware library API
+
+### Networking library API
+
+### DSP library API
+
+## Working with data
+
+### Data API
+
+## Advanced AI usage
+
+### Natural language API
+
+## Managing devices & deployments
+
+### Un-pairing devices
+
+## Managing your subscription
 
