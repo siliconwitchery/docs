@@ -138,27 +138,27 @@ This class contains everything required to control the S1 Module.
 
 `machine.Pin` 
 
-- Functions related to the nRF GPIO pins. **See more info about the [Pin class](/micropython/pin)**
+- Functions related to the nRF GPIO pins. **See more info about the [Pin class](#machinepin--general-purpose-digital-io)**
 
 `machine.ADC`
     
-- Functions related to the nRF ADC. **See more info about the [ADC class](/micropython/adc)**
+- Functions related to the nRF ADC. **See more info about the [ADC class](#machineadc--analog-to-digital-convertor)**
 
 `machine.RTC`
 
-- Functions related to the real time clock and time functions. **See more info about the [RTC class](/micropython/rtc)**
+- Functions related to the real time clock and time functions. **See more info about the [RTC class](#machinertc--real-time-clock)**
 
 `machine.FPGA`
 
-- Functions related to the iCE40 FPGA. **See more info about the [FPGA class](/micropython/fpga)**
+- Functions related to the iCE40 FPGA. **See more info about the [FPGA class](#machinefpga--fpga-controller)**
 
 `machine.Flash`
 
-- Functions related to the 32 Mbit flash memory. **See more info about the [Flash class](/micropython/flash)**
+- Functions related to the 32 Mbit flash memory. **See more info about the [Flash class](#machineflash--flash-memory)**
 
 `machine.PMIC`
 
-- Functions related to S1 power and battery management IC. **See more info about the [PMIC class](/micropython/pmic)**
+- Functions related to S1 power and battery management IC. **See more info about the [PMIC class](#machinepmic--power-management)**
 
 #### Functions
 
