@@ -13,3 +13,7 @@ node_modules
 
 # VSCode files
 .vscode/settings.json
+
+# Draw.io temporary files
+assets/images/*.bkp
+assets/images/*.dtmp
