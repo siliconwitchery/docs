@@ -157,9 +157,9 @@ For optimum GPS accuracy, the antenna should have line of sight to open sky.
 
 ![Silicon Witchery S2 Module programming interface](/assets/images/s2-module-programming-interface-diagram.png)
 
-## Schematics
+## Schematic
 
-![Silicon Witchery S2 Module Schematics](/assets/images/s2-module-schematics.png)
+![Silicon Witchery S2 Module Schematics](/assets/images/s2-module-schematic.png)
 
 ---
 
