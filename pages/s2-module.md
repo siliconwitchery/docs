@@ -158,7 +158,7 @@ For optimum GPS accuracy, the antenna should have line of sight to open sky.
 
 ![Silicon Witchery S2 Module Antenna clearance](/assets/images/s2-module-antenna-clearance.png)
 
-### External antenna connectors
+### External antenna variant
 
 If the mounting requirements for the module within an installation make it difficult for the integrated antenna to receive good reception, then a variant of the module is available with external antenna connectors. This variant allows the module to be placed inside metal enclosures with antenna routed outside to achieve better reception.
 
@@ -170,7 +170,6 @@ Examples of external antennas are listed below:
 
 - LTE: [Pulse BTPA0061204G0C4Axx](https://www.mouser.se/datasheet/2/447/datasheet_btpa0061204g0c4axx_2321p_tds_draft_v01_2-3450051.pdf)
 - GPS: [Pulse ANTX100P001B15163](https://www.mouser.se/datasheet/2/447/An_PCB_GPS_ANTX100P001B15163_0-2932826.pdf)
-
 
 ## Power & battery interface
 
@@ -312,17 +311,32 @@ Ratings and characteristics of the module are listed below. For further details,
 
 ## Mechanical dimensions
 
+Dimensional drawings of the module are shown below
+
 ![Silicon Witchery S2 Module Mechanical Drawing](/assets/images/s2-module-mechanical-drawing.png)
 
-## Labeling & part numbering
+## Labeling
 
-![Silicon Witchery S2 Module Labeling & Part Numbering](/assets/images/s2-module-labeling-and-part-numbering.png)
+![Silicon Witchery S2 Module Labeling](/assets/images/s2-module-labeling.png)
+
+## Ordering information
+
+The S2 Module is available in the following SKUs
+
+| Description | Part number | Package quantity |
+|-------------|:-----------:|:----------------:|
+| S2 Module with integrated antenna          | S2-MODULE     | 1
+| S2 Module with external antenna connectors | S2-MODULE-EXT | 1
 
 ## Compliance
 
 ### Approved bands
 
+Approved bands for the nRF9151 SiP are listed within [Nordic's documentation](https://docs.nordicsemi.com/bundle/ps_nrf9151/page/regulatory_information.html)
+
 ### Type certifications
+
+Details pending
 
 ---
 
