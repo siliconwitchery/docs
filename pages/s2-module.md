@@ -101,7 +101,7 @@ The device exposes a range of I/O that can be used to connect external devices a
 
 A single button is included for easy setup and two status LEDs indicate network and power status at a glance.
 
-A multi-band antenna is included on the module supporting all the required LTE and GPS bands for global operation. A variant with [external antenna connectors](#external-antenna-connectors) is available for designs where the built in antenna is not suitable.
+A multi-band antenna is included on the module supporting all the required LTE and GPS bands for global operation. A variant with [external antenna connectors](#external-antenna-variant) is available for designs where the built in antenna is not suitable.
 
 ## Pinout
 
@@ -224,7 +224,7 @@ The USB-C input includes the proper negotiation with hosts to ensure the correct
 
 The external power port allows powering of the module from a DC voltage between 5 and 17V. Up to 1A may be drawn.
 
-Finally, power can also be provided via a single lithium polymer cell. Further details on cell specifications are shown in the [battery](#battery) section below.
+Finally, power can also be provided via a single lithium polymer cell. Further details on cell specifications are shown in the [battery charging](#battery-charger) section below, as well as the [electrical characteristic tables](#characteristics).
 
 ### Power outputs
 
