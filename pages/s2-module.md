@@ -3,7 +3,7 @@ title: S2 Module
 description: Hardware datasheet for the LTE-enabled S2 Module
 image: /assets/images/s2-module-annotated-masthead.png
 nav_order: 2
-last_modified_date: April 21th 2025, 13:07 UTC
+last_modified_date: April 21st 2025, 13:07 UTC
 ---
 
 # S2 Module
@@ -13,13 +13,13 @@ Preliminary
 {: .label .label-yellow }
 
 {: .note }
-This page is actively being updated. Information may change so be sure to check back frequently 
+This page is actively being updated. Information may change, so be sure to check back frequently.
 
 ---
 
 ![Silicon Witchery S2 Module](/assets/images/s2-module-annotated-masthead.png)
 
-The S2 is a production-ready IoT module built around an advanced ARM SiP with integrated LTE Cat-M1 connectivity. Featuring comprehensive I/O support (SPI, I2C, analog), built-in GNSS, and sophisticated power management with battery charging capabilities, it's designed for rapid deployment and remote development. The module comes pre-configured with a softsim and flexible data plan, eliminating cellular integration complexity. Engineers can program and debug directly over LTE using our Lua-based runtime environment, with all device management and updates handled through the Superstack platform – No local toolchain required.
+The S2 is a production-ready IoT module built around an advanced ARM SiP with integrated LTE Cat-M1 connectivity. Featuring comprehensive I/O support (SPI, I2C, analog), built-in GNSS, and sophisticated power management with battery charging capabilities, it's designed for rapid deployment and remote development. The module comes pre-configured with a softsim and flexible data plan, eliminating cellular integration complexity. Engineers can program and debug directly over LTE using our Lua-based runtime environment, with all device management and updates handled through the Superstack platform – no local toolchain required.
 
 ## Feature summary
 {: .no_toc}
@@ -97,7 +97,7 @@ The module includes all supporting circuitry such that no external hardware exce
 
 ![Silicon Witchery S2 Module Hardware Block Diagram](/assets/images/s2-module-block-diagram.drawio.svg)
 
-The device exposes a range of IO that can be used to connect external devices and features smart power management to run off either external power, or a single cell lithium polymer battery, saving power whenever possible. 
+The device exposes a range of I/O that can be used to connect external devices and features smart power management to run off either external power or a single-cell lithium polymer battery, saving power whenever possible.
 
 A single button is included for easy setup and two status LEDs indicate network and power status at a glance.
 
@@ -115,7 +115,7 @@ The bottom of the module additionally exposes the same IO as the physical connec
 
 ## Status LEDs & button
 
-The on board button is only used for initial pairing of the device with the cloud. Once paired, the button has no other functionality. This is to prevent tampering of the device when in the field. If needed, the device can later be unpaired from within Superstack, and then paired again to a different deployment using the button.
+The on-board button is only used for initial pairing of the device with the cloud. Once paired, the button has no other functionality. This is to prevent tampering with the device when in the field. If needed, the device can later be unpaired from within Superstack and then paired again to a different deployment using the button.
 
 The status LEDs meanwhile, indicate the networking and power status of the device throughout the lifetime of the application. 
 
@@ -140,7 +140,7 @@ The table below describes each of the LED states.
 
 ## LTE & GNSS connectivity
 
-The S2 Module ships with **LTE Cat-M1** enabled with support for the following bands: **1**, **2**, **3**, **4**, **5**, **12**, **13**, **17**, **18**, **19**, **20**, **25**, **26**, **28**, **65**, **66** and **85**.
+The S2 Module ships with **LTE Cat-M1** enabled with support for the following bands: **1**, **2**, **3**, **4**, **5**, **12**, **13**, **17**, **18**, **19**, **20**, **25**, **26**, **28**, **65**, **66**, and **85**.
 
 A softsim is pre-programmed into each module for included connectivity out of the box, where data allowance can be managed from inside the Superstack webapp.
 
@@ -246,7 +246,7 @@ The module two voltage outputs which can be used for powering external sensors o
 
 The module features charging from a single lithium cell at a configurable current from 32mA to 800mA. The charge termination voltage can also be configured from 3.5V to 4.45V. Higher capacity cells may be used, but will result in slower charge times.
 
-The module features thermal regulation such that if the ambient temperature is too high to safely charge the battery, the PMIC will throttle charge current to prevent damaging the cell. To ensure this feature works as expected, the cell must be placed against the module, and the designer should ensure to minimize any temperature differential between the cell and the module.
+The module features thermal regulation such that if the ambient temperature is too high to safely charge the battery, the PMIC will throttle the charge current to prevent damaging the cell. To ensure this feature works as expected, the cell must be placed against the module, and the designer should ensure to minimize any temperature differential between the cell and the module.
 
 
 ## Programming
@@ -259,7 +259,7 @@ If desired however, the module can be completely erased and a fully custom firmw
 
 ![Silicon Witchery S2 Module programming interface](/assets/images/s2-module-programming-interface-diagram.png)
 
-The S2 Module is compatible with [Tag-Connect TC2030-CTX](https://www.tag-connect.com/product/tc2030-ctx-6-pin-cable-for-arm-cortex) programming cables which can be used in conjunction with [Segger J-Link debug probes](https://www.segger.com/debug-trace-embedded-systems/) for firmware development and debugging.
+The S2 Module is compatible with [Tag-Connect TC2030-CTX](https://www.tag-connect.com/product/tc2030-ctx-6-pin-cable-for-arm-cortex) programming cables, which can be used in conjunction with [Segger J-Link debug probes](https://www.segger.com/debug-trace-embedded-systems/) for firmware development and debugging.
 
 ## Schematic
 
@@ -352,6 +352,8 @@ Dimensional drawings of the module are shown below
 
 ![Silicon Witchery S2 Module Labeling](/assets/images/s2-module-labeling.png)
 
+<!-- TODO more details around the IMEI labeling -->
+
 ## Ordering information
 
 The S2 Module is available in the following SKUs
@@ -369,13 +371,15 @@ Approved bands for the nRF9151 SiP are listed within [Nordic's documentation](ht
 
 ### Type certifications
 
-Details pending
+Details coming soon
+
+<!-- TODO -->
 
 ---
 
 ## Terms of purchase
 
-The S2 Module and related software or hardware have not been or approved for life sustaining or other applications where failure may cause harm to human life, health or damage to property or equipment. Additionally, they have not been designed according to any critical standards in order to guarantee performance or accuracy. No responsibility is assumed by Silicon Witchery for its use, nor for any infringements of patents or other rights of third parties that may result from its use. These specifications are subject to change without notice.
+The S2 Module and related software or hardware have not been or approved for life-sustaining or other applications where failure may cause harm to human life, health, or damage to property or equipment. Additionally, they have not been designed according to any critical standards in order to guarantee performance or accuracy. No responsibility is assumed by Silicon Witchery for its use, nor for any infringements of patents or other rights of third parties that may result from its use. These specifications are subject to change without notice.
 
 No liability is held by Silicon Witchery for any delay or failure in performance arising as a result of any occurrence beyond its reasonable control, including but not limited to, capacity constraints, accident, act of God, labour disputes, civil commotion, war, medical outbreak, unanticipated manufacturing problems, shortage of energy, raw materials or other supplies, requirements or acts of any government or agency thereof, including trade embargoes or medical quarantines, judicial action and/or failure or delays in transportation.
 

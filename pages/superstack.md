@@ -13,13 +13,13 @@ Preliminary
 {: .label .label-yellow }
 
 {: .note }
-This page is actively being updated. Information may change so be sure to check back frequently 
+This page is actively being updated. Information may change, so be sure to check back frequently.
 
 ---
 
 ![Silicon Witchery Superstack platform](/assets/images/superstack-annotated-masthead.png)
 
-Superstack is a cloud IoT platform that lets you deploy, program, and manage connected devices from anywhere. You can update firmware, monitor data in real time, and run AI-powered analytics, all through a secure web dashboard or API. Superstack handles connectivity, device onboarding, and fleet management, so you can focus on building your application. Its natural language query engine and easy business integration make it simple to turn raw device data into actionable insights at scale.
+Superstack is a cloud IoT platform that lets you deploy, program, and manage connected devices from anywhere. You can update firmware, monitor data in real-time, and run AI-powered analytics, all through a secure web dashboard or API. Superstack handles connectivity, device onboarding, and fleet management, so you can focus on building your application. Its natural language query engine and easy business integration make it simple to turn raw device data into actionable insights at scale.
 
 ---
 
@@ -49,11 +49,11 @@ In the meantime, the short video below describes the general setup, as well as o
 
 ## Lua programming & API
 
-All Superstack compatible devices including the [S2 Module](/pages/s2-module) run a unified firmware that includes the **Lua 5.4.7** runtime. A powerful yet simple scripting engine that can be picked up easily by new and seasoned programmers alike.
+All Superstack-compatible devices, including the [S2 Module](/pages/s2-module), run a unified firmware that includes the **Lua 5.4.7** runtime. A powerful yet simple scripting engine that can be picked up easily by new and seasoned programmers alike.
 
-This engine allows devices to be programmed remotely to run scripts that gather data from sensors, process and then return data to Superstack. All the exposed Lua functions are hardware accelerated under the hood, allowing for performance close to that of bare-metal in C.
+This engine allows devices to be programmed remotely to run scripts that gather data from sensors, process it, and then return data to Superstack. All the exposed Lua functions are hardware-accelerated under the hood, allowing for performance close to that of bare-metal in C.
 
-Thanks to this scriptable nature, applications can be iterated and debugged incredibly quickly without having to maintain any local development tools, or wait for compilations to complete. Best of all, this can all be done remotely, with devices that may be located across countries or continents.
+Thanks to this scriptable nature, applications can be iterated and debugged incredibly quickly without having to maintain any local development tools or wait for compilations to complete. Best of all, this can all be done remotely, with devices that may be located across countries or continents.
 
 ### Standard Lua libraries
 
@@ -74,7 +74,7 @@ Standard libraries which are not included are superseded by similar device speci
 
 ---
 
-The following device specific libraries allow access to all aspects of the device IO and feature set such as LTE based communication and GPS. Additionally some other libraries convenient functions for running DSP operations and type conversions are also included.
+The following device-specific libraries allow access to all aspects of the device I/O and feature set such as LTE-based communication and GPS. Additionally, some other libraries provide convenient functions for running DSP operations and type conversions.
 
 These functions may accept a combination of positional and named arguments. Named arguments are passed as tables which essentially expect key-value pairs. Most of these keys will take on a default value if not provided. These are marked as *optional*.
 
@@ -96,7 +96,7 @@ network.send{ sensor_value=31.5 }
 | `device.digital.set_output(pin, value)` | Sets or clears a digital output on a pin | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`value` - **boolean** - The level to set on the pin. `true` for high, or `false` for low | **nil**
 | `device.digital.get_input(pin)` | Gets the digital value on a pin | `pin` - **string** - The pin name. E.g. `"A0"` | **boolean** - `true` if the pin is high, or `false` if it's low
 | `device.digital.assign_input_event(pin, handler)` | Assigns an event handler that triggers whenever the input value of a pin changes | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`handler` - **function** - The function to call whenever the pin value changes. This function will be called with one argument of type **boolean** which represents the input value on that pin. `true` if high, or `false` if low | **nil**
-| `device.digital.unassign_input_event(pin)` | Removes any previously assigned event handler function attached to a pin         | `pin` - **string** - The pin name. E.g. `"A0"` | **nil**
+| `device.digital.unassign_input_event(pin)` | Removes any previously assigned event handler function attached to a pin | `pin` - **string** - The pin name. E.g. `"A0"` | **nil**
 
 Example usage:
 
@@ -124,7 +124,7 @@ device.digital.assign_input_event("C3", my_pin_handler)
 
 | Function | Description | Parameters | Returns |
 |----------|-------------|------------|---------|
-| `device.analog.get_input(pin, { acquisition_time=40, range=Vout })` | Reads the analog value on an analog capable pin | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`acquisition_time` *optional* - **integer** - A time in microseconds across to which to make the measurement. Can be either `3`, `5`, `10`, `15`, `20`, `40`, or multiples of 40 e.g. `80`, `120`, `160`, etc. Higher values allow for accurate measurement of greater source resistances. Those maximum resistances being 10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ and 800kΩ respectively, with 800kΩ being the maximum source resistance for acquisition times greater than 40 microseconds<br><br>`range` *optional* - **integer** - The maximum expected voltage for the input signal. Defaults to the same value as V<sub>OUT</sub>                                                                                                                             | **table** - A table containing two key value pairs. `voltage` a **number** representing the voltage on the pin, or `percentage` a **number** representing the real voltage represented as a percentage with respect to the range of 0V and the `range` value
+| `device.analog.get_input(pin, { acquisition_time=40, range=Vout })` | Reads the analog value on an analog-capable pin | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`acquisition_time` *optional* - **integer** - A time in microseconds across which to make the measurement. Can be either `3`, `5`, `10`, `15`, `20`, `40`, or multiples of 40 e.g. `80`, `120`, `160`, etc. Higher values allow for accurate measurement of greater source resistances. Those maximum resistances being 10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ and 800kΩ respectively, with 800kΩ being the maximum source resistance for acquisition times greater than 40 microseconds<br><br>`range` *optional* - **integer** - The maximum expected voltage for the input signal. Defaults to the same value as V<sub>OUT</sub> | **table** - A table containing two key-value pairs. `voltage` a **number** representing the voltage on the pin, or `percentage` a **number** representing the real voltage represented as a percentage with respect to the range of 0V and the `range` value
 | `device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_time=40, range=Vout })` | Reads the analog value across two analog capable pins | `positive_pin` - **string** - The pin name of the positive pin<br><br>`negative_pin` - **string** - The pin name of the negative pin<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | **table** - Same as above
 | `device.analog.assign_input_high_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })` | Assigns an event handler that triggers whenever the input pin crosses a high threshold. | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`handler` - **function** - The function to call whenever the threshold is crossed. This function will be called with one argument of type **boolean** which represents if the value has crossed above or below the threshold. `true` if crossed above, or `false` if crossed below<br><br>`percentage` - **number** - The level represented as a percentage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`voltage` - **number** - The level represented as a voltage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above | **nil**
 | `device.analog.assign_input_low_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })` | Assigns an event handler that triggers whenever the input pin crosses a low threshold.  | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`handler` - **function** - The function to call whenever the threshold is crossed. This function will be called with one argument of type **boolean** which represents if the value has crossed above or below the threshold. `true` if crossed below, or `false` if crossed above<br><br>`percentage` - **number** - The level represented as a percentage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`voltage` - **number** - The level represented as a voltage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above | **nil**
@@ -255,7 +255,7 @@ Example usage:
 
 | Function | Description | Parameters | Returns |
 |----------|-------------|------------|---------|
-| `network.send{ data }` | Sends data to Superstack  | `data` - **table** - A table representing any data as key-value pairs. Will be converted to an equivalent JSON once it reaches Superstack. It's recommended to name keys in a full and clear way as that will be how the AI tools of superstack will infer the meaning of the data. E.g. `temperature_celsius = 43.5` will help the AI understand that `43.5` represents temperature in celsius units | **nil**
+| `network.send{ data }` | Sends data to Superstack | `data` - **table** - A table representing any data as key-value pairs. Will be converted to an equivalent JSON once it reaches Superstack. It's recommended to name keys in a full and clear way as that will be how the AI tools of Superstack will infer the meaning of the data. E.g. `temperature_celsius = 43.5` will help the AI understand that `43.5` represents temperature in Celsius units | **nil**
 
 Example usage:
 
@@ -362,7 +362,7 @@ Example usage:
 
 | Function | Description | Parameters | Returns |
 |----------|-------------|------------|---------|
-| `device.sleep(time)` | Puts the device into a low power sleep for a certain amount of time | `time` - **number** - The time to sleep in seconds. E.g. `1.5` | **nil** 
+| `device.sleep(time)` | Puts the device into a low-power sleep for a certain amount of time | `time` - **number** - The time to sleep in seconds. E.g. `1.5` | **nil** 
 
 | Constant | Description | Value |
 |----------|-------------|-------|
