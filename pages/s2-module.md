@@ -142,9 +142,42 @@ The table below describes each of the LED states.
 
 The S2 Module ships with **LTE Cat-M1** enabled with support for the following bands: **1**, **2**, **3**, **4**, **5**, **12**, **13**, **17**, **18**, **19**, **20**, **25**, **26**, **28**, **65**, **66** and **85**.
 
-TODO table of supported regions 
-
 A softsim is pre-programmed into each module for included connectivity out of the box, where data allowance can be managed from inside the Superstack webapp.
+
+The following regions are currently included in the data-plan with more being regularly added.
+
+| Region | Connected | Region | Connected soon | 
+|--------|:---------:|--------|:--------------:|
+| United States  | ✅ | Argentina     | Validated
+| Austria        | ✅ | Australia     | Validated
+| Belgium        | ✅ | Brazil        | Validated
+| Colombia       | ✅ | Bulgaria      | Validated
+| Denmark        | ✅ | Canada        | Validated
+| Finland        | ✅ | Chile         | Validated
+| France         | ✅ | China         | Validated
+| Germany        | ✅ | Costa Rica    | Validated
+| Iceland        | ✅ | Czechia       | Validated
+| Japan          | ✅ | Ecuador       | Validated
+| Latvia         | ✅ | Estonia       | Validated
+| Luxembourg     | ✅ | Faroe Islands | Validated
+| Mexico         | ✅ | Greece        | Validated
+| Netherlands    | ✅ | Hong Kong     | Validated
+| New Zealand    | ✅ | Hungary       | Validated
+| Norway         | ✅ | India         | Validated
+| Romania        | ✅ | Ireland       | Validated
+| Slovakia       | ✅ | Israel        | Validated
+| Slovenia       | ✅ | Italy         | Validated
+| Spain          | ✅ | Korea         | Validated
+| Sweden         | ✅ | Liechtenstein | Validated
+| Switzerland    | ✅ | Lithuania     | Validated
+| Taiwan         | ✅ | Poland        | Validated
+| United Kingdom | ✅ | Portugal      | Validated
+| United States  | ✅ | Puerto Rico   | Validated
+| Uruguay        | ✅ | Saudi Arabia  | Validated
+|                |    | Singapore     | Validated
+|                |    | Thailand      | Validated
+|                |    | Turkey        | Validated
+
 
 The module also supports **GPS L1 C/A** and **QZSS L1 C/A** reception with a maximum accuracy of 2.0m in continuous tracking mode, or 3.4m in periodic tracking mode.
 
