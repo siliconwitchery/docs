@@ -1,9 +1,11 @@
 ---
 title: S1 Popout Board
 description: A low cost development kit to quickly get started with the S1 Module.
-image: /images/annotated-devkit.png
-nav_order: 3
+image: /assets/images/s1-popout-board-annotated-masthead.png
+nav_order: 5
 last_modified_date: December 12th 2022, 13:56 UTC
+redirect_from:
+  - /s1-popout-board/s1-popout-board/
 ---
 
 # S1 Popout Board
@@ -16,7 +18,7 @@ The S1 Popout board is a straightforward development to help you get started wit
 
 ---
 
-![Silicon Witchery S1 Popout Board](/images/annotated-devkit.png)
+![Silicon Witchery S1 Popout Board](/assets/images/s1-popout-board-annotated-masthead.png)
 
 ---
 
@@ -51,7 +53,7 @@ The I2C port lets you easily chain together multiple sensors and peripheral devi
 
 You're sure to find plenty of plug-and-play devices to get you prototyping fast.
 
-![Stemma QT and QWIIC boards connected to S1 popout board](/s1-popout-board/images/sensors.png)
+![Stemma QT and QWIIC boards connected to S1 popout board](/assets/images/s1-popout-board-sensors-example.png)
 
 The connector exposes **SDA**, **SCL**, **GND** and a software **adjustable voltage rail**. Pull up resistors are not included on the board, but you can configure the FPGAs built in pull-ups to take care of this for you.
 
@@ -71,7 +73,7 @@ A standard 10 pin Cortex debug port is included on the S1 Popout Board to allow 
 
 It is also possible to use an [nRF52 development kit](https://www.nordicsemi.com/Products/Development-hardware/nrf52-dk) from Nordic as shown below.
 
-![Programming S1 Module using Nordic nRF development kit](/s1-popout-board/images/s1-nrfdk-wiring.jpg)
+![Programming S1 Module using Nordic nRF development kit](/assets/images/s1-popout-board-nrfdk-wiring.jpg)
 
 To get started with developing code for the S1. Check out the [S1 Blinky Demo](https://github.com/siliconwitchery/s1-blinky-demo).
 
@@ -101,7 +103,7 @@ It should be noted that some of the pins are are also connected to the other con
 
 The complete schematic for the S1 Popout Board is shown below. A PDF version is available [here](https://github.com/siliconwitchery/s1-popout-board/blob/7a46fc654ae1eee8f0c21d76276b85467e54937a/schematic.pdf).
 
-![S1 Popout Board schematic](/s1-popout-board/images/s1-popout-board-schematic.png)
+![S1 Popout Board schematic](/assets/images/s1-popout-board-schematic.png)
 
 ---
 
@@ -112,7 +114,5 @@ All the design files can be found within the S1 Popout Board [repository](https:
 ---
 
 ## Licence
-
-Copyright 2022 © Silicon Witchery.
 
 This design is licenced under: [CERN Open Hardware Licence Version 2 - Permissive](https://ohwr.org/cern_ohl_p_v2.pdf).

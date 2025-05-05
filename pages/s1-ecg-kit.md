@@ -1,9 +1,11 @@
 ---
 title: S1 ECG Kit
 description: An all-in-kit to build and test heart algorithms with ease.
-image: /images/annotated-ecg-kit.png
-nav_order: 4
+image: /assets/images/annotated-ecg-kit.png
+nav_order: 6
 last_modified_date: December 12th 2022, 13:56 UTC
+redirect_from:
+  - /s1-ecg-kit/s1-ecg-kit/
 ---
 
 # S1 ECG Kit
@@ -16,7 +18,7 @@ A powerful analog frontend combined with the S1 Module makes this an all-in-one 
 
 ---
 
-![Silicon Witchery S1 ECG Reference Kit](/images/annotated-ecg-kit.png)
+![Silicon Witchery S1 ECG Reference Kit](/assets/images/s1-ecg-kit-annotated-masthead.png)
 
 ---
 
@@ -60,7 +62,7 @@ The block diagram below shows the simplistic nature of devices built with the S1
 
 This design features a single ECG frontend amplifier as the only active external component in the system. All other processing is done within the S1 Module.
 
-![S1 ECG kit system block diagram](/s1-ecg-kit/images/s1-ecg-kit-block-diagram.png)
+![S1 ECG kit system block diagram](/assets/images/s1-ecg-kit-block-diagram.png)
 
 ---
 
@@ -92,7 +94,7 @@ Seven LEDs on the front of the board display a smooth waveform of the measured E
 
 If required, up to four of the LED pins (**D1 - D4**) can be repurposed as GPIO lines via the solder points on the back of the PCB. This allows you to add additional sensors or peripherals to develop your application.
 
-![Back side IO connections of the S1 ECG Kit](/s1-ecg-kit/images/ecg-back-pcb.png)
+![Back side IO connections of the S1 ECG Kit](/assets/images/s1-ecg-kit-back-pcb.png)
 
 Additionally, the raw ECG analog output is also exposed for ease of testing.
 
@@ -140,7 +142,7 @@ Once you're up and running, you can begin customizing the application to your ne
 
 The complete schematic for the S1 ECG Kit is shown below. A PDF version is available [here](https://github.com/siliconwitchery/s1-ecg-demo/blob/3a8f1f18de6bf9068e17d3fa44eaa844272473b1/schematic.pdf).
 
-![S1 ECG kit schematic](/s1-ecg-kit/images/s1-ecg-kit-schematic.png)
+![S1 ECG kit schematic](/assets/images/s1-ecg-kit-schematic.png)
 
 ---
 
@@ -167,7 +169,5 @@ Additionally, it has not been designed according to any standards in order to gu
 ---
 
 ## Licence
-
-Copyright 2022 © Silicon Witchery.
 
 This design is licenced under: [CERN Open Hardware Licence Version 2 - Permissive](https://ohwr.org/cern_ohl_p_v2.pdf).
