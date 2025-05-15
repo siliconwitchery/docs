@@ -95,8 +95,9 @@ network.send{ sensor_value=31.5 }
 |----------|-------------|------------|---------|
 | `device.digital.set_output(pin, value)` | Sets or clears a digital output on a pin | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`value` - **boolean** - The level to set on the pin. `true` for high, or `false` for low | **nil**
 | `device.digital.get_input(pin)` | Gets the digital value on a pin | `pin` - **string** - The pin name. E.g. `"A0"` | **boolean** - `true` if the pin is high, or `false` if it's low
-| `device.digital.assign_input_event(pin, handler)` | Assigns an event handler that triggers whenever the input value of a pin changes | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`handler` - **function** - The function to call whenever the pin value changes. This function will be called with one argument of type **boolean** which represents the input value on that pin. `true` if high, or `false` if low | **nil**
-| `device.digital.unassign_input_event(pin)` | Removes any previously assigned event handler function attached to a pin | `pin` - **string** - The pin name. E.g. `"A0"` | **nil**
+| `device.digital.assign_input_event(pin, handler)` | Assigns an event handler that triggers whenever the input value of a pin changes | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`handler` - **function** - The function to call whenever the pin value changes. This function will be called with one argument of type **boolean** which represents the input value on that pin. `true` if high, or `false` if low | **metatable** - An object representing the event
+| `device.digital.unassign(event)` | Disables the event and detaches the pin from the handler | `event` - **metatable** - The object that was returned from `device.digital.assign_input_event()` | **nil**
+
 
 Example usage:
 
@@ -117,7 +118,10 @@ function my_pin_handler(value)
     end
 end
 
-device.digital.assign_input_event("C3", my_pin_handler)
+local my_c3_event = device.digital.assign_input_event("C3", my_pin_handler)
+
+-- Disable the event and detach the pin from the handler if no longer needed
+my_c3_event:unassign()
 ```
 
 ### Analog input
@@ -125,11 +129,10 @@ device.digital.assign_input_event("C3", my_pin_handler)
 | Function | Description | Parameters | Returns |
 |----------|-------------|------------|---------|
 | `device.analog.get_input(pin, { acquisition_time=40, range=Vout })` | Reads the analog value on an analog-capable pin | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`acquisition_time` *optional* - **integer** - A time in microseconds across which to make the measurement. Can be either `3`, `5`, `10`, `15`, `20`, `40`, or multiples of 40 e.g. `80`, `120`, `160`, etc. Higher values allow for accurate measurement of greater source resistances. Those maximum resistances being 10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ and 800kΩ respectively, with 800kΩ being the maximum source resistance for acquisition times greater than 40 microseconds<br><br>`range` *optional* - **integer** - The maximum expected voltage for the input signal. Defaults to the same value as V<sub>OUT</sub> | **table** - A table containing two key-value pairs. `voltage` a **number** representing the voltage on the pin, or `percentage` a **number** representing the real voltage represented as a percentage with respect to the range of 0V and the `range` value
-| `device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_time=40, range=Vout })` | Reads the analog value across two analog capable pins | `positive_pin` - **string** - The pin name of the positive pin<br><br>`negative_pin` - **string** - The pin name of the negative pin<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | **table** - Same as above
-| `device.analog.assign_input_high_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })` | Assigns an event handler that triggers whenever the input pin crosses a high threshold. | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`handler` - **function** - The function to call whenever the threshold is crossed. This function will be called with one argument of type **boolean** which represents if the value has crossed above or below the threshold. `true` if crossed above, or `false` if crossed below<br><br>`percentage` - **number** - The level represented as a percentage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`voltage` - **number** - The level represented as a voltage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above | **nil**
-| `device.analog.assign_input_low_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })` | Assigns an event handler that triggers whenever the input pin crosses a low threshold.  | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`handler` - **function** - The function to call whenever the threshold is crossed. This function will be called with one argument of type **boolean** which represents if the value has crossed above or below the threshold. `true` if crossed below, or `false` if crossed above<br><br>`percentage` - **number** - The level represented as a percentage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`voltage` - **number** - The level represented as a voltage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above | **nil**
-| `device.analog.unassign_input_high_event(pin)` | Removes any previously assigned high level event handler attached to a pin | `pin` - **string** - The pin name. E.g. `"D0"`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | **nil**
-| `device.analog.unassign_input_low_event(pin)` | Removes any previously assigned low level event handler attached to a pin | `pin` - **string** - The pin name. E.g. `"D0"`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | **nil**
+| `device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_time=40, range=Vout })` | Reads the analog value across two analog capable pins | `positive_pin` - **string** - The pin name of the positive pin<br><br>`negative_pin` - **string** - The pin name of the negative pin<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above | **table** - Same as above
+| `device.analog.assign_input_high_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })` | Assigns an event handler that triggers whenever the input pin crosses a high threshold. | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`handler` - **function** - The function to call whenever the threshold is crossed. This function will be called with one argument of type **boolean** which represents if the value has crossed above or below the threshold. `true` if crossed above, or `false` if crossed below<br><br>`percentage` - **number** - The level represented as a percentage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`voltage` - **number** - The level represented as a voltage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above | **metatable** - An object representing the event
+| `device.analog.assign_input_low_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })` | Assigns an event handler that triggers whenever the input pin crosses a low threshold.  | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`handler` - **function** - The function to call whenever the threshold is crossed. This function will be called with one argument of type **boolean** which represents if the value has crossed above or below the threshold. `true` if crossed below, or `false` if crossed above<br><br>`percentage` - **number** - The level represented as a percentage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`voltage` - **number** - The level represented as a voltage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above | **metatable** - As described above
+| `device.analog.unassign(event)` | Disables the event and detaches the pin from the handler | `event` - **metatable** - The object that was returned from `device.analog.assign_input_high_event()` or `device.analog.assign_input_low_event()` | **nil**
 
 Example usage:
 
@@ -148,7 +151,10 @@ function my_low_voltage_handler(triggered)
     end
 end
 
-device.analog.assign_input_high_event("D1", my_low_voltage_handler, { voltage=1.5 })
+local my_d1_event = device.analog.assign_input_high_event("D1", my_low_voltage_handler, { voltage=1.5 })
+
+-- Disable the event and detach the pin from the handler if no longer needed
+my_d1_event:unassign()
 ```
 
 ### PWM output (analog output)
@@ -196,7 +202,7 @@ device.i2c.write(0x23, 0xF9, "\x12\x34")
 
 | Function | Description | Parameters | Returns |
 |----------|-------------|------------|---------|
-| `device.spi.read(register, length, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })` | Reads a number of bytes from a register on an SPI connected device | `register` - **integer** - The address of the register to read from<br><br>`length` - **integer** - The number of bytes to read<br><br>`mosi_pin` *optional* - **string** - Specifies the pin to use for the MOSI signal. Any IO pin may be specified as a string, e.g. "D0".<br><br>`miso_pin` *optional* - **string** - Specifies the pin to use for the MISO signal. Any IO pin may be specified as a string, e.g. "D1".<br><br>`sck_pin` *optional* - **string** - Specifies the pin to use for the SCK signal. Any IO pin may be specified as a string, e.g. "D2".<br><br>`cs_pin` *optional* - **string** - Specifies the pin to use for the CS signal. Any IO pin may be specified as a string, e.g. "D3".<br><br>`frequency` *optional* - **integer** - The frequency to use for SPI transactions in kHz<br><br>`register_address_size` *optional* - **integer** - The size of the register address in bits. Can be either `8`, `16` or `32` | **table** - A table containing two key-value pairs. `data`, a **string** representing the bytes read. Always of size `length` as specified in the function call. `value`, an **integer** representing the first data value, useful if only one byte was requested
+| `device.spi.read(register, length, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })` | Reads a number of bytes from a register on an SPI connected device | `register` - **integer** - The address of the register to read from<br><br>`length` - **integer** - The number of bytes to read<br><br>`mosi_pin` *optional* - **string** - Specifies the pin to use for the MOSI signal. Any IO pin may be specified as a string, e.g. "D0"<br><br>`miso_pin` *optional* - **string** - Specifies the pin to use for the MISO signal. Any IO pin may be specified as a string, e.g. "D1".<br><br>`sck_pin` *optional* - **string** - Specifies the pin to use for the SCK signal. Any IO pin may be specified as a string, e.g. "D2".<br><br>`cs_pin` *optional* - **string** - Specifies the pin to use for the CS signal. Any IO pin may be specified as a string, e.g. "D3".<br><br>`frequency` *optional* - **integer** - The frequency to use for SPI transactions in kHz<br><br>`register_address_size` *optional* - **integer** - The size of the register address in bits. Can be either `8`, `16` or `32` | **table** - A table containing two key-value pairs. `data`, a **string** representing the bytes read. Always of size `length` as specified in the function call. `value`, an **integer** representing the first data value, useful if only one byte was requested
 | `device.spi.write(register, data, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })`  | Writes a number of bytes to a register on an SPI connected device  | `register` - **integer** - Same as above<br><br>`data` - **string** - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. `"\x1A\x50\x00\xF1"`<br><br>`mosi_pin` *optional* - **string** - As described above<br><br>`miso_pin` *optional* - **string** - As described above<br><br>`sck_pin` *optional* - **string** - As described above<br><br>`cs_pin` *optional* - **string** - As described above<br><br>`frequency` *optional* - **integer** - As described above<br><br>`register_address_size` *optional* - **integer** - As described above | **nil**
 | `device.spi.transaction{ read_length, write_data, hold_cs=false, mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500 }` | Reads and writes an arbitrary number of bytes at the same time. I.e while data is being clocked out on the MOSI pin, any data received on the MISO pin will be recorded in parallel. The total number of bytes transacted will therefore be the larger of `read_length` or `write_data`. If you wish to, for example, write 5 bytes, and then read 10 bytes, `read_length` must be set to 15. The first 5 bytes can be ignored, and the remaining 10 bytes will contain the read data | `read_length` - **integer** -  The number of bytes to read<br><br>`write_data` - **string** - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. `"\x1A\x50\x00\xF1"`<br><br>`hold_cs` *optional* - **boolean** - If set to `true` will continue to hold the CS pin low after the transaction is completed. This can be useful if the transaction needs to be broken up into multiple steps, or if the CS pin needs to be held for any other reason. Any subsequent call to `device.spi.transaction` with `hold_cs` set to false will then return the CS pin to a high value once completed<br><br>`mosi_pin` *optional* - **string** - As described above<br><br>`miso_pin` *optional* - **string** - As described above<br><br>`sck_pin` *optional* - **string** - As described above<br><br>`cs_pin` *optional* - **string** - As described above<br><br>`frequency` *optional* - **integer** - As described above | **string** - The bytes read. Always of size `read_length`, or `#write_data`, whichever was larger
 
@@ -221,35 +227,87 @@ result = device.spi.transaction{ read_length=10 }
 
 ### UART communication
 
-Details coming soon
-
-<!-- TODO -->
-<!--
 | Function | Description | Parameters | Returns |
 |----------|-------------|------------|---------|
-|  |  |  | 
+| `device.uart.write(data, { baudrate=9600, tx_pin="B1", cts_pin=nil, parity=false, stop_bits=1 })` | Writes UART data to a pin | `data` - **string** - The data to send<br><br>`baudrate` *optional* - **integer** - The baudrate in bits-per-second at which to send the data. Can be `1200`, `2400`, `4800`, `9600`, `14400`, `19200`, `28800`, `31250`, `38400`, `56000`, `57600`, `76800`, `115200`, `230400`, `250000`, `460800`, `921600`, or `1000000`<br><br>`tx_pin` *optional* - **string** - Specifies the pin to use for the transmit signal. Any IO pin may be specified as a string, e.g. `"C1"`<br><br>`cts_pin` *optional* - **string** - Specifies the pin to use for the clear-to-send signal. Any IO pin may be specified as a string, e.g. `"C3"`. If `nil` is given, the signal isn't used<br><br>`parity` *optional* - **bool** - Enables the parity bit if set to `true`<br><br>`stop_bits` *optional* - **integer** - Sets the number of stop bits. Can be either `1` or `2` | **nil**
+| `device.uart.assign_read_event(terminator, handler, { baudrate=9600, rx_pin="B0", tx_pin="B1", rts_pin=nil, cts_pin=nil, parity=false, stop_bits=1 })` | Buffers UART data from a pin, and triggers an event whenever a specified terminating character is seen | `terminator` - **string** - The character to wait for until triggering the event. If set to `nil`, the event is triggered for every new character received<br><br>`handler` - **function** - The function to call whenever data is received. This function will be called with one argument of type **string** which will contain all the buffered bytes since the last event was triggered, or the event was enabled<br><br>`baudrate` *optional* - **integer** - As described above<br><br>`rx_pin` *optional* - **string** - Specifies the pin to use for the receive signal. Any IO pin may be specified as a string, e.g. `"C0"`<br><br>`rts_pin` *optional* - **string** - Specifies the pin to use for the ready-to-send signal. Any IO pin may be specified as a string, e.g. `"C2"`. If `nil` is given, the signal isn't used<br><br>`parity` *optional* - **bool** - As described above | **metatable** - An object representing the event
+| `device.uart.unassign(event)` | Disables the event and detaches the pin from the handler | `event` - **metatable** - The object that was returned from `device.uart.assign_read_event()` | **nil**
 
 Example usage:
 
 ```lua
+-- Create a handler for receiving UART data
+function my_receive_handler(data)
+    print("Got a new line: "..data)
+end
+
+local my_rx_event = device.uart.assign_read_event("\n", my_receive_handler, { baudrate=19200 })
+
+-- Send UART data
+device.uart.write("Hello there. This is some data\n", { baudrate=19200 })
+
+-- Disable the event and detach the pin from the handler if no longer needed
+my_rx_event:unassign()
 ```
--->
 
 ### PDM microphone input
 
-Details coming soon
-
-<!-- TODO -->
-<!--
 | Function | Description | Parameters | Returns |
 |----------|-------------|------------|---------|
-|  |  |  | 
+| `device.audio.record(length, handler, { data_pin="E0", clock_pin="E1", sample_rate=8000, bit_depth=8 })` | Begins recording microphone input and and outputs the data to an event handler. The handler is called every `length` seconds and repeats until the `stop()` function is called | `length` - **float** - The length to record in seconds. The maximum allowable time will depend on the RAM currently used on the device. Using a lower `sample_rate` and `bit_depth` will allow for longer recordings but at reduced quality<br><br>`handler` - **function** - The function to call whenever data is ready to be processed. The function will be called with one argument of type **string** representing 1-byte-per-sample in the case of `bit_depth=8`, or 2-bytes-per-sample in the case of `bit_depth=16`. The samples will be signed values. This function should not spend longer than `length` time to process the data and exit, otherwise the internal buffer will overflow and cause glitches in the final audio<br><br>`data_pin` *optional* - **string** - Specifies the pin to use for the data input. Any IO pin may be specified as a string, e.g. `"F0"`<br><br>`clock_pin` *optional* - **string** - Specifies the pin to use for the clock input. Any IO pin may be specified as a string, e.g. `"F1"`<br><br>`sample_rate` - **integer** - The sample rate to record in samples per second. Can be either `8000` or `16000`<br><br>`bit_depth` - **integer** - The dynamic range of the samples recorded. Can be either `8` or `16` | **metatable** - An object representing the event
+| `device.audio.stop(event)` | Stops recording samples and calls the event handler one last time with any remaining data in the internal buffer | `event` - **metatable** - The object that was returned from `device.uart.assign_read_event()` | **nil**
 
 Example usage:
 
 ```lua
+-- Create a handler for receiving and processing audio samples
+function my_microphone_handler(data)
+    for i = 1, #data do
+        local value = string.sub(data, i, i)
+        
+        if value > 128 or value < -128 then
+            print("Loud noise detected")
+        end
+    end
+end
+
+-- Will capture 1s worth of audio at a time
+local my_mic_event = device.audio.record(1, my_microphone_handler)
+
+-- Recording can be stopped at any time
+my_mic_event:stop()
 ```
--->
+
+### Sleep, power & system info
+
+| Function | Description | Parameters | Returns |
+|----------|-------------|------------|---------|
+| `device.sleep(time)` | Puts the device into a low-power sleep for a certain amount of time | `time` - **number** - The time to sleep in seconds. E.g. `1.5` | **nil** 
+| `device.power.battery.set_charger(voltage, current)` |  |  | **nil**
+| `device.power.battery.get_voltage()` |  | - | 
+| `device.power.battery.get_charging()` |  | - | 
+| `device.power.battery.get_temperature()` |  | - | 
+| `device.power.vout.set(voltage)` |  |  | **nil**`
+
+| Constant | Description | Value |
+|----------|-------------|-------|
+| `device.HARDWARE_VERSION` | The hardware version of the device | **string** - Always `"s2-module"` 
+| `device.FIRMWARE_VERSION` | The current firmware version of the Superstack firmware running on the device | **string** - A string representing the current firmware version. E.g. `"0.1.0+0"`
+
+Example usage:
+
+```lua
+-- Print the hardware version, sleep for 1.5 seconds and then print firmware version
+print(device.HARDWARE_VERSION)
+device.sleep(1.5)
+print(device.FIRMWARE_VERSION)
+
+-- Configure the battery charger for a 4.2V 200mAh rated Li-Po cell
+device.power.battery.set_charger(4.2, 200)
+
+-- Get the current battery status
+print("Battery voltage: "..)
+```
 
 ### LTE communication
 
@@ -278,7 +336,7 @@ network.send{
 }
 ```
 
-### GPS
+### GPS location
 
 Details coming soon
 
@@ -294,7 +352,7 @@ Example usage:
 ```
 -->
 
-### Accelerated signal processing
+### File storage
 
 Details coming soon
 
@@ -310,7 +368,7 @@ Example usage:
 ```
 -->
 
-### Non-volatile memory (file system)
+### Signal processing
 
 Details coming soon
 
@@ -342,7 +400,7 @@ Example usage:
 ```
 -->
 
-### Timekeeping functions
+### Timekeeping
 
 Details coming soon
 
@@ -357,28 +415,6 @@ Example usage:
 ```lua
 ```
 -->
-
-### Miscellaneous functions
-
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.sleep(time)` | Puts the device into a low-power sleep for a certain amount of time | `time` - **number** - The time to sleep in seconds. E.g. `1.5` | **nil** 
-
-| Constant | Description | Value |
-|----------|-------------|-------|
-| `device.HARDWARE_VERSION` | The hardware version of the device | **string** - Always `"s2-module"` 
-| `device.FIRMWARE_VERSION` | The current firmware version of the Superstack firmware running on the device | **string** - A string representing the current firmware version. E.g. `"0.1.0+0"`
-
-Example usage:
-
-```lua
--- Print the hardware version, sleep for 1.5 seconds and then print firmware version
-print(device.HARDWARE_VERSION)
-
-device.sleep(1.5)
-
-print(device.FIRMWARE_VERSION)
-```
 
 ## Working with data
 
