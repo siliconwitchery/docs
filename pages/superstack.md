@@ -283,11 +283,10 @@ my_mic_event:stop()
 | Function | Description | Parameters | Returns |
 |----------|-------------|------------|---------|
 | `device.sleep(time)` | Puts the device into a low-power sleep for a certain amount of time | `time` - **number** - The time to sleep in seconds. E.g. `1.5` | **nil** 
-| `device.power.battery.set_charger(voltage, current)` |  |  | **nil**
-| `device.power.battery.get_voltage()` |  | - | 
-| `device.power.battery.get_charging()` |  | - | 
-| `device.power.battery.get_temperature()` |  | - | 
-| `device.power.vout.set(voltage)` |  |  | **nil**`
+| `device.power.battery.set_charger_cv_cc(voltage, current)` | Sets the termination voltage and constant current values for the charger | `voltage` - **number** - The termination voltage of the cell. Can be either `3.50`, `3.55`, `3.60`, `3.65`, `4.00`, `4.05`, `4.10`, `4.15`, `4.20`, `4.25`, `4.30`, `4.35`, `4.40`, or `4.45`<br><br>`current` - **number** - The constant current to charge the cell at. Must be between `32` and `800` in steps of `2` | **nil**
+| `device.power.battery.get_voltage()` | Gets the voltage of the cell | - | **number** - The voltage of the cell in volts
+| `device.power.battery.get_charging_status()` | Gets the charging status of the cell | - | **string** - The current charging status. TODO
+| `device.power.set_vout(voltage)` | Sets the voltage of V<sub>OUT</sub> | `voltage` - **number** - The voltage to set. Can be between `1.8` and `3.3` in steps of `0.1` | **nil**`
 
 | Constant | Description | Value |
 |----------|-------------|-------|
@@ -303,10 +302,21 @@ device.sleep(1.5)
 print(device.FIRMWARE_VERSION)
 
 -- Configure the battery charger for a 4.2V 200mAh rated Li-Po cell
-device.power.battery.set_charger(4.2, 200)
+device.power.battery.set_charger_cv_cc(4.2, 200)
 
 -- Get the current battery status
-print("Battery voltage: "..)
+local voltage = device.power.battery.get_voltage()
+local status = device.power.battery.get_charging_status()
+
+if status ~= "external_power" then
+    print("Battery is "..status)
+    print("Battery voltage is "..tostring(voltage).."V")
+else
+    print("Battery not connected. On external power")
+end
+
+-- Set the voltage of Vout to 3.3V
+device.power.set_vout(3.3)
 ```
 
 ### LTE communication
