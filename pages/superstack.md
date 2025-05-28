@@ -91,6 +91,30 @@ network.send{ sensor_value=31.5 }
 
 ### Digital IO
 
+<!-- <table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.digital.set_output(pin,&nbsp;value)</code>
+        </td>
+        <td>
+            Sets or clears a digital output on a pin
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - string - The pin name. E.g. <code>"A0"</code></li>
+                <li><code>value</code> - boolean - The level to set on the pin. <code>true</code> for high, or <code>false</code> for low</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+</table> -->
+
+
 | Function | Description | Parameters | Returns |
 |----------|-------------|------------|---------|
 | `device.digital.set_output(pin, value)` | Sets or clears a digital output on a pin | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`value` - **boolean** - The level to set on the pin. `true` for high, or `false` for low | **nil**
@@ -285,7 +309,7 @@ my_mic_event:stop()
 | `device.sleep(time)` | Puts the device into a low-power sleep for a certain amount of time | `time` - **number** - The time to sleep in seconds. E.g. `1.5` | **nil** 
 | `device.power.battery.set_charger_cv_cc(voltage, current)` | Sets the termination voltage and constant current values for the charger | `voltage` - **number** - The termination voltage of the cell. Can be either `3.50`, `3.55`, `3.60`, `3.65`, `4.00`, `4.05`, `4.10`, `4.15`, `4.20`, `4.25`, `4.30`, `4.35`, `4.40`, or `4.45`<br><br>`current` - **number** - The constant current to charge the cell at. Must be between `32` and `800` in steps of `2` | **nil**
 | `device.power.battery.get_voltage()` | Gets the voltage of the cell | - | **number** - The voltage of the cell in volts
-| `device.power.battery.get_charging_status()` | Gets the charging status of the cell | - | **string** - The current charging status. TODO
+| `device.power.battery.get_charging_status()` | Gets the charging status of the cell | - | **string** - The current charging status. Either `charging`, `charged` or `discharging` if the battery is connected, or `external_power` if either no battery is installed, or the battery has a fault |
 | `device.power.set_vout(voltage)` | Sets the voltage of V<sub>OUT</sub> | `voltage` - **number** - The voltage to set. Can be between `1.8` and `3.3` in steps of `0.1` | **nil**`
 
 | Constant | Description | Value |
@@ -319,7 +343,7 @@ end
 device.power.set_vout(3.3)
 ```
 
-### LTE communication
+### Networking (LTE)
 
 | Function | Description | Parameters | Returns |
 |----------|-------------|------------|---------|
@@ -346,55 +370,42 @@ network.send{
 }
 ```
 
-### GPS location
+### Location (GPS)
 
-Details coming soon
-
-<!-- TODO -->
-<!--
 | Function | Description | Parameters | Returns |
 |----------|-------------|------------|---------|
-|  |  |  | 
+| `location.get_latest()` | Returns the latest GPS data | - | **table** - A table containing key-value pairs. `valid`, a **boolean** representing if the GPS data is valid. `latitude`, a **number** representing the latitude. `longitude`, a **number** representing the longitude. `altitude`, a **number** representing the altitude. `accuracy`, a **number** representing the location and altitude accuracy. `speed`, a **number** representing the current speed. `speed_accuracy`, a **number** representing the speed accuracy. `satellites`, a **table** representing the current satellites statistics. `satellites` in turn contains three key-value pairs. `tracked`. an **integer** representing the number of satellites currently being tracked. `in_fix`. an **integer** representing the number of satellites currently being used for measurement. `unhealthy`. an **integer** representing the number of satellites that could not be used for measurement. |
+| `location.set_options({ accuracy="HIGH", power_saving="MEDIUM", tracking_interval=1 })` | Sets options related to the GPS module | `accuracy` *optional* - **string** - The accuracy of the reading to acquire. Can either be `"LOW"` where only three satellites are required to attain a fix, or `"HIGH"` where four satellites are required to attain a fix<br><br>`power_saving` *optional* - **string** - The level of power saving that the GPS aim to achieve. Can either be `"OFF"`, `"MEDIUM"`, `"MAX"`. A higher level of power saving will result in less accuracy and a slower time to attain a fix<br><br>`tracking_interval` *optional* - **integer** - The period to poll for new location updates. Can either be `1` for continuous 1-second updates, or a value in seconds between `10` and `65535` for slower updates which can save power | **nil**
 
 Example usage:
 
 ```lua
+location.set_options({ accuracy = "LOW" })
+
+while true do
+
+    local l = location.get_latest()
+
+    print("valid: " .. tostring(l["valid"]))
+    print("latitude: " .. tostring(l["latitude"]))
+    print("longitude: " .. tostring(l["longitude"]))
+    print("altitude: " .. tostring(l["altitude"]))
+    print("accuracy: " .. tostring(l["accuracy"]))
+    print("speed: " .. tostring(l["speed"]))
+    print("speed_accuracy: " .. tostring(l["speed_accuracy"]))
+
+    print("satellites tracked: " .. tostring(l["satellites"]["tracked"]))
+    print("satellites in fix: " .. tostring(l["satellites"]["in_fix"]))
+    print("satellites unhealthy: " .. tostring(l["satellites"]["unhealthy"]))
+
+    -- Note that LTE network activity (including logging) will interrupt the
+    -- GPS and delay attaining a fix. Therefore the device should avoid
+    -- network activity for a brief period of time while waiting for a fix
+    device.sleep(30)
+end
 ```
--->
 
 ### File storage
-
-Details coming soon
-
-<!-- TODO -->
-<!--
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-|  |  |  | 
-
-Example usage:
-
-```lua
-```
--->
-
-### Signal processing
-
-Details coming soon
-
-<!-- TODO -->
-<!--
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-|  |  |  | 
-
-Example usage:
-
-```lua
-```
--->
-
-### Type conversions
 
 Details coming soon
 
