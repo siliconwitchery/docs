@@ -423,19 +423,28 @@ Example usage:
 
 ### Timekeeping
 
-Details coming soon
-
-<!-- TODO -->
-<!--
 | Function | Description | Parameters | Returns |
 |----------|-------------|------------|---------|
-|  |  |  | 
+| `time.get_unix_time()` | Returns the current Unix epoch known by the device | - | **number** - The number of seconds since 00:00:00 UTC on 1 January 1970 with a resolution of 1mS. If the device hasn't yet connected to the network to acquire the time, the returned value represents the number of seconds since the device was powered on
+| `time.get_time_date({unix_epoch, timezone})` | Gets the current time and date known by the device | `unix_epoch` *optional* - **number** - If supplied, the time and date at the given unix epoch will be returned. Otherwise the current time is used<br><br> `timezone` *optional* - **string** - The timezone to observe when returning the time and date. Can be given as a standard timezone abbreviation such as "EST", "GMT", or "CEST". If not used, the timezone of the network is used | **table** - A table containing key-value pairs. `known` a **boolean** representing if the device has obtained the time from the network, `second` an **integer** representing the current second. `minute` an **integer** representing the current minute. `hour` an **integer** representing the current hour. `day` an **integer** representing the current day. `weekday` a **string** representing the current weekday. `month` an **integer** representing the current month. `year` an **integer** representing the current year. `timezone` a **string** representing the current timezone as a standard timezone abbreviation |
 
 Example usage:
 
 ```lua
+-- Repeat something for 30 seconds
+local t = time.get_unix_time()
+
+while t + 30 > time.get_unix_time() do
+    print("waiting")
+    device.sleep(5)
+end
+
+-- Print the current time and date
+local now = time.get_time_date()
+
+print(string.format("The current time is: %02d:%02d", now.minute, now.hour))
+print(string.format("The current date is: %d/%d/%d", now.year, now.month, now.day))
 ```
--->
 
 ## Working with data
 
