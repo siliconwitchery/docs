@@ -407,19 +407,32 @@ end
 
 ### File storage
 
-Details coming soon
-
-<!-- TODO -->
-<!--
 | Function | Description | Parameters | Returns |
 |----------|-------------|------------|---------|
-|  |  |  | 
+| `storage.write(filename, data)` | Creates a file and writes data to it. If the file already exists, it is overwritten | `filename` - **string** - The name of the file<br><br>`data` - **string** - The data to save to the file | **nil**
+| `storage.append(filename, data)` | Creates a file and writes data to it. If the file already exists, the new data is appended to the current contents of the file | `filename` - **string** - As described above<br><br>`data` - **string** - As described above | **nil**
+| `storage.read(filename, { line=-1, length=nil, offset=0 })` | Reads out the contents of the file. Either returning an entire `"\n"` terminated line, or alternatively, a number of bytes with length `length` at an offset of `offset` | `filename` - **string** - As described above<br><br>`line` *optional* - **integer** - The index of the line to return. `1` being the first line, `2` being the second line, etc. Likewise, the lines can also be indexed from the end of the file. `-1` returns the last line of the file, `-2` the second to last, etc. `length` and `offset` are ignored when `line` is specified<br><br>`length` *optional* - **integer** - The number of bytes to read from the file. Cannot be used with the `line` option. If `length` is longer than the data present in the file, then a shorter result will be returned<br><br>`offset` *optional* - **integer** - When `length` is specified, this option allows reading from some arbitrary offset from within the file | **string** - The contents read
+| `storage.delete(filename)` | Deletes a file if it exists | `filename` - **string** - As described above | **bool** - `true` if the file was found and deleted, `false` otherwise
+| `storage.list()` | Lists all the files stored on the device | - | **table** - A table of **strings** representing each file saved on the device
 
 Example usage:
 
 ```lua
+-- Create a file and read it
+storage.write("my_file.txt", "Hello world")
+
+print(storage.read("my_file.txt"))
+
+-- Append more data to the file
+storage.append("my_file.txt", "\nThis is another line of text")
+storage.append("my_file.txt", "\nAnd this is a final line of text")
+
+-- Print the last line from the file
+print(storage.read("my_file.txt", { line=-1 }))
+
+-- Delete the file
+storage.delete("my_file.txt")
 ```
--->
 
 ### Timekeeping
 
