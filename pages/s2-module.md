@@ -140,7 +140,8 @@ The table below describes each of the LED states.
 
 ## LTE & GNSS connectivity
 
-The S2 Module ships with **LTE Cat-M1** enabled with support for the following bands: **1**, **2**, **3**, **4**, **5**, **12**, **13**, **17**, **18**, **19**, **20**, **25**, **26**, **28**, **65**, **66**, and **85**.
+The S2 Module ships with **LTE Cat-M1** enabled with support for the following bands:
+**1**, **2**, **3**, **4**, **5**, **8**, **13**, **18**, **19**, **20**, **25**, **26**, **65**, and **66**. All of which are supported by the integrated antenna. Additionally, the [external antenna variant](#external-antenna-variant) of the module additionally supports the following bands: **12**, **17**, **28**, and **85**.
 
 A softsim is pre-programmed into each module for included connectivity out of the box, where data allowance can be managed from inside the Superstack webapp.
 
@@ -148,36 +149,39 @@ The following regions are currently included in the data-plan with more being re
 
 | Region | Connected | Region | Connected soon | 
 |--------|:---------:|--------|:--------------:|
-| United States  | ✅ | Argentina     | Validated
-| Austria        | ✅ | Australia     | Validated
-| Belgium        | ✅ | Brazil        | Validated
-| Colombia       | ✅ | Bulgaria      | Validated
-| Denmark        | ✅ | Canada        | Validated
-| Finland        | ✅ | Chile         | Validated
-| France         | ✅ | China         | Validated
-| Germany        | ✅ | Costa Rica    | Validated
-| Iceland        | ✅ | Czechia       | Validated
-| Japan          | ✅ | Ecuador       | Validated
-| Latvia         | ✅ | Estonia       | Validated
-| Luxembourg     | ✅ | Faroe Islands | Validated
-| Mexico         | ✅ | Greece        | Validated
-| Netherlands    | ✅ | Hong Kong     | Validated
-| New Zealand    | ✅ | Hungary       | Validated
-| Norway         | ✅ | India         | Validated
-| Romania        | ✅ | Ireland       | Validated
-| Slovakia       | ✅ | Israel        | Validated
-| Slovenia       | ✅ | Italy         | Validated
-| Spain          | ✅ | Korea         | Validated
-| Sweden         | ✅ | Liechtenstein | Validated
-| Switzerland    | ✅ | Lithuania     | Validated
-| Taiwan         | ✅ | Poland        | Validated
-| United Kingdom | ✅ | Portugal      | Validated
-| United States  | ✅ | Puerto Rico   | Validated
-| Uruguay        | ✅ | Saudi Arabia  | Validated
-|                |    | Singapore     | Validated
-|                |    | Thailand      | Validated
-|                |    | Turkey        | Validated
+| Austria        | ✅ | Argentina            | Validated
+| Belgium        | ✅ | Australia            | Validated
+| Colombia       | ✅ | Brazil               | Validated
+| Denmark        | ✅ | Canada               | Validated
+| Finland        | ✅ | Chile                | Validated
+| France         | ✅ | China                | Validated
+| Germany        | ✅ | Costa Rica           | Validated
+| Iceland        | ✅ | Croatia              | Validated
+| Japan          | ✅ | Czechia              | Validated
+| Latvia         | ✅ | Ecuador              | Validated
+| Luxembourg     | ✅ | Estonia              | Validated
+| Mexico         | ✅ | Faroe Islands        | Validated
+| Netherlands    | ✅ | Greece               | Validated
+| New Zealand    | ✅ | Hong Kong            | Validated
+| Norway         | ✅ | Hungary              | Validated
+| Romania        | ✅ | India                | Validated
+| Slovakia       | ✅ | Ireland              | Validated
+| Slovenia       | ✅ | Israel               | Validated
+| Spain          | ✅ | Jamaica              | Validated
+| Sweden         | ✅ | Korea                | Validated
+| Switzerland    | ✅ | Liechtenstein        | Validated
+| Taiwan         | ✅ | Lithuania            | Validated
+| United Kingdom | ✅ | Poland               | Validated
+| United States  | 📶 | Portugal             | Validated
+| Uruguay        | ✅ | Puerto Rico          | Validated
+|                |    | Saudi Arabia         | Validated
+|                |    | Singapore            | Validated
+|                |    | Thailand             | Validated
+|                |    | Turkey               | Validated
+|                |    | United Arab Emirates | Validated
 
+{: .note }
+📶 - Requires the external antenna variant of the module
 
 The module also supports **GPS L1 C/A** and **QZSS L1 C/A** reception with a maximum accuracy of 2.0m in continuous tracking mode, or 3.4m in periodic tracking mode.
 
