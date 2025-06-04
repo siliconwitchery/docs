@@ -105,8 +105,8 @@ network.send{ sensor_value=31.5 }
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>pin</code> - string - The pin name. E.g. <code>"A0"</code></li>
-                <li><code>value</code> - boolean - The level to set on the pin. <code>true</code> for high, or <code>false</code> for low</li>
+                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>A0</code></li>
+                <li><code>value</code> - <b>boolean</b> - The level to set on the pin. <code>true</code> for high, or <code>false</code> for low</li>
             </ul>
             <strong>Returns:</strong><br>
             <ul><li>nil</li></ul>
@@ -114,14 +114,77 @@ network.send{ sensor_value=31.5 }
     </tr>
 </table> -->
 
-
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.digital.set_output(pin, value)` | Sets or clears a digital output on a pin | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`value` - **boolean** - The level to set on the pin. `true` for high, or `false` for low | **nil**
-| `device.digital.get_input(pin, { pull="NO_PULL" })` | Gets the digital value on a pin | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`pull` *optional* - **string** - Selects the pull mode on the pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"` | **boolean** - `true` if the pin is high, or `false` if it's low
-| `device.digital.assign_input_event(pin, handler, { pull="NO_PULL", trigger="BOTH" })` | Assigns an event handler that triggers whenever the input value of a pin changes | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`handler` - **function** - The function to call whenever the pin value changes. This function will be called with one argument of type **boolean** which represents the input value on that pin. `true` if high, or `false` if low<br><br>`pull` *optional* - **string** - As described above<br><br>`trigger` *optional* - **string** - The specific transition to trigger the event on. Can be either `"LOW_TO_HIGH"`, `"HIGH_TO_LOW"`, or `"BOTH"` | **metatable** - An object representing the event
-| `device.digital.unassign(event)` | Disables the event and detaches the pin from the handler | `event` - **metatable** - The object that was returned from `device.digital.assign_input_event()` | **nil**
-
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.digital.set_output(pin, value)</code>
+        </td>
+        <td>
+            Sets or clears a digital output on a pin.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>A0</code></li>
+                <li><code>value</code> - <b>boolean</b> - The level to set on the pin. <code>true</code> for high, or <code>false</code> for low</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.digital.get_input(pin, { pull="NO_PULL" })</code>
+        </td>
+        <td>
+            Gets the digital value on a pin.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>A0</code></li>
+                <li><code>pull</code> - optional <b>string</b> - Selects the pull mode on the pin. Can be <code>PULL_UP</code>, <code>PULL_DOWN</code>, or <code>NO_PULL</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li> <b>boolean</b> - <code>true</code> if the pin is high, or <code>false</code> if it's low</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.digital.assign_input_event(pin, handler, { pull="NO_PULL", trigger="BOTH" })</code>
+        </td>
+        <td>
+            Assigns an event handler that triggers whenever the input value of a pin changes.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>A0</code></li>
+                <li><code>handler</code> - <b>function</b> - The function to call whenever the pin value changes. This function will be called with one argument of type <b>boolean</b> which represents the input value on that pin. <code>true</code> if high, or <code>false</code> if low</li>
+                <li><code>pull</code> - optional <b>string</b> - As described above</li>
+                <li><code>trigger</code> - optional <b>string</b> - The specific transition to trigger the event on. Can be either <code>"LOW_TO_HIGH"</code>, <code>"HIGH_TO_LOW"</code>, or <code>"BOTH"</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li> <b>metatable</b> - An object representing the event</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.digital.unassign(event)</code>
+        </td>
+        <td>
+            Disables the event and detaches the pin from the handler.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>event</code> - <b>metatable</b> - The object that was returned from <code>device.digital.assign_input_event()</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -150,13 +213,102 @@ my_c3_event:unassign()
 
 ### Analog input
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.analog.get_input(pin, { acquisition_time=40, range=Vout })` | Reads the analog value on an analog-capable pin | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`acquisition_time` *optional* - **integer** - A time in microseconds across which to make the measurement. Can be either `3`, `5`, `10`, `15`, `20`, `40`, or multiples of 40 e.g. `80`, `120`, `160`, etc. Higher values allow for accurate measurement of greater source resistances. Those maximum resistances being 10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ and 800kΩ respectively, with 800kΩ being the maximum source resistance for acquisition times greater than 40 microseconds<br><br>`range` *optional* - **integer** - The maximum expected voltage for the input signal. Defaults to the same value as V<sub>OUT</sub> | **table** - A table containing two key-value pairs. `voltage` a **number** representing the voltage on the pin, or `percentage` a **number** representing the real voltage represented as a percentage with respect to the range of 0V and the `range` value
-| `device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_time=40, range=Vout })` | Reads the analog value across two analog capable pins | `positive_pin` - **string** - The pin name of the positive pin<br><br>`negative_pin` - **string** - The pin name of the negative pin<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above | **table** - Same as above
-| `device.analog.assign_input_high_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })` | Assigns an event handler that triggers whenever the input pin crosses a high threshold. | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`handler` - **function** - The function to call whenever the threshold is crossed. This function will be called with one argument of type **boolean** which represents if the value has crossed above or below the threshold. `true` if crossed above, or `false` if crossed below<br><br>`percentage` - **number** - The level represented as a percentage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`voltage` - **number** - The level represented as a voltage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above | **metatable** - An object representing the event
-| `device.analog.assign_input_low_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })` | Assigns an event handler that triggers whenever the input pin crosses a low threshold.  | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`handler` - **function** - The function to call whenever the threshold is crossed. This function will be called with one argument of type **boolean** which represents if the value has crossed above or below the threshold. `true` if crossed below, or `false` if crossed above<br><br>`percentage` - **number** - The level represented as a percentage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`voltage` - **number** - The level represented as a voltage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above | **metatable** - As described above
-| `device.analog.unassign(event)` | Disables the event and detaches the pin from the handler | `event` - **metatable** - The object that was returned from `device.analog.assign_input_high_event()` or `device.analog.assign_input_low_event()` | **nil**
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.analog.get_input(pin, { acquisition_time=40, range=Vout })</code>
+        </td>
+        <td>
+            Reads the analog value on an analog-capable pin.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>A0</code></li>
+                <li><code>acquisition_time</code> - optional <b>integer</b> - A time in microseconds across which to make the measurement. Can be either <code>3</code>, <code>5</code>, <code>10</code>, <code>15</code>, <code>20</code>, <code>40</code>, or multiples of 40 e.g. <code>80</code>, <code>120</code>, <code>160</code>, etc. Higher values allow for accurate measurement of greater source resistances. Those maximum resistances being 10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ and 800kΩ respectively, with 800kΩ being the maximum source resistance for acquisition times greater than 40 microseconds</li>
+                <li><code>range</code> - optional <b>integer</b> - The maximum expected voltage for the input signal. Defaults to the same value as V<sub>OUT</sub></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li> <b>table</b> - A table containing two key-value pairs. <code>voltage</code> a <b>number</b> representing the voltage on the pin, or <code>percentage</code> a <b>number</b> representing the real voltage represented as a percentage with respect to the range of 0V and the <code>range</code> value</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_time=40, range=Vout })</code>
+        </td>
+        <td>
+            Reads the analog value across two analog capable pins.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>positive_pin</code> - <b>string</b> - The pin name of the positive pin</li>
+                <li><code>negative_pin</code> - <b>string</b> - The pin name of the negative pin</li>
+                <li><code>acquisition_time</code> - optional <b>integer</b> - As described above</li>
+                <li><code>range</code> - optional <b>integer</b> - As described above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li> <b>table</b> - Same as above</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.analog.assign_input_high_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })</code>
+        </td>
+        <td>
+            Assigns an event handler that triggers whenever the input pin crosses a high threshold.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>D0</code></li>
+                <li><code>handler</code> - <b>function</b> - The function to call whenever the threshold is crossed. This function will be called with one argument of type <b>boolean</b> which represents if the value has crossed above or below the threshold. <code>true</code> if crossed above, or <code>false</code> if crossed below</li>
+                <li><code>percentage</code> - <b>number</b> - The level represented as a percentage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
+                <li><code>voltage</code> - <b>number</b> - The level represented as a voltage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
+                <li><code>acquisition_time</code> - optional <b>integer</b> - As described above</li>
+                <li><code>range</code> - optional <b>integer</b> - As described above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li> <b>metatable</b> - An object representing the event</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.analog.assign_input_low_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })</code>
+        </td>
+        <td>
+            Assigns an event handler that triggers whenever the input pin crosses a low threshold.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>D0</code></li>
+                <li><code>handler</code> - <b>function</b> - The function to call whenever the threshold is crossed. This function will be called with one argument of type <b>boolean</b> which represents if the value has crossed above or below the threshold. <code>true</code> if crossed above, or <code>false</code> if crossed below</li>
+                <li><code>percentage</code> - <b>number</b> - The level represented as a percentage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
+                <li><code>voltage</code> - <b>number</b> - The level represented as a voltage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
+                <li><code>acquisition_time</code> - optional <b>integer</b> - As described above</li>
+                <li><code>range</code> - optional <b>integer</b> - As described above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li> <b>metatable</b> - As described above</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.analog.unassign(event)</code>
+        </td>
+        <td>
+            Disables the event and detaches the pin from the handler.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>event</code> - <b>metatable</b> - The object that was returned from <code>device.analog.assign_input_high_event()</code> or <code>device.analog.assign_input_low_event()</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -183,9 +335,29 @@ my_d1_event:unassign()
 
 ### PWM output (analog output)
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.analog.set_output(pin, percentage { frequency=1 })` | Sets a PWM duty cycle on a pin | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`percentage` - **number** - The duty cycle to output on the pin as a percentage<br><br>`frequency` *optional* - **number** - The PWM frequency in Hz | **nil**
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.analog.set_output(pin, percentage { frequency=1 })</code>
+        </td>
+        <td>
+            Sets a PWM duty cycle on a pin.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>A0</code></li>
+                <li><code>percentage</code> - <b>number</b> - The duty cycle to output on the pin as a percentage</li>
+                <li><code>frequency</code> - optional <b>number</b> - The PWM frequency in Hz</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -196,11 +368,57 @@ device.analog.set_output("E1", 25)
 
 ### I2C communication
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.i2c.read(address, register, length, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400, register_address_size=8 })` | Reads a number of bytes from a register on an I2C connected device | `address` - **integer** - The 7-bit address of the I2C device<br><br>`register` - **integer** - The address of the register to read from<br><br>`length` - **integer** - The number of bytes to read<br><br>`port` *optional* - **string** - The 4-pin port which the I2C device is connected to. I.e. `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`. Using this parameter will assume the SCL and SDA pin order to match the [Stemma QT](https://learn.adafruit.com/introducing-adafruit-stemma-qt/what-is-stemma) and [Qwiic](https://www.sparkfun.com/qwiic) pinout. If a different pin order is required, the `scl_pin` and `sda_pin` parameters should be provided instead<br><br>`scl_pin` *optional* - **string** - Specifies the pin to use for the SCL signal. Any IO pin may be specified as a string, e.g. `"C3"`. Must be used in conjunction with `sda_pin` and cannot be used if the `port` parameter is already specified.<br><br>`sda_pin` *optional* - **string** - Specifies the pin to use for the SDA signal. Any IO pin may be specified as a string, e.g. `"C4"`. Must be used in conjunction with `scl_pin` and cannot be used if the `port` parameter is already specified.<br><br>`frequency` *optional* - The frequency to use for I2C communications in kHz. Can be either `100`, `250` or `400`<br><br>`register_address_size` *optional* - **integer** - The size of the register to read in bits. Can be either `8`, `16` or `32`. | **table** - A table containing three key-value pairs. `success`, a **boolean** representing if the transaction was a success. `data`, a **string** representing the bytes read. Always of size `length` as specified in the function call. `value`, an **integer** representing the first data value, useful if only one byte was requested
-| `device.i2c.write(address, register, data, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400, register_address_size=8 })` | Writes a number of bytes to a register on an I2C connected device | `address` - **integer** - As described above<br><br>`register` - **integer** - As described above<br><br>`data` - **string** - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. `"\x1A\x50\x00\xF1"`<br><br>`port` *optional* - **string** - As described above<br><br>`scl_pin` *optional* - **string** - As described above<br><br>`sda_pin` *optional* - **string** - As described above<br><br>`frequency` *optional* - **integer** - As described above<br><br>`register_address_size` *optional* - **integer** - As described above | **boolean** - Returns `true` if the write was successful, or `false` otherwise
-
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.i2c.read(address, register, length, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400, register_address_size=8 })</code>
+        </td>
+        <td>
+            Reads a number of bytes from a register on an I2C connected device.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>address</code> - <b>integer</b> - The 7-bit address of the I2C device</li>
+                <li><code>register</code> - <b>number</b> - The address of the register to read from</li>
+                <li><code>length</code> - <b>integer</b> - The number of bytes to read</li>
+                <li><code>port</code> - optional <b>string</b> - The 4-pin port which the I2C device is connected to. I.e. <code>"PORTA"</code>, <code>"PORTB"</code>, <code>"PORTE"</code>, or <code>"PORTF"</code>. Using this parameter will assume the SCL and SDA pin order to match the <a href="https://learn.adafruit.com/introducing-adafruit-stemma-qt/what-is-stemma">Stemma QT</a> and <a href="https://www.sparkfun.com/qwiic">Qwiic</a> pinout. If a different pin order is required, the <code>scl_pin</code> and <code>sda_pin</code> parameters should be provided instead</li>
+                <li><code>scl_pin</code> - optional <b>string</b> - Specifies the pin to use for the SCL signal. Any IO pin may be specified as a string, e.g. <code>"C3"</code>. Must be used in conjunction with <code>sda_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
+                <li><code>sda_pin</code> - optional <b>string</b> - Specifies the pin to use for the SDA signal. Any IO pin may be specified as a string, e.g. <code>"C4"</code>. Must be used in conjunction with <code>scl_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
+                <li><code>frequency</code> - optional <b>integer</b> - The frequency to use for I2C communications in kHz. Can be either <code>100</code>, <code>250</code> or <code>400</code></li>
+                <li><code>register_address_size</code> - optional <b>integer</b> - The size of the register to read in bits. Can be either <code>8</code>, <code>16</code> or <code>32</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>table</b> - A table containing three key-value pairs. <code>success</code>, a <b>boolean</b> representing if the transaction was a success. <code>data</code>, a <b>string</b> representing the bytes read. Always of size <code>length</code> as specified in the function call. <code>value</code>, an <b>integer</b> representing the first data value, useful if only one byte was requested </li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.i2c.write(address, register, data, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400, register_address_size=8 })</code>
+        </td>
+        <td>
+            Writes a number of bytes to a register on an I2C connected device.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>address</code> - <b>integer</b> - As described above</li>
+                <li><code>register</code> - <b>number</b> - As described above</li>
+                <li><code>data</code> - <b>string</b> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
+                <li><code>port</code> - optional <b>string</b> - As described above</li>
+                <li><code>scl_pin</code> - optional <b>string</b> - As described above</li>
+                <li><code>sda_pin</code> - optional <b>string</b> - As described above</li>
+                <li><code>frequency</code> - optional <b>integer</b> - As described above</li>
+                <li><code>register_address_size</code> - optional <b>integer</b> - As described above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>boolean</b> - Returns <code>true</code> if the write was successful, or <code>false</code> otherwise</li></ul>
+        </td>
+    </tr>
+</table>
+****
 Example usage:
 
 ```lua
