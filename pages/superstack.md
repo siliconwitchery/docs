@@ -418,7 +418,7 @@ device.analog.set_output("E1", 25)
         </td>
     </tr>
 </table>
-****
+
 Example usage:
 
 ```lua
@@ -442,11 +442,78 @@ device.i2c.write(0x23, 0xF9, "\x12\x34")
 
 ### SPI communication
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.spi.read(register, length, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })` | Reads a number of bytes from a register on an SPI connected device | `register` - **integer** - The address of the register to read from<br><br>`length` - **integer** - The number of bytes to read<br><br>`mosi_pin` *optional* - **string** - Specifies the pin to use for the MOSI signal. Any IO pin may be specified as a string, e.g. "D0"<br><br>`miso_pin` *optional* - **string** - Specifies the pin to use for the MISO signal. Any IO pin may be specified as a string, e.g. "D1".<br><br>`sck_pin` *optional* - **string** - Specifies the pin to use for the SCK signal. Any IO pin may be specified as a string, e.g. "D2".<br><br>`cs_pin` *optional* - **string** - Specifies the pin to use for the CS signal. Any IO pin may be specified as a string, e.g. "D3".<br><br>`frequency` *optional* - **integer** - The frequency to use for SPI transactions in kHz<br><br>`register_address_size` *optional* - **integer** - The size of the register address in bits. Can be either `8`, `16` or `32` | **table** - A table containing two key-value pairs. `data`, a **string** representing the bytes read. Always of size `length` as specified in the function call. `value`, an **integer** representing the first data value, useful if only one byte was requested
-| `device.spi.write(register, data, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })`  | Writes a number of bytes to a register on an SPI connected device  | `register` - **integer** - Same as above<br><br>`data` - **string** - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. `"\x1A\x50\x00\xF1"`<br><br>`mosi_pin` *optional* - **string** - As described above<br><br>`miso_pin` *optional* - **string** - As described above<br><br>`sck_pin` *optional* - **string** - As described above<br><br>`cs_pin` *optional* - **string** - As described above<br><br>`frequency` *optional* - **integer** - As described above<br><br>`register_address_size` *optional* - **integer** - As described above | **nil**
-| `device.spi.transaction{ read_length, write_data, hold_cs=false, mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500 }` | Reads and writes an arbitrary number of bytes at the same time. I.e while data is being clocked out on the MOSI pin, any data received on the MISO pin will be recorded in parallel. The total number of bytes transacted will therefore be the larger of `read_length` or `write_data`. If you wish to, for example, write 5 bytes, and then read 10 bytes, `read_length` must be set to 15. The first 5 bytes can be ignored, and the remaining 10 bytes will contain the read data | `read_length` - **integer** -  The number of bytes to read<br><br>`write_data` - **string** - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. `"\x1A\x50\x00\xF1"`<br><br>`hold_cs` *optional* - **boolean** - If set to `true` will continue to hold the CS pin low after the transaction is completed. This can be useful if the transaction needs to be broken up into multiple steps, or if the CS pin needs to be held for any other reason. Any subsequent call to `device.spi.transaction` with `hold_cs` set to false will then return the CS pin to a high value once completed<br><br>`mosi_pin` *optional* - **string** - As described above<br><br>`miso_pin` *optional* - **string** - As described above<br><br>`sck_pin` *optional* - **string** - As described above<br><br>`cs_pin` *optional* - **string** - As described above<br><br>`frequency` *optional* - **integer** - As described above | **string** - The bytes read. Always of size `read_length`, or `#write_data`, whichever was larger
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.spi.read(register, length, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })</code>
+        </td>
+        <td>
+            Reads a number of bytes from a register on an SPI connected device.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>register</code> - <b>integer</b> - The address of the register to read from</li>
+                <li><code>length</code> - <b>integer</b> - The number of bytes to read</li>
+                <li><code>mosi_pin</code> - optional <b>string</b> - Specifies the pin to use for the MOSI signal. Any IO pin may be specified as a string, e.g. <code>"D0"</code></li>
+                <li><code>miso_pin</code> - optional <b>string</b> - Specifies the pin to use for the MISO signal. Any IO pin may be specified as a string, e.g. <code>"D1"</code></li>
+                <li><code>sck_pin</code> - optional <b>string</b> - Specifies the pin to use for the SCK signal. Any IO pin may be specified as a string, e.g. <code>"D2"</code></li>
+                <li><code>cs_pin</code> - optional <b>string</b> - Specifies the pin to use for the CS signal. Any IO pin may be specified as a string, e.g. <code>"D3"</code></li>
+                <li><code>frequency</code> - optional <b>integer</b> - The frequency to use for SPI transactions in kHz</li>
+                <li><code>register_address_size</code> - optional <b>integer</b> - The size of the register address in bits. Can be either <code>8</code>, <code>16</code> or <code>32</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>table</b> - A table containing two key-value pairs. <code>data</code>, a <b>string</b> representing the bytes read. Always of size <code>length</code> as specified in the function call. <code>value</code>, an <b>integer</b> representing the first data value, useful if only one byte was requested</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.spi.write(register, data, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })</code>
+        </td>
+        <td>
+            Writes a number of bytes from a register on an SPI connected device.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>register</code> - <b>integer</b> - Same as above</li>
+                <li><code>data</code> - <b>string</b> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
+                <li><code>mosi_pin</code> - optional <b>string</b> - As described above</li>
+                <li><code>miso_pin</code> - optional <b>string</b> - As described above</li>
+                <li><code>sck_pin</code> - optional <b>string</b> - As described above</li>
+                <li><code>cs_pin</code> - optional <b>string</b> - As described above</li>
+                <li><code>frequency</code> - optional <b>integer</b> - As described above</li>
+                <li><code>register_address_size</code> - optional <b>integer</b> - As described above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.spi.transaction{ read_length, write_data, hold_cs=false, mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500 }</code>
+        </td>
+        <td>
+            Reads and writes an arbitrary number of bytes at the same time. I.e while data is being clocked out on the MOSI pin, any data received on the MISO pin will be recorded in parallel. The total number of bytes transacted will therefore be the larger of <code>read_length</code> or <code>write_data</code>. If you wish to, for example, write 5 bytes, and then read 10 bytes, <code>read_length</code> must be set to 15. The first 5 bytes can be ignored, and the remaining 10 bytes will contain the read data.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>read_length</code> - <b>integer</b> - The number of bytes to read from</li>
+                <li><code>write_data</code> - <b>string</b> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
+                <li><code>hold_cs</code> - optional <b>boolean</b> - If set to <code>true</code> will continue to hold the CS pin low after the transaction is completed. This can be useful if the transaction needs to be broken up into multiple steps, or if the CS pin needs to be held for any other reason. Any subsequent call to <code>device.spi.transaction</code> with <code>hold_cs</code> set to false will then return the CS pin to a high value once completed</li>
+                <li><code>mosi_pin</code> - optional <b>string</b> - As described above</li>
+                <li><code>miso_pin</code> - optional <b>string</b> - As described above</li>
+                <li><code>sck_pin</code> - optional <b>string</b> - As described above</li>
+                <li><code>cs_pin</code> - optional <b>string</b> - As described above</li>
+                <li><code>frequency</code> - optional <b>integer</b> - As described above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>string</b> - The bytes read. Always of size <code>read_length</code>, or <code>#write_data</code>, whichever was larger</li></ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -469,11 +536,67 @@ result = device.spi.transaction{ read_length=10 }
 
 ### UART communication
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.uart.write(data, { baudrate=9600, tx_pin="B1", cts_pin=nil, parity=false, stop_bits=1 })` | Writes UART data to a pin | `data` - **string** - The data to send<br><br>`baudrate` *optional* - **integer** - The baudrate in bits-per-second at which to send the data. Can be `1200`, `2400`, `4800`, `9600`, `14400`, `19200`, `28800`, `31250`, `38400`, `56000`, `57600`, `76800`, `115200`, `230400`, `250000`, `460800`, `921600`, or `1000000`<br><br>`tx_pin` *optional* - **string** - Specifies the pin to use for the transmit signal. Any IO pin may be specified as a string, e.g. `"C1"`<br><br>`cts_pin` *optional* - **string** - Specifies the pin to use for the clear-to-send signal. Any IO pin may be specified as a string, e.g. `"C3"`. If `nil` is given, the signal isn't used<br><br>`parity` *optional* - **bool** - Enables the parity bit if set to `true`<br><br>`stop_bits` *optional* - **integer** - Sets the number of stop bits. Can be either `1` or `2` | **nil**
-| `device.uart.assign_read_event(terminator, handler, { baudrate=9600, rx_pin="B0", tx_pin="B1", rts_pin=nil, cts_pin=nil, parity=false, stop_bits=1 })` | Buffers UART data from a pin, and triggers an event whenever a specified terminating character is seen | `terminator` - **string** - The character to wait for until triggering the event. If set to `nil`, the event is triggered for every new character received<br><br>`handler` - **function** - The function to call whenever data is received. This function will be called with one argument of type **string** which will contain all the buffered bytes since the last event was triggered, or the event was enabled<br><br>`baudrate` *optional* - **integer** - As described above<br><br>`rx_pin` *optional* - **string** - Specifies the pin to use for the receive signal. Any IO pin may be specified as a string, e.g. `"C0"`<br><br>`rts_pin` *optional* - **string** - Specifies the pin to use for the ready-to-send signal. Any IO pin may be specified as a string, e.g. `"C2"`. If `nil` is given, the signal isn't used<br><br>`parity` *optional* - **bool** - As described above | **metatable** - An object representing the event
-| `device.uart.unassign(event)` | Disables the event and detaches the pin from the handler | `event` - **metatable** - The object that was returned from `device.uart.assign_read_event()` | **nil**
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.uart.write(data, { baudrate=9600, tx_pin="B1", cts_pin=nil, parity=false, stop_bits=1 })</code>
+        </td>
+        <td>
+            Writes UART data to a pin.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>data</code> - <b>string</b> - The data to send</li>
+                <li><code>baudrate</code> - optional <b>integer</b> - The baudrate in bits-per-second at which to send the data. Can be <code>1200</code>, <code>2400</code>, <code>4800</code>, <code>9600</code>, <code>14400</code>, <code>19200</code>, <code>28800</code>, <code>31250</code>, <code>38400</code>, <code>56000</code>, <code>57600</code>, <code>76800</code>, <code>115200</code>, <code>230400</code>, <code>250000</code>, <code>460800</code>, <code>921600</code>, or <code>1000000</code></li>
+                <li><code>tx_pin</code> - optional <b>string</b> - Specifies the pin to use for the transmit signal. Any IO pin may be specified as a string, e.g. <code>"C1"</code></li>
+                <li><code>cts_pin</code> - optional <b>string</b> - Specifies the pin to use for the clear-to-send signal. Any IO pin may be specified as a string, e.g. <code>"C3"</code>. If <code>nil</code> is given, the signal isn't used</li>
+                <li><code>parity</code> - optional <b>boolean</b> - Enables the parity bit if set to <code>true</code></li>
+                <li><code>stop_bits</code> - optional <b>integer</b> - Sets the number of stop bits. Can be either <code>1</code> or <code>2</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.uart.assign_read_event(terminator, handler, { baudrate=9600, rx_pin="B0", tx_pin="B1", rts_pin=nil, cts_pin=nil, parity=false, stop_bits=1 })</code>
+        </td>
+        <td>
+            Buffers UART data from a pin, and triggers an event whenever a specified terminating character is seen.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>terminator</code> - <b>string</b> - The character to wait for until triggering the event. If set to <code>nil</code>, the event is triggered for every new character received</li>
+                <li><code>handler</code> - <b>function</b> - The function to call whenever data is received. This function will be called with one argument of type <b>string</b> which will contain all the buffered bytes since the last event was triggered, or the event was enabled</li>
+                <li><code>baudrate</code> - optional <b>integer</b> - As described above</li>
+                <li><code>rx_pin</code> - optional <b>string</b> - Specifies the pin to use for the receive signal. Any IO pin may be specified as a string, e.g. <code>"C0"</code></li>
+                <li><code>rts_pin</code> - optional <b>string</b> - Specifies the pin to use for the ready-to-send signal. Any IO pin may be specified as a string, e.g. <code>"C2"</code>. If <code>nil</code> is given, the signal isn't used</li>
+                <li><code>parity</code> - optional <b>boolean</b> - As described above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>metatable</b> - An object representing the event</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.uart.unassign(event)</code>
+        </td>
+        <td>
+            Disables the event and detaches the pin from the handler.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>event</code> - <b>metatable</b> - The object that was returned from <code>device.uart.assign_read_event()</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -494,10 +617,47 @@ my_rx_event:unassign()
 
 ### PDM microphone input
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.audio.record(length, handler, { data_pin="E0", clock_pin="E1", sample_rate=8000, bit_depth=8 })` | Begins recording microphone input and and outputs the data to an event handler. The handler is called every `length` seconds and repeats until the `stop()` function is called | `length` - **float** - The length to record in seconds. The maximum allowable time will depend on the RAM currently used on the device. Using a lower `sample_rate` and `bit_depth` will allow for longer recordings but at reduced quality<br><br>`handler` - **function** - The function to call whenever data is ready to be processed. The function will be called with one argument of type **string** representing 1-byte-per-sample in the case of `bit_depth=8`, or 2-bytes-per-sample in the case of `bit_depth=16`. The samples will be signed values. This function should not spend longer than `length` time to process the data and exit, otherwise the internal buffer will overflow and cause glitches in the final audio<br><br>`data_pin` *optional* - **string** - Specifies the pin to use for the data input. Any IO pin may be specified as a string, e.g. `"F0"`<br><br>`clock_pin` *optional* - **string** - Specifies the pin to use for the clock input. Any IO pin may be specified as a string, e.g. `"F1"`<br><br>`sample_rate` - **integer** - The sample rate to record in samples per second. Can be either `8000` or `16000`<br><br>`bit_depth` - **integer** - The dynamic range of the samples recorded. Can be either `8` or `16` | **metatable** - An object representing the event
-| `device.audio.stop(event)` | Stops recording samples and calls the event handler one last time with any remaining data in the internal buffer | `event` - **metatable** - The object that was returned from `device.uart.assign_read_event()` | **nil**
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.audio.record(length, handler, { data_pin="E0", clock_pin="E1", sample_rate=8000, bit_depth=8 })</code>
+        </td>
+        <td>
+            Begins recording microphone input and and outputs the data to an event handler. The handler is called every <code>length</code> seconds and repeats until the <code>stop()</code> function is called.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>length</code> - <b>float</b> - The length to record in seconds. The maximum allowable time will depend on the RAM currently used on the device. Using a lower <code>sample_rate</code> and <code>bit_depth</code> will allow for longer recordings but at reduced quality</li>
+                <li><code>handler</code> - <b>function</b> - The function to call whenever data is ready to be processed. The function will be called with one argument of type <b>string</b> representing 1-byte-per-sample in the case of <code>bit_depth=8</code>, or 2-bytes-per-sample in the case of <code>bit_depth=16</code>. The samples will be signed values. This function should not spend longer than <code>length</code> time to process the data and exit, otherwise the internal buffer will overflow and cause glitches in the final audio</li>
+                <li><code>data_pin</code> - optional <b>string</b> - Specifies the pin to use for the data input. Any IO pin may be specified as a string, e.g. <code>"F0"</code></li>
+                <li><code>clock_pin</code> - optional <b>string</b> - Specifies the pin to use for the clock input. Any IO pin may be specified as a string, e.g. <code>"F1"</code></li>
+                <li><code>sample_rate</code> - <b>integer</b> - The sample rate to record in samples per second. Can be either <code>8000</code> or <code>16000</code></li>
+                <li><code>but_depth</code> - <b>integer</b> - he dynamic range of the samples recorded. Can be either <code>8</code> or <code>16</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>metatable</b> - An object representing the event</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.audio.stop(event)</code>
+        </td>
+        <td>
+            Stops recording samples and calls the event handler one last time with any remaining data in the internal buffer.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>event</code> - <b>metatable</b> - The object that was returned from <code>device.uart.assign_read_event()</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
