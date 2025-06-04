@@ -682,18 +682,118 @@ my_mic_event:stop()
 
 ### Sleep, power & system info
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.sleep(time)` | Puts the device into a low-power sleep for a certain amount of time | `time` - **number** - The time to sleep in seconds. E.g. `1.5` | **nil** 
-| `device.power.battery.set_charger_cv_cc(voltage, current)` | Sets the termination voltage and constant current values for the charger | `voltage` - **number** - The termination voltage of the cell. Can be either `3.50`, `3.55`, `3.60`, `3.65`, `4.00`, `4.05`, `4.10`, `4.15`, `4.20`, `4.25`, `4.30`, `4.35`, `4.40`, or `4.45`<br><br>`current` - **number** - The constant current to charge the cell at. Must be between `32` and `800` in steps of `2` | **nil**
-| `device.power.battery.get_voltage()` | Gets the voltage of the cell | - | **number** - The voltage of the cell in volts
-| `device.power.battery.get_charging_status()` | Gets the charging status of the cell | - | **string** - The current charging status. Either `charging`, `charged` or `discharging` if the battery is connected, or `external_power` if either no battery is installed, or the battery has a fault |
-| `device.power.set_vout(voltage)` | Sets the voltage of V<sub>OUT</sub> | `voltage` - **number** - The voltage to set. Can be between `1.8` and `3.3` in steps of `0.1` | **nil**`
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.sleep(time)</code>
+        </td>
+        <td>
+            Puts the device into a low-power sleep for a certain amount of time.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>time</code> - <b>number</b> - The time to sleep in seconds. E.g. <code>1.5</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.power.battery.set_charger_cv_cc(voltage, current)</code>
+        </td>
+        <td>
+            Sets the termination voltage and constant current values for the charger.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>voltage</code> - <b>number</b> - The termination voltage of the cell. Can be either <code>3.50</code>, <code>3.55</code>, <code>3.60</code>, <code>3.65</code>, <code>4.00</code>, <code>4.05</code>, <code>4.10</code>, <code>4.15</code>, <code>4.20</code>, <code>4.25</code>, <code>4.30</code>, <code>4.35</code>, <code>4.40</code>, or <code>4.45</code></li>
+                <li><code>current</code> - <b>number</b> - The constant current to charge the cell at. Must be between <code>32</code> and <code>800</code> in steps of <code>2</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.power.battery.get_voltage()</code>
+        </td>
+        <td>
+            Gets the voltage of the cell.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>-</ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>number</b> - The voltage of the cell in volts</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.power.battery.get_charging_status()</code>
+        </td>
+        <td>
+            Gets the charging status of the cell.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>-</ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>string</b> - The current charging status. Either <code>charging</code>, <code>charged</code> or <code>discharging</code> if the battery is connected, or <code>external_power</code> if either no battery is installed, or the battery has a fault</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.power.battery.set_vout(voltage)</code>
+        </td>
+        <td>
+            Sets the voltage of V<sub>OUT</sub>.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>voltage</code> - <b>number</b> - The termination voltage of the cell. Can be either <code>3.50</code>, <code>3.55</code>, <code>3.60</code>, <code>3.65</code>, <code>4.00</code>, <code>4.05</code>, <code>4.10</code>, <code>4.15</code>, <code>4.20</code>, <code>4.25</code>, <code>4.30</code>, <code>4.35</code>, <code>4.40</code>, or <code>4.45</code></li>
+                <li><code>current</code> - <b>number</b> - The voltage to set. Can be between <code>1.8</code> and <code>3.3</code> in steps of <code>0.1</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+</table>
 
-| Constant | Description | Value |
-|----------|-------------|-------|
-| `device.HARDWARE_VERSION` | The hardware version of the device | **string** - Always `"s2-module"` 
-| `device.FIRMWARE_VERSION` | The current firmware version of the Superstack firmware running on the device | **string** - A string representing the current firmware version. E.g. `"0.1.0+0"`
+<table>
+<tr>
+        <th>Constant</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.HARDWARE_VERSION</code>
+        </td>
+        <td>
+            The hardware version of the device.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><b>string</b> - Always <code>"s2-module"</code></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.FIRMWARE_VERSION</code>
+        </td>
+        <td>
+            The current firmware version of the Superstack firmware running on the device.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><b>string</b> - A string representing the current firmware version. E.g. <code>"0.1.0+0"</code></li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -723,9 +823,27 @@ device.power.set_vout(3.3)
 
 ### Networking (LTE)
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `network.send{ data }` | Sends data to Superstack | `data` - **table** - A table representing any data as key-value pairs. Will be converted to an equivalent JSON once it reaches Superstack. It's recommended to name keys in a full and clear way as that will be how the AI tools of Superstack will infer the meaning of the data. E.g. `temperature_celsius = 43.5` will help the AI understand that `43.5` represents temperature in Celsius units | **nil**
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>network.send{ data }</code>
+        </td>
+        <td>
+            Sends data to Superstack.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>data</code> - <b>table</b> - A table representing any data as key-value pairs. Will be converted to an equivalent JSON once it reaches Superstack. It's recommended to name keys in a full and clear way as that will be how the AI tools of Superstack will infer the meaning of the data. E.g. <code>temperature_celsius = 43.5</code> will help the AI understand that <code>43.5</code> represents temperature in Celsius units</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -750,10 +868,44 @@ network.send{
 
 ### Location (GPS)
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `location.get_latest()` | Returns the latest GPS data | - | **table** - A table containing key-value pairs. `valid`, a **boolean** representing if the GPS data is valid. `latitude`, a **number** representing the latitude. `longitude`, a **number** representing the longitude. `altitude`, a **number** representing the altitude. `accuracy`, a **number** representing the location and altitude accuracy. `speed`, a **number** representing the current speed. `speed_accuracy`, a **number** representing the speed accuracy. `satellites`, a **table** representing the current satellites statistics. `satellites` in turn contains three key-value pairs. `tracked`. an **integer** representing the number of satellites currently being tracked. `in_fix`. an **integer** representing the number of satellites currently being used for measurement. `unhealthy`. an **integer** representing the number of satellites that could not be used for measurement. |
-| `location.set_options({ accuracy="HIGH", power_saving="MEDIUM", tracking_interval=1 })` | Sets options related to the GPS module | `accuracy` *optional* - **string** - The accuracy of the reading to acquire. Can either be `"LOW"` where only three satellites are required to attain a fix, or `"HIGH"` where four satellites are required to attain a fix<br><br>`power_saving` *optional* - **string** - The level of power saving that the GPS aim to achieve. Can either be `"OFF"`, `"MEDIUM"`, `"MAX"`. A higher level of power saving will result in less accuracy and a slower time to attain a fix<br><br>`tracking_interval` *optional* - **integer** - The period to poll for new location updates. Can either be `1` for continuous 1-second updates, or a value in seconds between `10` and `65535` for slower updates which can save power | **nil**
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>location.get_latest()</code>
+        </td>
+        <td>
+            Returns the latest GPS data.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li>-</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>table</b> - A table containing key-value pairs. <code>valid</code>, a <b>boolean</b> representing if the GPS data is valid. <code>latitude</code>, a <b>number</b> representing the latitude. <code>longitude</code>, a <b>number</b> representing the longitude. <code>altitude</code>, a <b>number</b> representing the altitude. <code>accuracy</code>, a <b>number</b> representing the location and altitude accuracy. <code>speed</code>, a <b>number</b> representing the current speed. <code>speed_accuracy</code>, a <b>number</b> representing the speed accuracy. <code>satellites</code>, a <b>table</b> representing the current satellites statistics. <code>satellites</code> in turn contains three key-value pairs. <code>tracked</code>. an <b>integer</b> representing the number of satellites currently being tracked. <code>in_fix</code>. an <b>integer</b> representing the number of satellites currently being used for measurement. <code>unhealthy</code>. an <b>integer</b> representing the number of satellites that could not be used for measurement.</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>location.set_options({ accuracy="HIGH", power_saving="MEDIUM", tracking_interval=1 })</code>
+        </td>
+        <td>
+            Sets options related to the GPS module.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>accuracy</code> - optional <b>string</b> - The accuracy of the reading to acquire. Can either be <code>"LOW"</code> where only three satellites are required to attain a fix, or <code>"HIGH"</code> where four satellites are required to attain a fix</li>
+                <li><code>power_saving</code> - optional <b>string</b> - The level of power saving that the GPS aim to achieve. Can either be <code>"OFF"</code>, <code>"MEDIUM"</code>, <code>"MAX"</code>. A higher level of power saving will result in less accuracy and a slower time to attain a fix</li>
+                <li><code>tracking_interval</code> - optional <b>integer</b> -  The period to poll for new location updates. Can either be <code>1</code> for continuous 1-second updates, or a value in seconds between <code>10</code> and <code>65535</code> for slower updates which can save power</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -785,13 +937,89 @@ end
 
 ### File storage
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `storage.write(filename, data)` | Creates a file and writes data to it. If the file already exists, it is overwritten | `filename` - **string** - The name of the file<br><br>`data` - **string** - The data to save to the file | **nil**
-| `storage.append(filename, data)` | Creates a file and writes data to it. If the file already exists, the new data is appended to the current contents of the file | `filename` - **string** - As described above<br><br>`data` - **string** - As described above | **nil**
-| `storage.read(filename, { line=-1, length=nil, offset=0 })` | Reads out the contents of the file. Either returning an entire `"\n"` terminated line, or alternatively, a number of bytes with length `length` at an offset of `offset` | `filename` - **string** - As described above<br><br>`line` *optional* - **integer** - The index of the line to return. `1` being the first line, `2` being the second line, etc. Likewise, the lines can also be indexed from the end of the file. `-1` returns the last line of the file, `-2` the second to last, etc. `length` and `offset` are ignored when `line` is specified<br><br>`length` *optional* - **integer** - The number of bytes to read from the file. Cannot be used with the `line` option. If `length` is longer than the data present in the file, then a shorter result will be returned<br><br>`offset` *optional* - **integer** - When `length` is specified, this option allows reading from some arbitrary offset from within the file | **string** - The contents read
-| `storage.delete(filename)` | Deletes a file if it exists | `filename` - **string** - As described above | **bool** - `true` if the file was found and deleted, `false` otherwise
-| `storage.list()` | Lists all the files stored on the device | - | **table** - A table of **strings** representing each file saved on the device
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>storage.write(filename, data)</code>
+        </td>
+        <td>
+            Creates a file and writes data to it. If the file already exists, it is overwritten.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>filename</code> - <b>string</b> - The name of the file</li>
+                <li><code>data</code> - <b>string</b> - The data to save to the file</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>storage.append(filename, data)</code>
+        </td>
+        <td>
+            Creates a file and writes data to it. If the file already exists, the new data is appended to the current contents of the file.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>filename</code> - <b>string</b> - As described above</li>
+                <li><code>data</code> - <b>string</b> - As described above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li>nil</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>storage.read(filename, { line=-1, length=nil, offset=0 })</code>
+        </td>
+        <td>
+            Reads out the contents of the file. Either returning an entire <code>"\n"</code> terminated line, or alternatively, a number of bytes with length <code>length</code> at an offset of <code>offset</code>.
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>filename</code> - <b>string</b> - As described above</li>
+                <li><code>line</code> - optional <b>integer</b> - The index of the line to return. <code>1</code> being the first line, <code>2</code> being the second line, etc. Likewise, the lines can also be indexed from the end of the file. <code>-1</code> returns the last line of the file, <code>-2</code> the second to last, etc. <code>length</code> and <code>offset</code> are ignored when <code>line</code> is specified</li>
+                <li><code>length</code></li> - optional <b>integer</b> - The number of bytes to read from the file. Cannot be used with the <code>line</code> option. If <code>length</code> is longer than the data present in the file, then a shorter result will be returned</li>
+                <li><code>offset</code></li> - optional <b>integer</b> - When <code>length</code> is specified, this option allows reading from some arbitrary offset from within the file</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>string</b> - The contents read</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>storage.delete(filename)</code>
+        </td>
+        <td>
+            Deletes a file if it exists.
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>filename</code> - <b>string</b> - As described above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>boolean</b> - <code>true</code> if the file was found and deleted, <code>false</code> otherwise</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>storage.list()</code>
+        </td>
+        <td>
+            Lists all the files stored on the device.
+            <strong>Parameters:</strong>
+            <ul>
+                <li>-</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>table</b> - A table of <b>strings</b> representing each file saved on the device</li></ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -814,10 +1042,43 @@ storage.delete("my_file.txt")
 
 ### Timekeeping
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `time.get_unix_time()` | Returns the current Unix epoch known by the device | - | **number** - The number of seconds since 00:00:00 UTC on 1 January 1970 with a resolution of 1mS. If the device hasn't yet connected to the network to acquire the time, the returned value represents the number of seconds since the device was powered on
-| `time.get_time_date({unix_epoch, timezone})` | Gets the current time and date known by the device | `unix_epoch` *optional* - **number** - If supplied, the time and date at the given unix epoch will be returned. Otherwise the current time is used<br><br> `timezone` *optional* - **string** - The timezone to observe when returning the time and date. Can be given as a standard timezone abbreviation such as "EST", "GMT", or "CEST". If not used, the timezone of the network is used | **table** - A table containing key-value pairs. `known` a **boolean** representing if the device has obtained the time from the network, `second` an **integer** representing the current second. `minute` an **integer** representing the current minute. `hour` an **integer** representing the current hour. `day` an **integer** representing the current day. `weekday` a **string** representing the current weekday. `month` an **integer** representing the current month. `year` an **integer** representing the current year. `timezone` a **string** representing the current timezone as a standard timezone abbreviation |
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>time.get_unix_time()</code>
+        </td>
+        <td>
+            Returns the current Unix epoch known by the device.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li>-</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>number</b> - The number of seconds since 00:00:00 UTC on 1 January 1970 with a resolution of 1mS. If the device hasn't yet connected to the network to acquire the time, the returned value represents the number of seconds since the device was powered on</li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>time.get_time_date({unix_epoch, timezone})</code>
+        </td>
+        <td>
+            Gets the current time and date known by the device.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>unix_epoch</code> - optional <b>number</b> - If supplied, the time and date at the given unix epoch will be returned. Otherwise the current time is used</li>
+                <li><code>timezone</code> - optional <b>string</b> - The timezone to observe when returning the time and date. Can be given as a standard timezone abbreviation such as <code>"EST"</code>, <code>"GMT"</code>, or <code>"CEST"</code>. If not used, the timezone of the network is used</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li><b>table</b> - A table containing key-value pairs. <code>known</code> a <b>boolean</b> representing if the device has obtained the time from the network, <code>second</code> an <b>integer</b> representing the current second. <code>minute</code> an <b>integer</b> representing the current minute. <code>hour</code> an <b>integer</b> representing the current hour. <code>day</code> an <b>integer</b> representing the current day. <code>weekday</code> a <b>string</b> representing the current weekday. <code>month</code> an <b>integer</b> representing the current month. <code>year</code> an <b>integer</b> representing the current year. <code>timezone</code> a <b>string</b> representing the current timezone as a standard timezone abbreviation</li></ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
