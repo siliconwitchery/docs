@@ -91,37 +91,94 @@ network.send{ sensor_value=31.5 }
 
 ### Digital IO
 
-<!-- <table>
+<table>
     <tr>
         <th>Function</th>
         <th>Details</th>
     </tr>
     <tr>
         <td>
-            <code>device.digital.set_output(pin,&nbsp;value)</code>
+            <code>device.digital.set_output(pin, value)</code>
         </td>
         <td>
-            Sets or clears a digital output on a pin
+            Sets or clears a digital output on a pin.
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>pin</code> - string - The pin name. E.g. <code>"A0"</code></li>
-                <li><code>value</code> - boolean - The level to set on the pin. <code>true</code> for high, or <code>false</code> for low</li>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+                <li><code>value</code> - <strong>boolean</strong> - The level to set on the pin. <code>true</code> for high, or <code>false</code> for low</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
-</table> -->
-
-
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.digital.set_output(pin, value)` | Sets or clears a digital output on a pin | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`value` - **boolean** - The level to set on the pin. `true` for high, or `false` for low | **nil**
-| `device.digital.get_input(pin, { pull="NO_PULL" })` | Gets the digital value on a pin | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`pull` *optional* - **string** - Selects the pull mode on the pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"` | **boolean** - `true` if the pin is high, or `false` if it's low
-| `device.digital.assign_input_event(pin, handler, { pull="NO_PULL", trigger="BOTH" })` | Assigns an event handler that triggers whenever the input value of a pin changes | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`handler` - **function** - The function to call whenever the pin value changes. This function will be called with one argument of type **boolean** which represents the input value on that pin. `true` if high, or `false` if low<br><br>`pull` *optional* - **string** - As described above<br><br>`trigger` *optional* - **string** - The specific transition to trigger the event on. Can be either `"LOW_TO_HIGH"`, `"HIGH_TO_LOW"`, or `"BOTH"` | **metatable** - An object representing the event
-| `device.digital.unassign(event)` | Disables the event and detaches the pin from the handler | `event` - **metatable** - The object that was returned from `device.digital.assign_input_event()` | **nil**
-
+    <tr>
+        <td>
+            <code>device.digital.get_input(pin, { pull="PULL_DOWN" })</code>
+        </td>
+        <td>
+            Gets the digital value on a pin.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>pull</code> - <strong>string</strong> - Selects the pull mode on the pin. Can be <code>"PULL_UP"</code>, <code>"PULL_DOWN"</code>, or <code>"NO_PULL"</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>boolean</strong> - <code>true</code> if the pin is high, or <code>false</code> if it's low</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.digital.assign_input_event(pin, handler, { pull="PULL_DOWN" })</code>
+        </td>
+        <td>
+            Assigns an event handler that triggers whenever the input value of a pin changes.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+                <li><code>handler</code> - <strong>function</strong> - The function to call whenever the pin value changes. This function will be called with two arguments:</li>
+                <ul>
+                    <li><code>pin</code> - <strong>string</strong> - The pin name that generated the event. E.g. <code>A0</code></li>
+                    <li><code>state</code> - <strong>boolean</strong> - The value on the pin when the event occurred. <code>true</code> if the pin was high, or <code>false</code> if the pin was low</li>
+                </ul>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>pull</code> - <strong>string</strong> - Selects the pull mode on the pin. Can be <code>"PULL_UP"</code>, <code>"PULL_DOWN"</code>, or <code>"NO_PULL"</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.digital.unassign_input_event(pin)</code>
+        </td>
+        <td>
+            Disables the event and detaches the pin from the handler.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -134,58 +191,206 @@ local val = device.digital.get_input("D0")
 print(val)
 
 -- Assign a function that triggers whenever the input value of C3 changes
-function my_pin_handler(value)
-    if value == true then
-        print("C3 went high")
+function my_pin_handler(pin, state)
+    if state == true then
+        print(pin.." went high")
     else
-        print("C3 went low")
+        print(pin.." went low")
     end
 end
 
-local my_c3_event = device.digital.assign_input_event("C3", my_pin_handler)
+device.digital.assign_input_event("C3", my_pin_handler)
 
 -- Disable the event and detach the pin from the handler if no longer needed
-my_c3_event:unassign()
+device.digital.unassign_input_event("C3")
 ```
 
 ### Analog input
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.analog.get_input(pin, { acquisition_time=40, range=Vout })` | Reads the analog value on an analog-capable pin | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`acquisition_time` *optional* - **integer** - A time in microseconds across which to make the measurement. Can be either `3`, `5`, `10`, `15`, `20`, `40`, or multiples of 40 e.g. `80`, `120`, `160`, etc. Higher values allow for accurate measurement of greater source resistances. Those maximum resistances being 10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ and 800kΩ respectively, with 800kΩ being the maximum source resistance for acquisition times greater than 40 microseconds<br><br>`range` *optional* - **integer** - The maximum expected voltage for the input signal. Defaults to the same value as V<sub>OUT</sub> | **table** - A table containing two key-value pairs. `voltage` a **number** representing the voltage on the pin, or `percentage` a **number** representing the real voltage represented as a percentage with respect to the range of 0V and the `range` value
-| `device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_time=40, range=Vout })` | Reads the analog value across two analog capable pins | `positive_pin` - **string** - The pin name of the positive pin<br><br>`negative_pin` - **string** - The pin name of the negative pin<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above | **table** - Same as above
-| `device.analog.assign_input_high_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })` | Assigns an event handler that triggers whenever the input pin crosses a high threshold. | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`handler` - **function** - The function to call whenever the threshold is crossed. This function will be called with one argument of type **boolean** which represents if the value has crossed above or below the threshold. `true` if crossed above, or `false` if crossed below<br><br>`percentage` - **number** - The level represented as a percentage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`voltage` - **number** - The level represented as a voltage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above | **metatable** - An object representing the event
-| `device.analog.assign_input_low_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })` | Assigns an event handler that triggers whenever the input pin crosses a low threshold.  | `pin` - **string** - The pin name. E.g. `"D0"`<br><br>`handler` - **function** - The function to call whenever the threshold is crossed. This function will be called with one argument of type **boolean** which represents if the value has crossed above or below the threshold. `true` if crossed below, or `false` if crossed above<br><br>`percentage` - **number** - The level represented as a percentage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`voltage` - **number** - The level represented as a voltage at which to trigger the event. Either `percentage` or `voltage` must be provided. Not both.<br><br>`acquisition_time` *optional* - **integer** - As described above<br><br>`range` *optional* - **integer** - As described above | **metatable** - As described above
-| `device.analog.unassign(event)` | Disables the event and detaches the pin from the handler | `event` - **metatable** - The object that was returned from `device.analog.assign_input_high_event()` or `device.analog.assign_input_low_event()` | **nil**
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.analog.get_input(pin, { acquisition_time=40, range=Vout })</code>
+        </td>
+        <td>
+            Reads the analog value on an analog-capable pin.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>acquisition_time</code> - <strong>integer</strong> - A time in microseconds across which to make the measurement. Can be either <code>3</code>, <code>5</code>, <code>10</code>, <code>15</code>, <code>20</code>, <code>40</code>, or multiples of 40 e.g. <code>80</code>, <code>120</code>, <code>160</code>, etc. Higher values allow for accurate measurement of greater source resistances. Those maximum resistances being 10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ and 800kΩ respectively, with 800kΩ being the maximum source resistance for acquisition times greater than 40 microseconds</li>
+                <li><code>range</code> - <strong>integer</strong> - The maximum expected voltage for the input signal. Defaults to the same value as V<sub>OUT</sub></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>table</strong> - A table of key-value pairs:</li>
+                <ul>
+                    <li><code>voltage</code> - <strong>number</strong> - The voltage present on the pin</li>
+                    <li><code>percentage</code> - <strong>number</strong> - The voltage represented as a percentage with respect to the range of 0V and the <code>range</code> value</li>
+                </ul>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_time=40, range=Vout })</code>
+        </td>
+        <td>
+            Reads the analog value across two analog capable pins.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>positive_pin</code> - <strong>string</strong> - The pin name of the positive pin</li>
+                <li><code>negative_pin</code> - <strong>string</strong> - The pin name of the negative pin</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>acquisition_time</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>range</code> - <strong>integer</strong> - Same as above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>table</strong> - Same as above</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.analog.assign_input_high_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })</code>
+        </td>
+        <td>
+            Assigns an event handler that triggers whenever the input pin crosses a high threshold.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>D0</code></li>
+                <li><code>handler</code> - <strong>function</strong> - The function to call whenever the threshold is crossed. This function will be called with two arguments:</li>
+                <ul>
+                    <li><code>pin</code> - <strong>string</strong> - The pin name that generated the event. E.g. <code>D0</code></li>
+                    <li><code>exceeded</code> - <strong>boolean</strong> - <code>true</code> if the voltage exceeded the threshold, or <code>false</code> otherwise</li>
+                </ul>          
+                <li><code>percentage</code> - <strong>number</strong> - The level represented as a percentage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
+                <li><code>voltage</code> - <strong>number</strong> - The level represented as a voltage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>acquisition_time</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>range</code> - <strong>integer</strong> - Same as above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.analog.assign_input_low_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })</code>
+        </td>
+        <td>
+            Assigns an event handler that triggers whenever the input pin crosses a low threshold.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>D0</code></li>
+                <li><code>handler</code> - <strong>function</strong> - The function to call whenever the threshold is crossed. This function will be called with two arguments:</li>
+                <ul>
+                    <li><code>pin</code> - <strong>string</strong> - Same as above</li>
+                    <li><code>exceeded</code> - <strong>boolean</strong> - Same as above</li>
+                </ul>          
+                <li><code>percentage</code> - <strong>number</strong> - Same as above</li>
+                <li><code>voltage</code> - <strong>number</strong> - Same as above</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>acquisition_time</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>range</code> - <strong>integer</strong> - Same as above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.analog.unassign_input_event(pin)</code>
+        </td>
+        <td>
+            Disables the event and detaches the pin from the handler.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>D0</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
 ```lua
 -- Read the analog value on pin D1 and print both the percentage and voltage values
 local d0_val = device.analog.get_input("D1")
-print(d0_val["percentage"])
-print(d0_val["voltage"])
+print(d0_val.percentage)
+print(d0_val.voltage)
 
 -- Trigger a print whenever the voltage on D2 drops below 1.5V
-function my_low_voltage_handler(triggered)
-    if (triggered) then
+function my_low_voltage_handler(pin, exceeded)
+    if (exceeded) then
         print("Voltage fell below 1.5V")
     else
         print("Voltage has returned back above 1.5V")
     end
 end
 
-local my_d1_event = device.analog.assign_input_high_event("D1", my_low_voltage_handler, { voltage=1.5 })
+device.analog.assign_input_high_event("D1", my_low_voltage_handler, { voltage=1.5 })
 
 -- Disable the event and detach the pin from the handler if no longer needed
-my_d1_event:unassign()
+device.analog.unassign_input_event("D1")
 ```
 
 ### PWM output (analog output)
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.analog.set_output(pin, percentage { frequency=1 })` | Sets a PWM duty cycle on a pin | `pin` - **string** - The pin name. E.g. `"A0"`<br><br>`percentage` - **number** - The duty cycle to output on the pin as a percentage<br><br>`frequency` *optional* - **number** - The PWM frequency in Hz | **nil**
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.analog.set_output(pin, percentage { frequency=1 })</code>
+        </td>
+        <td>
+            Sets a PWM duty cycle on a pin.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+                <li><code>percentage</code> - <strong>number</strong> - The duty cycle to output on the pin as a percentage</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>frequency</code> - <strong>number</strong> - The PWM frequency in Hz</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -196,10 +401,91 @@ device.analog.set_output("E1", 25)
 
 ### I2C communication
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.i2c.read(address, register, length, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400, register_address_size=8 })` | Reads a number of bytes from a register on an I2C connected device | `address` - **integer** - The 7-bit address of the I2C device<br><br>`register` - **integer** - The address of the register to read from<br><br>`length` - **integer** - The number of bytes to read<br><br>`port` *optional* - **string** - The 4-pin port which the I2C device is connected to. I.e. `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`. Using this parameter will assume the SCL and SDA pin order to match the [Stemma QT](https://learn.adafruit.com/introducing-adafruit-stemma-qt/what-is-stemma) and [Qwiic](https://www.sparkfun.com/qwiic) pinout. If a different pin order is required, the `scl_pin` and `sda_pin` parameters should be provided instead<br><br>`scl_pin` *optional* - **string** - Specifies the pin to use for the SCL signal. Any IO pin may be specified as a string, e.g. `"C3"`. Must be used in conjunction with `sda_pin` and cannot be used if the `port` parameter is already specified.<br><br>`sda_pin` *optional* - **string** - Specifies the pin to use for the SDA signal. Any IO pin may be specified as a string, e.g. `"C4"`. Must be used in conjunction with `scl_pin` and cannot be used if the `port` parameter is already specified.<br><br>`frequency` *optional* - The frequency to use for I2C communications in kHz. Can be either `100`, `250` or `400`<br><br>`register_address_size` *optional* - **integer** - The size of the register to read in bits. Can be either `8`, `16` or `32`. | **table** - A table containing three key-value pairs. `success`, a **boolean** representing if the transaction was a success. `data`, a **string** representing the bytes read. Always of size `length` as specified in the function call. `value`, an **integer** representing the first data value, useful if only one byte was requested
-| `device.i2c.write(address, register, data, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400, register_address_size=8 })` | Writes a number of bytes to a register on an I2C connected device | `address` - **integer** - As described above<br><br>`register` - **integer** - As described above<br><br>`data` - **string** - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. `"\x1A\x50\x00\xF1"`<br><br>`port` *optional* - **string** - As described above<br><br>`scl_pin` *optional* - **string** - As described above<br><br>`sda_pin` *optional* - **string** - As described above<br><br>`frequency` *optional* - **integer** - As described above<br><br>`register_address_size` *optional* - **integer** - As described above | **boolean** - Returns `true` if the write was successful, or `false` otherwise
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.i2c.read(address, register, length, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400, register_address_size=8 })</code>
+        </td>
+        <td>
+            Reads a number of bytes from a register on an I2C connected device.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>address</code> - <strong>integer</strong> - The 7-bit address of the I2C device</li>
+                <li><code>register</code> - <strong>number</strong> - The address of the register to read from</li>
+                <li><code>length</code> - <strong>integer</strong> - The number of bytes to read</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>port</code> - <strong>string</strong> - The 4-pin port which the I2C device is connected to. I.e. <code>"PORTA"</code>, <code>"PORTB"</code>, <code>"PORTE"</code>, or <code>"PORTF"</code>. Using this parameter will assume the SCL and SDA pin order to match the <a href="https://learn.adafruit.com/introducing-adafruit-stemma-qt/what-is-stemma">Stemma QT</a> and <a href="https://www.sparkfun.com/qwiic">Qwiic</a> pinout. If a different pin order is required, the <code>scl_pin</code> and <code>sda_pin</code> parameters should be provided instead</li>
+                <li><code>scl_pin</code> - <strong>string</strong> - The pin name to use for the SCL signal. E.g <code>"C3"</code>. Must be used in conjunction with <code>sda_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
+                <li><code>sda_pin</code> - <strong>string</strong> - The pin name to use for the SDA signal. E.g <code>"C4"</code>. Must be used in conjunction with <code>scl_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
+                <li><code>frequency</code> - <strong>integer</strong> - The frequency to use for I2C communications in kHz. Can be either <code>100</code>, <code>250</code> or <code>400</code></li>
+                <li><code>register_address_size</code> - <strong>integer</strong> - The size of the register to read in bits. Can be either <code>8</code>, <code>16</code> or <code>32</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>table</strong> - A table of key-value pairs:</li>
+                <ul>
+                    <li><code>success</code> - <strong>string</strong> - <code>true</code> if the transaction was a success, or <code>false</code> otherwise</li>
+                    <li><code>data</code> - <strong>string</strong> - The bytes read. Always of size <code>length</code> as specified in the function call</li>
+                    <li><code>value</code> - <strong>string</strong> - The first data value, useful if only one byte was requested</li>
+                </ul>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.i2c.write(address, register, data, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400, register_address_size=8 })</code>
+        </td>
+        <td>
+            Writes a number of bytes to a register on an I2C connected device.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>address</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>register</code> - <strong>number</strong> - Same as above</li>
+                <li><code>data</code> - <strong>string</strong> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>port</code> - <strong>string</strong> - Same as above</li>
+                <li><code>scl_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>sda_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>frequency</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>register_address_size</code> - <strong>integer</strong> - Same as above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>boolean</strong> - <code>true</code> if the transaction was a success, or <code>false</code> otherwise</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.i2c.scan({ port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400 })</code>
+        </td>
+        <td>
+            Scans the given port for all connected I2C devices.
+            <br><br>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>port</code> - <strong>string</strong> - Same as above</li>
+                <li><code>scl_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>sda_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>frequency</code> - <strong>integer</strong> - Same as above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>table</strong> - A table of <strong>integers</strong> listing the 7-bit addresses of all the devices found</li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -220,15 +506,104 @@ end
 
 -- Write 0x1234 to the register 0xF9
 device.i2c.write(0x23, 0xF9, "\x12\x34")
+
+-- Scan a port for devices
+local d = device.i2c.scan({port="PORTF"})
+
+print("Found " .. tostring(#d) .. " devices")
 ```
 
 ### SPI communication
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.spi.read(register, length, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })` | Reads a number of bytes from a register on an SPI connected device | `register` - **integer** - The address of the register to read from<br><br>`length` - **integer** - The number of bytes to read<br><br>`mosi_pin` *optional* - **string** - Specifies the pin to use for the MOSI signal. Any IO pin may be specified as a string, e.g. "D0"<br><br>`miso_pin` *optional* - **string** - Specifies the pin to use for the MISO signal. Any IO pin may be specified as a string, e.g. "D1".<br><br>`sck_pin` *optional* - **string** - Specifies the pin to use for the SCK signal. Any IO pin may be specified as a string, e.g. "D2".<br><br>`cs_pin` *optional* - **string** - Specifies the pin to use for the CS signal. Any IO pin may be specified as a string, e.g. "D3".<br><br>`frequency` *optional* - **integer** - The frequency to use for SPI transactions in kHz<br><br>`register_address_size` *optional* - **integer** - The size of the register address in bits. Can be either `8`, `16` or `32` | **table** - A table containing two key-value pairs. `data`, a **string** representing the bytes read. Always of size `length` as specified in the function call. `value`, an **integer** representing the first data value, useful if only one byte was requested
-| `device.spi.write(register, data, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })`  | Writes a number of bytes to a register on an SPI connected device  | `register` - **integer** - Same as above<br><br>`data` - **string** - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. `"\x1A\x50\x00\xF1"`<br><br>`mosi_pin` *optional* - **string** - As described above<br><br>`miso_pin` *optional* - **string** - As described above<br><br>`sck_pin` *optional* - **string** - As described above<br><br>`cs_pin` *optional* - **string** - As described above<br><br>`frequency` *optional* - **integer** - As described above<br><br>`register_address_size` *optional* - **integer** - As described above | **nil**
-| `device.spi.transaction{ read_length, write_data, hold_cs=false, mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500 }` | Reads and writes an arbitrary number of bytes at the same time. I.e while data is being clocked out on the MOSI pin, any data received on the MISO pin will be recorded in parallel. The total number of bytes transacted will therefore be the larger of `read_length` or `write_data`. If you wish to, for example, write 5 bytes, and then read 10 bytes, `read_length` must be set to 15. The first 5 bytes can be ignored, and the remaining 10 bytes will contain the read data | `read_length` - **integer** -  The number of bytes to read<br><br>`write_data` - **string** - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. `"\x1A\x50\x00\xF1"`<br><br>`hold_cs` *optional* - **boolean** - If set to `true` will continue to hold the CS pin low after the transaction is completed. This can be useful if the transaction needs to be broken up into multiple steps, or if the CS pin needs to be held for any other reason. Any subsequent call to `device.spi.transaction` with `hold_cs` set to false will then return the CS pin to a high value once completed<br><br>`mosi_pin` *optional* - **string** - As described above<br><br>`miso_pin` *optional* - **string** - As described above<br><br>`sck_pin` *optional* - **string** - As described above<br><br>`cs_pin` *optional* - **string** - As described above<br><br>`frequency` *optional* - **integer** - As described above | **string** - The bytes read. Always of size `read_length`, or `#write_data`, whichever was larger
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.spi.read(register, length, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })</code>
+        </td>
+        <td>
+            Reads a number of bytes from a register on an SPI connected device.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>register</code> - <strong>integer</strong> - The address of the register to read from</li>
+                <li><code>length</code> - <strong>integer</strong> - The number of bytes to read</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>mosi_pin</code> - <strong>string</strong> - The pin name to use for the MOSI signal. E.g <code>"D0"</code></li>
+                <li><code>miso_pin</code> - <strong>string</strong> - The pin name to use for the MISO signal. E.g <code>"D1"</code></li>
+                <li><code>sck_pin</code> - <strong>string</strong> - The pin name to use for the SCK signal. E.g <code>"D2"</code></li>
+                <li><code>cs_pin</code> - <strong>string</strong> - The pin name to use for the CS signal. E.g <code>"D3"</code></li>
+                <li><code>frequency</code> - <strong>integer</strong> - The frequency to use for SPI transactions in kHz</li>
+                <li><code>register_address_size</code> - <strong>integer</strong> - The size of the register address in bits. Can be either <code>8</code>, <code>16</code> or <code>32</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>table</strong> - A table of key-value pairs:</li>
+                <ul>
+                    <li><code>data</code> - <strong>string</strong> - The bytes read. Always of size <code>length</code> as specified in the function call</li>
+                    <li><code>value</code> - <strong>string</strong> - The first data value, useful if only one byte was requested</li>
+                </ul>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.spi.write(register, data, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })</code>
+        </td>
+        <td>
+            Writes a number of bytes to a register on an SPI connected device.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>register</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>data</code> - <strong>string</strong> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>mosi_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>miso_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>sck_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>cs_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>frequency</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>register_address_size</code> - <strong>integer</strong> - Same as above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul><li><strong>nil</strong></li></ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.spi.transaction{ read_length, write_data, hold_cs=false, mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500 }</code>
+        </td>
+        <td>
+            Reads and writes an arbitrary number of bytes at the same time. I.e while data is being clocked out on the MOSI pin, any data received on the MISO pin will be recorded in parallel. The total number of bytes transacted will therefore be the larger of <code>read_length</code> or <code>write_data</code>. If you wish to, for example, write 5 bytes, and then read 10 bytes, <code>read_length</code> must be set to 15. The first 5 bytes can be ignored, and the remaining 10 bytes will contain the read data.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>read_length</code> - <strong>integer</strong> - The number of bytes to read from</li>
+                <li><code>write_data</code> - <strong>string</strong> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>hold_cs</code> - <strong>boolean</strong> - If set to <code>true</code> will continue to hold the CS pin low after the transaction is completed. This can be useful if the transaction needs to be broken up into multiple steps. Any subsequent call to <code>device.spi.transaction</code> with <code>hold_cs</code> set to false will then return the CS pin to a high value once completed</li>
+                <li><code>mosi_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>miso_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>sck_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>cs_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>frequency</code> - <strong>integer</strong> - Same as above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>string</strong> - The bytes read. Always of size <code>length</code> as specified in the function call</li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -251,11 +626,82 @@ result = device.spi.transaction{ read_length=10 }
 
 ### UART communication
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.uart.write(data, { baudrate=9600, tx_pin="B1", cts_pin=nil, parity=false, stop_bits=1 })` | Writes UART data to a pin | `data` - **string** - The data to send<br><br>`baudrate` *optional* - **integer** - The baudrate in bits-per-second at which to send the data. Can be `1200`, `2400`, `4800`, `9600`, `14400`, `19200`, `28800`, `31250`, `38400`, `56000`, `57600`, `76800`, `115200`, `230400`, `250000`, `460800`, `921600`, or `1000000`<br><br>`tx_pin` *optional* - **string** - Specifies the pin to use for the transmit signal. Any IO pin may be specified as a string, e.g. `"C1"`<br><br>`cts_pin` *optional* - **string** - Specifies the pin to use for the clear-to-send signal. Any IO pin may be specified as a string, e.g. `"C3"`. If `nil` is given, the signal isn't used<br><br>`parity` *optional* - **bool** - Enables the parity bit if set to `true`<br><br>`stop_bits` *optional* - **integer** - Sets the number of stop bits. Can be either `1` or `2` | **nil**
-| `device.uart.assign_read_event(terminator, handler, { baudrate=9600, rx_pin="B0", tx_pin="B1", rts_pin=nil, cts_pin=nil, parity=false, stop_bits=1 })` | Buffers UART data from a pin, and triggers an event whenever a specified terminating character is seen | `terminator` - **string** - The character to wait for until triggering the event. If set to `nil`, the event is triggered for every new character received<br><br>`handler` - **function** - The function to call whenever data is received. This function will be called with one argument of type **string** which will contain all the buffered bytes since the last event was triggered, or the event was enabled<br><br>`baudrate` *optional* - **integer** - As described above<br><br>`rx_pin` *optional* - **string** - Specifies the pin to use for the receive signal. Any IO pin may be specified as a string, e.g. `"C0"`<br><br>`rts_pin` *optional* - **string** - Specifies the pin to use for the ready-to-send signal. Any IO pin may be specified as a string, e.g. `"C2"`. If `nil` is given, the signal isn't used<br><br>`parity` *optional* - **bool** - As described above | **metatable** - An object representing the event
-| `device.uart.unassign(event)` | Disables the event and detaches the pin from the handler | `event` - **metatable** - The object that was returned from `device.uart.assign_read_event()` | **nil**
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.uart.write(data, { baudrate=9600, tx_pin="B1", cts_pin=nil, parity=false, stop_bits=1 })</code>
+        </td>
+        <td>
+            Writes UART data to a pin.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>data</code> - <strong>string</strong> - The data to send</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>baudrate</code> - <strong>integer</strong> - The baudrate in bits-per-second at which to send the data. Can be <code>1200</code>, <code>2400</code>, <code>4800</code>, <code>9600</code>, <code>14400</code>, <code>19200</code>, <code>28800</code>, <code>31250</code>, <code>38400</code>, <code>56000</code>, <code>57600</code>, <code>76800</code>, <code>115200</code>, <code>230400</code>, <code>250000</code>, <code>460800</code>, <code>921600</code>, or <code>1000000</code></li>
+                <li><code>tx_pin</code> - <strong>string</strong> - The pin name to use for the transmit signal. E.g <code>"C1"</code></li>
+                <li><code>cts_pin</code> - <strong>string</strong> - The pin name to use for the clear-to-send signal. E.g <code>"C3"</code>. If <code>nil</code> is given, the signal isn't used</li>
+                <li><code>parity</code> - <strong>boolean</strong> - Enables the parity bit if set to <code>true</code></li>
+                <li><code>stop_bits</code> - <strong>integer</strong> - Sets the number of stop bits. Can be either <code>1</code> or <code>2</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.uart.assign_read_event(terminator, handler, { baudrate=9600, rx_pin="B0", tx_pin="B1", rts_pin=nil, cts_pin=nil, parity=false, stop_bits=1 })</code>
+        </td>
+        <td>
+            Buffers UART data from a pin, and triggers an event whenever a specified terminating character is seen.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>terminator</code> - <strong>string</strong> - The character to wait for until triggering the event. If set to <code>nil</code>, the event is triggered for every new character received</li>
+                <li><code>handler</code> - <strong>function</strong> - The function to call whenever data is received. This function will be called with one argument:</li>
+                <ul>
+                    <li><code>data</code> - <strong>string</strong> - All the buffered bytes since the last event was triggered, or the event was enabled</li>
+                </ul>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>baudrate</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>rx_pin</code> - <strong>string</strong> - The pin name to use for the receive signal. E.g <code>"C0"</code></li>
+                <li><code>rts_pin</code> - <strong>string</strong> - The pin name to use for the ready-to-send signal. E.g <code>"C2"</code>. If <code>nil</code> is given, the signal isn't used</li>
+                <li><code>parity</code> - <strong>boolean</strong> - Same as above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.uart.unassign_read_event(rx_pin)</code>
+        </td>
+        <td>
+            Disables the event and detaches the pin from the handler.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>rx_pin</code> - <strong>string</strong> - The pin name of the receive signal. E.g <code>"C0"</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -265,21 +711,68 @@ function my_receive_handler(data)
     print("Got a new line: "..data)
 end
 
-local my_rx_event = device.uart.assign_read_event("\n", my_receive_handler, { baudrate=19200 })
+device.uart.assign_read_event("\n", my_receive_handler, { baudrate=19200 })
 
 -- Send UART data
 device.uart.write("Hello there. This is some data\n", { baudrate=19200 })
 
 -- Disable the event and detach the pin from the handler if no longer needed
-my_rx_event:unassign()
+device.uart.unassign_read_event("B0")
 ```
 
 ### PDM microphone input
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.audio.record(length, handler, { data_pin="E0", clock_pin="E1", sample_rate=8000, bit_depth=8 })` | Begins recording microphone input and and outputs the data to an event handler. The handler is called every `length` seconds and repeats until the `stop()` function is called | `length` - **float** - The length to record in seconds. The maximum allowable time will depend on the RAM currently used on the device. Using a lower `sample_rate` and `bit_depth` will allow for longer recordings but at reduced quality<br><br>`handler` - **function** - The function to call whenever data is ready to be processed. The function will be called with one argument of type **string** representing 1-byte-per-sample in the case of `bit_depth=8`, or 2-bytes-per-sample in the case of `bit_depth=16`. The samples will be signed values. This function should not spend longer than `length` time to process the data and exit, otherwise the internal buffer will overflow and cause glitches in the final audio<br><br>`data_pin` *optional* - **string** - Specifies the pin to use for the data input. Any IO pin may be specified as a string, e.g. `"F0"`<br><br>`clock_pin` *optional* - **string** - Specifies the pin to use for the clock input. Any IO pin may be specified as a string, e.g. `"F1"`<br><br>`sample_rate` - **integer** - The sample rate to record in samples per second. Can be either `8000` or `16000`<br><br>`bit_depth` - **integer** - The dynamic range of the samples recorded. Can be either `8` or `16` | **metatable** - An object representing the event
-| `device.audio.stop(event)` | Stops recording samples and calls the event handler one last time with any remaining data in the internal buffer | `event` - **metatable** - The object that was returned from `device.uart.assign_read_event()` | **nil**
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.audio.record(length, handler, { data_pin="E0", clock_pin="E1", sample_rate=8000, bit_depth=8 })</code>
+        </td>
+        <td>
+            Begins recording microphone input and and outputs the data to an event handler. The handler is called every <code>length</code> seconds and repeats until the <code>stop()</code> function is called.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>length</code> - <strong>float</strong> - The length to record in seconds. The maximum allowable time will depend on the RAM currently used on the device. Using a lower <code>sample_rate</code> and <code>bit_depth</code> will allow for longer recordings but at reduced quality</li>
+                <li><code>handler</code> - <strong>function</strong> - The function to call whenever data is ready to be processed. The function will be called with one argument:</li>
+                <ul>
+                    <li><code>data</code> - <strong>string</strong> - Audio data as 1-byte-per-sample in the case of <code>bit_depth=8</code>, or 2-bytes-per-sample in the case of <code>bit_depth=16</code>. The samples will be signed values. This function should not spend longer than <code>length</code> time to process the data and exit, otherwise the internal buffer will overflow and cause glitches in the final audio</li>
+                </ul>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>data_pin</code> - <strong>string</strong> - The pin name to use for the data input. E.g <code>"F0"</code></li>
+                <li><code>clock_pin</code> - <strong>string</strong> - The pin name to use for the clock input. E.g <code>"F1"</code></li>
+                <li><code>sample_rate</code> - <strong>integer</strong> - The sample rate to record in samples per second. Can be either <code>8000</code> or <code>16000</code></li>
+                <li><code>but_depth</code> - <strong>integer</strong> - he dynamic range of the samples recorded. Can be either <code>8</code> or <code>16</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.audio.stop(data_pin)</code>
+        </td>
+        <td>
+            Stops recording samples and calls the event handler one last time with any remaining data in the internal buffer.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>data_pin</code> - <strong>string</strong> - The pin name of the data input. E.g <code>"F0"</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -296,26 +789,131 @@ function my_microphone_handler(data)
 end
 
 -- Will capture 1s worth of audio at a time
-local my_mic_event = device.audio.record(1, my_microphone_handler)
+device.audio.record(1, my_microphone_handler)
 
 -- Recording can be stopped at any time
-my_mic_event:stop()
+device.audio.stop("E0")
 ```
 
 ### Sleep, power & system info
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `device.sleep(time)` | Puts the device into a low-power sleep for a certain amount of time | `time` - **number** - The time to sleep in seconds. E.g. `1.5` | **nil** 
-| `device.power.battery.set_charger_cv_cc(voltage, current)` | Sets the termination voltage and constant current values for the charger | `voltage` - **number** - The termination voltage of the cell. Can be either `3.50`, `3.55`, `3.60`, `3.65`, `4.00`, `4.05`, `4.10`, `4.15`, `4.20`, `4.25`, `4.30`, `4.35`, `4.40`, or `4.45`<br><br>`current` - **number** - The constant current to charge the cell at. Must be between `32` and `800` in steps of `2` | **nil**
-| `device.power.battery.get_voltage()` | Gets the voltage of the cell | - | **number** - The voltage of the cell in volts
-| `device.power.battery.get_charging_status()` | Gets the charging status of the cell | - | **string** - The current charging status. Either `charging`, `charged` or `discharging` if the battery is connected, or `external_power` if either no battery is installed, or the battery has a fault |
-| `device.power.set_vout(voltage)` | Sets the voltage of V<sub>OUT</sub> | `voltage` - **number** - The voltage to set. Can be between `1.8` and `3.3` in steps of `0.1` | **nil**`
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.sleep(time)</code>
+        </td>
+        <td>
+            Puts the device into a low-power sleep for a certain amount of time.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>time</code> - <strong>number</strong> - The time to sleep in seconds. E.g. <code>1.5</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.power.battery.set_charger_cv_cc(voltage, current)</code>
+        </td>
+        <td>
+            Sets the termination voltage and constant current values for the charger.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>voltage</code> - <strong>number</strong> - The termination voltage of the cell. Can be either <code>3.50</code>, <code>3.55</code>, <code>3.60</code>, <code>3.65</code>, <code>4.00</code>, <code>4.05</code>, <code>4.10</code>, <code>4.15</code>, <code>4.20</code>, <code>4.25</code>, <code>4.30</code>, <code>4.35</code>, <code>4.40</code>, or <code>4.45</code></li>
+                <li><code>current</code> - <strong>number</strong> - The constant current to charge the cell at. Must be between <code>32</code> and <code>800</code> in steps of <code>2</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.power.battery.get_voltage()</code>
+        </td>
+        <td>
+            Gets the voltage of the cell.
+            <br><br>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>number</strong> - The voltage of the cell in volts</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.power.battery.get_charging_status()</code>
+        </td>
+        <td>
+            Gets the charging status of the cell.
+            <br><br>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>string</strong> - The current charging status. Either <code>charging</code>, <code>charged</code> or <code>discharging</code> if the battery is connected, or <code>external_power</code> if either no battery is installed, or the battery has a fault</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.power.battery.set_vout(voltage)</code>
+        </td>
+        <td>
+            Sets the voltage of V<sub>OUT</sub>.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>voltage</code> - <strong>number</strong> - The voltage to set. Can be between <code>1.8</code> and <code>3.3</code> in steps of <code>0.1</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
-| Constant | Description | Value |
-|----------|-------------|-------|
-| `device.HARDWARE_VERSION` | The hardware version of the device | **string** - Always `"s2-module"` 
-| `device.FIRMWARE_VERSION` | The current firmware version of the Superstack firmware running on the device | **string** - A string representing the current firmware version. E.g. `"0.1.0+0"`
+<table>
+    <tr>
+        <th>Constant</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.HARDWARE_VERSION</code>
+        </td>
+        <td>
+            The hardware version of the device.
+            <br><br>
+            <strong>Returns:</strong>
+            <ul>
+                <li><strong>string</strong> - Always <code>"s2-module"</code></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.FIRMWARE_VERSION</code>
+        </td>
+        <td>
+            The current firmware version of the Superstack firmware running on the device.
+            <br><br>
+            <strong>Returns:</strong>
+            <ul>
+                <li><strong>string</strong> - A string representing the current firmware version. E.g. <code>"0.1.0+0"</code></li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -345,9 +943,29 @@ device.power.set_vout(3.3)
 
 ### Networking (LTE)
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `network.send{ data }` | Sends data to Superstack | `data` - **table** - A table representing any data as key-value pairs. Will be converted to an equivalent JSON once it reaches Superstack. It's recommended to name keys in a full and clear way as that will be how the AI tools of Superstack will infer the meaning of the data. E.g. `temperature_celsius = 43.5` will help the AI understand that `43.5` represents temperature in Celsius units | **nil**
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>network.send{ data }</code>
+        </td>
+        <td>
+            Sends data to Superstack.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>data</code> - <strong>table</strong> - A table representing any data as key-value pairs. Will be converted to an equivalent JSON once it reaches Superstack. It's recommended to name keys in a full and clear way as that will be how the AI tools of Superstack will infer the meaning of the data. E.g. <code>temperature_celsius = 43.5</code> will help the AI understand that <code>43.5</code> represents temperature in Celsius units</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -372,10 +990,59 @@ network.send{
 
 ### Location (GPS)
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `location.get_latest()` | Returns the latest GPS data | - | **table** - A table containing key-value pairs. `valid`, a **boolean** representing if the GPS data is valid. `latitude`, a **number** representing the latitude. `longitude`, a **number** representing the longitude. `altitude`, a **number** representing the altitude. `accuracy`, a **number** representing the location and altitude accuracy. `speed`, a **number** representing the current speed. `speed_accuracy`, a **number** representing the speed accuracy. `satellites`, a **table** representing the current satellites statistics. `satellites` in turn contains three key-value pairs. `tracked`. an **integer** representing the number of satellites currently being tracked. `in_fix`. an **integer** representing the number of satellites currently being used for measurement. `unhealthy`. an **integer** representing the number of satellites that could not be used for measurement. |
-| `location.set_options({ accuracy="HIGH", power_saving="MEDIUM", tracking_interval=1 })` | Sets options related to the GPS module | `accuracy` *optional* - **string** - The accuracy of the reading to acquire. Can either be `"LOW"` where only three satellites are required to attain a fix, or `"HIGH"` where four satellites are required to attain a fix<br><br>`power_saving` *optional* - **string** - The level of power saving that the GPS aim to achieve. Can either be `"OFF"`, `"MEDIUM"`, `"MAX"`. A higher level of power saving will result in less accuracy and a slower time to attain a fix<br><br>`tracking_interval` *optional* - **integer** - The period to poll for new location updates. Can either be `1` for continuous 1-second updates, or a value in seconds between `10` and `65535` for slower updates which can save power | **nil**
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>location.get_latest()</code>
+        </td>
+        <td>
+            Returns the latest GPS data.
+            <br><br>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>table</strong> - A table of key-value pairs:</li>
+                <ul>
+                    <li><code>valid</code> - <strong>boolean</strong> - <code>true</code> if the GPS data is valid, or <code>false</code> otherwise</li>
+                    <li><code>latitude</code> - <strong>number</strong> - The current latitude</li>
+                    <li><code>longitude</code> - <strong>number</strong> - The current longitude</li>
+                    <li><code>altitude</code> - <strong>number</strong> - The current altitude</li>
+                    <li><code>accuracy</code> - <strong>number</strong> - The location and altitude accuracy</li>
+                    <li><code>speed</code> - <strong>number</strong> - The current speed</li>
+                    <li><code>speed_accuracy</code> - <strong>number</strong> - The speed accuracy</li>
+                    <li><code>satellites</code> - <strong>table</strong> - A table of key-value pairs:</li>
+                    <ul>
+                        <li><code>tracked</code> - <strong>integer</strong> - The number of satellites currently being tracked</li>
+                        <li><code>in_fix</code> - <strong>integer</strong> - The number of satellites currently being used for measurement</li>
+                        <li><code>unhealthy</code> - <strong>integer</strong> - The number of satellites that could not be used for measurement</li>
+                    </ul>
+                </ul>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>location.set_options({ accuracy="HIGH", power_saving="MEDIUM", tracking_interval=1 })</code>
+        </td>
+        <td>
+            Sets options related to the GPS module.
+            <br><br>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>accuracy</code> - <strong>string</strong> - The accuracy of the reading to acquire. Can either be <code>"LOW"</code> where only three satellites are required to attain a fix, or <code>"HIGH"</code> where four satellites are required to attain a fix</li>
+                <li><code>power_saving</code> - <strong>string</strong> - The level of power saving that the GPS aim to achieve. Can either be <code>"OFF"</code>, <code>"MEDIUM"</code>, <code>"MAX"</code>. A higher level of power saving will result in less accuracy and a slower time to attain a fix</li>
+                <li><code>tracking_interval</code> - <strong>integer</strong> -  The period to poll for new location updates. Can either be <code>1</code> for continuous 1-second updates, or a value in seconds between <code>10</code> and <code>65535</code> for slower updates which can save power</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -407,13 +1074,108 @@ end
 
 ### File storage
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `storage.write(filename, data)` | Creates a file and writes data to it. If the file already exists, it is overwritten | `filename` - **string** - The name of the file<br><br>`data` - **string** - The data to save to the file | **nil**
-| `storage.append(filename, data)` | Creates a file and writes data to it. If the file already exists, the new data is appended to the current contents of the file | `filename` - **string** - As described above<br><br>`data` - **string** - As described above | **nil**
-| `storage.read(filename, { line=-1, length=nil, offset=0 })` | Reads out the contents of the file. Either returning an entire `"\n"` terminated line, or alternatively, a number of bytes with length `length` at an offset of `offset` | `filename` - **string** - As described above<br><br>`line` *optional* - **integer** - The index of the line to return. `1` being the first line, `2` being the second line, etc. Likewise, the lines can also be indexed from the end of the file. `-1` returns the last line of the file, `-2` the second to last, etc. `length` and `offset` are ignored when `line` is specified<br><br>`length` *optional* - **integer** - The number of bytes to read from the file. Cannot be used with the `line` option. If `length` is longer than the data present in the file, then a shorter result will be returned<br><br>`offset` *optional* - **integer** - When `length` is specified, this option allows reading from some arbitrary offset from within the file | **string** - The contents read
-| `storage.delete(filename)` | Deletes a file if it exists | `filename` - **string** - As described above | **bool** - `true` if the file was found and deleted, `false` otherwise
-| `storage.list()` | Lists all the files stored on the device | - | **table** - A table of **strings** representing each file saved on the device
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>storage.write(filename, data)</code>
+        </td>
+        <td>
+            Creates a file and writes data to it. If the file already exists, it is overwritten.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>filename</code> - <strong>string</strong> - The name of the file</li>
+                <li><code>data</code> - <strong>string</strong> - The data to save to the file</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>storage.append(filename, data)</code>
+        </td>
+        <td>
+            Creates a file and writes data to it. If the file already exists, the new data is appended to the current contents of the file.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>filename</code> - <strong>string</strong> - Same as above</li>
+                <li><code>data</code> - <strong>string</strong> - Same as above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>storage.read(filename, { line=-1, length=nil, offset=0 })</code>
+        </td>
+        <td>
+            Reads out the contents of the file. Either returning an entire <code>"\n"</code> terminated line, or alternatively, a number of bytes with length <code>length</code> at an offset of <code>offset</code>.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>filename</code> - <strong>string</strong> - Same as above</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>line</code> - <strong>integer</strong> - The index of the line to return. <code>1</code> being the first line, <code>2</code> being the second line, etc. Likewise, the lines can also be indexed from the end of the file. <code>-1</code> returns the last line of the file, <code>-2</code> the second to last, etc. <code>length</code> and <code>offset</code> are ignored when <code>line</code> is specified</li>
+                <li><code>length</code></li> - <strong>integer</strong> - The number of bytes to read from the file. Cannot be used with the <code>line</code> option. If <code>length</code> is longer than the data present in the file, then a shorter result will be returned</li>
+                <li><code>offset</code></li> - <strong>integer</strong> - When <code>length</code> is specified, this option allows reading from some arbitrary offset from within the file</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>string</strong> - The contents read</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>storage.delete(filename)</code>
+        </td>
+        <td>
+            Deletes a file if it exists.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>filename</code> - <strong>string</strong> - Same as above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>boolean</strong> - <code>true</code> if the file was found and deleted, <code>false</code> otherwise</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>storage.list()</code>
+        </td>
+        <td>
+            Lists all the files stored on the device as a list of tables containing the filename and size.
+            <br><br>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>table</strong> - A table of <strong>tables</strong>:</li>
+                <ul>
+                    <li><strong>table</strong> - A table of key-value pairs:</li>
+                    <ul>
+                        <li><code>name</code> - <strong>string</strong> - The name of the file</li>
+                        <li><code>size</code> - <strong>integer</strong> - The size of the file in bytes</li>
+                    </ul>
+                </ul>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
@@ -436,10 +1198,53 @@ storage.delete("my_file.txt")
 
 ### Timekeeping
 
-| Function | Description | Parameters | Returns |
-|----------|-------------|------------|---------|
-| `time.get_unix_time()` | Returns the current Unix epoch known by the device | - | **number** - The number of seconds since 00:00:00 UTC on 1 January 1970 with a resolution of 1mS. If the device hasn't yet connected to the network to acquire the time, the returned value represents the number of seconds since the device was powered on
-| `time.get_time_date({unix_epoch, timezone})` | Gets the current time and date known by the device | `unix_epoch` *optional* - **number** - If supplied, the time and date at the given unix epoch will be returned. Otherwise the current time is used<br><br> `timezone` *optional* - **string** - The timezone to observe when returning the time and date. Can be given as a standard timezone abbreviation such as "EST", "GMT", or "CEST". If not used, the timezone of the network is used | **table** - A table containing key-value pairs. `known` a **boolean** representing if the device has obtained the time from the network, `second` an **integer** representing the current second. `minute` an **integer** representing the current minute. `hour` an **integer** representing the current hour. `day` an **integer** representing the current day. `weekday` a **string** representing the current weekday. `month` an **integer** representing the current month. `year` an **integer** representing the current year. `timezone` a **string** representing the current timezone as a standard timezone abbreviation |
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>time.get_unix_time()</code>
+        </td>
+        <td>
+            Returns the current Unix timestamp (i.e the number of non-leap milliseconds that have elapsed since 00:00:00 UTC on 1 January 1970), or if the time is not yet known, returns the uptime of the device in milliseconds.
+            <br><br>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>integer</strong> - A number of milliseconds</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>time.get_time_date({unix_epoch, timezone})</code>
+        </td>
+        <td>
+            Gets either the current time and date information, or the time and date for a specified Unix timestamp.
+            <br><br>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>unix_epoch</code> - <strong>number</strong> - A Unix timestamp that should be converted to a real time and date</li>
+                <li><code>timezone</code> - <strong>string</strong> - The timezone to observe when returning the time and date. Can be given as a standard timezone offset such as <code>"+02:00"</code> or <code>"-07:30"</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>table</strong> - A table of key-value pairs:</li>
+                <ul>
+                    <li><code>year</code> - <strong>integer</strong> - The current year</li>
+                    <li><code>month</code> - <strong>integer</strong> - The current month</li>
+                    <li><code>day</code> - <strong>integer</strong> - The current day</li>
+                    <li><code>yearday</code> - <strong>string</strong> - The current day of the year</li>
+                    <li><code>weekday</code> - <strong>string</strong> - The current weekday since Sunday</li>
+                    <li><code>hour</code> - <strong>integer</strong> - The current hour</li>
+                    <li><code>minute</code> - <strong>integer</strong> - The current minute</li>
+                    <li><code>second</code> - <strong>integer</strong> - The current second</li>
+                </ul>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 Example usage:
 
