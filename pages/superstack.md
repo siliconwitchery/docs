@@ -230,7 +230,7 @@ device.digital.unassign_input_event("C3")
             </ul>
             <strong>Returns:</strong><br>
             <ul>
-                <li><strong>table</strong> - A table containing two key-value pairs:</li>
+                <li><strong>table</strong> - A table of key-value pairs:</li>
                 <ul>
                     <li><code>voltage</code> - <strong>number</strong> - The voltage present on the pin</li>
                     <li><code>percentage</code> - <strong>number</strong> - The voltage represented as a percentage with respect to the range of 0V and the <code>range</code> value</li>
@@ -422,14 +422,14 @@ device.analog.set_output("E1", 25)
             <strong>Optional parameters:</strong>
             <ul>
                 <li><code>port</code> - <strong>string</strong> - The 4-pin port which the I2C device is connected to. I.e. <code>"PORTA"</code>, <code>"PORTB"</code>, <code>"PORTE"</code>, or <code>"PORTF"</code>. Using this parameter will assume the SCL and SDA pin order to match the <a href="https://learn.adafruit.com/introducing-adafruit-stemma-qt/what-is-stemma">Stemma QT</a> and <a href="https://www.sparkfun.com/qwiic">Qwiic</a> pinout. If a different pin order is required, the <code>scl_pin</code> and <code>sda_pin</code> parameters should be provided instead</li>
-                <li><code>scl_pin</code> - <strong>string</strong> - Specifies the pin to use for the SCL signal. Any IO pin may be specified as a string, e.g. <code>"C3"</code>. Must be used in conjunction with <code>sda_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
-                <li><code>sda_pin</code> - <strong>string</strong> - Specifies the pin to use for the SDA signal. Any IO pin may be specified as a string, e.g. <code>"C4"</code>. Must be used in conjunction with <code>scl_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
+                <li><code>scl_pin</code> - <strong>string</strong> - The pin name to use for the SCL signal. E.g <code>"C3"</code>. Must be used in conjunction with <code>sda_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
+                <li><code>sda_pin</code> - <strong>string</strong> - The pin name to use for the SDA signal. E.g <code>"C4"</code>. Must be used in conjunction with <code>scl_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
                 <li><code>frequency</code> - <strong>integer</strong> - The frequency to use for I2C communications in kHz. Can be either <code>100</code>, <code>250</code> or <code>400</code></li>
                 <li><code>register_address_size</code> - <strong>integer</strong> - The size of the register to read in bits. Can be either <code>8</code>, <code>16</code> or <code>32</code></li>
             </ul>
             <strong>Returns:</strong><br>
             <ul>
-                <li><strong>table</strong> - A table containing three key-value pairs:</li>
+                <li><strong>table</strong> - A table of key-value pairs:</li>
                 <ul>
                     <li><code>success</code> - <strong>string</strong> - <code>true</code> if the transaction was a success, or <code>false</code> otherwise</li>
                     <li><code>data</code> - <strong>string</strong> - The bytes read. Always of size <code>length</code> as specified in the function call</li>
@@ -531,15 +531,24 @@ print("Found " .. tostring(#d) .. " devices")
             <ul>
                 <li><code>register</code> - <strong>integer</strong> - The address of the register to read from</li>
                 <li><code>length</code> - <strong>integer</strong> - The number of bytes to read</li>
-                <li><code>mosi_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the MOSI signal. Any IO pin may be specified as a string, e.g. <code>"D0"</code></li>
-                <li><code>miso_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the MISO signal. Any IO pin may be specified as a string, e.g. <code>"D1"</code></li>
-                <li><code>sck_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the SCK signal. Any IO pin may be specified as a string, e.g. <code>"D2"</code></li>
-                <li><code>cs_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the CS signal. Any IO pin may be specified as a string, e.g. <code>"D3"</code></li>
-                <li><code>frequency</code> - optional <strong>integer</strong> - The frequency to use for SPI transactions in kHz</li>
-                <li><code>register_address_size</code> - optional <strong>integer</strong> - The size of the register address in bits. Can be either <code>8</code>, <code>16</code> or <code>32</code></li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>mosi_pin</code> - <strong>string</strong> - The pin name to use for the MOSI signal. E.g <code>"D0"</code></li>
+                <li><code>miso_pin</code> - <strong>string</strong> - The pin name to use for the MISO signal. E.g <code>"D1"</code></li>
+                <li><code>sck_pin</code> - <strong>string</strong> - The pin name to use for the SCK signal. E.g <code>"D2"</code></li>
+                <li><code>cs_pin</code> - <strong>string</strong> - The pin name to use for the CS signal. E.g <code>"D3"</code></li>
+                <li><code>frequency</code> - <strong>integer</strong> - The frequency to use for SPI transactions in kHz</li>
+                <li><code>register_address_size</code> - <strong>integer</strong> - The size of the register address in bits. Can be either <code>8</code>, <code>16</code> or <code>32</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>table</strong> - A table containing two key-value pairs. <code>data</code>, a <strong>string</strong> representing the bytes read. Always of size <code>length</code> as specified in the function call. <code>value</code>, an <strong>integer</strong> representing the first data value, useful if only one byte was requested</li></ul>
+            <ul>
+                <li><strong>table</strong> - A table of key-value pairs:</li>
+                <ul>
+                    <li><code>data</code> - <strong>string</strong> - The bytes read. Always of size <code>length</code> as specified in the function call</li>
+                    <li><code>value</code> - <strong>string</strong> - The first data value, useful if only one byte was requested</li>
+                </ul>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -547,18 +556,21 @@ print("Found " .. tostring(#d) .. " devices")
             <code>device.spi.write(register, data, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })</code>
         </td>
         <td>
-            Writes a number of bytes from a register on an SPI connected device.
+            Writes a number of bytes to a register on an SPI connected device.
             <br><br>
             <strong>Parameters:</strong>
             <ul>
                 <li><code>register</code> - <strong>integer</strong> - Same as above</li>
                 <li><code>data</code> - <strong>string</strong> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
-                <li><code>mosi_pin</code> - optional <strong>string</strong> - Same as above</li>
-                <li><code>miso_pin</code> - optional <strong>string</strong> - Same as above</li>
-                <li><code>sck_pin</code> - optional <strong>string</strong> - Same as above</li>
-                <li><code>cs_pin</code> - optional <strong>string</strong> - Same as above</li>
-                <li><code>frequency</code> - optional <strong>integer</strong> - Same as above</li>
-                <li><code>register_address_size</code> - optional <strong>integer</strong> - Same as above</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>mosi_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>miso_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>sck_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>cs_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>frequency</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>register_address_size</code> - <strong>integer</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
             <ul><li><strong>nil</strong></li></ul>
@@ -575,15 +587,20 @@ print("Found " .. tostring(#d) .. " devices")
             <ul>
                 <li><code>read_length</code> - <strong>integer</strong> - The number of bytes to read from</li>
                 <li><code>write_data</code> - <strong>string</strong> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
-                <li><code>hold_cs</code> - optional <strong>boolean</strong> - If set to <code>true</code> will continue to hold the CS pin low after the transaction is completed. This can be useful if the transaction needs to be broken up into multiple steps, or if the CS pin needs to be held for any other reason. Any subsequent call to <code>device.spi.transaction</code> with <code>hold_cs</code> set to false will then return the CS pin to a high value once completed</li>
-                <li><code>mosi_pin</code> - optional <strong>string</strong> - Same as above</li>
-                <li><code>miso_pin</code> - optional <strong>string</strong> - Same as above</li>
-                <li><code>sck_pin</code> - optional <strong>string</strong> - Same as above</li>
-                <li><code>cs_pin</code> - optional <strong>string</strong> - Same as above</li>
-                <li><code>frequency</code> - optional <strong>integer</strong> - Same as above</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>hold_cs</code> - <strong>boolean</strong> - If set to <code>true</code> will continue to hold the CS pin low after the transaction is completed. This can be useful if the transaction needs to be broken up into multiple steps. Any subsequent call to <code>device.spi.transaction</code> with <code>hold_cs</code> set to false will then return the CS pin to a high value once completed</li>
+                <li><code>mosi_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>miso_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>sck_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>cs_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>frequency</code> - <strong>integer</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>string</strong> - The bytes read. Always of size <code>read_length</code>, or <code>#write_data</code>, whichever was larger</li></ul>
+            <ul>
+                <li><strong>string</strong> - The bytes read. Always of size <code>length</code> as specified in the function call</li>
+            </ul>
         </td>
     </tr>
 </table>
@@ -624,14 +641,19 @@ result = device.spi.transaction{ read_length=10 }
             <strong>Parameters:</strong>
             <ul>
                 <li><code>data</code> - <strong>string</strong> - The data to send</li>
-                <li><code>baudrate</code> - optional <strong>integer</strong> - The baudrate in bits-per-second at which to send the data. Can be <code>1200</code>, <code>2400</code>, <code>4800</code>, <code>9600</code>, <code>14400</code>, <code>19200</code>, <code>28800</code>, <code>31250</code>, <code>38400</code>, <code>56000</code>, <code>57600</code>, <code>76800</code>, <code>115200</code>, <code>230400</code>, <code>250000</code>, <code>460800</code>, <code>921600</code>, or <code>1000000</code></li>
-                <li><code>tx_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the transmit signal. Any IO pin may be specified as a string, e.g. <code>"C1"</code></li>
-                <li><code>cts_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the clear-to-send signal. Any IO pin may be specified as a string, e.g. <code>"C3"</code>. If <code>nil</code> is given, the signal isn't used</li>
-                <li><code>parity</code> - optional <strong>boolean</strong> - Enables the parity bit if set to <code>true</code></li>
-                <li><code>stop_bits</code> - optional <strong>integer</strong> - Sets the number of stop bits. Can be either <code>1</code> or <code>2</code></li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>baudrate</code> - <strong>integer</strong> - The baudrate in bits-per-second at which to send the data. Can be <code>1200</code>, <code>2400</code>, <code>4800</code>, <code>9600</code>, <code>14400</code>, <code>19200</code>, <code>28800</code>, <code>31250</code>, <code>38400</code>, <code>56000</code>, <code>57600</code>, <code>76800</code>, <code>115200</code>, <code>230400</code>, <code>250000</code>, <code>460800</code>, <code>921600</code>, or <code>1000000</code></li>
+                <li><code>tx_pin</code> - <strong>string</strong> - The pin name to use for the transmit signal. E.g <code>"C1"</code></li>
+                <li><code>cts_pin</code> - <strong>string</strong> - The pin name to use for the clear-to-send signal. E.g <code>"C3"</code>. If <code>nil</code> is given, the signal isn't used</li>
+                <li><code>parity</code> - <strong>boolean</strong> - Enables the parity bit if set to <code>true</code></li>
+                <li><code>stop_bits</code> - <strong>integer</strong> - Sets the number of stop bits. Can be either <code>1</code> or <code>2</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>nil</strong></li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -644,29 +666,39 @@ result = device.spi.transaction{ read_length=10 }
             <strong>Parameters:</strong>
             <ul>
                 <li><code>terminator</code> - <strong>string</strong> - The character to wait for until triggering the event. If set to <code>nil</code>, the event is triggered for every new character received</li>
-                <li><code>handler</code> - <strong>function</strong> - The function to call whenever data is received. This function will be called with one argument of type <strong>string</strong> which will contain all the buffered bytes since the last event was triggered, or the event was enabled</li>
-                <li><code>baudrate</code> - optional <strong>integer</strong> - Same as above</li>
-                <li><code>rx_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the receive signal. Any IO pin may be specified as a string, e.g. <code>"C0"</code></li>
-                <li><code>rts_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the ready-to-send signal. Any IO pin may be specified as a string, e.g. <code>"C2"</code>. If <code>nil</code> is given, the signal isn't used</li>
-                <li><code>parity</code> - optional <strong>boolean</strong> - Same as above</li>
+                <li><code>handler</code> - <strong>function</strong> - The function to call whenever data is received. This function will be called with one argument:</li>
+                <ul>
+                    <li><code>data</code> - <strong>string</strong> - All the buffered bytes since the last event was triggered, or the event was enabled</li>
+                </ul>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>baudrate</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>rx_pin</code> - <strong>string</strong> - The pin name to use for the receive signal. E.g <code>"C0"</code></li>
+                <li><code>rts_pin</code> - <strong>string</strong> - The pin name to use for the ready-to-send signal. E.g <code>"C2"</code>. If <code>nil</code> is given, the signal isn't used</li>
+                <li><code>parity</code> - <strong>boolean</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>metatable</strong> - An object representing the event</li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
     <tr>
         <td>
-            <code>device.uart.unassign(event)</code>
+            <code>device.uart.unassign_read_event(rx_pin)</code>
         </td>
         <td>
             Disables the event and detaches the pin from the handler.
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>event</code> - <strong>metatable</strong> - The object that was returned from <code>device.uart.assign_read_event()</code></li>
+                <li><code>rx_pin</code> - <strong>string</strong> - The pin name of the receive signal. E.g <code>"C0"</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>nil</strong></li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
 </table>
@@ -679,13 +711,13 @@ function my_receive_handler(data)
     print("Got a new line: "..data)
 end
 
-local my_rx_event = device.uart.assign_read_event("\n", my_receive_handler, { baudrate=19200 })
+device.uart.assign_read_event("\n", my_receive_handler, { baudrate=19200 })
 
 -- Send UART data
 device.uart.write("Hello there. This is some data\n", { baudrate=19200 })
 
 -- Disable the event and detach the pin from the handler if no longer needed
-my_rx_event:unassign()
+device.uart.unassign_read_event("B0")
 ```
 
 ### PDM microphone input
@@ -705,29 +737,39 @@ my_rx_event:unassign()
             <strong>Parameters:</strong>
             <ul>
                 <li><code>length</code> - <strong>float</strong> - The length to record in seconds. The maximum allowable time will depend on the RAM currently used on the device. Using a lower <code>sample_rate</code> and <code>bit_depth</code> will allow for longer recordings but at reduced quality</li>
-                <li><code>handler</code> - <strong>function</strong> - The function to call whenever data is ready to be processed. The function will be called with one argument of type <strong>string</strong> representing 1-byte-per-sample in the case of <code>bit_depth=8</code>, or 2-bytes-per-sample in the case of <code>bit_depth=16</code>. The samples will be signed values. This function should not spend longer than <code>length</code> time to process the data and exit, otherwise the internal buffer will overflow and cause glitches in the final audio</li>
-                <li><code>data_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the data input. Any IO pin may be specified as a string, e.g. <code>"F0"</code></li>
-                <li><code>clock_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the clock input. Any IO pin may be specified as a string, e.g. <code>"F1"</code></li>
+                <li><code>handler</code> - <strong>function</strong> - The function to call whenever data is ready to be processed. The function will be called with one argument:</li>
+                <ul>
+                    <li><code>data</code> - <strong>string</strong> - Audio data as 1-byte-per-sample in the case of <code>bit_depth=8</code>, or 2-bytes-per-sample in the case of <code>bit_depth=16</code>. The samples will be signed values. This function should not spend longer than <code>length</code> time to process the data and exit, otherwise the internal buffer will overflow and cause glitches in the final audio</li>
+                </ul>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>data_pin</code> - <strong>string</strong> - The pin name to use for the data input. E.g <code>"F0"</code></li>
+                <li><code>clock_pin</code> - <strong>string</strong> - The pin name to use for the clock input. E.g <code>"F1"</code></li>
                 <li><code>sample_rate</code> - <strong>integer</strong> - The sample rate to record in samples per second. Can be either <code>8000</code> or <code>16000</code></li>
                 <li><code>but_depth</code> - <strong>integer</strong> - he dynamic range of the samples recorded. Can be either <code>8</code> or <code>16</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>metatable</strong> - An object representing the event</li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
     <tr>
         <td>
-            <code>device.audio.stop(event)</code>
+            <code>device.audio.stop(data_pin)</code>
         </td>
         <td>
             Stops recording samples and calls the event handler one last time with any remaining data in the internal buffer.
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>event</code> - <strong>metatable</strong> - The object that was returned from <code>device.uart.assign_read_event()</code></li>
+                <li><code>data_pin</code> - <strong>string</strong> - The pin name of the data input. E.g <code>"F0"</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>nil</strong></li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
 </table>
@@ -747,10 +789,10 @@ function my_microphone_handler(data)
 end
 
 -- Will capture 1s worth of audio at a time
-local my_mic_event = device.audio.record(1, my_microphone_handler)
+device.audio.record(1, my_microphone_handler)
 
 -- Recording can be stopped at any time
-my_mic_event:stop()
+device.audio.stop("E0")
 ```
 
 ### Sleep, power & system info
@@ -772,7 +814,9 @@ my_mic_event:stop()
                 <li><code>time</code> - <strong>number</strong> - The time to sleep in seconds. E.g. <code>1.5</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>nil</strong></li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -788,7 +832,9 @@ my_mic_event:stop()
                 <li><code>current</code> - <strong>number</strong> - The constant current to charge the cell at. Must be between <code>32</code> and <code>800</code> in steps of <code>2</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>nil</strong></li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -798,10 +844,10 @@ my_mic_event:stop()
         <td>
             Gets the voltage of the cell.
             <br><br>
-            <strong>Parameters:</strong>
-            <ul>-</ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>number</strong> - The voltage of the cell in volts</li></ul>
+            <ul>
+                <li><strong>number</strong> - The voltage of the cell in volts</li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -811,10 +857,10 @@ my_mic_event:stop()
         <td>
             Gets the charging status of the cell.
             <br><br>
-            <strong>Parameters:</strong>
-            <ul>-</ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>string</strong> - The current charging status. Either <code>charging</code>, <code>charged</code> or <code>discharging</code> if the battery is connected, or <code>external_power</code> if either no battery is installed, or the battery has a fault</li></ul>
+            <ul>
+                <li><strong>string</strong> - The current charging status. Either <code>charging</code>, <code>charged</code> or <code>discharging</code> if the battery is connected, or <code>external_power</code> if either no battery is installed, or the battery has a fault</li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -826,17 +872,18 @@ my_mic_event:stop()
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>voltage</code> - <strong>number</strong> - The termination voltage of the cell. Can be either <code>3.50</code>, <code>3.55</code>, <code>3.60</code>, <code>3.65</code>, <code>4.00</code>, <code>4.05</code>, <code>4.10</code>, <code>4.15</code>, <code>4.20</code>, <code>4.25</code>, <code>4.30</code>, <code>4.35</code>, <code>4.40</code>, or <code>4.45</code></li>
-                <li><code>current</code> - <strong>number</strong> - The voltage to set. Can be between <code>1.8</code> and <code>3.3</code> in steps of <code>0.1</code></li>
+                <li><code>voltage</code> - <strong>number</strong> - The voltage to set. Can be between <code>1.8</code> and <code>3.3</code> in steps of <code>0.1</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>nil</strong></li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
 </table>
 
 <table>
-<tr>
+    <tr>
         <th>Constant</th>
         <th>Details</th>
     </tr>
@@ -847,7 +894,7 @@ my_mic_event:stop()
         <td>
             The hardware version of the device.
             <br><br>
-            <strong>Parameters:</strong>
+            <strong>Returns:</strong>
             <ul>
                 <li><strong>string</strong> - Always <code>"s2-module"</code></li>
             </ul>
@@ -860,7 +907,7 @@ my_mic_event:stop()
         <td>
             The current firmware version of the Superstack firmware running on the device.
             <br><br>
-            <strong>Parameters:</strong>
+            <strong>Returns:</strong>
             <ul>
                 <li><strong>string</strong> - A string representing the current firmware version. E.g. <code>"0.1.0+0"</code></li>
             </ul>
@@ -913,7 +960,9 @@ device.power.set_vout(3.3)
                 <li><code>data</code> - <strong>table</strong> - A table representing any data as key-value pairs. Will be converted to an equivalent JSON once it reaches Superstack. It's recommended to name keys in a full and clear way as that will be how the AI tools of Superstack will infer the meaning of the data. E.g. <code>temperature_celsius = 43.5</code> will help the AI understand that <code>43.5</code> represents temperature in Celsius units</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>nil</strong></li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
 </table>
@@ -953,12 +1002,25 @@ network.send{
         <td>
             Returns the latest GPS data.
             <br><br>
-            <strong>Parameters:</strong>
-            <ul>
-                <li>-</li>
-            </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>table</strong> - A table containing key-value pairs. <code>valid</code>, a <strong>boolean</strong> representing if the GPS data is valid. <code>latitude</code>, a <strong>number</strong> representing the latitude. <code>longitude</code>, a <strong>number</strong> representing the longitude. <code>altitude</code>, a <strong>number</strong> representing the altitude. <code>accuracy</code>, a <strong>number</strong> representing the location and altitude accuracy. <code>speed</code>, a <strong>number</strong> representing the current speed. <code>speed_accuracy</code>, a <strong>number</strong> representing the speed accuracy. <code>satellites</code>, a <strong>table</strong> representing the current satellites statistics. <code>satellites</code> in turn contains three key-value pairs. <code>tracked</code>. an <strong>integer</strong> representing the number of satellites currently being tracked. <code>in_fix</code>. an <strong>integer</strong> representing the number of satellites currently being used for measurement. <code>unhealthy</code>. an <strong>integer</strong> representing the number of satellites that could not be used for measurement.</li></ul>
+            <ul>
+                <li><strong>table</strong> - A table of key-value pairs:</li>
+                <ul>
+                    <li><code>valid</code> - <strong>boolean</strong> - <code>true</code> if the GPS data is valid, or <code>false</code> otherwise</li>
+                    <li><code>latitude</code> - <strong>number</strong> - The current latitude</li>
+                    <li><code>longitude</code> - <strong>number</strong> - The current longitude</li>
+                    <li><code>altitude</code> - <strong>number</strong> - The current altitude</li>
+                    <li><code>accuracy</code> - <strong>number</strong> - The location and altitude accuracy</li>
+                    <li><code>speed</code> - <strong>number</strong> - The current speed</li>
+                    <li><code>speed_accuracy</code> - <strong>number</strong> - The speed accuracy</li>
+                    <li><code>satellites</code> - <strong>table</strong> - A table of key-value pairs:</li>
+                    <ul>
+                        <li><code>tracked</code> - <strong>integer</strong> - The number of satellites currently being tracked</li>
+                        <li><code>in_fix</code> - <strong>integer</strong> - The number of satellites currently being used for measurement</li>
+                        <li><code>unhealthy</code> - <strong>integer</strong> - The number of satellites that could not be used for measurement</li>
+                    </ul>
+                </ul>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -968,14 +1030,16 @@ network.send{
         <td>
             Sets options related to the GPS module.
             <br><br>
-            <strong>Parameters:</strong>
+            <strong>Optional parameters:</strong>
             <ul>
-                <li><code>accuracy</code> - optional <strong>string</strong> - The accuracy of the reading to acquire. Can either be <code>"LOW"</code> where only three satellites are required to attain a fix, or <code>"HIGH"</code> where four satellites are required to attain a fix</li>
-                <li><code>power_saving</code> - optional <strong>string</strong> - The level of power saving that the GPS aim to achieve. Can either be <code>"OFF"</code>, <code>"MEDIUM"</code>, <code>"MAX"</code>. A higher level of power saving will result in less accuracy and a slower time to attain a fix</li>
-                <li><code>tracking_interval</code> - optional <strong>integer</strong> -  The period to poll for new location updates. Can either be <code>1</code> for continuous 1-second updates, or a value in seconds between <code>10</code> and <code>65535</code> for slower updates which can save power</li>
+                <li><code>accuracy</code> - <strong>string</strong> - The accuracy of the reading to acquire. Can either be <code>"LOW"</code> where only three satellites are required to attain a fix, or <code>"HIGH"</code> where four satellites are required to attain a fix</li>
+                <li><code>power_saving</code> - <strong>string</strong> - The level of power saving that the GPS aim to achieve. Can either be <code>"OFF"</code>, <code>"MEDIUM"</code>, <code>"MAX"</code>. A higher level of power saving will result in less accuracy and a slower time to attain a fix</li>
+                <li><code>tracking_interval</code> - <strong>integer</strong> -  The period to poll for new location updates. Can either be <code>1</code> for continuous 1-second updates, or a value in seconds between <code>10</code> and <code>65535</code> for slower updates which can save power</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>nil</strong></li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
 </table>
@@ -1028,7 +1092,9 @@ end
                 <li><code>data</code> - <strong>string</strong> - The data to save to the file</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>nil</strong></li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -1044,7 +1110,9 @@ end
                 <li><code>data</code> - <strong>string</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>nil</strong></li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -1053,15 +1121,21 @@ end
         </td>
         <td>
             Reads out the contents of the file. Either returning an entire <code>"\n"</code> terminated line, or alternatively, a number of bytes with length <code>length</code> at an offset of <code>offset</code>.
+            <br><br>
             <strong>Parameters:</strong>
             <ul>
                 <li><code>filename</code> - <strong>string</strong> - Same as above</li>
-                <li><code>line</code> - optional <strong>integer</strong> - The index of the line to return. <code>1</code> being the first line, <code>2</code> being the second line, etc. Likewise, the lines can also be indexed from the end of the file. <code>-1</code> returns the last line of the file, <code>-2</code> the second to last, etc. <code>length</code> and <code>offset</code> are ignored when <code>line</code> is specified</li>
-                <li><code>length</code></li> - optional <strong>integer</strong> - The number of bytes to read from the file. Cannot be used with the <code>line</code> option. If <code>length</code> is longer than the data present in the file, then a shorter result will be returned</li>
-                <li><code>offset</code></li> - optional <strong>integer</strong> - When <code>length</code> is specified, this option allows reading from some arbitrary offset from within the file</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>line</code> - <strong>integer</strong> - The index of the line to return. <code>1</code> being the first line, <code>2</code> being the second line, etc. Likewise, the lines can also be indexed from the end of the file. <code>-1</code> returns the last line of the file, <code>-2</code> the second to last, etc. <code>length</code> and <code>offset</code> are ignored when <code>line</code> is specified</li>
+                <li><code>length</code></li> - <strong>integer</strong> - The number of bytes to read from the file. Cannot be used with the <code>line</code> option. If <code>length</code> is longer than the data present in the file, then a shorter result will be returned</li>
+                <li><code>offset</code></li> - <strong>integer</strong> - When <code>length</code> is specified, this option allows reading from some arbitrary offset from within the file</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>string</strong> - The contents read</li></ul>
+            <ul>
+                <li><strong>string</strong> - The contents read</li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -1070,12 +1144,15 @@ end
         </td>
         <td>
             Deletes a file if it exists.
+            <br><br>
             <strong>Parameters:</strong>
             <ul>
                 <li><code>filename</code> - <strong>string</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>boolean</strong> - <code>true</code> if the file was found and deleted, <code>false</code> otherwise</li></ul>
+            <ul>
+                <li><strong>boolean</strong> - <code>true</code> if the file was found and deleted, <code>false</code> otherwise</li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -1083,13 +1160,19 @@ end
             <code>storage.list()</code>
         </td>
         <td>
-            Lists all the files stored on the device.
-            <strong>Parameters:</strong>
-            <ul>
-                <li>-</li>
-            </ul>
+            Lists all the files stored on the device as a list of tables containing the filename and size.
+            <br><br>
             <strong>Returns:</strong><br>
-            <ul><li><strong>table</strong> - A table of <strong>strings</strong> representing each file saved on the device</li></ul>
+            <ul>
+                <li><strong>table</strong> - A table of <strong>tables</strong>:</li>
+                <ul>
+                    <li><strong>table</strong> - A table of key-value pairs:</li>
+                    <ul>
+                        <li><code>name</code> - <strong>string</strong> - The name of the file</li>
+                        <li><code>size</code> - <strong>integer</strong> - The size of the file in bytes</li>
+                    </ul>
+                </ul>
+            </ul>
         </td>
     </tr>
 </table>
@@ -1125,14 +1208,12 @@ storage.delete("my_file.txt")
             <code>time.get_unix_time()</code>
         </td>
         <td>
-            Returns the current Unix epoch known by the device.
+            Returns the current Unix timestamp (i.e the number of non-leap milliseconds that have elapsed since 00:00:00 UTC on 1 January 1970), or if the time is not yet known, returns the uptime of the device in milliseconds.
             <br><br>
-            <strong>Parameters:</strong>
-            <ul>
-                <li>-</li>
-            </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>number</strong> - The number of seconds since 00:00:00 UTC on 1 January 1970 with a resolution of 1mS. If the device hasn't yet connected to the network to acquire the time, the returned value represents the number of seconds since the device was powered on</li></ul>
+            <ul>
+                <li><strong>integer</strong> - A number of milliseconds</li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -1140,15 +1221,27 @@ storage.delete("my_file.txt")
             <code>time.get_time_date({unix_epoch, timezone})</code>
         </td>
         <td>
-            Gets the current time and date known by the device.
+            Gets either the current time and date information, or the time and date for a specified Unix timestamp.
             <br><br>
-            <strong>Parameters:</strong>
+            <strong>Optional parameters:</strong>
             <ul>
-                <li><code>unix_epoch</code> - optional <strong>number</strong> - If supplied, the time and date at the given unix epoch will be returned. Otherwise the current time is used</li>
-                <li><code>timezone</code> - optional <strong>string</strong> - The timezone to observe when returning the time and date. Can be given as a standard timezone abbreviation such as <code>"EST"</code>, <code>"GMT"</code>, or <code>"CEST"</code>. If not used, the timezone of the network is used</li>
+                <li><code>unix_epoch</code> - <strong>number</strong> - A Unix timestamp that should be converted to a real time and date</li>
+                <li><code>timezone</code> - <strong>string</strong> - The timezone to observe when returning the time and date. Can be given as a standard timezone offset such as <code>"+02:00"</code> or <code>"-07:30"</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>table</strong> - A table containing key-value pairs. <code>known</code> a <strong>boolean</strong> representing if the device has obtained the time from the network, <code>second</code> an <strong>integer</strong> representing the current second. <code>minute</code> an <strong>integer</strong> representing the current minute. <code>hour</code> an <strong>integer</strong> representing the current hour. <code>day</code> an <strong>integer</strong> representing the current day. <code>weekday</code> a <strong>string</strong> representing the current weekday. <code>month</code> an <strong>integer</strong> representing the current month. <code>year</code> an <strong>integer</strong> representing the current year. <code>timezone</code> a <strong>string</strong> representing the current timezone as a standard timezone abbreviation</li></ul>
+            <ul>
+                <li><strong>table</strong> - A table of key-value pairs:</li>
+                <ul>
+                    <li><code>year</code> - <strong>integer</strong> - The current year</li>
+                    <li><code>month</code> - <strong>integer</strong> - The current month</li>
+                    <li><code>day</code> - <strong>integer</strong> - The current day</li>
+                    <li><code>yearday</code> - <strong>string</strong> - The current day of the year</li>
+                    <li><code>weekday</code> - <strong>string</strong> - The current weekday since Sunday</li>
+                    <li><code>hour</code> - <strong>integer</strong> - The current hour</li>
+                    <li><code>minute</code> - <strong>integer</strong> - The current minute</li>
+                    <li><code>second</code> - <strong>integer</strong> - The current second</li>
+                </ul>
+            </ul>
         </td>
     </tr>
 </table>
