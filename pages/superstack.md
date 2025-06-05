@@ -91,29 +91,6 @@ network.send{ sensor_value=31.5 }
 
 ### Digital IO
 
-<!-- <table>
-    <tr>
-        <th>Function</th>
-        <th>Details</th>
-    </tr>
-    <tr>
-        <td>
-            <code>device.digital.set_output(pin,&nbsp;value)</code>
-        </td>
-        <td>
-            Sets or clears a digital output on a pin
-            <br><br>
-            <strong>Parameters:</strong>
-            <ul>
-                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>A0</code></li>
-                <li><code>value</code> - <b>boolean</b> - The level to set on the pin. <code>true</code> for high, or <code>false</code> for low</li>
-            </ul>
-            <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
-        </td>
-    </tr>
-</table> -->
-
 <table>
     <tr>
         <th>Function</th>
@@ -128,60 +105,77 @@ network.send{ sensor_value=31.5 }
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>A0</code></li>
-                <li><code>value</code> - <b>boolean</b> - The level to set on the pin. <code>true</code> for high, or <code>false</code> for low</li>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+                <li><code>value</code> - <strong>boolean</strong> - The level to set on the pin. <code>true</code> for high, or <code>false</code> for low</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
     <tr>
         <td>
-            <code>device.digital.get_input(pin, { pull="NO_PULL" })</code>
+            <code>device.digital.get_input(pin, { pull="PULL_DOWN" })</code>
         </td>
         <td>
             Gets the digital value on a pin.
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>A0</code></li>
-                <li><code>pull</code> - optional <b>string</b> - Selects the pull mode on the pin. Can be <code>PULL_UP</code>, <code>PULL_DOWN</code>, or <code>NO_PULL</code></li>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>pull</code> - <strong>string</strong> - Selects the pull mode on the pin. Can be <code>"PULL_UP"</code>, <code>"PULL_DOWN"</code>, or <code>"NO_PULL"</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li> <b>boolean</b> - <code>true</code> if the pin is high, or <code>false</code> if it's low</li></ul>
+            <ul>
+                <li><strong>boolean</strong> - <code>true</code> if the pin is high, or <code>false</code> if it's low</li>
+            </ul>
         </td>
     </tr>
     <tr>
         <td>
-            <code>device.digital.assign_input_event(pin, handler, { pull="NO_PULL", trigger="BOTH" })</code>
+            <code>device.digital.assign_input_event(pin, handler, { pull="PULL_DOWN" })</code>
         </td>
         <td>
             Assigns an event handler that triggers whenever the input value of a pin changes.
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>A0</code></li>
-                <li><code>handler</code> - <b>function</b> - The function to call whenever the pin value changes. This function will be called with one argument of type <b>boolean</b> which represents the input value on that pin. <code>true</code> if high, or <code>false</code> if low</li>
-                <li><code>pull</code> - optional <b>string</b> - As described above</li>
-                <li><code>trigger</code> - optional <b>string</b> - The specific transition to trigger the event on. Can be either <code>"LOW_TO_HIGH"</code>, <code>"HIGH_TO_LOW"</code>, or <code>"BOTH"</code></li>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+                <li><code>handler</code> - <strong>function</strong> - The function to call whenever the pin value changes. This function will be called with two arguments:</li>
+                <ul>
+                    <li><code>pin</code> - <strong>string</strong> - The pin name that generated the event. E.g. <code>A0</code></li>
+                    <li><code>state</code> - <strong>boolean</strong> - The value on the pin when the event occurred. <code>true</code> if the pin was high, or <code>false</code> if the pin was low</li>
+                </ul>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>pull</code> - <strong>string</strong> - Selects the pull mode on the pin. Can be <code>"PULL_UP"</code>, <code>"PULL_DOWN"</code>, or <code>"NO_PULL"</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li> <b>metatable</b> - An object representing the event</li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
     <tr>
         <td>
-            <code>device.digital.unassign(event)</code>
+            <code>device.digital.unassign_input_event(pin)</code>
         </td>
         <td>
             Disables the event and detaches the pin from the handler.
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>event</code> - <b>metatable</b> - The object that was returned from <code>device.digital.assign_input_event()</code></li>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
 </table>
@@ -197,18 +191,18 @@ local val = device.digital.get_input("D0")
 print(val)
 
 -- Assign a function that triggers whenever the input value of C3 changes
-function my_pin_handler(value)
-    if value == true then
-        print("C3 went high")
+function my_pin_handler(pin, state)
+    if state == true then
+        print(pin.." went high")
     else
-        print("C3 went low")
+        print(pin.." went low")
     end
 end
 
-local my_c3_event = device.digital.assign_input_event("C3", my_pin_handler)
+device.digital.assign_input_event("C3", my_pin_handler)
 
 -- Disable the event and detach the pin from the handler if no longer needed
-my_c3_event:unassign()
+device.digital.unassign_input_event("C3")
 ```
 
 ### Analog input
@@ -227,12 +221,21 @@ my_c3_event:unassign()
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>A0</code></li>
-                <li><code>acquisition_time</code> - optional <b>integer</b> - A time in microseconds across which to make the measurement. Can be either <code>3</code>, <code>5</code>, <code>10</code>, <code>15</code>, <code>20</code>, <code>40</code>, or multiples of 40 e.g. <code>80</code>, <code>120</code>, <code>160</code>, etc. Higher values allow for accurate measurement of greater source resistances. Those maximum resistances being 10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ and 800kΩ respectively, with 800kΩ being the maximum source resistance for acquisition times greater than 40 microseconds</li>
-                <li><code>range</code> - optional <b>integer</b> - The maximum expected voltage for the input signal. Defaults to the same value as V<sub>OUT</sub></li>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>acquisition_time</code> - <strong>integer</strong> - A time in microseconds across which to make the measurement. Can be either <code>3</code>, <code>5</code>, <code>10</code>, <code>15</code>, <code>20</code>, <code>40</code>, or multiples of 40 e.g. <code>80</code>, <code>120</code>, <code>160</code>, etc. Higher values allow for accurate measurement of greater source resistances. Those maximum resistances being 10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ and 800kΩ respectively, with 800kΩ being the maximum source resistance for acquisition times greater than 40 microseconds</li>
+                <li><code>range</code> - <strong>integer</strong> - The maximum expected voltage for the input signal. Defaults to the same value as V<sub>OUT</sub></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li> <b>table</b> - A table containing two key-value pairs. <code>voltage</code> a <b>number</b> representing the voltage on the pin, or <code>percentage</code> a <b>number</b> representing the real voltage represented as a percentage with respect to the range of 0V and the <code>range</code> value</li></ul>
+            <ul>
+                <li><strong>table</strong> - A table containing two key-value pairs:</li>
+                <ul>
+                    <li><code>voltage</code> - <strong>number</strong> - The voltage present on the pin</li>
+                    <li><code>percentage</code> - <strong>number</strong> - The voltage represented as a percentage with respect to the range of 0V and the <code>range</code> value</li>
+                </ul>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -244,13 +247,18 @@ my_c3_event:unassign()
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>positive_pin</code> - <b>string</b> - The pin name of the positive pin</li>
-                <li><code>negative_pin</code> - <b>string</b> - The pin name of the negative pin</li>
-                <li><code>acquisition_time</code> - optional <b>integer</b> - As described above</li>
-                <li><code>range</code> - optional <b>integer</b> - As described above</li>
+                <li><code>positive_pin</code> - <strong>string</strong> - The pin name of the positive pin</li>
+                <li><code>negative_pin</code> - <strong>string</strong> - The pin name of the negative pin</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>acquisition_time</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>range</code> - <strong>integer</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li> <b>table</b> - Same as above</li></ul>
+            <ul>
+                <li><strong>table</strong> - Same as above</li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -262,15 +270,24 @@ my_c3_event:unassign()
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>D0</code></li>
-                <li><code>handler</code> - <b>function</b> - The function to call whenever the threshold is crossed. This function will be called with one argument of type <b>boolean</b> which represents if the value has crossed above or below the threshold. <code>true</code> if crossed above, or <code>false</code> if crossed below</li>
-                <li><code>percentage</code> - <b>number</b> - The level represented as a percentage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
-                <li><code>voltage</code> - <b>number</b> - The level represented as a voltage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
-                <li><code>acquisition_time</code> - optional <b>integer</b> - As described above</li>
-                <li><code>range</code> - optional <b>integer</b> - As described above</li>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>D0</code></li>
+                <li><code>handler</code> - <strong>function</strong> - The function to call whenever the threshold is crossed. This function will be called with two arguments:</li>
+                <ul>
+                    <li><code>pin</code> - <strong>string</strong> - The pin name that generated the event. E.g. <code>D0</code></li>
+                    <li><code>exceeded</code> - <strong>boolean</strong> - <code>true</code> if the voltage exceeded the threshold, or <code>false</code> otherwise</li>
+                </ul>          
+                <li><code>percentage</code> - <strong>number</strong> - The level represented as a percentage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
+                <li><code>voltage</code> - <strong>number</strong> - The level represented as a voltage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>acquisition_time</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>range</code> - <strong>integer</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li> <b>metatable</b> - An object representing the event</li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -282,30 +299,41 @@ my_c3_event:unassign()
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>D0</code></li>
-                <li><code>handler</code> - <b>function</b> - The function to call whenever the threshold is crossed. This function will be called with one argument of type <b>boolean</b> which represents if the value has crossed above or below the threshold. <code>true</code> if crossed above, or <code>false</code> if crossed below</li>
-                <li><code>percentage</code> - <b>number</b> - The level represented as a percentage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
-                <li><code>voltage</code> - <b>number</b> - The level represented as a voltage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
-                <li><code>acquisition_time</code> - optional <b>integer</b> - As described above</li>
-                <li><code>range</code> - optional <b>integer</b> - As described above</li>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>D0</code></li>
+                <li><code>handler</code> - <strong>function</strong> - The function to call whenever the threshold is crossed. This function will be called with two arguments:</li>
+                <ul>
+                    <li><code>pin</code> - <strong>string</strong> - Same as above</li>
+                    <li><code>exceeded</code> - <strong>boolean</strong> - Same as above</li>
+                </ul>          
+                <li><code>percentage</code> - <strong>number</strong> - Same as above</li>
+                <li><code>voltage</code> - <strong>number</strong> - Same as above</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>acquisition_time</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>range</code> - <strong>integer</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li> <b>metatable</b> - As described above</li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
     <tr>
         <td>
-            <code>device.analog.unassign(event)</code>
+            <code>device.analog.unassign_input_event(pin)</code>
         </td>
         <td>
             Disables the event and detaches the pin from the handler.
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>event</code> - <b>metatable</b> - The object that was returned from <code>device.analog.assign_input_high_event()</code> or <code>device.analog.assign_input_low_event()</code></li>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>D0</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
 </table>
@@ -315,22 +343,22 @@ Example usage:
 ```lua
 -- Read the analog value on pin D1 and print both the percentage and voltage values
 local d0_val = device.analog.get_input("D1")
-print(d0_val["percentage"])
-print(d0_val["voltage"])
+print(d0_val.percentage)
+print(d0_val.voltage)
 
 -- Trigger a print whenever the voltage on D2 drops below 1.5V
-function my_low_voltage_handler(triggered)
-    if (triggered) then
+function my_low_voltage_handler(pin, exceeded)
+    if (exceeded) then
         print("Voltage fell below 1.5V")
     else
         print("Voltage has returned back above 1.5V")
     end
 end
 
-local my_d1_event = device.analog.assign_input_high_event("D1", my_low_voltage_handler, { voltage=1.5 })
+device.analog.assign_input_high_event("D1", my_low_voltage_handler, { voltage=1.5 })
 
 -- Disable the event and detach the pin from the handler if no longer needed
-my_d1_event:unassign()
+device.analog.unassign_input_event("D1")
 ```
 
 ### PWM output (analog output)
@@ -349,12 +377,17 @@ my_d1_event:unassign()
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>pin</code> - <b>string</b> - The pin name. E.g. <code>A0</code></li>
-                <li><code>percentage</code> - <b>number</b> - The duty cycle to output on the pin as a percentage</li>
-                <li><code>frequency</code> - optional <b>number</b> - The PWM frequency in Hz</li>
+                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+                <li><code>percentage</code> - <strong>number</strong> - The duty cycle to output on the pin as a percentage</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>frequency</code> - <strong>number</strong> - The PWM frequency in Hz</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
 </table>
@@ -382,17 +415,27 @@ device.analog.set_output("E1", 25)
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>address</code> - <b>integer</b> - The 7-bit address of the I2C device</li>
-                <li><code>register</code> - <b>number</b> - The address of the register to read from</li>
-                <li><code>length</code> - <b>integer</b> - The number of bytes to read</li>
-                <li><code>port</code> - optional <b>string</b> - The 4-pin port which the I2C device is connected to. I.e. <code>"PORTA"</code>, <code>"PORTB"</code>, <code>"PORTE"</code>, or <code>"PORTF"</code>. Using this parameter will assume the SCL and SDA pin order to match the <a href="https://learn.adafruit.com/introducing-adafruit-stemma-qt/what-is-stemma">Stemma QT</a> and <a href="https://www.sparkfun.com/qwiic">Qwiic</a> pinout. If a different pin order is required, the <code>scl_pin</code> and <code>sda_pin</code> parameters should be provided instead</li>
-                <li><code>scl_pin</code> - optional <b>string</b> - Specifies the pin to use for the SCL signal. Any IO pin may be specified as a string, e.g. <code>"C3"</code>. Must be used in conjunction with <code>sda_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
-                <li><code>sda_pin</code> - optional <b>string</b> - Specifies the pin to use for the SDA signal. Any IO pin may be specified as a string, e.g. <code>"C4"</code>. Must be used in conjunction with <code>scl_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
-                <li><code>frequency</code> - optional <b>integer</b> - The frequency to use for I2C communications in kHz. Can be either <code>100</code>, <code>250</code> or <code>400</code></li>
-                <li><code>register_address_size</code> - optional <b>integer</b> - The size of the register to read in bits. Can be either <code>8</code>, <code>16</code> or <code>32</code></li>
+                <li><code>address</code> - <strong>integer</strong> - The 7-bit address of the I2C device</li>
+                <li><code>register</code> - <strong>number</strong> - The address of the register to read from</li>
+                <li><code>length</code> - <strong>integer</strong> - The number of bytes to read</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>port</code> - <strong>string</strong> - The 4-pin port which the I2C device is connected to. I.e. <code>"PORTA"</code>, <code>"PORTB"</code>, <code>"PORTE"</code>, or <code>"PORTF"</code>. Using this parameter will assume the SCL and SDA pin order to match the <a href="https://learn.adafruit.com/introducing-adafruit-stemma-qt/what-is-stemma">Stemma QT</a> and <a href="https://www.sparkfun.com/qwiic">Qwiic</a> pinout. If a different pin order is required, the <code>scl_pin</code> and <code>sda_pin</code> parameters should be provided instead</li>
+                <li><code>scl_pin</code> - <strong>string</strong> - Specifies the pin to use for the SCL signal. Any IO pin may be specified as a string, e.g. <code>"C3"</code>. Must be used in conjunction with <code>sda_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
+                <li><code>sda_pin</code> - <strong>string</strong> - Specifies the pin to use for the SDA signal. Any IO pin may be specified as a string, e.g. <code>"C4"</code>. Must be used in conjunction with <code>scl_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
+                <li><code>frequency</code> - <strong>integer</strong> - The frequency to use for I2C communications in kHz. Can be either <code>100</code>, <code>250</code> or <code>400</code></li>
+                <li><code>register_address_size</code> - <strong>integer</strong> - The size of the register to read in bits. Can be either <code>8</code>, <code>16</code> or <code>32</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>table</b> - A table containing three key-value pairs. <code>success</code>, a <b>boolean</b> representing if the transaction was a success. <code>data</code>, a <b>string</b> representing the bytes read. Always of size <code>length</code> as specified in the function call. <code>value</code>, an <b>integer</b> representing the first data value, useful if only one byte was requested </li></ul>
+            <ul>
+                <li><strong>table</strong> - A table containing three key-value pairs:</li>
+                <ul>
+                    <li><code>success</code> - <strong>string</strong> - <code>true</code> if the transaction was a success, or <code>false</code> otherwise</li>
+                    <li><code>data</code> - <strong>string</strong> - The bytes read. Always of size <code>length</code> as specified in the function call</li>
+                    <li><code>value</code> - <strong>string</strong> - The first data value, useful if only one byte was requested</li>
+                </ul>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -404,17 +447,42 @@ device.analog.set_output("E1", 25)
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>address</code> - <b>integer</b> - As described above</li>
-                <li><code>register</code> - <b>number</b> - As described above</li>
-                <li><code>data</code> - <b>string</b> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
-                <li><code>port</code> - optional <b>string</b> - As described above</li>
-                <li><code>scl_pin</code> - optional <b>string</b> - As described above</li>
-                <li><code>sda_pin</code> - optional <b>string</b> - As described above</li>
-                <li><code>frequency</code> - optional <b>integer</b> - As described above</li>
-                <li><code>register_address_size</code> - optional <b>integer</b> - As described above</li>
+                <li><code>address</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>register</code> - <strong>number</strong> - Same as above</li>
+                <li><code>data</code> - <strong>string</strong> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>port</code> - <strong>string</strong> - Same as above</li>
+                <li><code>scl_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>sda_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>frequency</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>register_address_size</code> - <strong>integer</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>boolean</b> - Returns <code>true</code> if the write was successful, or <code>false</code> otherwise</li></ul>
+            <ul>
+                <li><strong>boolean</strong> - <code>true</code> if the transaction was a success, or <code>false</code> otherwise</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.i2c.scan({ port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400 })</code>
+        </td>
+        <td>
+            Scans the given port for all connected I2C devices.
+            <br><br>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>port</code> - <strong>string</strong> - Same as above</li>
+                <li><code>scl_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>sda_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>frequency</code> - <strong>integer</strong> - Same as above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>table</strong> - A table of <strong>integers</strong> listing the 7-bit addresses of all the devices found</li>
+            </ul>
         </td>
     </tr>
 </table>
@@ -438,6 +506,11 @@ end
 
 -- Write 0x1234 to the register 0xF9
 device.i2c.write(0x23, 0xF9, "\x12\x34")
+
+-- Scan a port for devices
+local d = device.i2c.scan({port="PORTF"})
+
+print("Found " .. tostring(#d) .. " devices")
 ```
 
 ### SPI communication
@@ -456,17 +529,17 @@ device.i2c.write(0x23, 0xF9, "\x12\x34")
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>register</code> - <b>integer</b> - The address of the register to read from</li>
-                <li><code>length</code> - <b>integer</b> - The number of bytes to read</li>
-                <li><code>mosi_pin</code> - optional <b>string</b> - Specifies the pin to use for the MOSI signal. Any IO pin may be specified as a string, e.g. <code>"D0"</code></li>
-                <li><code>miso_pin</code> - optional <b>string</b> - Specifies the pin to use for the MISO signal. Any IO pin may be specified as a string, e.g. <code>"D1"</code></li>
-                <li><code>sck_pin</code> - optional <b>string</b> - Specifies the pin to use for the SCK signal. Any IO pin may be specified as a string, e.g. <code>"D2"</code></li>
-                <li><code>cs_pin</code> - optional <b>string</b> - Specifies the pin to use for the CS signal. Any IO pin may be specified as a string, e.g. <code>"D3"</code></li>
-                <li><code>frequency</code> - optional <b>integer</b> - The frequency to use for SPI transactions in kHz</li>
-                <li><code>register_address_size</code> - optional <b>integer</b> - The size of the register address in bits. Can be either <code>8</code>, <code>16</code> or <code>32</code></li>
+                <li><code>register</code> - <strong>integer</strong> - The address of the register to read from</li>
+                <li><code>length</code> - <strong>integer</strong> - The number of bytes to read</li>
+                <li><code>mosi_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the MOSI signal. Any IO pin may be specified as a string, e.g. <code>"D0"</code></li>
+                <li><code>miso_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the MISO signal. Any IO pin may be specified as a string, e.g. <code>"D1"</code></li>
+                <li><code>sck_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the SCK signal. Any IO pin may be specified as a string, e.g. <code>"D2"</code></li>
+                <li><code>cs_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the CS signal. Any IO pin may be specified as a string, e.g. <code>"D3"</code></li>
+                <li><code>frequency</code> - optional <strong>integer</strong> - The frequency to use for SPI transactions in kHz</li>
+                <li><code>register_address_size</code> - optional <strong>integer</strong> - The size of the register address in bits. Can be either <code>8</code>, <code>16</code> or <code>32</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>table</b> - A table containing two key-value pairs. <code>data</code>, a <b>string</b> representing the bytes read. Always of size <code>length</code> as specified in the function call. <code>value</code>, an <b>integer</b> representing the first data value, useful if only one byte was requested</li></ul>
+            <ul><li><strong>table</strong> - A table containing two key-value pairs. <code>data</code>, a <strong>string</strong> representing the bytes read. Always of size <code>length</code> as specified in the function call. <code>value</code>, an <strong>integer</strong> representing the first data value, useful if only one byte was requested</li></ul>
         </td>
     </tr>
     <tr>
@@ -478,17 +551,17 @@ device.i2c.write(0x23, 0xF9, "\x12\x34")
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>register</code> - <b>integer</b> - Same as above</li>
-                <li><code>data</code> - <b>string</b> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
-                <li><code>mosi_pin</code> - optional <b>string</b> - As described above</li>
-                <li><code>miso_pin</code> - optional <b>string</b> - As described above</li>
-                <li><code>sck_pin</code> - optional <b>string</b> - As described above</li>
-                <li><code>cs_pin</code> - optional <b>string</b> - As described above</li>
-                <li><code>frequency</code> - optional <b>integer</b> - As described above</li>
-                <li><code>register_address_size</code> - optional <b>integer</b> - As described above</li>
+                <li><code>register</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>data</code> - <strong>string</strong> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
+                <li><code>mosi_pin</code> - optional <strong>string</strong> - Same as above</li>
+                <li><code>miso_pin</code> - optional <strong>string</strong> - Same as above</li>
+                <li><code>sck_pin</code> - optional <strong>string</strong> - Same as above</li>
+                <li><code>cs_pin</code> - optional <strong>string</strong> - Same as above</li>
+                <li><code>frequency</code> - optional <strong>integer</strong> - Same as above</li>
+                <li><code>register_address_size</code> - optional <strong>integer</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul><li><strong>nil</strong></li></ul>
         </td>
     </tr>
     <tr>
@@ -500,17 +573,17 @@ device.i2c.write(0x23, 0xF9, "\x12\x34")
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>read_length</code> - <b>integer</b> - The number of bytes to read from</li>
-                <li><code>write_data</code> - <b>string</b> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
-                <li><code>hold_cs</code> - optional <b>boolean</b> - If set to <code>true</code> will continue to hold the CS pin low after the transaction is completed. This can be useful if the transaction needs to be broken up into multiple steps, or if the CS pin needs to be held for any other reason. Any subsequent call to <code>device.spi.transaction</code> with <code>hold_cs</code> set to false will then return the CS pin to a high value once completed</li>
-                <li><code>mosi_pin</code> - optional <b>string</b> - As described above</li>
-                <li><code>miso_pin</code> - optional <b>string</b> - As described above</li>
-                <li><code>sck_pin</code> - optional <b>string</b> - As described above</li>
-                <li><code>cs_pin</code> - optional <b>string</b> - As described above</li>
-                <li><code>frequency</code> - optional <b>integer</b> - As described above</li>
+                <li><code>read_length</code> - <strong>integer</strong> - The number of bytes to read from</li>
+                <li><code>write_data</code> - <strong>string</strong> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
+                <li><code>hold_cs</code> - optional <strong>boolean</strong> - If set to <code>true</code> will continue to hold the CS pin low after the transaction is completed. This can be useful if the transaction needs to be broken up into multiple steps, or if the CS pin needs to be held for any other reason. Any subsequent call to <code>device.spi.transaction</code> with <code>hold_cs</code> set to false will then return the CS pin to a high value once completed</li>
+                <li><code>mosi_pin</code> - optional <strong>string</strong> - Same as above</li>
+                <li><code>miso_pin</code> - optional <strong>string</strong> - Same as above</li>
+                <li><code>sck_pin</code> - optional <strong>string</strong> - Same as above</li>
+                <li><code>cs_pin</code> - optional <strong>string</strong> - Same as above</li>
+                <li><code>frequency</code> - optional <strong>integer</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>string</b> - The bytes read. Always of size <code>read_length</code>, or <code>#write_data</code>, whichever was larger</li></ul>
+            <ul><li><strong>string</strong> - The bytes read. Always of size <code>read_length</code>, or <code>#write_data</code>, whichever was larger</li></ul>
         </td>
     </tr>
 </table>
@@ -550,15 +623,15 @@ result = device.spi.transaction{ read_length=10 }
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>data</code> - <b>string</b> - The data to send</li>
-                <li><code>baudrate</code> - optional <b>integer</b> - The baudrate in bits-per-second at which to send the data. Can be <code>1200</code>, <code>2400</code>, <code>4800</code>, <code>9600</code>, <code>14400</code>, <code>19200</code>, <code>28800</code>, <code>31250</code>, <code>38400</code>, <code>56000</code>, <code>57600</code>, <code>76800</code>, <code>115200</code>, <code>230400</code>, <code>250000</code>, <code>460800</code>, <code>921600</code>, or <code>1000000</code></li>
-                <li><code>tx_pin</code> - optional <b>string</b> - Specifies the pin to use for the transmit signal. Any IO pin may be specified as a string, e.g. <code>"C1"</code></li>
-                <li><code>cts_pin</code> - optional <b>string</b> - Specifies the pin to use for the clear-to-send signal. Any IO pin may be specified as a string, e.g. <code>"C3"</code>. If <code>nil</code> is given, the signal isn't used</li>
-                <li><code>parity</code> - optional <b>boolean</b> - Enables the parity bit if set to <code>true</code></li>
-                <li><code>stop_bits</code> - optional <b>integer</b> - Sets the number of stop bits. Can be either <code>1</code> or <code>2</code></li>
+                <li><code>data</code> - <strong>string</strong> - The data to send</li>
+                <li><code>baudrate</code> - optional <strong>integer</strong> - The baudrate in bits-per-second at which to send the data. Can be <code>1200</code>, <code>2400</code>, <code>4800</code>, <code>9600</code>, <code>14400</code>, <code>19200</code>, <code>28800</code>, <code>31250</code>, <code>38400</code>, <code>56000</code>, <code>57600</code>, <code>76800</code>, <code>115200</code>, <code>230400</code>, <code>250000</code>, <code>460800</code>, <code>921600</code>, or <code>1000000</code></li>
+                <li><code>tx_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the transmit signal. Any IO pin may be specified as a string, e.g. <code>"C1"</code></li>
+                <li><code>cts_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the clear-to-send signal. Any IO pin may be specified as a string, e.g. <code>"C3"</code>. If <code>nil</code> is given, the signal isn't used</li>
+                <li><code>parity</code> - optional <strong>boolean</strong> - Enables the parity bit if set to <code>true</code></li>
+                <li><code>stop_bits</code> - optional <strong>integer</strong> - Sets the number of stop bits. Can be either <code>1</code> or <code>2</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul><li><strong>nil</strong></li></ul>
         </td>
     </tr>
     <tr>
@@ -570,15 +643,15 @@ result = device.spi.transaction{ read_length=10 }
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>terminator</code> - <b>string</b> - The character to wait for until triggering the event. If set to <code>nil</code>, the event is triggered for every new character received</li>
-                <li><code>handler</code> - <b>function</b> - The function to call whenever data is received. This function will be called with one argument of type <b>string</b> which will contain all the buffered bytes since the last event was triggered, or the event was enabled</li>
-                <li><code>baudrate</code> - optional <b>integer</b> - As described above</li>
-                <li><code>rx_pin</code> - optional <b>string</b> - Specifies the pin to use for the receive signal. Any IO pin may be specified as a string, e.g. <code>"C0"</code></li>
-                <li><code>rts_pin</code> - optional <b>string</b> - Specifies the pin to use for the ready-to-send signal. Any IO pin may be specified as a string, e.g. <code>"C2"</code>. If <code>nil</code> is given, the signal isn't used</li>
-                <li><code>parity</code> - optional <b>boolean</b> - As described above</li>
+                <li><code>terminator</code> - <strong>string</strong> - The character to wait for until triggering the event. If set to <code>nil</code>, the event is triggered for every new character received</li>
+                <li><code>handler</code> - <strong>function</strong> - The function to call whenever data is received. This function will be called with one argument of type <strong>string</strong> which will contain all the buffered bytes since the last event was triggered, or the event was enabled</li>
+                <li><code>baudrate</code> - optional <strong>integer</strong> - Same as above</li>
+                <li><code>rx_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the receive signal. Any IO pin may be specified as a string, e.g. <code>"C0"</code></li>
+                <li><code>rts_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the ready-to-send signal. Any IO pin may be specified as a string, e.g. <code>"C2"</code>. If <code>nil</code> is given, the signal isn't used</li>
+                <li><code>parity</code> - optional <strong>boolean</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>metatable</b> - An object representing the event</li></ul>
+            <ul><li><strong>metatable</strong> - An object representing the event</li></ul>
         </td>
     </tr>
     <tr>
@@ -590,10 +663,10 @@ result = device.spi.transaction{ read_length=10 }
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>event</code> - <b>metatable</b> - The object that was returned from <code>device.uart.assign_read_event()</code></li>
+                <li><code>event</code> - <strong>metatable</strong> - The object that was returned from <code>device.uart.assign_read_event()</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul><li><strong>nil</strong></li></ul>
         </td>
     </tr>
 </table>
@@ -631,15 +704,15 @@ my_rx_event:unassign()
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>length</code> - <b>float</b> - The length to record in seconds. The maximum allowable time will depend on the RAM currently used on the device. Using a lower <code>sample_rate</code> and <code>bit_depth</code> will allow for longer recordings but at reduced quality</li>
-                <li><code>handler</code> - <b>function</b> - The function to call whenever data is ready to be processed. The function will be called with one argument of type <b>string</b> representing 1-byte-per-sample in the case of <code>bit_depth=8</code>, or 2-bytes-per-sample in the case of <code>bit_depth=16</code>. The samples will be signed values. This function should not spend longer than <code>length</code> time to process the data and exit, otherwise the internal buffer will overflow and cause glitches in the final audio</li>
-                <li><code>data_pin</code> - optional <b>string</b> - Specifies the pin to use for the data input. Any IO pin may be specified as a string, e.g. <code>"F0"</code></li>
-                <li><code>clock_pin</code> - optional <b>string</b> - Specifies the pin to use for the clock input. Any IO pin may be specified as a string, e.g. <code>"F1"</code></li>
-                <li><code>sample_rate</code> - <b>integer</b> - The sample rate to record in samples per second. Can be either <code>8000</code> or <code>16000</code></li>
-                <li><code>but_depth</code> - <b>integer</b> - he dynamic range of the samples recorded. Can be either <code>8</code> or <code>16</code></li>
+                <li><code>length</code> - <strong>float</strong> - The length to record in seconds. The maximum allowable time will depend on the RAM currently used on the device. Using a lower <code>sample_rate</code> and <code>bit_depth</code> will allow for longer recordings but at reduced quality</li>
+                <li><code>handler</code> - <strong>function</strong> - The function to call whenever data is ready to be processed. The function will be called with one argument of type <strong>string</strong> representing 1-byte-per-sample in the case of <code>bit_depth=8</code>, or 2-bytes-per-sample in the case of <code>bit_depth=16</code>. The samples will be signed values. This function should not spend longer than <code>length</code> time to process the data and exit, otherwise the internal buffer will overflow and cause glitches in the final audio</li>
+                <li><code>data_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the data input. Any IO pin may be specified as a string, e.g. <code>"F0"</code></li>
+                <li><code>clock_pin</code> - optional <strong>string</strong> - Specifies the pin to use for the clock input. Any IO pin may be specified as a string, e.g. <code>"F1"</code></li>
+                <li><code>sample_rate</code> - <strong>integer</strong> - The sample rate to record in samples per second. Can be either <code>8000</code> or <code>16000</code></li>
+                <li><code>but_depth</code> - <strong>integer</strong> - he dynamic range of the samples recorded. Can be either <code>8</code> or <code>16</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>metatable</b> - An object representing the event</li></ul>
+            <ul><li><strong>metatable</strong> - An object representing the event</li></ul>
         </td>
     </tr>
     <tr>
@@ -651,10 +724,10 @@ my_rx_event:unassign()
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>event</code> - <b>metatable</b> - The object that was returned from <code>device.uart.assign_read_event()</code></li>
+                <li><code>event</code> - <strong>metatable</strong> - The object that was returned from <code>device.uart.assign_read_event()</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul><li><strong>nil</strong></li></ul>
         </td>
     </tr>
 </table>
@@ -696,10 +769,10 @@ my_mic_event:stop()
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>time</code> - <b>number</b> - The time to sleep in seconds. E.g. <code>1.5</code></li>
+                <li><code>time</code> - <strong>number</strong> - The time to sleep in seconds. E.g. <code>1.5</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul><li><strong>nil</strong></li></ul>
         </td>
     </tr>
     <tr>
@@ -711,11 +784,11 @@ my_mic_event:stop()
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>voltage</code> - <b>number</b> - The termination voltage of the cell. Can be either <code>3.50</code>, <code>3.55</code>, <code>3.60</code>, <code>3.65</code>, <code>4.00</code>, <code>4.05</code>, <code>4.10</code>, <code>4.15</code>, <code>4.20</code>, <code>4.25</code>, <code>4.30</code>, <code>4.35</code>, <code>4.40</code>, or <code>4.45</code></li>
-                <li><code>current</code> - <b>number</b> - The constant current to charge the cell at. Must be between <code>32</code> and <code>800</code> in steps of <code>2</code></li>
+                <li><code>voltage</code> - <strong>number</strong> - The termination voltage of the cell. Can be either <code>3.50</code>, <code>3.55</code>, <code>3.60</code>, <code>3.65</code>, <code>4.00</code>, <code>4.05</code>, <code>4.10</code>, <code>4.15</code>, <code>4.20</code>, <code>4.25</code>, <code>4.30</code>, <code>4.35</code>, <code>4.40</code>, or <code>4.45</code></li>
+                <li><code>current</code> - <strong>number</strong> - The constant current to charge the cell at. Must be between <code>32</code> and <code>800</code> in steps of <code>2</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul><li><strong>nil</strong></li></ul>
         </td>
     </tr>
     <tr>
@@ -728,7 +801,7 @@ my_mic_event:stop()
             <strong>Parameters:</strong>
             <ul>-</ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>number</b> - The voltage of the cell in volts</li></ul>
+            <ul><li><strong>number</strong> - The voltage of the cell in volts</li></ul>
         </td>
     </tr>
     <tr>
@@ -741,7 +814,7 @@ my_mic_event:stop()
             <strong>Parameters:</strong>
             <ul>-</ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>string</b> - The current charging status. Either <code>charging</code>, <code>charged</code> or <code>discharging</code> if the battery is connected, or <code>external_power</code> if either no battery is installed, or the battery has a fault</li></ul>
+            <ul><li><strong>string</strong> - The current charging status. Either <code>charging</code>, <code>charged</code> or <code>discharging</code> if the battery is connected, or <code>external_power</code> if either no battery is installed, or the battery has a fault</li></ul>
         </td>
     </tr>
     <tr>
@@ -753,11 +826,11 @@ my_mic_event:stop()
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>voltage</code> - <b>number</b> - The termination voltage of the cell. Can be either <code>3.50</code>, <code>3.55</code>, <code>3.60</code>, <code>3.65</code>, <code>4.00</code>, <code>4.05</code>, <code>4.10</code>, <code>4.15</code>, <code>4.20</code>, <code>4.25</code>, <code>4.30</code>, <code>4.35</code>, <code>4.40</code>, or <code>4.45</code></li>
-                <li><code>current</code> - <b>number</b> - The voltage to set. Can be between <code>1.8</code> and <code>3.3</code> in steps of <code>0.1</code></li>
+                <li><code>voltage</code> - <strong>number</strong> - The termination voltage of the cell. Can be either <code>3.50</code>, <code>3.55</code>, <code>3.60</code>, <code>3.65</code>, <code>4.00</code>, <code>4.05</code>, <code>4.10</code>, <code>4.15</code>, <code>4.20</code>, <code>4.25</code>, <code>4.30</code>, <code>4.35</code>, <code>4.40</code>, or <code>4.45</code></li>
+                <li><code>current</code> - <strong>number</strong> - The voltage to set. Can be between <code>1.8</code> and <code>3.3</code> in steps of <code>0.1</code></li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul><li><strong>nil</strong></li></ul>
         </td>
     </tr>
 </table>
@@ -776,7 +849,7 @@ my_mic_event:stop()
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><b>string</b> - Always <code>"s2-module"</code></li>
+                <li><strong>string</strong> - Always <code>"s2-module"</code></li>
             </ul>
         </td>
     </tr>
@@ -789,7 +862,7 @@ my_mic_event:stop()
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><b>string</b> - A string representing the current firmware version. E.g. <code>"0.1.0+0"</code></li>
+                <li><strong>string</strong> - A string representing the current firmware version. E.g. <code>"0.1.0+0"</code></li>
             </ul>
         </td>
     </tr>
@@ -837,10 +910,10 @@ device.power.set_vout(3.3)
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>data</code> - <b>table</b> - A table representing any data as key-value pairs. Will be converted to an equivalent JSON once it reaches Superstack. It's recommended to name keys in a full and clear way as that will be how the AI tools of Superstack will infer the meaning of the data. E.g. <code>temperature_celsius = 43.5</code> will help the AI understand that <code>43.5</code> represents temperature in Celsius units</li>
+                <li><code>data</code> - <strong>table</strong> - A table representing any data as key-value pairs. Will be converted to an equivalent JSON once it reaches Superstack. It's recommended to name keys in a full and clear way as that will be how the AI tools of Superstack will infer the meaning of the data. E.g. <code>temperature_celsius = 43.5</code> will help the AI understand that <code>43.5</code> represents temperature in Celsius units</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul><li><strong>nil</strong></li></ul>
         </td>
     </tr>
 </table>
@@ -885,7 +958,7 @@ network.send{
                 <li>-</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>table</b> - A table containing key-value pairs. <code>valid</code>, a <b>boolean</b> representing if the GPS data is valid. <code>latitude</code>, a <b>number</b> representing the latitude. <code>longitude</code>, a <b>number</b> representing the longitude. <code>altitude</code>, a <b>number</b> representing the altitude. <code>accuracy</code>, a <b>number</b> representing the location and altitude accuracy. <code>speed</code>, a <b>number</b> representing the current speed. <code>speed_accuracy</code>, a <b>number</b> representing the speed accuracy. <code>satellites</code>, a <b>table</b> representing the current satellites statistics. <code>satellites</code> in turn contains three key-value pairs. <code>tracked</code>. an <b>integer</b> representing the number of satellites currently being tracked. <code>in_fix</code>. an <b>integer</b> representing the number of satellites currently being used for measurement. <code>unhealthy</code>. an <b>integer</b> representing the number of satellites that could not be used for measurement.</li></ul>
+            <ul><li><strong>table</strong> - A table containing key-value pairs. <code>valid</code>, a <strong>boolean</strong> representing if the GPS data is valid. <code>latitude</code>, a <strong>number</strong> representing the latitude. <code>longitude</code>, a <strong>number</strong> representing the longitude. <code>altitude</code>, a <strong>number</strong> representing the altitude. <code>accuracy</code>, a <strong>number</strong> representing the location and altitude accuracy. <code>speed</code>, a <strong>number</strong> representing the current speed. <code>speed_accuracy</code>, a <strong>number</strong> representing the speed accuracy. <code>satellites</code>, a <strong>table</strong> representing the current satellites statistics. <code>satellites</code> in turn contains three key-value pairs. <code>tracked</code>. an <strong>integer</strong> representing the number of satellites currently being tracked. <code>in_fix</code>. an <strong>integer</strong> representing the number of satellites currently being used for measurement. <code>unhealthy</code>. an <strong>integer</strong> representing the number of satellites that could not be used for measurement.</li></ul>
         </td>
     </tr>
     <tr>
@@ -897,12 +970,12 @@ network.send{
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>accuracy</code> - optional <b>string</b> - The accuracy of the reading to acquire. Can either be <code>"LOW"</code> where only three satellites are required to attain a fix, or <code>"HIGH"</code> where four satellites are required to attain a fix</li>
-                <li><code>power_saving</code> - optional <b>string</b> - The level of power saving that the GPS aim to achieve. Can either be <code>"OFF"</code>, <code>"MEDIUM"</code>, <code>"MAX"</code>. A higher level of power saving will result in less accuracy and a slower time to attain a fix</li>
-                <li><code>tracking_interval</code> - optional <b>integer</b> -  The period to poll for new location updates. Can either be <code>1</code> for continuous 1-second updates, or a value in seconds between <code>10</code> and <code>65535</code> for slower updates which can save power</li>
+                <li><code>accuracy</code> - optional <strong>string</strong> - The accuracy of the reading to acquire. Can either be <code>"LOW"</code> where only three satellites are required to attain a fix, or <code>"HIGH"</code> where four satellites are required to attain a fix</li>
+                <li><code>power_saving</code> - optional <strong>string</strong> - The level of power saving that the GPS aim to achieve. Can either be <code>"OFF"</code>, <code>"MEDIUM"</code>, <code>"MAX"</code>. A higher level of power saving will result in less accuracy and a slower time to attain a fix</li>
+                <li><code>tracking_interval</code> - optional <strong>integer</strong> -  The period to poll for new location updates. Can either be <code>1</code> for continuous 1-second updates, or a value in seconds between <code>10</code> and <code>65535</code> for slower updates which can save power</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul><li><strong>nil</strong></li></ul>
         </td>
     </tr>
 </table>
@@ -951,11 +1024,11 @@ end
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>filename</code> - <b>string</b> - The name of the file</li>
-                <li><code>data</code> - <b>string</b> - The data to save to the file</li>
+                <li><code>filename</code> - <strong>string</strong> - The name of the file</li>
+                <li><code>data</code> - <strong>string</strong> - The data to save to the file</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul><li><strong>nil</strong></li></ul>
         </td>
     </tr>
     <tr>
@@ -967,11 +1040,11 @@ end
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>filename</code> - <b>string</b> - As described above</li>
-                <li><code>data</code> - <b>string</b> - As described above</li>
+                <li><code>filename</code> - <strong>string</strong> - Same as above</li>
+                <li><code>data</code> - <strong>string</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li>nil</li></ul>
+            <ul><li><strong>nil</strong></li></ul>
         </td>
     </tr>
     <tr>
@@ -982,13 +1055,13 @@ end
             Reads out the contents of the file. Either returning an entire <code>"\n"</code> terminated line, or alternatively, a number of bytes with length <code>length</code> at an offset of <code>offset</code>.
             <strong>Parameters:</strong>
             <ul>
-                <li><code>filename</code> - <b>string</b> - As described above</li>
-                <li><code>line</code> - optional <b>integer</b> - The index of the line to return. <code>1</code> being the first line, <code>2</code> being the second line, etc. Likewise, the lines can also be indexed from the end of the file. <code>-1</code> returns the last line of the file, <code>-2</code> the second to last, etc. <code>length</code> and <code>offset</code> are ignored when <code>line</code> is specified</li>
-                <li><code>length</code></li> - optional <b>integer</b> - The number of bytes to read from the file. Cannot be used with the <code>line</code> option. If <code>length</code> is longer than the data present in the file, then a shorter result will be returned</li>
-                <li><code>offset</code></li> - optional <b>integer</b> - When <code>length</code> is specified, this option allows reading from some arbitrary offset from within the file</li>
+                <li><code>filename</code> - <strong>string</strong> - Same as above</li>
+                <li><code>line</code> - optional <strong>integer</strong> - The index of the line to return. <code>1</code> being the first line, <code>2</code> being the second line, etc. Likewise, the lines can also be indexed from the end of the file. <code>-1</code> returns the last line of the file, <code>-2</code> the second to last, etc. <code>length</code> and <code>offset</code> are ignored when <code>line</code> is specified</li>
+                <li><code>length</code></li> - optional <strong>integer</strong> - The number of bytes to read from the file. Cannot be used with the <code>line</code> option. If <code>length</code> is longer than the data present in the file, then a shorter result will be returned</li>
+                <li><code>offset</code></li> - optional <strong>integer</strong> - When <code>length</code> is specified, this option allows reading from some arbitrary offset from within the file</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>string</b> - The contents read</li></ul>
+            <ul><li><strong>string</strong> - The contents read</li></ul>
         </td>
     </tr>
     <tr>
@@ -999,10 +1072,10 @@ end
             Deletes a file if it exists.
             <strong>Parameters:</strong>
             <ul>
-                <li><code>filename</code> - <b>string</b> - As described above</li>
+                <li><code>filename</code> - <strong>string</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>boolean</b> - <code>true</code> if the file was found and deleted, <code>false</code> otherwise</li></ul>
+            <ul><li><strong>boolean</strong> - <code>true</code> if the file was found and deleted, <code>false</code> otherwise</li></ul>
         </td>
     </tr>
     <tr>
@@ -1016,7 +1089,7 @@ end
                 <li>-</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>table</b> - A table of <b>strings</b> representing each file saved on the device</li></ul>
+            <ul><li><strong>table</strong> - A table of <strong>strings</strong> representing each file saved on the device</li></ul>
         </td>
     </tr>
 </table>
@@ -1059,7 +1132,7 @@ storage.delete("my_file.txt")
                 <li>-</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>number</b> - The number of seconds since 00:00:00 UTC on 1 January 1970 with a resolution of 1mS. If the device hasn't yet connected to the network to acquire the time, the returned value represents the number of seconds since the device was powered on</li></ul>
+            <ul><li><strong>number</strong> - The number of seconds since 00:00:00 UTC on 1 January 1970 with a resolution of 1mS. If the device hasn't yet connected to the network to acquire the time, the returned value represents the number of seconds since the device was powered on</li></ul>
         </td>
     </tr>
     <tr>
@@ -1071,11 +1144,11 @@ storage.delete("my_file.txt")
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>unix_epoch</code> - optional <b>number</b> - If supplied, the time and date at the given unix epoch will be returned. Otherwise the current time is used</li>
-                <li><code>timezone</code> - optional <b>string</b> - The timezone to observe when returning the time and date. Can be given as a standard timezone abbreviation such as <code>"EST"</code>, <code>"GMT"</code>, or <code>"CEST"</code>. If not used, the timezone of the network is used</li>
+                <li><code>unix_epoch</code> - optional <strong>number</strong> - If supplied, the time and date at the given unix epoch will be returned. Otherwise the current time is used</li>
+                <li><code>timezone</code> - optional <strong>string</strong> - The timezone to observe when returning the time and date. Can be given as a standard timezone abbreviation such as <code>"EST"</code>, <code>"GMT"</code>, or <code>"CEST"</code>. If not used, the timezone of the network is used</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><b>table</b> - A table containing key-value pairs. <code>known</code> a <b>boolean</b> representing if the device has obtained the time from the network, <code>second</code> an <b>integer</b> representing the current second. <code>minute</code> an <b>integer</b> representing the current minute. <code>hour</code> an <b>integer</b> representing the current hour. <code>day</code> an <b>integer</b> representing the current day. <code>weekday</code> a <b>string</b> representing the current weekday. <code>month</code> an <b>integer</b> representing the current month. <code>year</code> an <b>integer</b> representing the current year. <code>timezone</code> a <b>string</b> representing the current timezone as a standard timezone abbreviation</li></ul>
+            <ul><li><strong>table</strong> - A table containing key-value pairs. <code>known</code> a <strong>boolean</strong> representing if the device has obtained the time from the network, <code>second</code> an <strong>integer</strong> representing the current second. <code>minute</code> an <strong>integer</strong> representing the current minute. <code>hour</code> an <strong>integer</strong> representing the current hour. <code>day</code> an <strong>integer</strong> representing the current day. <code>weekday</code> a <strong>string</strong> representing the current weekday. <code>month</code> an <strong>integer</strong> representing the current month. <code>year</code> an <strong>integer</strong> representing the current year. <code>timezone</code> a <strong>string</strong> representing the current timezone as a standard timezone abbreviation</li></ul>
         </td>
     </tr>
 </table>
