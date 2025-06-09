@@ -214,7 +214,7 @@ device.digital.unassign_input_event("C3")
     </tr>
     <tr>
         <td>
-            <code>device.analog.get_input(pin, { acquisition_time=40, range=Vout })</code>
+            <code>device.analog.get_input(pin, { acquisition_time=40 })</code>
         </td>
         <td>
             Reads the analog value on an analog-capable pin.
@@ -225,22 +225,17 @@ device.digital.unassign_input_event("C3")
             </ul>
             <strong>Optional parameters:</strong>
             <ul>
-                <li><code>acquisition_time</code> - <strong>integer</strong> - A time in microseconds across which to make the measurement. Can be either <code>3</code>, <code>5</code>, <code>10</code>, <code>15</code>, <code>20</code>, <code>40</code>, or multiples of 40 e.g. <code>80</code>, <code>120</code>, <code>160</code>, etc. Higher values allow for accurate measurement of greater source resistances. Those maximum resistances being 10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ and 800kΩ respectively, with 800kΩ being the maximum source resistance for acquisition times greater than 40 microseconds</li>
-                <li><code>range</code> - <strong>integer</strong> - The maximum expected voltage for the input signal. Defaults to the same value as V<sub>OUT</sub></li>
+                <li><code>acquisition_time</code> - <strong>integer</strong> - A time in microseconds across which to make the measurement. Can be either <code>3</code>, <code>5</code>, <code>10</code>, <code>15</code>, <code>20</code>, or <code>40</code>. Higher values allow for accurate measurement of greater source resistances. Those maximum resistances being 10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ and 800kΩ respectively</li>
             </ul>
             <strong>Returns:</strong><br>
             <ul>
-                <li><strong>table</strong> - A table of key-value pairs:</li>
-                <ul>
-                    <li><code>voltage</code> - <strong>number</strong> - The voltage present on the pin</li>
-                    <li><code>percentage</code> - <strong>number</strong> - The voltage represented as a percentage with respect to the range of 0V and the <code>range</code> value</li>
-                </ul>
+                <li><strong>number</strong> - The voltage present on the pin</li>
             </ul>
         </td>
     </tr>
     <tr>
         <td>
-            <code>device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_time=40, range=Vout })</code>
+            <code>device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_time=40 })</code>
         </td>
         <td>
             Reads the analog value across two analog capable pins.
@@ -253,86 +248,10 @@ device.digital.unassign_input_event("C3")
             <strong>Optional parameters:</strong>
             <ul>
                 <li><code>acquisition_time</code> - <strong>integer</strong> - Same as above</li>
-                <li><code>range</code> - <strong>integer</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
             <ul>
-                <li><strong>table</strong> - Same as above</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>device.analog.assign_input_high_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })</code>
-        </td>
-        <td>
-            Assigns an event handler that triggers whenever the input pin crosses a high threshold.
-            <br><br>
-            <strong>Parameters:</strong>
-            <ul>
-                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>D0</code></li>
-                <li><code>handler</code> - <strong>function</strong> - The function to call whenever the threshold is crossed. This function will be called with two arguments:</li>
-                <ul>
-                    <li><code>pin</code> - <strong>string</strong> - The pin name that generated the event. E.g. <code>D0</code></li>
-                    <li><code>exceeded</code> - <strong>boolean</strong> - <code>true</code> if the voltage exceeded the threshold, or <code>false</code> otherwise</li>
-                </ul>          
-                <li><code>percentage</code> - <strong>number</strong> - The level represented as a percentage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
-                <li><code>voltage</code> - <strong>number</strong> - The level represented as a voltage at which to trigger the event. Either <code>percentage</code> or <code>voltage</code> must be provided, not both</li>
-            </ul>
-            <strong>Optional parameters:</strong>
-            <ul>
-                <li><code>acquisition_time</code> - <strong>integer</strong> - Same as above</li>
-                <li><code>range</code> - <strong>integer</strong> - Same as above</li>
-            </ul>
-            <strong>Returns:</strong><br>
-            <ul>
-                <li><strong>nil</strong></li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>device.analog.assign_input_low_event(pin, handler, { percentage, voltage, acquisition_time=40, range=Vout })</code>
-        </td>
-        <td>
-            Assigns an event handler that triggers whenever the input pin crosses a low threshold.
-            <br><br>
-            <strong>Parameters:</strong>
-            <ul>
-                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>D0</code></li>
-                <li><code>handler</code> - <strong>function</strong> - The function to call whenever the threshold is crossed. This function will be called with two arguments:</li>
-                <ul>
-                    <li><code>pin</code> - <strong>string</strong> - Same as above</li>
-                    <li><code>exceeded</code> - <strong>boolean</strong> - Same as above</li>
-                </ul>          
-                <li><code>percentage</code> - <strong>number</strong> - Same as above</li>
-                <li><code>voltage</code> - <strong>number</strong> - Same as above</li>
-            </ul>
-            <strong>Optional parameters:</strong>
-            <ul>
-                <li><code>acquisition_time</code> - <strong>integer</strong> - Same as above</li>
-                <li><code>range</code> - <strong>integer</strong> - Same as above</li>
-            </ul>
-            <strong>Returns:</strong><br>
-            <ul>
-                <li><strong>nil</strong></li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>device.analog.unassign_input_event(pin)</code>
-        </td>
-        <td>
-            Disables the event and detaches the pin from the handler.
-            <br><br>
-            <strong>Parameters:</strong>
-            <ul>
-                <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>D0</code></li>
-            </ul>
-            <strong>Returns:</strong><br>
-            <ul>
-                <li><strong>nil</strong></li>
+                <li><strong>number</strong> - The voltage present on the pin</li>
             </ul>
         </td>
     </tr>
