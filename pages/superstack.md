@@ -441,84 +441,123 @@ print("Found " .. tostring(#d) .. " devices")
     </tr>
     <tr>
         <td>
-            <code>device.spi.read(register, length, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })</code>
+            <code>device.spi.write_read(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C3", mode=0, frequency=4000, bit_order="MSB_FIRST", hold_cs=false, cs_active_high=false, miso_pull="NO_PULL" })</code>
         </td>
         <td>
-            Reads a number of bytes from a register on an SPI connected device.
+            Writes data to an SPI connected device, and then reads back a number of bytes. The total number of bytes clocked by the SPI will therefore be <code>#write_data + read_length</code>
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>register</code> - <strong>integer</strong> - The address of the register to read from</li>
-                <li><code>length</code> - <strong>integer</strong> - The number of bytes to read</li>
+                <li><code>write_data</code> - <strong>string</strong> - The data to write to the device</li>
+                <li><code>read_length</code> - <strong>integer</strong> - The number of bytes to read from the device</li>
             </ul>
             <strong>Optional parameters:</strong>
             <ul>
-                <li><code>mosi_pin</code> - <strong>string</strong> - The pin name to use for the MOSI signal. E.g <code>"D0"</code></li>
-                <li><code>miso_pin</code> - <strong>string</strong> - The pin name to use for the MISO signal. E.g <code>"D1"</code></li>
-                <li><code>sck_pin</code> - <strong>string</strong> - The pin name to use for the SCK signal. E.g <code>"D2"</code></li>
+                <li><code>sclk_pin</code> - <strong>string</strong> - The pin name to use for the SCK signal. E.g <code>"D0"</code></li>
+                <li><code>mosi_pin</code> - <strong>string</strong> - The pin name to use for the MOSI signal. E.g <code>"D1"</code></li>
+                <li><code>miso_pin</code> - <strong>string</strong> - The pin name to use for the MISO signal. E.g <code>"D2"</code></li>
                 <li><code>cs_pin</code> - <strong>string</strong> - The pin name to use for the CS signal. E.g <code>"D3"</code></li>
-                <li><code>frequency</code> - <strong>integer</strong> - The frequency to use for SPI transactions in kHz</li>
-                <li><code>register_address_size</code> - <strong>integer</strong> - The size of the register address in bits. Can be either <code>8</code>, <code>16</code> or <code>32</code></li>
+                <li><code>mode</code> - <strong>integer</strong> - The SPI mode. Can be either <code>0</code>, <code>1</code>, <code>2</code>, or <code>3</code></li>
+                <li><code>frequency</code> - <strong>integer</strong> - The frequency to use for SPI transactions in kHz. Can be either<code>125</code>, <code>250</code>, <code>500</code>, <code>1000</code>, <code>2000</code>, <code>4000</code>, or <code>8000</code></li>
+                <li><code>bit_order</code> - <strong>string</strong> - The bit order for the bytes transacted. Can be either<code>"MSB_FIRST"</code>, or <code>"LSB_FIRST"</code></li>
+                <li><code>hold_cs</code> - <strong>boolean</strong> - If set to <code>true</code>, the CS pin will continue to be held after the transaction is completed. This can be useful if the transaction needs to be broken up into multiple steps. Any subsequent call to <code>device.spi.transaction</code> with <code>hold_cs</code> set to false will then return the CS pin to the unselected value</li>
+                <li><code>cs_active_high</code> - <strong>boolean</strong> - If set to <code>true</code>, the CS pin will be set to high during the transaction, and then low once completed</li>
+                <li><code>miso_pull</code> - <strong>string</strong> - Selects the pull mode on the MISO pin. Can be <code>"PULL_UP"</code>, <code>"PULL_DOWN"</code>, or <code>"NO_PULL"</code></li>
             </ul>
             <strong>Returns:</strong><br>
             <ul>
-                <li><strong>table</strong> - A table of key-value pairs:</li>
-                <ul>
-                    <li><code>data</code> - <strong>string</strong> - The bytes read. Always of size <code>length</code> as specified in the function call</li>
-                    <li><code>value</code> - <strong>string</strong> - The first data value, useful if only one byte was requested</li>
-                </ul>
+                <li><strong>string</strong> -  The bytes read. Always of size <code>read_length</code> as specified in the function call</li>
             </ul>
         </td>
     </tr>
     <tr>
         <td>
-            <code>device.spi.write(register, data, { mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500, register_address_size=8 })</code>
+            <code>device.spi.write(data, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C3", mode=0, frequency=4000, bit_order="MSB_FIRST", hold_cs=false, cs_active_high=false, miso_pull="NO_PULL" })</code>
         </td>
         <td>
-            Writes a number of bytes to a register on an SPI connected device.
+            Writes data to an SPI connected device, and then reads back a number of bytes. The total number of bytes clocked by the SPI will therefore be <code>#write_data + read_length</code>
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>register</code> - <strong>integer</strong> - Same as above</li>
-                <li><code>data</code> - <strong>string</strong> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
+                <li><code>data</code> - <strong>string</strong> - The data to write to the device</li>
             </ul>
             <strong>Optional parameters:</strong>
             <ul>
+                <li><code>sclk_pin</code> - <strong>string</strong> - Same as above</li>
                 <li><code>mosi_pin</code> - <strong>string</strong> - Same as above</li>
                 <li><code>miso_pin</code> - <strong>string</strong> - Same as above</li>
-                <li><code>sck_pin</code> - <strong>string</strong> - Same as above</li>
                 <li><code>cs_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>mode</code> - <strong>integer</strong> - Same as above</li>
                 <li><code>frequency</code> - <strong>integer</strong> - Same as above</li>
-                <li><code>register_address_size</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>bit_order</code> - <strong>string</strong> - Same as above</li>
+                <li><code>hold_cs</code> - <strong>boolean</strong> - Same as above</li>
+                <li><code>cs_active_high</code> - <strong>boolean</strong> - Same as above</li>
+                <li><code>miso_pull</code> - <strong>string</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
-            <ul><li><strong>nil</strong></li></ul>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
         </td>
     </tr>
     <tr>
         <td>
-            <code>device.spi.transaction{ read_length, write_data, hold_cs=false, mosi_pin="C0", miso_pin="C1", sck_pin="C2", cs_pin="C3", frequency=500 }</code>
+            <code>device.spi.read(length, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C3", mode=0, frequency=4000, bit_order="MSB_FIRST", hold_cs=false, cs_active_high=false, miso_pull="NO_PULL" })</code>
         </td>
         <td>
-            Reads and writes an arbitrary number of bytes at the same time. I.e while data is being clocked out on the MOSI pin, any data received on the MISO pin will be recorded in parallel. The total number of bytes transacted will therefore be the larger of <code>read_length</code> or <code>write_data</code>. If you wish to, for example, write 5 bytes, and then read 10 bytes, <code>read_length</code> must be set to 15. The first 5 bytes can be ignored, and the remaining 10 bytes will contain the read data.
+            Writes data to an SPI connected device, and then reads back a number of bytes. The total number of bytes clocked by the SPI will therefore be <code>#write_data + read_length</code>
             <br><br>
             <strong>Parameters:</strong>
             <ul>
-                <li><code>read_length</code> - <strong>integer</strong> - The number of bytes to read from</li>
-                <li><code>write_data</code> - <strong>string</strong> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
+                <li><code>length</code> - <strong>integer</strong> - The number of bytes to read from the device</li>
             </ul>
             <strong>Optional parameters:</strong>
             <ul>
-                <li><code>hold_cs</code> - <strong>boolean</strong> - If set to <code>true</code> will continue to hold the CS pin low after the transaction is completed. This can be useful if the transaction needs to be broken up into multiple steps. Any subsequent call to <code>device.spi.transaction</code> with <code>hold_cs</code> set to false will then return the CS pin to a high value once completed</li>
+                <li><code>sclk_pin</code> - <strong>string</strong> - Same as above</li>
                 <li><code>mosi_pin</code> - <strong>string</strong> - Same as above</li>
                 <li><code>miso_pin</code> - <strong>string</strong> - Same as above</li>
-                <li><code>sck_pin</code> - <strong>string</strong> - Same as above</li>
                 <li><code>cs_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>mode</code> - <strong>integer</strong> - Same as above</li>
                 <li><code>frequency</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>bit_order</code> - <strong>string</strong> - Same as above</li>
+                <li><code>hold_cs</code> - <strong>boolean</strong> - Same as above</li>
+                <li><code>cs_active_high</code> - <strong>boolean</strong> - Same as above</li>
+                <li><code>miso_pull</code> - <strong>string</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
             <ul>
-                <li><strong>string</strong> - The bytes read. Always of size <code>length</code> as specified in the function call</li>
+                <li><strong>string</strong> -  The bytes read. Always of size <code>length</code> as specified in the function call</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.spi.transact(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C3", mode=0, frequency=4000, bit_order="MSB_FIRST", hold_cs=false, cs_active_high=false, miso_pull="NO_PULL" })</code>
+        </td>
+        <td>
+            Writes and reads data to an SPI connected device in parallel. The total number of bytes clocked by the SPI will therefore be whichever is larger of <code>#write_data</code> or <code>read_length</code>
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>write_data</code> - <strong>string</strong> - The data to write to the device</li>
+                <li><code>read_length</code> - <strong>integer</strong> - The number of bytes to read from the device</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>sclk_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>mosi_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>miso_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>cs_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>mode</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>frequency</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>bit_order</code> - <strong>string</strong> - Same as above</li>
+                <li><code>hold_cs</code> - <strong>boolean</strong> - Same as above</li>
+                <li><code>cs_active_high</code> - <strong>boolean</strong> - Same as above</li>
+                <li><code>miso_pull</code> - <strong>string</strong> - Same as above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>string</strong> -  The bytes read. Always of size <code>read_length</code> as specified in the function call</li>
             </ul>
         </td>
     </tr>
@@ -527,20 +566,28 @@ print("Found " .. tostring(#d) .. " devices")
 Example usage:
 
 ```lua
--- Read and print 4 bytes from the 0x12 register
-local result = device.spi.read(0x12, 4)
+-- An example of how to write and read to an SPI flash device
 
-print(result[1])
-print(result[2])
-print(result[3])
-print(result[4])
+-- Wake up the flash with the 0xAB command
+device.spi.write("\xAB")
+device.sleep(0.1)
 
--- Write a 32-bit value (4 bytes) to the 0xA1 register at 1MHz
-device.spi.write(0xA1, "\12\x34\x56\x78", { frequency=1000 })
+-- Disable write protection
+device.spi.write("\x06")
 
--- Write 4 bytes to the device and then read back 10 bytes
-device.spi.transaction{ write_data="\12\x34\x56\x78", hold_cs=true }
-result = device.spi.transaction{ read_length=10 }
+-- Erase the flash. Can take a while
+device.spi.write("\x60")
+device.sleep(30) -- Alternatively keep checking the status until done
+
+-- Disable write protection again
+device.spi.write("\x06")
+
+-- Write some data starting at address 0
+device.spi.write("\x02\x00\x00\x00Hello world")
+
+-- Read the data back
+local data = device.spi.write_read("\x03\x00\x00\x00", 11)
+print(data)
 ```
 
 ### UART communication
