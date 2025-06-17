@@ -306,7 +306,7 @@ Ratings and characteristics of the module are listed below. For further details,
 
 | Description | Min | Typ | Max |
 |-------------|:---:|:---:|:---:| 
-| USB overvoltage protection threshold                                |            | 5.5V       | -
+| USB overvoltage protection threshold                                | -          | 5.5V       | -
 | USB power-on reset release voltage                                  | -          | 3.9V       | -
 | USB brown-out trigger voltage with **V<sub>BATT</sub>** not present | -          | 3.8V       | -
 | USB brown-out trigger voltage with **V<sub>BATT</sub>** present     | -          | 3.6V       | -

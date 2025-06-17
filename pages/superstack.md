@@ -33,10 +33,19 @@ Superstack is a cloud IoT platform that lets you deploy, program, and manage con
 
 ## Connecting your first module
 
-<!-- TODO -->
-Detailed setup and commissioning steps will be added soon. 
+To connect an [S2 Module](/pages/s2-module.md) to Superstack:
 
-In the meantime, the short video below describes the general setup, as well as overall features.
+1. Create or select a Deployment that you wish to add the Device to
+1. Navigate to the **Devices Tab** within Superstack
+1. Press **Add device**
+1. Power on your Device using either **USB**, **battery**, or **external power**
+1. Wait until the network LED stops blinking and goes **solid**, indicating that it has successfully connected to an LTE network
+1. Enter the Device **IMEI** you wish to connect to
+1. Press **Add device** at the bottom of the dialog
+1. Click the **button** on your Device to complete pairing
+1. The Device should now show up within the Devices tab
+
+The following video shows detailed step by step instructions on how to connect your Device to Superstack.
 
 <!-- TODO add a video of the step by step setup guide -->
 <div style="position: relative; width: 100%; overflow: hidden; padding-top: 56.25%;">
@@ -47,13 +56,56 @@ In the meantime, the short video below describes the general setup, as well as o
     </iframe>
 </div>
 
-## Lua programming & API
+## Deployments, devices & users
 
-All Superstack-compatible devices, including the [S2 Module](/pages/s2-module), run a unified firmware that includes the **Lua 5.4.7** runtime. A powerful yet simple scripting engine that can be picked up easily by new and seasoned programmers alike.
+**Deployments** are the top level entities within Superstack. You can think of them as similar to "projects". A Deployment can contain multiple **Devices** up to a limit determined by the **Subscription Plan**.
 
-This engine allows devices to be programmed remotely to run scripts that gather data from sensors, process it, and then return data to Superstack. All the exposed Lua functions are hardware-accelerated under the hood, allowing for performance close to that of bare-metal in C.
+<!-- TODO -->
+![Superstack deployment selection](/assets/images/superstack-deployments.png)
 
-Thanks to this scriptable nature, applications can be iterated and debugged incredibly quickly without having to maintain any local development tools or wait for compilations to complete. Best of all, this can all be done remotely, with devices that may be located across countries or continents.
+A **Device** can only be connected to a single Deployment at a time. The data usage from all Devices is combined into a single pool where the total limit is determined by the Subscription Plan.
+
+A Deployment may have multiple **Users**. Subscription Plans are Deployment based, therefore a user may be a part of multiple Deployments. Users can have different permissions which restrict their access to what they can do within that Deployment.
+
+1. **Owners** - Have full access to all features and can manage other Users. There can only be one owner for a Deployment
+2. **Device managers** - Can add or remove Devices, as well as and manage Device Details
+3. **Developers** - Can edit Code for Devices, but don't have permissions to manage Device Details
+4. **Viewers** - Can view the Deployment including code and Device details, but cannot edit anything
+
+All Users have access to the **AI Agent** functionality. A Deployment may additionally be made **Public** allowing anyone with a link to the Deployment access to view the Devices and access the AI Agent.
+
+### Device details
+
+The **Devices tab** lets you add Devices, as well as monitor and manage your fleet. Here you can check which Devices are online, as well as total data usage.
+
+Clicking on a specific Device will reveal the **Device Details** panel. This panel allows you to edit the Device **Name**, **Group** and **AI role**. All three of these help the **AI Agent** to understand the role of the specific Device so should be populated in reasonable detail, avoiding ambiguity.
+
+<!-- TODO -->
+![Superstack device detail view](/assets/images/superstack-device-details.png)
+
+### Un-pairing devices
+
+A Device can only be paired to one Deployment at a time. In order to move it to a new Deployment, it **must** be removed from the original Deployment that it's paired to.
+
+Scrolling to the bottom of the Device Details panel will reveal the **Remove device** button. Follow the instructions to un-pair the Device. Only Owners and Device Managers can remove Devices.
+
+<!-- TODO -->
+![Superstack remove device dialog](/assets/images/superstack-remove-device-dialog.png)
+
+Deleting a Deployment will un-pair all Devices.
+
+### Managing your subscription
+
+Details coming soon
+<!-- TODO -->
+
+## Lua programming & libraries
+
+All Superstack-compatible Devices, including the [S2 Module](/pages/s2-module), run a unified firmware that includes the **Lua 5.4.7** runtime. A powerful yet simple scripting engine that can be picked up easily by new and seasoned programmers alike.
+
+This engine allows Devices to be programmed remotely to run scripts that gather data from sensors, process it, and then return data to Superstack. All the exposed Lua functions are hardware-accelerated under the hood, allowing for performance close to that of bare-metal in C.
+
+Thanks to this scriptable nature, applications can be iterated and debugged incredibly quickly without having to maintain any local development tools or wait for compilations to complete. Best of all, this can all be done remotely, with Devices that may be located across countries or continents.
 
 ### Standard Lua libraries
 
@@ -67,14 +119,14 @@ Many of the standard libraries are included for the user to take advantage of.
 - ✅ [Coroutine manipulation](https://www.lua.org/manual/5.4/manual.html#6.2)
 - ✅ [Debug library](https://www.lua.org/manual/5.4/manual.html#6.10)
 
-Standard libraries which are not included are superseded by similar device specific libraries:
+Standard libraries which are not included are superseded by similar Device specific libraries:
 
 - ❎ File IO functions - Replaced by the [non-volatile memory](#non-volatile-memory-file-system) library
-- ❎ Operating system functions - Replaced by the [timekeeping ](#timekeeping-functions) and [device](#miscellaneous-functions) libraries
+- ❎ Operating system functions - Replaced by the [timekeeping ](#timekeeping-functions) and [Device](#miscellaneous-functions) libraries
 
 ---
 
-The following device-specific libraries allow access to all aspects of the device I/O and feature set such as LTE-based communication and GPS. Additionally, some other libraries provide convenient functions for running DSP operations and type conversions.
+The following Device-specific libraries allow access to all aspects of the Device I/O and feature set such as LTE-based communication and GPS. Additionally, some other libraries provide convenient functions for running DSP operations and type conversions.
 
 These functions may accept a combination of positional and named arguments. Named arguments are passed as tables which essentially expect key-value pairs. Most of these keys will take on a default value if not provided. These are marked as *optional*.
 
@@ -1230,37 +1282,176 @@ print(string.format("The current time is: %02d:%02d", now.minute, now.hour))
 print(string.format("The current date is: %d/%d/%d", now.year, now.month, now.day))
 ```
 
-## Working with data
+## AI agent
 
-Details coming soon
+The **Agent Tab** lets you query your Devices and Data using natural language. It's additionally capable of running advanced statistical analysis using its reasoning capabilities.
+
+The **AI Agent** takes its content from a number of sources.
+
+1. **Agent Role** - Determines the overall goal of the AI Agent
+1. **Device Name** - Informs the AI Agent what the specific Device is monitoring
+1. **Device Group** - Informs the AI Agent how the various Devices may be grouped together
+1. **Device Role** - Details specifics around the Device, its sensors and additional information which may be useful analysis
+1. **Data Schema** - Extracted from the Data within the **Data Tab** where the keys of the JSON, as well as the types can help reinforce the context of what the Data represents
+1. **Previous Chat Context** - The history of previous natural language queries may be used for context. For example, when asking a follow up question
+
+For accurate responses, it's recommended to use explicit details where possible. Avoiding ambagious technical names, and instead include complete and domain specific information which can help the AI Agent to understand the context behind natural language queries.
+
 <!-- TODO -->
+![Superstack AI agent context](/assets/images/superstack-agent-context.png)
+
+Responses run as an agentic multi-step process. A breakdown of the reasoning for each response is available for the User and can help verify logic, or debug failed responses.
+
+1. **Filter Tool** - Based on the query, the Filter Tool determines exactly which rows of Data are mathematically relevant before running the Analysis Tool
+1. **Analysis Tool** - Takes the result of the Filter Tool and compiles executable logic which runs numerical analysis on the Data
+1. **Explain Tool** - Explains the result with domain specific content as determined by the Agent Role and such that it is understandable for the User
+
+<!-- TODO -->
+![Superstack AI agent reasoning](/assets/images/superstack-agent-reasoning.png)
+
+## APIs
+
+Superstack exposes REST APIs to access both the Device raw Data, as well as the AI Agent chat feature.
+
+### Authentication
+
+For accessing the APIs. Both the `Deployment-ID` and `API-Key` are required in order to make requests. They can be obtained from within the **Settings Tab** within Superstack.
+
+![Superstack deployment ID](/assets/images/superstack-deployment-id.png)
+
+The **API Key** is created using the **Create Key** button and can be then copied to use within the authentication header.
+
+**Remember that API Keys are secrets.** Do not share it with others or expose it in any client-side code. API Keys should be securely loaded from an environment variable or key management service on the server.
+
+![Superstack API Keys](/assets/images/superstack-api-key.png)
+
+The `API-Key` should be specified within the `X-Api-Key` header, and the `Deployment-ID` should be passed to the `deploymentId` field within the request body.
+
+```sh
+curl https://super.siliconwitchery.com/api/data \
+    -H 'Content-Type: application/json'         \
+    -H 'X-Api-Key: <API-Key>'                   \
+    -d '{
+        "deploymentId": "<Deployment-ID>"
+    }'
+```
 
 ### Data API
 
-Details coming soon
+### `POST https://super.siliconwitchery.com/api/data`
+{: .no_toc }
+
+- Retrieves Data from the Deployment.
+
+**Example request**
+
 <!-- TODO -->
+```sh
+curl https://super.siliconwitchery.com/api/data \
+    -H 'Content-Type: application/json'         \
+    -H 'X-Api-Key: <API-Key>'                   \
+    -d '{
+        "deploymentId": "<Deployment-ID>",
+        "devices": ["Tomatoes", "Kale", "Marjoram"],
+        "groups": ["greenhouse"],
+        "time": {
+            "start":,
+            "end":
+        }
+    }'
+```
 
-## Advanced AI usage
+**Response**
 
-Details coming soon
+<!-- TODO -->
+```json
+[
+
+]
+```
+
+<table>
+    <tr>
+        <th>Request parameter</th>
+        <th>Scope</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td><code>deploymentId</code></td>
+        <td>Required</td>
+        <td><strong>string</strong> - The deployment ID as found on the Settings Tab</td>
+    </tr>
+    <tr>
+        <td><code>devices</code></td>
+        <td>Optional</td>
+        <td><strong>list of strings</strong> - A list of Device Names or IMEIs to retrieve Data for. If not provided, all Devices will be included</td>
+    </tr>
+    <tr>
+        <td><code>groups</code></td>
+        <td>Optional</td>
+        <td><strong>list of strings</strong> - A list of Device Groups to retrieve Data for. If not provided, all Groups will be included</td>
+    </tr>
+    <tr>
+        <td><code>time.start</code></td>
+        <td>Optional</td>
+        <td>An RFC3339 formatted time string. If not provided, this value defaults to 24 hours before the current time</td>
+    </tr>
+    <tr>
+        <td><code>time.end</code></td>
+        <td>Optional</td>
+        <td>An RFC3339 formatted time string. If not provided, this value defaults to the current time</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>Returns</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td><code>device_name</code></td>
+        <td><strong>string</strong> - The Device that generated the Data</td>
+    </tr>
+    <tr>
+        <td><code>device_group</code></td>
+        <td><strong>string</strong> - The Group that the Device belongs to</td>
+    </tr>
+    <tr>
+        <td><code>timestamp</code></td>
+        <td><strong>string</strong> - The time at which the Data was generated</td>
+    </tr>
+    <tr>
+        <td><code>uuid</code></td>
+        <td><strong>string</strong> - A unique ID for the row of Data. Can be used to delete the Data</td>
+    </tr>
+    <tr>
+        <td><code>data</code></td>
+        <td><strong>object</strong> - The Data</td>
+    </tr>
+</table>
+
+### `DELETE https://super.siliconwitchery.com/api/data`
+{: .no_toc }
+
 <!-- TODO -->
 
 ### Natural language API
 
-Details coming soon
+### `POST https://super.siliconwitchery.com/api/chat`
+{: .no_toc }
+
 <!-- TODO -->
 
-## Managing devices & deployments
+### Troubleshooting / FAQ
 
-Details coming soon
-<!-- TODO -->
+1. While trying to set up my Device, the LED won't stop blinking
 
-### Un-pairing devices
+    This indicates that the Device is not finding any LTE network to connect to. You may need to reposition your Device in order to receive better signal strength. Additionally, make sure that your country is supported within the Device [network list](/pages/s2-module.md#lte--gnss-connectivity).
 
-Details coming soon
-<!-- TODO -->
+1. While trying to set up my Device, the LED stops blinking and doesn't seem connected
 
-## Managing your subscription
+    This may indicate that either the power to the Device is insufficient, or that the Device is already connected to an active Deployment.
 
-Details coming soon
-<!-- TODO -->
+1. My Device seems connected to a Deployment but I don't have access to it. How can I re-pair it
+
+    Access to the original Deployment is **required** in order to decommission a Device for re-pairing. This is to prevent unattended Devices being taken over without explicit permission of the Deployment owner.
