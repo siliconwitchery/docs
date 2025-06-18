@@ -56,11 +56,12 @@ The following video shows detailed step by step instructions on how to connect y
     </iframe>
 </div>
 
+---
+
 ## Deployments, devices & users
 
 **Deployments** are the top level entities within Superstack. You can think of them as similar to "projects". A Deployment can contain multiple **Devices** up to a limit determined by the **Subscription Plan**.
 
-<!-- TODO -->
 ![Superstack deployment selection](/assets/images/superstack-deployments.png)
 
 A **Device** can only be connected to a single Deployment at a time. The data usage from all Devices is combined into a single pool where the total limit is determined by the Subscription Plan.
@@ -74,14 +75,17 @@ A Deployment may have multiple **Users**. Subscription Plans are Deployment base
 
 All Users have access to the **AI Agent** functionality. A Deployment may additionally be made **Public** allowing anyone with a link to the Deployment access to view the Devices and access the AI Agent.
 
+---
+
 ### Device details
 
 The **Devices tab** lets you add Devices, as well as monitor and manage your fleet. Here you can check which Devices are online, as well as total data usage.
 
 Clicking on a specific Device will reveal the **Device Details** panel. This panel allows you to edit the Device **Name**, **Group** and **AI role**. All three of these help the **AI Agent** to understand the role of the specific Device so should be populated in reasonable detail, avoiding ambiguity.
 
-<!-- TODO -->
 ![Superstack device detail view](/assets/images/superstack-device-details.png)
+
+---
 
 ### Un-pairing devices
 
@@ -89,15 +93,18 @@ A Device can only be paired to one Deployment at a time. In order to move it to 
 
 Scrolling to the bottom of the Device Details panel will reveal the **Remove device** button. Follow the instructions to un-pair the Device. Only Owners and Device Managers can remove Devices.
 
-<!-- TODO -->
 ![Superstack remove device dialog](/assets/images/superstack-remove-device-dialog.png)
 
 Deleting a Deployment will un-pair all Devices.
+
+---
 
 ### Managing your subscription
 
 Details coming soon
 <!-- TODO -->
+
+---
 
 ## Lua programming & libraries
 
@@ -106,6 +113,8 @@ All Superstack-compatible Devices, including the [S2 Module](/pages/s2-module), 
 This engine allows Devices to be programmed remotely to run scripts that gather data from sensors, process it, and then return data to Superstack. All the exposed Lua functions are hardware-accelerated under the hood, allowing for performance close to that of bare-metal in C.
 
 Thanks to this scriptable nature, applications can be iterated and debugged incredibly quickly without having to maintain any local development tools or wait for compilations to complete. Best of all, this can all be done remotely, with Devices that may be located across countries or continents.
+
+---
 
 ### Standard Lua libraries
 
@@ -140,6 +149,8 @@ device.i2c.write(0x12, 0x4F, "\x01", { scl_pin="B0", sda_pin="B1"})
 -- Calling a function with only positional arguments. Note how the () can be omitted
 network.send{ sensor_value=31.5 }
 ```
+
+---
 
 ### Digital IO
 
@@ -257,6 +268,8 @@ device.digital.assign_input_event("C3", my_pin_handler)
 device.digital.unassign_input_event("C3")
 ```
 
+---
+
 ### Analog input
 
 <table>
@@ -332,6 +345,8 @@ device.analog.assign_input_high_event("D1", my_low_voltage_handler, { voltage=1.
 device.analog.unassign_input_event("D1")
 ```
 
+---
+
 ### PWM output (analog output)
 
 <table>
@@ -369,6 +384,8 @@ Example usage:
 -- Set pin E1 to a 25% duty cycle at the default PWM frequency
 device.analog.set_output("E1", 25)
 ```
+
+---
 
 ### I2C communication
 
@@ -483,6 +500,8 @@ local d = device.i2c.scan({port="PORTF"})
 
 print("Found " .. tostring(#d) .. " devices")
 ```
+
+---
 
 ### SPI communication
 
@@ -642,6 +661,8 @@ local data = device.spi.write_read("\x03\x00\x00\x00", 11)
 print(data)
 ```
 
+---
+
 ### UART communication
 
 <table>
@@ -738,6 +759,8 @@ device.uart.write("Hello there. This is some data\n", { baudrate=19200 })
 device.uart.unassign_read_event("B0")
 ```
 
+---
+
 ### PDM microphone input
 
 <table>
@@ -812,6 +835,8 @@ device.audio.record(1, my_microphone_handler)
 -- Recording can be stopped at any time
 device.audio.stop("E0")
 ```
+
+---
 
 ### Sleep, power & system info
 
@@ -959,6 +984,8 @@ end
 device.power.set_vout(3.3)
 ```
 
+---
+
 ### Networking (LTE)
 
 <table>
@@ -1005,6 +1032,8 @@ network.send{
     }
 }
 ```
+
+---
 
 ### Location (GPS)
 
@@ -1089,6 +1118,8 @@ while true do
     device.sleep(30)
 end
 ```
+
+---
 
 ### File storage
 
@@ -1214,6 +1245,8 @@ print(storage.read("my_file.txt", { line=-1 }))
 storage.delete("my_file.txt")
 ```
 
+---
+
 ### Timekeeping
 
 <table>
@@ -1282,6 +1315,8 @@ print(string.format("The current time is: %02d:%02d", now.minute, now.hour))
 print(string.format("The current date is: %d/%d/%d", now.year, now.month, now.day))
 ```
 
+---
+
 ## AI agent
 
 The **Agent Tab** lets you query your Devices and Data using natural language. It's additionally capable of running advanced statistical analysis using its reasoning capabilities.
@@ -1297,7 +1332,6 @@ The **AI Agent** takes its content from a number of sources.
 
 For accurate responses, it's recommended to use explicit details where possible. Avoiding ambagious technical names, and instead include complete and domain specific information which can help the AI Agent to understand the context behind natural language queries.
 
-<!-- TODO -->
 ![Superstack AI agent context](/assets/images/superstack-agent-context.png)
 
 Responses run as an agentic multi-step process. A breakdown of the reasoning for each response is available for the User and can help verify logic, or debug failed responses.
@@ -1306,12 +1340,15 @@ Responses run as an agentic multi-step process. A breakdown of the reasoning for
 1. **Analysis Tool** - Takes the result of the Filter Tool and compiles executable logic which runs numerical analysis on the Data
 1. **Explain Tool** - Explains the result with domain specific content as determined by the Agent Role and such that it is understandable for the User
 
-<!-- TODO -->
 ![Superstack AI agent reasoning](/assets/images/superstack-agent-reasoning.png)
+
+---
 
 ## APIs
 
 Superstack exposes REST APIs to access both the Device raw Data, as well as the AI Agent chat feature.
+
+---
 
 ### Authentication
 
@@ -1336,37 +1373,58 @@ curl https://super.siliconwitchery.com/api/data \
     }'
 ```
 
+---
+
 ### Data API
 
 ### `POST https://super.siliconwitchery.com/api/data`
 {: .no_toc }
 
-- Retrieves Data from the Deployment.
+Retrieves Data from the Deployment.
 
 **Example request**
 
-<!-- TODO -->
 ```sh
 curl https://super.siliconwitchery.com/api/data \
     -H 'Content-Type: application/json'         \
     -H 'X-Api-Key: <API-Key>'                   \
     -d '{
-        "deploymentId": "<Deployment-ID>",
+        "deploymentId": "00000000-0000-0000-0000-000000000000",
         "devices": ["Tomatoes", "Kale", "Marjoram"],
         "groups": ["greenhouse"],
         "time": {
-            "start":,
-            "end":
+            "start": "2025-06-17T13:30:00+02:00",
+            "end": "2025-06-17T13:45:00+02:00"
         }
     }'
 ```
 
 **Response**
 
-<!-- TODO -->
 ```json
 [
-
+    {
+        "device_name": "Marjoram",
+        "device_group": "greenhouse",
+        "timestamp": "2025-06-17T13:44:05.424264+02:00",
+        "data_uuid": "ad59ea27-c507-46a2-a3fa-2c185d0425d6",
+        "data": {
+            "light_lux_level": 943.86,
+            "temperature_celsius": 19.4,
+            "soil_moisture_percent": 50
+        }
+    },
+    {
+        "device_name": "Tomatoes",
+        "device_group": "greenhouse",
+        "timestamp": "2025-06-17T13:44:34.160881+02:00",
+        "data_uuid": "fed0532a-99e3-413e-a683-7ecda5179f54",
+        "data": {
+            "light_lux_level": 1204.56,
+            "temperature_celsius": 25.1,
+            "soil_moisture_percent": 71
+        }
+    }
 ]
 ```
 
@@ -1394,12 +1452,12 @@ curl https://super.siliconwitchery.com/api/data \
     <tr>
         <td><code>time.start</code></td>
         <td>Optional</td>
-        <td>An RFC3339 formatted time string. If not provided, this value defaults to 24 hours before the current time</td>
+        <td><strong>string</strong> - An RFC 3339 formatted time string. If not provided, this value defaults to 24 hours before the current time</td>
     </tr>
     <tr>
         <td><code>time.end</code></td>
         <td>Optional</td>
-        <td>An RFC3339 formatted time string. If not provided, this value defaults to the current time</td>
+        <td><strong>string</strong> - An RFC 3339 formatted time string. If not provided, this value defaults to the current time</td>
     </tr>
 </table>
 
@@ -1418,7 +1476,7 @@ curl https://super.siliconwitchery.com/api/data \
     </tr>
     <tr>
         <td><code>timestamp</code></td>
-        <td><strong>string</strong> - The time at which the Data was generated</td>
+        <td><strong>string</strong> - The time at which the Data was generated. Formatted as an RFC 3339 time string</td>
     </tr>
     <tr>
         <td><code>uuid</code></td>
@@ -1430,17 +1488,158 @@ curl https://super.siliconwitchery.com/api/data \
     </tr>
 </table>
 
+---
+
 ### `DELETE https://super.siliconwitchery.com/api/data`
 {: .no_toc }
 
-<!-- TODO -->
+Deletes Data from the Deployment.
+
+{: .warning }
+This action is irreversible
+
+
+**Example request**
+
+```sh
+curl https://super.siliconwitchery.com/api/data \
+    -H 'Content-Type: application/json'         \
+    -H 'X-Api-Key: <API-Key>'                   \
+    -d '{
+        "deploymentId": "00000000-0000-0000-0000-000000000000",
+        "ids": ["ad59ea27-c507-46a2-a3fa-2c185d0425d6", "fed0532a-99e3-413e-a683-7ecda5179f54"],
+        "confirm": true
+    }'
+```
+
+<table>
+    <tr>
+        <th>Request parameter</th>
+        <th>Scope</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td><code>deploymentId</code></td>
+        <td>Required</td>
+        <td><strong>string</strong> - The deployment ID as found on the Settings Tab</td>
+    </tr>
+    <tr>
+        <td><code>ids</code></td>
+        <td>Required</td>
+        <td><strong>list of strings</strong> - A list UUIDs representing each row of data that should be deleted</td>
+    </tr>
+    <tr>
+        <td><code>confirm</code></td>
+        <td>Required</td>
+        <td><strong>boolean</strong> - Confirms that the data should be deleted. This value can be set to `false` in order to test the API without actually deleting the data</td>
+    </tr>
+</table>
+
+---
 
 ### Natural language API
 
 ### `POST https://super.siliconwitchery.com/api/chat`
 {: .no_toc }
 
-<!-- TODO -->
+Runs a chat query with the AI Agent.
+
+**Example request**
+
+```sh
+curl https://super.siliconwitchery.com/api/data \
+    -H 'Content-Type: application/json'         \
+    -H 'X-Api-Key: <API-Key>'                   \
+    -d '{
+        "deploymentId": "00000000-0000-0000-0000-000000000000",
+        "messages": [
+            {
+                "role": "user",
+                "content": "What is the average temperature in my greenhouse?"
+            }
+        ]
+    }'
+```
+
+**Response**
+
+```json
+[
+    {
+        "role": "user",
+        "content": "What's the average temperature in my greenhouse?",
+        "reasoning": {
+            "filter": "",
+            "analysis": ""
+        }
+    },
+    {
+        "role": "assistant",
+        "content": "The average temperature in your greenhouse over the past 6 hours is approximately 26.7°C. If you need a breakdown by specific sensor or details for a different time frame, let me know!",
+        "reasoning": {
+            "filter": "To answer your question accurately, I need to filter data to only include the latest measurements from devices located in the greenhouse within the past 6 hours. This ensures recent and relevant information from all greenhouse devices is used for your analysis.",
+            "analysis": "The logic is to identify all devices in the greenhouse group, extract their reported temperature values, and compute the average. If no temperature data is found for any greenhouse device, return an appropriate error message."
+        }
+    }
+]
+```
+
+<table>
+    <tr>
+        <th>Request parameter</th>
+        <th>Scope</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td><code>deploymentId</code></td>
+        <td>Required</td>
+        <td><strong>string</strong> - The deployment ID as found on the Settings Tab</td>
+    </tr>
+    <tr>
+        <td><code>messages</code></td>
+        <td>Required</td>
+        <td><strong>list of objects</strong> - A list of message to send to the chat agent. The response from the API may be fed back into this field if you wish the AI Agent to keep the chat history within context. Note that the tokens used relate directly to the length of this field. As the message history gets longer and longer, more tokens will be used for each query</td>
+    </tr>
+    <tr>
+        <td><code>messages[].role</code></td>
+        <td>Required</td>
+        <td><strong>string</strong> - The role of a given message. Can be either <code>"user"</code> or <code>"assistant"</code></td>
+    </tr>
+    <tr>
+        <td><code>messages[].content</code></td>
+        <td>Required</td>
+        <td><strong>string</strong> - The content of the message query</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>Returns</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td><code>role</code></td>
+        <td><strong>string</strong> - The role of a given message. Can be either <code>"user"</code> or <code>"assistant"</code></td>
+    </tr>
+    <tr>
+        <td><code>content</code></td>
+        <td><strong>string</strong> - The content of the message query</td>
+    </tr>
+    <tr>
+        <td><code>reasoning</code></td>
+        <td><strong>object</strong> - The reasoning steps that the AI Agent took while generating the response. Only relevant for the <code>"assistant"</code> role</td>
+    </tr>
+    <tr>
+        <td><code>reasoning.filter</code></td>
+        <td><strong>string</strong> - The reasoning behind the filter step</td>
+    </tr>
+    <tr>
+        <td><code>reasoning.analysis</code></td>
+        <td><strong>string</strong> - The reasoning behind the analysis step</td>
+    </tr>
+</table>
+
+---
 
 ### Troubleshooting / FAQ
 
