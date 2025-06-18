@@ -18,7 +18,7 @@ Ready-to-deploy LTE hardware plus intelligent cloud platform that lets you build
 [![Silicon Witchery S2 Module](/assets/images/s2-module-annotated-masthead.png)](/pages/s2-module)
 
 [Datasheet](/pages/s2-module){: .btn .btn-purple}
-[Superstack](/pages/superstack.md){: .btn .btn-purple}
+[Superstack](/pages/superstack){: .btn .btn-purple}
 [Early access](https://www.siliconwitchery.com/s2-superstack#sign-up){: .btn}
 
 ---

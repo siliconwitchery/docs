@@ -33,7 +33,7 @@ Superstack is a cloud IoT platform that lets you deploy, program, and manage con
 
 ## Connecting your first module
 
-To connect an [S2 Module](/pages/s2-module.md) to Superstack:
+To connect an [S2 Module](/pages/s2-module) to Superstack:
 
 1. Create or select a Deployment that you wish to add the Device to
 1. Navigate to the **Devices Tab** within Superstack
@@ -1645,7 +1645,7 @@ curl https://super.siliconwitchery.com/api/data \
 
 1. While trying to set up my Device, the LED won't stop blinking
 
-    This indicates that the Device is not finding any LTE network to connect to. You may need to reposition your Device in order to receive better signal strength. Additionally, make sure that your country is supported within the Device [network list](/pages/s2-module.md#lte--gnss-connectivity).
+    This indicates that the Device is not finding any LTE network to connect to. You may need to reposition your Device in order to receive better signal strength. Additionally, make sure that your country is supported within the Device [network list](/pages/s2-module#lte--gnss-connectivity).
 
 1. While trying to set up my Device, the LED stops blinking and doesn't seem connected
 
