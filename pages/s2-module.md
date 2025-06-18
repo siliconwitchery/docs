@@ -105,7 +105,7 @@ A multi-band antenna is included on the module supporting all the required LTE a
 
 ## Pinout
 
-The S2 Module features six IO ports and three power ports. Digital IO is freely configurable across all ports, while analog inputs are limited to certain pins. A detailed description of all the pins are shown in the diagram below.
+The S2 Module features six IO ports and three power ports. Digital IO is freely configurable across all ports, while analog inputs are limited to certain pins. A detailed description of all the pins is shown in the diagram below.
 
 ![Silicon Witchery S2 Module Top Pinout](/assets/images/s2-module-top-pinout-diagram.png)
 
@@ -117,7 +117,7 @@ The bottom of the module additionally exposes the same IO as the physical connec
 
 The on-board button is only used for initial pairing of the device with the cloud. Once paired, the button has no other functionality. This is to prevent tampering with the device when in the field. If needed, the device can later be unpaired from within Superstack and then paired again to a different deployment using the button.
 
-The status LEDs meanwhile, indicate the networking and power status of the device throughout the lifetime of the application. 
+The status LEDs, meanwhile, indicate the networking and power status of the device throughout the lifetime of the application. 
 
 ![Silicon Witchery S2 Module Button and LEDs](/assets/images/s2-module-button-led-diagram.png)
 
@@ -141,11 +141,11 @@ The table below describes each of the LED states.
 ## LTE & GNSS connectivity
 
 The S2 Module ships with **LTE Cat-M1** enabled with support for the following bands:
-**1**, **2**, **3**, **4**, **5**, **8**, **13**, **18**, **19**, **20**, **25**, **26**, **65**, and **66**. All of which are supported by the integrated antenna. Additionally, the [external antenna variant](#external-antenna-variant) of the module additionally supports the following bands: **12**, **17**, **28**, and **85**.
+**1**, **2**, **3**, **4**, **5**, **8**, **13**, **18**, **19**, **20**, **25**, **26**, **65**, and **66**. All of which are supported by the integrated antenna. Additionally, the [external antenna variant](#external-antenna-variant) of the module supports the following bands: **12**, **17**, **28**, and **85**.
 
 A softsim is pre-programmed into each module for included connectivity out of the box, where data allowance can be managed from inside the Superstack webapp.
 
-The following regions are currently included in the data-plan with more being regularly added.
+The following regions are currently included in the data plan with more being regularly added.
 
 | Region | Connected | Region | Connected soon | 
 |--------|:---------:|--------|:--------------:|
@@ -201,7 +201,7 @@ If the mounting requirements for the module within an installation make it diffi
 
 ![Silicon Witchery S2 Module External Antenna diagram](/assets/images/s2-module-external-antenna-diagram.png)
 
-A wide variety of external antennas are available from various manufacturers. LTE antenna should support 698-960MHz and 1745-2200MHz with a VSWR of 3 or better. The GPS antenna should support 1575MHz with a VSWR of 2 or better.
+A wide variety of external antennas are available from various manufacturers. LTE antennas should support 698-960MHz and 1745-2200MHz with a VSWR of 3 or better. GPS antennas should support 1575MHz with a VSWR of 2 or better.
 
 Examples of external antennas are listed below:
 
@@ -232,7 +232,7 @@ Finally, power can also be provided via a single lithium polymer cell. Further d
 
 ### Power outputs
 
-The module two voltage outputs which can be used for powering external sensors or components. **V<sub>OUT1</sub>** and **V<sub>OUT2</sub>** are adjustable, while **V<sub>SYS</sub>** is fixed.
+The module has two voltage outputs which can be used for powering external sensors or components. **V<sub>OUT1</sub>** and **V<sub>OUT2</sub>** are adjustable, while **V<sub>SYS</sub>** is fixed.
 
 | Rail | Exposed on | Max current draw | Adjustable voltage output |
 |------|------------|-------------------------------------|--------------------------|
@@ -242,7 +242,7 @@ The module two voltage outputs which can be used for powering external sensors o
 
 <p>* – The voltage on **V<sub>OUT1</sub>** and **V<sub>OUT2</sub>** are derived from the same internal source, therefore always track the same voltage. They can however be independently turned off to selectively shut down sensors that aren't in use.</p>
 
-⁑ – **V<sub>SYS</sub>** is a 5V regulated output which powers everything on the module including **V<sub>OUT1</sub>**, **V<sub>OUT2</sub>**, the radio and battery charging. It's current capability is therefore highly dependent on what else is being powered. Assuming a suitable power input to one of the input ports, **V<sub>SYS</sub>** is capable of providing up to 1A of current.
+⁑ – **V<sub>SYS</sub>** is a 5V regulated output which powers everything on the module including **V<sub>OUT1</sub>**, **V<sub>OUT2</sub>**, the radio and battery charging. Its current capability is therefore highly dependent on what else is being powered. Assuming a suitable power input to one of the input ports, **V<sub>SYS</sub>** is capable of providing up to 1A of current.
 
 ![Silicon Witchery S2 Module power outputs](/assets/images/s2-module-power-outputs.png)
 
@@ -255,11 +255,11 @@ The module features thermal regulation such that if the ambient temperature is t
 
 ## Programming
 
-The S2 Module comes pre-programmed with the Superstack firmware, server licence, as well as a provided soft SIM with attached data plan. 
+The S2 Module comes pre-programmed with the Superstack firmware, server license, as well as a provided soft SIM with attached data plan. 
 
 It is not expected that the user should program the device directly, but rather use Superstack to run scripts on the device via the Superstack webapp.
 
-If desired however, the module can be completely erased and a fully custom firmware may be loaded onto it. Note that this will also erase the SIM, data plan and superstack server licence. After which it will be no longer possible to use the module with Superstack.
+If desired however, the module can be completely erased and a fully custom firmware may be loaded onto it. Note that this will also erase the SIM, data plan and superstack server license. After which it will be no longer possible to use the module with Superstack.
 
 ![Silicon Witchery S2 Module programming interface](/assets/images/s2-module-programming-interface-diagram.png)
 
@@ -348,7 +348,7 @@ Ratings and characteristics of the module are listed below. For further details,
 
 ## Mechanical dimensions
 
-Dimensional drawings of the module are shown below
+Dimensional drawings of the module are shown below.
 
 ![Silicon Witchery S2 Module Mechanical Drawing](/assets/images/s2-module-mechanical-drawing.png)
 
@@ -360,7 +360,7 @@ Dimensional drawings of the module are shown below
 
 ## Ordering information
 
-The S2 Module is available in the following SKUs
+The S2 Module is available in the following SKUs:
 
 | Description | Part number | Package quantity |
 |-------------|:-----------:|:----------------:|
@@ -383,9 +383,9 @@ Details coming soon
 
 ## Terms of purchase
 
-The S2 Module and related software or hardware have not been or approved for life-sustaining or other applications where failure may cause harm to human life, health, or damage to property or equipment. Additionally, they have not been designed according to any critical standards in order to guarantee performance or accuracy. No responsibility is assumed by Silicon Witchery for its use, nor for any infringements of patents or other rights of third parties that may result from its use. These specifications are subject to change without notice.
+The S2 Module and related software or hardware have not been approved for life-sustaining or other applications where failure may cause harm to human life, health, or damage to property or equipment. Additionally, they have not been designed according to any critical standards in order to guarantee performance or accuracy. No responsibility is assumed by Silicon Witchery for its use, nor for any infringements of patents or other rights of third parties that may result from its use. These specifications are subject to change without notice.
 
-No liability is held by Silicon Witchery for any delay or failure in performance arising as a result of any occurrence beyond its reasonable control, including but not limited to, capacity constraints, accident, act of God, labour disputes, civil commotion, war, medical outbreak, unanticipated manufacturing problems, shortage of energy, raw materials or other supplies, requirements or acts of any government or agency thereof, including trade embargoes or medical quarantines, judicial action and/or failure or delays in transportation.
+No liability is held by Silicon Witchery for any delay or failure in performance arising as a result of any occurrence beyond its reasonable control, including but not limited to, capacity constraints, accident, act of God, labor disputes, civil commotion, war, medical outbreak, unanticipated manufacturing problems, shortage of energy, raw materials or other supplies, requirements or acts of any government or agency thereof, including trade embargoes or medical quarantines, judicial action and/or failure or delays in transportation.
 
 Purchasing parties agree to take responsibility that any delivered hardware, software, documentation and/or other materials, tangible or otherwise, shall not be consigned, transferred, re-exported or sold to any party or person in any way that does not adhere to the most current Export Control Regulations (“Regulations”) of the European Union Dual Use Regulations, and the Export Administration Regulations of the United States of America.
 

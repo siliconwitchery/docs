@@ -66,10 +66,10 @@ The following video shows detailed step by step instructions on how to connect y
 
 A **Device** can only be connected to a single Deployment at a time. The data usage from all Devices is combined into a single pool where the total limit is determined by the Subscription Plan.
 
-A Deployment may have multiple **Users**. Subscription Plans are Deployment based, therefore a user may be a part of multiple Deployments. Users can have different permissions which restrict their access to what they can do within that Deployment.
+A Deployment may have multiple **Users**. Subscription Plans are Deployment based, therefore a user may be a part of multiple Deployments. Users can have different permissions, which restrict their access to what they can do within that Deployment.
 
 1. **Owners** - Have full access to all features and can manage other Users. There can only be one owner for a Deployment
-2. **Device managers** - Can add or remove Devices, as well as and manage Device Details
+2. **Device managers** - Can add or remove Devices, as well as manage Device Details
 3. **Developers** - Can edit Code for Devices, but don't have permissions to manage Device Details
 4. **Viewers** - Can view the Deployment including code and Device details, but cannot edit anything
 
@@ -81,13 +81,13 @@ All Users have access to the **AI Agent** functionality. A Deployment may additi
 
 The **Devices tab** lets you add Devices, as well as monitor and manage your fleet. Here you can check which Devices are online, as well as total data usage.
 
-Clicking on a specific Device will reveal the **Device Details** panel. This panel allows you to edit the Device **Name**, **Group** and **AI role**. All three of these help the **AI Agent** to understand the role of the specific Device so should be populated in reasonable detail, avoiding ambiguity.
+Clicking on a specific Device will reveal the **Device Details** panel. This panel allows you to edit the Device **Name**, **Group** and **AI role**. All three of these help the **AI Agent** understand the role of the specific Device, so they should be populated in reasonable detail, avoiding ambiguity.
 
 ![Superstack device detail view](/assets/images/superstack-device-details.png)
 
 ---
 
-### Un-pairing devices
+### Unpairing devices
 
 A Device can only be paired to one Deployment at a time. In order to move it to a new Deployment, it **must** be removed from the original Deployment that it's paired to.
 
@@ -108,11 +108,11 @@ Details coming soon
 
 ## Lua programming & libraries
 
-All Superstack-compatible Devices, including the [S2 Module](/pages/s2-module), run a unified firmware that includes the **Lua 5.4.7** runtime. A powerful yet simple scripting engine that can be picked up easily by new and seasoned programmers alike.
+All Superstack-compatible Devices, including the [S2 Module](/pages/s2-module), run a unified firmware that includes the **Lua 5.4.7** runtime. A powerful yet simple scripting engine that can be picked up easily by both new and seasoned programmers alike.
 
-This engine allows Devices to be programmed remotely to run scripts that gather data from sensors, process it, and then return data to Superstack. All the exposed Lua functions are hardware-accelerated under the hood, allowing for performance close to that of bare-metal in C.
+This engine allows Devices to be programmed remotely to run scripts that gather data from sensors, process it, and then return data to Superstack. All the exposed Lua functions are hardware-accelerated under the hood, allowing for performance close to that of bare metal in C.
 
-Thanks to this scriptable nature, applications can be iterated and debugged incredibly quickly without having to maintain any local development tools or wait for compilations to complete. Best of all, this can all be done remotely, with Devices that may be located across countries or continents.
+Thanks to this scriptable nature, applications can be iterated and debugged incredibly quickly without having to maintain any local development tools or wait for compilations to complete. Best of all, this can all be done remotely, even with Devices that may be located across countries or continents.
 
 ---
 
@@ -773,7 +773,7 @@ device.uart.unassign_read_event("B0")
             <code>device.audio.record(length, handler, { data_pin="E0", clock_pin="E1", sample_rate=8000, bit_depth=8 })</code>
         </td>
         <td>
-            Begins recording microphone input and and outputs the data to an event handler. The handler is called every <code>length</code> seconds and repeats until the <code>stop()</code> function is called.
+            Begins recording microphone input and outputs the data to an event handler. The handler is called every <code>length</code> seconds and repeats until the <code>stop()</code> function is called.
             <br><br>
             <strong>Parameters:</strong>
             <ul>
@@ -788,7 +788,7 @@ device.uart.unassign_read_event("B0")
                 <li><code>data_pin</code> - <strong>string</strong> - The pin name to use for the data input. E.g <code>"F0"</code></li>
                 <li><code>clock_pin</code> - <strong>string</strong> - The pin name to use for the clock input. E.g <code>"F1"</code></li>
                 <li><code>sample_rate</code> - <strong>integer</strong> - The sample rate to record in samples per second. Can be either <code>8000</code> or <code>16000</code></li>
-                <li><code>but_depth</code> - <strong>integer</strong> - he dynamic range of the samples recorded. Can be either <code>8</code> or <code>16</code></li>
+                <li><code>bit_depth</code> - <strong>integer</strong> - The dynamic range of the samples recorded. Can be either <code>8</code> or <code>16</code></li>
             </ul>
             <strong>Returns:</strong><br>
             <ul>
@@ -1330,7 +1330,7 @@ The **AI Agent** takes its content from a number of sources.
 1. **Data Schema** - Extracted from the Data within the **Data Tab** where the keys of the JSON, as well as the types can help reinforce the context of what the Data represents
 1. **Previous Chat Context** - The history of previous natural language queries may be used for context. For example, when asking a follow up question
 
-For accurate responses, it's recommended to use explicit details where possible. Avoiding ambagious technical names, and instead include complete and domain specific information which can help the AI Agent to understand the context behind natural language queries.
+For accurate responses, it's recommended to use explicit details where possible. Avoid ambiguous technical names, and instead include complete and domain-specific information, which can help the AI Agent understand the context behind natural language queries.
 
 ![Superstack AI agent context](/assets/images/superstack-agent-context.png)
 
