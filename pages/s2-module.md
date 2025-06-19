@@ -123,20 +123,20 @@ The status LEDs, meanwhile, indicate the networking and power status of the devi
 
 The table below describes each of the LED states.
 
-| Network LED | Meaning |
-|-------------|---------|
-| Slow blinking | Searching for LTE network
-| Solid         | Network found – Not connected to deployment
-| Fast blinking | Button pressed – Attempting to pair to deployment
-| Off           | Connected & idle
-| Short blinks  | Data transmission
-
 | Power LED | Meaning |
 |-----------|---------|
-| Solid         | Battery charging or running on external power
-| Off           | No battery detected and running on external power
-| Slow blinking | Battery charged
-| Fast blinking | Battery temperature too high
+| Short blinks  <br> ▁▇▁▁▁▁▁▁▁▁▇▁▁▁ | Running on battery power – No external power detected
+| Slow blinking <br> ▇▇▇▇▁▁▁▁▇▇▇▇▁▁ | Battery charging
+| Solid         <br> ▇▇▇▇▇▇▇▇▇▇▇▇▇▇ | Battery charged
+| Short blanks  <br> ▇▇▇▁▇▇▇▇▇▇▇▇▁▇ | Running on external power – No battery detected
+
+| Network LED | Meaning |
+|-------------|---------|
+| Slow blinking <br> ▇▇▇▇▁▁▁▁▇▇▇▇▁▁ | Searching for LTE network
+| Solid         <br> ▇▇▇▇▇▇▇▇▇▇▇▇▇▇ | Network found – Not connected to deployment
+| Fast blinking <br> ▇▇▁▁▇▇▁▁▇▇▁▁▇▇ | Button pressed – Pairing to deployment
+| Off           <br> ▁▁▁▁▁▁▁▁▁▁▁▁▁▁ | Connected & idle
+| Short blinks  <br> ▁▇▁▁▁▁▁▁▁▁▇▁▁▁ | Data transmission
 
 ## LTE & GNSS connectivity
 
