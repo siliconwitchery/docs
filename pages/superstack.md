@@ -9,8 +9,8 @@ last_modified_date: May 5th 2025, 08:20 UTC
 # Superstack IoT Platform
 {: .no_toc }
 {: .d-inline-block }
-Preliminary
-{: .label .label-yellow }
+Active
+{: .label .label-blue }
 
 {: .note }
 This page is actively being updated. Information may change, so be sure to check back frequently.

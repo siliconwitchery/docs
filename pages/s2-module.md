@@ -9,8 +9,8 @@ last_modified_date: April 21st 2025, 13:07 UTC
 # S2 Module
 {: .no_toc }
 {: .d-inline-block }
-Preliminary
-{: .label .label-yellow }
+Active
+{: .label .label-blue }
 
 {: .note }
 This page is actively being updated. Information may change, so be sure to check back frequently.
