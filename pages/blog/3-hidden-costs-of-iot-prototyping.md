@@ -1,7 +1,7 @@
 ---
 title: The 3 Hidden Costs of IoT Prototyping
 parent: Blog
-nav_order: 2
+nav_order: 3
 ---
 
 # **The 3 Hidden Costs of IoT Prototyping**
