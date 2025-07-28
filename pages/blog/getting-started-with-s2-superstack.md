@@ -9,7 +9,7 @@ nav_order: 1
 Rohit N, Embedded Engineer \| 24 July 2025
 {: .float-left	.fs-2 }
 ---
-The [S2 Superstack](https://www.siliconwitchery.com/s2-superstack) platform streamlines the deployment, management, and scaling of IoT and embedded systems. It offers a unified environment for onboarding devices, configuring deployments, managing code, and analyzing data. Designed for both newcomers and experienced developers, Superstack integrates device management, data collection, and analytics through an intuitive agent interface.
+The [S2 Superstack](https://www.siliconwitchery.com/s2-superstack) platform streamlines the deployment, management, and scaling of IoT and embedded systems. It provides a unified environment for onboarding devices, configuring deployments, managing code, and analyzing data. Designed for both newcomers and experienced developers, Superstack integrates device management, data collection, and analytics through an intuitive agent interface.
 
 <div style="text-align: center;"><iframe width="640" height="360" src="https://www.youtube.com/embed/3L_OU-fMW_w" frameborder="0" allowfullscreen></iframe></div>
 
@@ -17,10 +17,10 @@ The [S2 Superstack](https://www.siliconwitchery.com/s2-superstack) platform stre
 
 ### Step 1: Creating an Account
 
-Begin by clicking on the account icon.
+Click the account icon in the top right corner.
 ![Agent tab showing the location of account button](/assets/images/blog/getting-started-with-s2-superstack-account-button.png)
 
-Click sign-up for a new account or sign-in.
+In the modal, choose to sign up for a new account or sign in to an existing one.
 ![Account modal with sign-up and sign-in buttons](/assets/images/blog/getting-started-with-s2-superstack-account-modal.png)
 
 Authenticate using Github or Google OAuth.
@@ -28,34 +28,35 @@ Authenticate using Github or Google OAuth.
 
 ### Step 2: Creating a Deployment
 
-Click the current deployment name in the top bar.
+Click the current deployment name in the top bar to open the deployments menu.
 ![Agent tab showing the current deployment button](/assets/images/blog/getting-started-with-s2-superstack-deployments-button.png)
 
 Click the `+` button to create a new deployment.
 ![Deployments modal showing the add deployment button](/assets/images/blog/getting-started-with-s2-superstack-step-add-deployment.png)
 
-This is generates a new default deployment. To edit it, go to the Settings Tab. 
+A new default deployment will be created. To edit its details, go to the Settings Tab.
 ![Settings tab showing deployment settings](/assets/images/blog/getting-started-with-s2-superstack-new-deployment.png)
 
-Here you can edit the name and description of the deployment. TODO: blur email?
+Here, you can change the name and description of your deployment for easier identification.
 ![Settings tab showing deployment settings](/assets/images/blog/getting-started-with-s2-superstack-edit-deployment.png)
-
 
 ### Step 3: Adding Devices
 
 Open the Devices tab and click `Add device`.
 ![Devices tab](/assets/images/blog/getting-started-with-s2-superstack-devices-tab.png)
 
-Enter the IMEI of your device with an optional name for easy reference.
+Enter the IMEI of your device and optionally assign a name for easy reference.
 ![Add device modal](/assets/images/blog/getting-started-with-s2-superstack-add-device.png)
 
-Power on the module. When the LED is solid, press the pair button to complete setup. For more details, refer to the [documentation](/pages/superstack/#connecting-your-first-module) page.
+Power on the module. When the LED is solid, press the pair button to complete setup. For more details, refer to the [documentation](/pages/superstack/#connecting-your-first-module).
 
-### Step 4: Deploy Code - TODO images
+![Devices tab showing the new device](/assets/images/blog/getting-started-with-s2-superstack-added-to-deployment.png)
+
+### Step 4: Deploy Code
 
 Go to the Code tab to access the web editor. Refer to [Lua API](/pages/superstack/) for details.
 
-Let's start with a simple "hello world" program. Paste this into your code editor to try it out.
+Start with a simple "hello world" program. Paste this into your code editor to try it out:
 ```lua
 print("hello world!")
 while true
@@ -67,9 +68,10 @@ end
 
 Select the target device at the top left. Click `save` to upload your Lua script, or use `upload` to push code to multiple devices.
 
-Control device execution with `stop` and `restart` as needed.
+You can control device execution with `stop` and `restart` as needed.
 
-View real-time logs from `print()` statements in the lower section.
+View real-time logs from `print()` statements in the lower section of the editor.
+![Code tab showing the sample script and logs](/assets/images/blog/getting-started-with-s2-superstack-code-tab.png)
 
 ---
 

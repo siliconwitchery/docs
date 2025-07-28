@@ -4,21 +4,32 @@ parent: Blog
 nav_order: 2
 ---
 
-Air quality plays a crucial role in our everyday health and well-being. Poor air quality can lead to respiratory issues, allergies, and long-term health complications, especially for vulnerable groups such as children and the elderly. Applications range from improving comfort and safety in homes and offices, to ensuring compliance and worker safety in factories, and optimizing HVAC systems in commercial buildings. By keeping track of air quality metrics, we can make informed decisions to create healthier and more productive environments. In this article, we explore an easy indoor air quality monitoring system powered by S2-Superstack
+# **Easy Air Quality Monitoring with Superstack**
+
+Rohit N, Embedded Engineer \| 24 July 2025
+{: .float-left	.fs-2 }
+---
+Air quality is a key factor in our health and well-being. Poor air quality can cause respiratory issues, allergies, and long-term health problems, especially for children, the elderly, and those with pre-existing conditions. Monitoring air quality is important not only for comfort and safety in homes and offices, but also for regulatory compliance and worker safety in factories, and for optimizing HVAC systems in commercial buildings. By tracking air quality metrics, we can make informed decisions to create healthier, more productive environments. This article demonstrates a straightforward indoor air quality monitoring system using S2-Superstack.
+
+---
 
 ## Setup
 
 ### Hardware
-For this project, we used a Sparkfun ENS160 air quality sensor, which measures the air quality index (AQI), equivalent carbon dioxide (eCO2), and total volatile organic compounds (TVOC). The sensor board comes with an easy to use Qwiic interface, and can be easily configured to work with I2C on any of the 4-pin ports of the S2 module.
+For this project, we use a Sparkfun ENS160 air quality sensor, which measures the air quality index (AQI), equivalent carbon dioxide (eCO2), and total volatile organic compounds (TVOC). The sensor board features a Qwiic interface and can be connected via I2C to any 4-pin port on the S2 module.
 
-[image: hardware setup]
+[TODO image: hardware setup]
 
 ### Platform
 
-Begin by setting up a new deployment and adding the device to that deployment. Refer to [Getting Started with S2-Superstack](/pages/blog/getting-started-with-s2-superstack.md) for a step-by-step guide.
+Start by creating a new deployment and adding your device to it. For detailed steps, see [Getting Started with S2-Superstack](/pages/blog/getting-started-with-s2-superstack.md). Once your device is set up, your deployment should look like this:
+
+![Devices tab showing the air quality monitoring device](/assets/images/blog/easy-air-quality-monitoring-devices-tab.png)
+
+---
 
 ## Implementation
-TODO: what details go here other than code?
+The following code initializes the ENS160 air quality sensor, reads air quality data (AQI, TVOC, and eCO2) at regular intervals, and sends the measurements to the Superstack platform. The sensor is configured for typical indoor conditions, and the device sleeps between readings to conserve power.
 
 ```lua
 local ENS160_I2C_ADDRESS = 0x53
@@ -85,16 +96,109 @@ do
 end
 ```
 
+![Code tab showing some debug print statements](/assets/images/blog/easy-air-quality-monitoring-code-tab.png)
+
+---
+
 ## Data Access and Analysis
+
+The data logged by the device is available in the `Data` tab. The Lua table sent with `network.send_data()` is converted to a JSON object under the `data` field. Metadata such as device IMEI and timestamp are added automatically. Nested fields are supported, allowing you to provide additional context.
+
+![Data tab showing the logged air quality data](/assets/images/blog/easy-air-quality-monitoring-data-tab.png)
 
 ### Using the Agent Interface
 
-- In the Agent tab, enter queries in the chat box. The agent retrieves, filters, and analyzes data, returning concise summaries.
-- See the [documentation](/pages/superstack/#ai-agent) for technical details.
+In the Agent tab, you can enter queries in the chat box. The agent retrieves, filters, and analyzes data, returning concise summaries. For example, you can ask about air quality on a specific date or location. The agent uses device names and date ranges to filter relevant entries and analyze the data. See the [documentation](/pages/superstack/#ai-agent) for technical details.
+
+![Agent tab showing a query about indoor air quality](/assets/images/blog/easy-air-quality-monitoring-agent-tab.png)
 
 ### Data API Integration
 
-- Generate an API key in the Settings tab to access the data API.
-- The API supports reading, deleting device data, and programmatic agent queries. Refer to the [documentation](/pages/superstack/#data-api) for usage examples.
+Generate an API key in the Settings tab to access the data API. 
+![Settings tab showing the new api key button](/assets/images/blog/easy-air-quality-monitoring-api-key.png)
+
+The API allows you to read and delete device data, and to make programmatic agent queries. See the [documentation](/pages/superstack/#data-api) for usage examples.
+
+**Data request**
+```sh
+curl https://super.siliconwitchery.com/api/data \
+    -H 'Content-Type: application/json'         \
+    -H 'X-Api-Key: <API-Key>'                   \
+    -d '{
+        "deploymentId": "7b311c01-0b8c-4e81-902e-5c5a8e916662",
+        "time": {
+            "start": "2025-07-21T10:30:00+00:00",
+            "end": "2025-07-21T11:30:00+00:00"
+        }
+    }'
+```
+
+**Response**
+```json
+[
+    {
+        "data": {
+            "air_quality_index": 1,
+            "equivalent_CO2": {
+                "unit": "ppm",
+                "value": 400
+            },
+            "total_volatile_compounds": {
+                "unit": "ppb",
+                "value": 0
+            }
+        },
+        "device": "359404230274418",
+        "time": "2025-07-21 - 11:08:37"
+    }
+]
+```
+
+**Agent request**
+```sh
+curl https://super.siliconwitchery.com/api/chat \
+    -H 'Content-Type: application/json'         \
+    -H 'X-Api-Key: <API-Key>'                   \
+    -d '{
+        "deploymentId": "7b311c01-0b8c-4e81-902e-5c5a8e916662",
+        "messages": [
+            {
+                "role": "user",
+                "content": "what is the level of CO2 now?"
+            }
+        ]
+    }'
+```
+
+**Response**
+```json
+[
+    {
+        "role": "user",
+        "content": "what is the level of CO2 now?",
+        "reasoning": {
+            "filter": "",
+            "analysis": ""
+        }
+    },
+    {
+        "role": "assistant",
+        "content": "The latest equivalent CO2 level is 408 ppm.",
+        "reasoning": {
+            "filter": "To determine the current CO2 level, we want the most recent data point from the device in the office on the 3rd floor that monitors indoor air quality. Sampling from the past several hours ensures relevance, and selecting just the latest measurement from each device provides the most up-to-date reading.",
+            "analysis": "To answer the question, I look for the most recent value of the equivalent CO2 level reported by any device, using the 'equivalent_CO2' sensor value in the data. I select the entry with the latest timestamp containing this value. If such data is not available, I return a message indicating its absence."
+        }
+    }
+]
+```
 
 ---
+
+## Learn More
+
+- [Product page](https://www.siliconwitchery.com/s2-superstack)
+- [Documentation](/pages/superstack/)
+
+## Need Assistance?
+
+For support or questions, [email our engineering team](mailto:projects@siliconwitchery.com?subject=IoT Project Support - Superstack&amp;body=Hi Silicon Witchery team,%0D%0A%0D%0AI'm interested in implementation support for:%0D%0A%0D%0A- Project type:%0D%0A- Timeline:%0D%0A- Company:%0D%0A%0D%0ABest regards,) for a free consultation.
