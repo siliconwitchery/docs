@@ -1,6 +1,6 @@
 ---
-title: "Getting Started with the S2-Superstack"
-parent: Blog
+title: "Getting Started with S2 & Superstack"
+parent: IoT Business Solutions Blog
 nav_order: 1
 ---
 

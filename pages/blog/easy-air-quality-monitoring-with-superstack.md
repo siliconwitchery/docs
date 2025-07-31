@@ -1,6 +1,6 @@
 ---
 title: "Easy Air Quality Monitoring with Superstack"
-parent: Blog
+parent: IoT Business Solutions Blog
 nav_order: 2
 ---
 
