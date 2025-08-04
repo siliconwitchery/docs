@@ -2,6 +2,8 @@
 title: Choosing the Right Connectivity Solution for Your IoT Project
 parent: IoT Business Solutions Blog
 nav_order: 4
+nav_exclude: true
+search_exclude: true
 ---
 
 # **Choosing the Right Connectivity Solution for Your IoT Project**
@@ -16,13 +18,13 @@ Selecting the right connectivity for your IoT project is a critical decision tha
 
 There’s no one-size-fits-all answer. Each connectivity technology comes with its own strengths and trade-offs. Here’s a quick comparison to help you see how the most popular options stack up:
 
-| Technology             | Pros                                                                                              | Cons                                                                                    |
-| ---------------------- | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| **BLE**                | Ultra-low power, low cost, ideal for short-range (~100m), widely supported by smartphones/tablets | Limited range, not suitable for direct cloud connectivity, typically requires a gateway |
-| **Zigbee**             | Mesh networking, low power, suitable for home automation and industrial control                   | Limited range per hop, requires Zigbee coordinator/gateway                              |
-| **LoRa**               | Long range (up to 10km rural), low power, good for battery devices, large-scale deployments       | Low data rates, requires LoRaWAN gateways, not ideal for real-time/high-throughput      |
-| **WiFi**               | High data rates, easy integration, direct internet/cloud access                                   | High power consumption, limited range (~100m indoors), needs local WiFi network         |
-| **LTE-M / NB-IoT**     | Wide area coverage, direct cloud connectivity, low power (IoT-optimized), supports mobility       | Requires SIM/cellular subscription, higher module costs, coverage varies by region      |
+| Technology               | Pros                                                                                              | Cons                                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| **Bluetooth Low Energy** | Ultra-low power, low cost, ideal for short-range (~100m), widely supported by smartphones/tablets | Limited range, not suitable for direct cloud connectivity, typically requires a gateway |
+| **Zigbee**               | Mesh networking, low power, suitable for home automation and industrial control                   | Limited range per hop, requires Zigbee coordinator/gateway                              |
+| **LoRa**                 | Long range (up to 10km rural), low power, good for battery devices, large-scale deployments       | Low data rates, requires LoRaWAN gateways, not ideal for real-time/high-throughput      |
+| **WiFi**                 | High data rates, easy integration, direct internet/cloud access                                   | High power consumption, limited range (~100m indoors), needs local WiFi network         |
+| **LTE-M / NB-IoT**       | Wide area coverage, direct cloud connectivity, low power (IoT-optimized), supports mobility       | Requires SIM/cellular subscription, higher module costs, coverage varies by region      |
 
 As you can see, the right choice depends on your use case. Are your devices stationary or mobile? Do you need long battery life, or is power not a concern? Will your devices be deployed indoors, outdoors, or across multiple countries?
 
@@ -30,7 +32,7 @@ As you can see, the right choice depends on your use case. Are your devices stat
 
 No matter which local connectivity you choose, most IoT projects eventually need to get data to the cloud. Many popular protocols like BLE, Zigbee, and LoRa, are not designed for direct internet access. Instead, they rely on gateways to bridge the gap between your devices and the cloud. This introduces a new set of challenges:
 
-- **Additional Infrastructure:** Gateways add hardware, software, and maintenance overhead.
+- **Additional Infrastructure:** Gateways add hardware, software, and maintenance overhead. Additionally, projects making use of mobile apps (in the case of Bluetooth) often run into many power and connectivity restrictions enforced by mobile operating systems. 
 - **Multi-Protocol Debugging:** Supporting multiple protocols increases complexity, tech debt, and support costs.
 - **Custom Back-End Setup:** IoT protocols like MQTT and CoAP require specialized back-end infrastructure and endpoints.
 - **Security & Compliance:** Ensuring secure data transmission and compliance with data protection regulations adds further complexity.

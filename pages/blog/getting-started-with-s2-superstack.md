@@ -8,77 +8,136 @@ nav_order: 1
 
 Rohit Nareshkumar, Solutions Architect & Embedded Applications Engineer \| 24 July 2025
 {: .float-left	.fs-2 }
----
-The [S2 Superstack](https://www.siliconwitchery.com/s2-superstack) platform streamlines the deployment, management, and scaling of IoT and embedded systems. It provides a unified environment for onboarding devices, configuring deployments, managing code, and analyzing data. Designed for both newcomers and experienced developers, Superstack integrates device management, data collection, and analytics through an intuitive agent interface.
-
-<div style="text-align: center;"><iframe width="640" height="360" src="https://www.youtube.com/embed/3L_OU-fMW_w" frameborder="0" allowfullscreen></iframe></div>
 
 ---
 
-### Step 1: Creating an Account
+The [S2 Module and Superstack platform](https://www.siliconwitchery.com/s2-superstack) streamlines deployment, management, and scaling of IoT sensing systems. It provides a unified environment for onboarding devices, managing code, and analyzing data. 
 
-Click the account icon in the top right corner.
+> Superstack is designed for both newcomers to the realm of IoT, as well as experienced developers who wish to quickly get up and running without the hassle of building complex infrastructure, databases or device firmware.
+
+---
+
+### Step 1: Unbox your new S2 Module
+
+The S2 Module is available from DigiKey with many orders often qualifying for free local and international shipping.
+
+Begin by powering your S2 Module using a 5V USB-C power supply. For alternative power options such as Lithium batteries, check the [detailed documentation](/pages/s2-module#power--battery-interface).
+
+![S2 Module being powered from USB-C](/assets/images/blog/getting-started-with-s2-superstack-s2-power-input.jpg)
+
+### Step 2: Create a Superstack account
+
+Navigate to [super.siliconwitchery.com](https://super.siliconwitchery.com) and click the **account** icon in the top right corner:
+
 ![Agent tab showing the location of account button](/assets/images/blog/getting-started-with-s2-superstack-account-button.png)
 
-In the modal, choose to sign up for a new account or sign in to an existing one.
+From the account pane, click **Sign up**, or **Sign in**:
+
 ![Account modal with sign-up and sign-in buttons](/assets/images/blog/getting-started-with-s2-superstack-account-modal.png)
 
-Authenticate using Github or Google OAuth.
+Login securely using OAuth with **Github** or **Google**. 
+
+> Superstack does not gain access to any sensitive customer information, passwords or access tokens. Only your email is used to reference your account.
+
 ![Sign-in with Github or Google](/assets/images/blog/getting-started-with-s2-superstack-sign-in.png)
 
-### Step 2: Creating a Deployment
+### Step 3: Create a new deployment
 
-Click the current deployment name in the top bar to open the deployments menu.
+Click the **deployment name** in the top bar to open the deployment selection menu:
+
 ![Agent tab showing the current deployment button](/assets/images/blog/getting-started-with-s2-superstack-deployments-button.png)
 
-Click the `+` button to create a new deployment.
+Click on **New deployment**:
+
 ![Deployments modal showing the add deployment button](/assets/images/blog/getting-started-with-s2-superstack-step-add-deployment.png)
 
-A new default deployment will be created. To edit its details, go to the Settings Tab.
-![Settings tab showing deployment settings](/assets/images/blog/getting-started-with-s2-superstack-new-deployment.png)
+An empty deployment will be created:
 
-Here, you can change the name and description of your deployment for easier identification.
+> You can edit the name and description from the **Settings Tab**, as well as add additional users if desired.
+
 ![Settings tab showing deployment settings](/assets/images/blog/getting-started-with-s2-superstack-edit-deployment.png)
 
-### Step 3: Adding Devices
+### Step 4: Adding Devices
 
-Open the Devices tab and click `Add device`.
+To add your S2 Module, select the **Devices** tab and click **Add device**:
+
 ![Devices tab](/assets/images/blog/getting-started-with-s2-superstack-devices-tab.png)
 
-Enter the IMEI of your device and optionally assign a name for easy reference.
+Enter the IMEI of your device and optionally assign a name for easy reference. 
+
+Then wait for the **net** LED on the S2 Module to go solid, and then click **Add device**:
+
+{: .note }
+If the **net** LED does not go solid after 5 minutes of being powered on, try to relocate the device for better cell coverage, and re-power the device.
+
 ![Add device modal](/assets/images/blog/getting-started-with-s2-superstack-add-device.png)
 
-Power on the module. When the LED is solid, press the pair button to complete setup. For more details, refer to the [documentation](/pages/superstack/#connecting-your-first-module).
+Superstack will then direct you to *press the button* to complete pairing. **Click the button** on the S2 Module to connect:
+
+![Pairing the S2 Module via the button](/assets/images/blog/getting-started-with-s2-superstack-s2-clicking-button.jpg)
+
+The paired module will then be shown in the **Devices** tab:
 
 ![Devices tab showing the new device](/assets/images/blog/getting-started-with-s2-superstack-added-to-deployment.png)
 
-### Step 4: Deploy Code
+### Step 5: Edit the Code
 
-Go to the Code tab to access the web editor. Refer to [Lua API](/pages/superstack/) for details.
+Navigate to the **Code** tab to access the code editor. 
 
-Start with a simple "hello world" program. Paste this into your code editor to try it out:
+> A complete [API reference](/pages/superstack/) is available for accessing the hardware features of the S2 Module.
+
+The S2 Module runs Lua and is completely reprogrammable live whilst the device has cellular connection. If the device looses connection for any reason, or is powered off, it will obtain sny updated code on re-connection and run it right away.
+
+Paste the following code and click the **save icon**:
+
 ```lua
-print("hello world!")
-while true
-do
-    device.sleep(3)
-    print("hi again!")
+print("My first S2 Lua app")
+
+while true do
+    print("Generating a random number between 15 and 30")
+    local r = math.random(15, 30)
+    
+    print("Sending data to Superstack")
+    network.send_data{ number=r }
+    
+    print("Sleeping")
+    device.sleep(60)
 end
 ```
 
-Select the target device at the top left. Click `save` to upload your Lua script, or use `upload` to push code to multiple devices.
-
-You can control device execution with `stop` and `restart` as needed.
-
-View real-time logs from `print()` statements in the lower section of the editor.
 ![Code tab showing the sample script and logs](/assets/images/blog/getting-started-with-s2-superstack-code-tab.png)
+
+This code will generate a random number between 15 and 30 every minute and pushes the value to Superstack. Anything logged with a `print()` statement will be visible at the bottom of the page, as well as from the **Logs** tab, and Data will be shown on the **Data** tab.
+
+![Data tab showing the returned data](/assets/images/blog/getting-started-with-s2-superstack-data-tab.png)
+
+### Step 6: Analyze data using the AI Agent
+
+Superstack features an advanced AI data agent that is able to perform deep analysis on aggregated sensor data. Navigate to the **Devices** tab and click on the device we just added.
+
+![Devices tab showing the selectable device](/assets/images/blog/getting-started-with-s2-superstack-selectable-device.png)
+
+Edit the **Device Role** to give the AI Agent better context of what the device is intending to monitor or process.
+
+![Editing device details](/assets/images/blog/getting-started-with-s2-superstack-edit-device.png)
+
+Next, navigate to the **Agent** tab and edit the **Agent Role** to tell the AI Agent about the intentions of the overall deployment.
+
+![Editing AI Agent role](/assets/images/blog/getting-started-with-s2-superstack-agent-role.png)
+
+Finally, ask the Agent a question about your data:
+
+![Querying the AI Agent around the data](/assets/images/blog/getting-started-with-s2-superstack-agent-usage.png)
+
+As you begin to gather more data from multiple devices, the agentic capabilities will help extract deeper insights and patterns as picked up by your sensors. To learn more about how the agent can be used with a real sensor. Check out our article on [Easy Air Quality Monitoring](/pages/blog/easy-air-quality-monitoring-with-superstack).
 
 ---
 
 ## Learn More
 
 - [Product page](https://www.siliconwitchery.com/s2-superstack)
-- [Documentation](/pages/superstack/)
+- [Superstack API reference and documentation](/pages/superstack/)
+- [S2 Module hardware manual](/pages/s2-module)
 
 ## Need Assistance?
 
