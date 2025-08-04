@@ -6,20 +6,20 @@ nav_order: 1
 
 # **Getting Started with the S2 Module and Superstack**
 
-Rohit Nareshkumar, Solutions Architect & Embedded Applications Engineer \| 24 July 2025
-{: .float-left	.fs-2 }
+Rohit Nareshkumar, Solutions Architect & Embedded Applications Engineer | July 24, 2025
+{: .float-left .fs-2 }
 
 ---
 
 The [S2 Module and Superstack platform](https://www.siliconwitchery.com/s2-superstack) streamlines deployment, management, and scaling of IoT sensing systems. It provides a unified environment for onboarding devices, managing code, and analyzing data. 
 
-> Superstack is designed for both newcomers to the realm of IoT, as well as experienced developers who wish to quickly get up and running without the hassle of building complex infrastructure, databases or device firmware.
+> Superstack is designed for both newcomers to the IoT realm and experienced developers. It allows you to quickly get up and running without the hassle of building complex infrastructure, databases, or device firmware.
 
 ---
 
 ### Step 1: Unbox your new S2 Module
 
-The S2 Module is available from DigiKey with many orders often qualifying for free local and international shipping.
+The S2 Module is available from DigiKey, with many orders often qualifying for free local and international shipping.
 
 Begin by powering your S2 Module using a 5V USB-C power supply. For alternative power options such as Lithium batteries, check the [detailed documentation](/pages/s2-module#power--battery-interface).
 
@@ -35,9 +35,9 @@ From the account pane, click **Sign up**, or **Sign in**:
 
 ![Account modal with sign-up and sign-in buttons](/assets/images/blog/getting-started-with-s2-superstack-account-modal.png)
 
-Login securely using OAuth with **Github** or **Google**. 
+Log in securely using OAuth with **Github** or **Google**. 
 
-> Superstack does not gain access to any sensitive customer information, passwords or access tokens. Only your email is used to reference your account.
+> Superstack does not gain access to any sensitive customer information, passwords, or access tokens. Only your email is used to reference your account.
 
 ![Sign-in with Github or Google](/assets/images/blog/getting-started-with-s2-superstack-sign-in.png)
 
@@ -86,7 +86,7 @@ Navigate to the **Code** tab to access the code editor.
 
 > A complete [API reference](/pages/superstack/) is available for accessing the hardware features of the S2 Module.
 
-The S2 Module runs Lua and is completely reprogrammable live whilst the device has cellular connection. If the device looses connection for any reason, or is powered off, it will obtain sny updated code on re-connection and run it right away.
+The S2 Module runs Lua and is completely reprogrammable live while the device has cellular connection. If the device loses connection for any reason or is powered off, it will obtain any updated code on re-connection and run it right away.
 
 Paste the following code and click the **save icon**:
 
@@ -107,17 +107,17 @@ end
 
 ![Code tab showing the sample script and logs](/assets/images/blog/getting-started-with-s2-superstack-code-tab.png)
 
-This code will generate a random number between 15 and 30 every minute and pushes the value to Superstack. Anything logged with a `print()` statement will be visible at the bottom of the page, as well as from the **Logs** tab, and Data will be shown on the **Data** tab.
+This code will generate a random number between 15 and 30 every minute and sends the value to Superstack. Anything logged with a `print()` statement will be visible at the bottom of the page, as well as from the **Logs** tab, and data will be shown on the **Data** tab.
 
 ![Data tab showing the returned data](/assets/images/blog/getting-started-with-s2-superstack-data-tab.png)
 
 ### Step 6: Analyze data using the AI Agent
 
-Superstack features an advanced AI data agent that is able to perform deep analysis on aggregated sensor data. Navigate to the **Devices** tab and click on the device we just added.
+Superstack features an advanced AI data agent that can perform deep analysis on aggregated sensor data. Navigate to the **Devices** tab and click on the device we just added.
 
 ![Devices tab showing the selectable device](/assets/images/blog/getting-started-with-s2-superstack-selectable-device.png)
 
-Edit the **Device Role** to give the AI Agent better context of what the device is intending to monitor or process.
+Edit the **Device Role** to give the AI Agent better context of what the device is intended to monitor or process.
 
 ![Editing device details](/assets/images/blog/getting-started-with-s2-superstack-edit-device.png)
 
@@ -129,7 +129,7 @@ Finally, ask the Agent a question about your data:
 
 ![Querying the AI Agent around the data](/assets/images/blog/getting-started-with-s2-superstack-agent-usage.png)
 
-As you begin to gather more data from multiple devices, the agentic capabilities will help extract deeper insights and patterns as picked up by your sensors. To learn more about how the agent can be used with a real sensor. Check out our article on [Easy Air Quality Monitoring](/pages/blog/easy-air-quality-monitoring-with-superstack).
+As you begin to gather more data from multiple devices, the agentic capabilities will help extract deeper insights and patterns as picked up by your sensors. To learn more about how the agent can be used with real sensors, check out our article on [Easy Air Quality Monitoring](/pages/blog/easy-air-quality-monitoring-with-superstack).
 
 ---
 
