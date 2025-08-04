@@ -6,7 +6,7 @@ nav_order: 4
 
 # **Choosing the Right Connectivity Solution for Your IoT Project**
 
-Rohit Nareshkumar, Embedded Engineer \| 24 July 2025
+Raj Nakarja, CEO & Chief Engineer \| 4 August 2025
 {: .float-left	.fs-2 }
 ---
 

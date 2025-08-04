@@ -6,7 +6,7 @@ nav_order: 2
 
 # **Easy Air Quality Monitoring with Superstack**
 
-Rohit Nareshkumar, Embedded Engineer \| 24 July 2025
+Rohit Nareshkumar, Solutions Architect & Embedded Applications Engineer \| 28 July 2025
 {: .float-left	.fs-2 }
 ---
 Air quality is a key factor in our health and well-being. Poor air quality can cause respiratory issues, allergies, and long-term health problems, especially for children, the elderly, and those with pre-existing conditions. Monitoring air quality is important not only for comfort and safety in homes and offices, but also for regulatory compliance and worker safety in factories, and for optimizing HVAC systems in commercial buildings. By tracking air quality metrics, we can make informed decisions to create healthier, more productive environments. This article demonstrates a straightforward indoor air quality monitoring system using S2-Superstack.

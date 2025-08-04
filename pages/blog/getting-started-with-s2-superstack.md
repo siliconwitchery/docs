@@ -6,7 +6,7 @@ nav_order: 1
 
 # **Getting Started with the S2 Module and Superstack**
 
-Rohit Nareshkumar, Embedded Engineer \| 24 July 2025
+Rohit Nareshkumar, Solutions Architect & Embedded Applications Engineer \| 24 July 2025
 {: .float-left	.fs-2 }
 ---
 The [S2 Superstack](https://www.siliconwitchery.com/s2-superstack) platform streamlines the deployment, management, and scaling of IoT and embedded systems. It provides a unified environment for onboarding devices, configuring deployments, managing code, and analyzing data. Designed for both newcomers and experienced developers, Superstack integrates device management, data collection, and analytics through an intuitive agent interface.
