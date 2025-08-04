@@ -6,7 +6,7 @@ nav_order: 3
 
 # **The 3 Hidden Costs of IoT Prototyping**
 
-Rohit N, Embedded Engineer \| 24 July 2025
+Rohit Nareshkumar, Embedded Engineer \| 24 July 2025
 {: .float-left	.fs-2 }
 ---
 The Internet of Things (IoT) promises transformative business value, enabling organizations to unlock new efficiencies, revenue streams, and customer experiences. However, many teams embarking on IoT projects quickly discover that the true costs of prototyping extend far beyond the initial estimates for hardware and software. What appears to be a straightforward development effort often unravels into a web of technical, regulatory, and operational challenges - each with its own price tag. Recent research shows that the average IoT time-to-market has surged by 80% since 2020, ballooning from 23 months to 41 months [[1]](#1). When all hidden expenses are considered, total project costs can easily surpass \$500,000, catching even experienced teams off guard.
