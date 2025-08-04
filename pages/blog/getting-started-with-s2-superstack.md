@@ -6,7 +6,7 @@ nav_order: 1
 
 # **Getting Started with the S2 Module and Superstack**
 
-Rohit Nareshkumar, Solutions Architect & Embedded Applications Engineer | July 24, 2025
+Rohit Nareshkumar, Solutions Architect & Embedded Applications Engineer \| July 24, 2025
 {: .float-left .fs-2 }
 
 ---
@@ -35,7 +35,7 @@ From the account pane, click **Sign up**, or **Sign in**:
 
 ![Account modal with sign-up and sign-in buttons](/assets/images/blog/getting-started-with-s2-superstack-account-modal.png)
 
-Log in securely using OAuth with **Github** or **Google**. 
+Log in securely using OAuth with **Github** or **Google**:
 
 > Superstack does not gain access to any sensitive customer information, passwords, or access tokens. Only your email is used to reference your account.
 
@@ -59,7 +59,7 @@ An empty deployment will be created:
 
 ### Step 4: Adding Devices
 
-To add your S2 Module, select the **Devices** tab and click **Add device**:
+To add your S2 Module, navigate to the **Devices** tab and click **Add device**:
 
 ![Devices tab](/assets/images/blog/getting-started-with-s2-superstack-devices-tab.png)
 
@@ -68,11 +68,11 @@ Enter the IMEI of your device and optionally assign a name for easy reference.
 Then wait for the **net** LED on the S2 Module to go solid, and then click **Add device**:
 
 {: .note }
-If the **net** LED does not go solid after 5 minutes of being powered on, try to relocate the device for better cell coverage, and re-power the device.
+If the **net** LED does not go solid after 5 minutes of being powered on, try to relocate the device for better cell coverage, and then re-power the device.
 
 ![Add device modal](/assets/images/blog/getting-started-with-s2-superstack-add-device.png)
 
-Superstack will then direct you to *press the button* to complete pairing. **Click the button** on the S2 Module to connect:
+Superstack will then direct you to press the button to complete pairing. **Click the button** on the S2 Module to connect:
 
 ![Pairing the S2 Module via the button](/assets/images/blog/getting-started-with-s2-superstack-s2-clicking-button.jpg)
 
@@ -86,7 +86,9 @@ Navigate to the **Code** tab to access the code editor.
 
 > A complete [API reference](/pages/superstack/) is available for accessing the hardware features of the S2 Module.
 
-The S2 Module runs Lua and is completely reprogrammable live while the device has cellular connection. If the device loses connection for any reason or is powered off, it will obtain any updated code on re-connection and run it right away.
+The S2 Module runs Lua and is easily reprogrammable with a single click while the device has cellular connection. If the device loses connection for any reason or is powered off, it will automatically download the latest code on re-connection and run it right away.
+
+> Lua is an extremely small, efficient, and stable scripting language that has been around for over 30 years. It runs incredibly well on the modern ARM Cortex-M33 processor of the S2 Module, and allows for a workflow where changing and rerunning code takes a matter of seconds. No compilation or programming tools required.
 
 Paste the following code and click the **save icon**:
 
@@ -107,25 +109,25 @@ end
 
 ![Code tab showing the sample script and logs](/assets/images/blog/getting-started-with-s2-superstack-code-tab.png)
 
-This code will generate a random number between 15 and 30 every minute and sends the value to Superstack. Anything logged with a `print()` statement will be visible at the bottom of the page, as well as from the **Logs** tab, and data will be shown on the **Data** tab.
+This code generates a random number between 15 and 30 every minute and sends the value to Superstack. Anything logged with a `print()` statement will be visible at the bottom of the page (as well as from the **Logs** tab), and data will be shown on the **Data** tab:
 
 ![Data tab showing the returned data](/assets/images/blog/getting-started-with-s2-superstack-data-tab.png)
 
 ### Step 6: Analyze data using the AI Agent
 
-Superstack features an advanced AI data agent that can perform deep analysis on aggregated sensor data. Navigate to the **Devices** tab and click on the device we just added.
+Superstack features an advanced AI data agent that can perform deep analysis on aggregated sensor data. Navigate to the **Devices** tab and click on the device we just added:
 
 ![Devices tab showing the selectable device](/assets/images/blog/getting-started-with-s2-superstack-selectable-device.png)
 
-Edit the **Device Role** to give the AI Agent better context of what the device is intended to monitor or process.
+Edit the **Device Role** to give the AI agent better context of what the device is intending to monitor or process:
 
 ![Editing device details](/assets/images/blog/getting-started-with-s2-superstack-edit-device.png)
 
-Next, navigate to the **Agent** tab and edit the **Agent Role** to tell the AI Agent about the intentions of the overall deployment.
+Next, navigate to the **Agent** tab and edit the **Agent Role** to tell the agent about the intentions of the overall deployment:
 
 ![Editing AI Agent role](/assets/images/blog/getting-started-with-s2-superstack-agent-role.png)
 
-Finally, ask the Agent a question about your data:
+Finally, ask the agent a question about your data:
 
 ![Querying the AI Agent around the data](/assets/images/blog/getting-started-with-s2-superstack-agent-usage.png)
 
