@@ -96,8 +96,8 @@ Paste the following code and click the **save icon**:
 print("My first S2 Lua app")
 
 while true do
-    print("Generating a random number between 15 and 30")
-    local r = math.random(15, 30)
+    print("Generating a random number between 40 and 60")
+    local r = math.random(40, 60)
     
     print("Sending data to Superstack")
     network.send_data{ number=r }
@@ -109,7 +109,7 @@ end
 
 ![Code tab showing the sample script and logs](/assets/images/blog/getting-started-with-s2-superstack-code-tab.png)
 
-This code generates a random number between 15 and 30 every minute and sends the value to Superstack. Anything logged with a `print()` statement will be visible at the bottom of the page (as well as from the **Logs** tab), and data will be shown on the **Data** tab:
+This code generates a random number between 40 and 60 every minute and sends the value to Superstack. Anything logged with a `print()` statement will be visible at the bottom of the page (as well as from the **Logs** tab), and data will be shown on the **Data** tab:
 
 ![Data tab showing the returned data](/assets/images/blog/getting-started-with-s2-superstack-data-tab.png)
 
