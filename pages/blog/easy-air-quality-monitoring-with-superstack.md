@@ -18,7 +18,7 @@ Air quality is a key factor in our health and well-being. Poor air quality can c
 ### Hardware
 For this project, we use a Sparkfun ENS160 air quality sensor, which measures the air quality index (AQI), equivalent carbon dioxide (eCO2), and total volatile organic compounds (TVOC). The sensor board features a Qwiic interface and can be connected via I2C to any 4-pin port on the S2 module.
 
-[TODO image: hardware setup]
+![S2 Module connected to the ENS160 air quality sensor](/assets/images/blog/easy-air-quality-monitoring-hardware.png)
 
 ### Platform
 
