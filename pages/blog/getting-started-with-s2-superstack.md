@@ -23,7 +23,7 @@ The S2 Module is available from DigiKey, with many orders often qualifying for f
 
 Begin by powering your S2 Module using a 5V USB-C power supply. For alternative power options such as Lithium batteries, check the [detailed documentation](/pages/s2-module#power--battery-interface).
 
-![S2 Module being powered from USB-C](/assets/images/blog/getting-started-with-s2-superstack-s2-power-input.jpg)
+![S2 Module being powered from USB-C](/assets/images/blog/getting-started-with-s2-superstack-s2-power-input.png)
 
 ### Step 2: Create a Superstack account
 
@@ -74,7 +74,7 @@ If the **net** LED does not go solid after 5 minutes of being powered on, try to
 
 Superstack will then direct you to press the button to complete pairing. **Click the button** on the S2 Module to connect:
 
-![Pairing the S2 Module via the button](/assets/images/blog/getting-started-with-s2-superstack-s2-clicking-button.jpg)
+![Pairing the S2 Module via the button](/assets/images/blog/getting-started-with-s2-superstack-s2-clicking-button.png)
 
 The paired module will then be shown in the **Devices** tab:
 
@@ -121,11 +121,13 @@ Superstack features an advanced AI data agent that can perform deep analysis on 
 
 Edit the **Device Role** to give the AI agent better context of what the device is intending to monitor or process:
 
+> For best results, be sure to provide as much detail as possible. Include details about what the device is monitoring, what to look out for as well as the units and range of measurement. Avoid excessive use of acronyms or irrelevant technical details to avoid the model getting confused.
+
 ![Editing device details](/assets/images/blog/getting-started-with-s2-superstack-edit-device.png)
 
-Next, navigate to the **Agent** tab and edit the **Agent Role** to tell the agent about the intentions of the overall deployment:
+Next, navigate to the **Agent** tab and edit the **Agent Role** to tell the agent about the intentions of the overall deployment.
 
-![Editing AI Agent role](/assets/images/blog/getting-started-with-s2-superstack-agent-role.png)
+> Whilst the Device Role focuses on per device details, the Agent Role should focus on the role of the overall deployment. Here you can additionally give the agent broader domain specific context, as well as tailor the personality to answer queries in a way that suits your users.
 
 Finally, ask the agent a question about your data:
 
