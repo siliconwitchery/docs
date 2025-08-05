@@ -1,14 +1,16 @@
 ---
 title: "Easy Air Quality Monitoring with Superstack"
-parent: IoT Business Solutions Blog
+parent: IoT Solutions Blog
 nav_order: 2
 ---
 
 # **Easy Air Quality Monitoring with Superstack**
 
-Rohit Nareshkumar, Solutions Architect & Embedded Applications Engineer \| 28 July 2025
-{: .float-left	.fs-2 }
+Rohit Nareshkumar, Solutions Architect and Embedded Applications Engineer \| 28 July 2025
+{: .float-left .fs-2 }
+
 ---
+
 Air quality is a key factor in our health and well-being. Poor air quality can cause respiratory issues, allergies, and long-term health problems, especially for children, the elderly, and those with pre-existing conditions. Monitoring air quality is important not only for comfort and safety in homes and offices, but also for regulatory compliance and worker safety in factories, and for optimizing HVAC systems in commercial buildings. By tracking air quality metrics, we can make informed decisions to create healthier, more productive environments. This article demonstrates a straightforward indoor air quality monitoring system using S2-Superstack.
 
 ---
@@ -16,19 +18,22 @@ Air quality is a key factor in our health and well-being. Poor air quality can c
 ## Setup
 
 ### Hardware
-For this project, we use a Sparkfun ENS160 air quality sensor, which measures the air quality index (AQI), equivalent carbon dioxide (eCO2), and total volatile organic compounds (TVOC). The sensor board features a Qwiic interface and can be connected via I2C to any 4-pin port on the S2 module.
+For this project, we use a [ScioSence ENS160](https://www.sciosense.com/wp-content/uploads/2023/12/ENS160-Datasheet.pdf) air quality sensor from [Sparkfun Electronics](https://learn.sparkfun.com/tutorials/sparkfun-indoor-air-quality-sensor---ens160-qwiic-hookup-guide/all), which measures the air quality index (AQI), equivalent carbon dioxide (eCO2), and total volatile organic compounds (TVOC). The sensor board features a Qwiic I<sup>2</sup>C interface and can be connected to any of the 4-pin ports on the S2 module.
 
 ![S2 Module connected to the ENS160 air quality sensor](/assets/images/blog/easy-air-quality-monitoring-hardware.png)
 
 ### Platform
 
-Start by creating a new deployment and adding your device to it. For detailed steps, see [Getting Started with S2-Superstack](/pages/blog/getting-started-with-s2-superstack.md). Once your device is set up, your deployment should look like this:
+Start by creating a new deployment and adding your device to it:
+
+> For detailed steps, see [Getting Started with S2-Superstack](/pages/blog/getting-started-with-s2-superstack.md).
 
 ![Devices tab showing the air quality monitoring device](/assets/images/blog/easy-air-quality-monitoring-devices-tab.png)
 
 ---
 
 ## Implementation
+
 The following code initializes the ENS160 air quality sensor, reads air quality data (AQI, TVOC, and eCO2) at regular intervals, and sends the measurements to the Superstack platform. The sensor is configured for typical indoor conditions, and the device sleeps between readings to conserve power.
 
 ```lua
@@ -41,7 +46,7 @@ function init_sensor()
     end
     device.sleep(0.2)
 
-    -- 25C
+    -- 25°C
     resp = device.i2c.write(ENS160_I2C_ADDRESS, 0x13, "\x80\x4A")
     if not resp.success then
         error("I2C bus error")
@@ -66,24 +71,23 @@ function read_sensor()
     end
     resp = device.i2c.read(ENS160_I2C_ADDRESS, 0x22, 2)
     if resp.success then
-        sensor_data.tvoc = string.byte(resp.data, 1) | string.byte(resp.data, 2) << 8;
+        sensor_data.tvoc = string.byte(resp.data, 1) | string.byte(resp.data, 2) << 8
     else
         error("I2C bus error")
     end
     resp = device.i2c.read(ENS160_I2C_ADDRESS, 0x24, 2)
     if resp.success then
-        sensor_data.eco2 = string.byte(resp.data, 1) | string.byte(resp.data, 2) << 8;
+        sensor_data.eco2 = string.byte(resp.data, 1) | string.byte(resp.data, 2) << 8
     else
         error("I2C bus error")
     end
     return sensor_data
 end
 
--- main
+-- Main loop
 device.power.set_vout(1.8)
 init_sensor()
-while true
-do
+while true do
     sensor_data = read_sensor()
     -- print(string.format("AQI: %d, TVOC: %d ppb, eCO2: %d ppm", sensor_data.aqi, sensor_data.tvoc, sensor_data.eco2))
     network.send_data {
@@ -91,7 +95,7 @@ do
         total_volatile_compounds = { value = sensor_data.tvoc, unit = "ppb" },
         equivalent_CO2 = { value = sensor_data.eco2, unit = "ppm" }
     }
-    -- sleep for 30 mins
+    -- Sleep for 30 minutes
     device.sleep(60*30)
 end
 ```
@@ -102,20 +106,21 @@ end
 
 ## Data Access and Analysis
 
-The data logged by the device is available in the `Data` tab. The Lua table sent with `network.send_data()` is converted to a JSON object under the `data` field. Metadata such as device IMEI and timestamp are added automatically. Nested fields are supported, allowing you to provide additional context.
+The data logged by the device is available in the **Data** tab. The Lua table sent with `network.send_data()` is converted to a JSON object under the `data` field. Metadata such as device IMEI and timestamp are added automatically. Nested fields are supported, allowing you to provide additional context.
 
 ![Data tab showing the logged air quality data](/assets/images/blog/easy-air-quality-monitoring-data-tab.png)
 
 ### Using the Agent Interface
 
-In the Agent tab, you can enter queries in the chat box. The agent retrieves, filters, and analyzes data, returning concise summaries. For example, you can ask about air quality on a specific date or location. The agent uses device names and date ranges to filter relevant entries and analyze the data. See the [documentation](/pages/superstack/#ai-agent) for technical details.
+In the **Agent** tab, you can enter queries in the chat box. The agent retrieves, filters, and analyzes data, returning concise summaries. For example, you can ask about air quality on a specific date or location. The agent uses device names and date ranges to filter relevant entries and analyze the data. See the [documentation](/pages/superstack/#ai-agent) for technical details.
 
 ![Agent tab showing a query about indoor air quality](/assets/images/blog/easy-air-quality-monitoring-agent-tab.png)
 
-### Data API Integration
+### External API Integration
 
-Generate an API key in the Settings tab to access the data API. 
-![Settings tab showing the new api key button](/assets/images/blog/easy-air-quality-monitoring-api-key.png)
+Generate an API key in the Settings tab to access the data API.
+
+![Settings tab showing the new API key button](/assets/images/blog/easy-air-quality-monitoring-api-key.png)
 
 The API allows you to read and delete device data, and to make programmatic agent queries. See the [documentation](/pages/superstack/#data-api) for usage examples.
 
@@ -164,7 +169,7 @@ curl https://super.siliconwitchery.com/api/chat \
         "messages": [
             {
                 "role": "user",
-                "content": "what is the level of CO2 now?"
+                "content": "What is the level of CO2 now?"
             }
         ]
     }'
@@ -175,7 +180,7 @@ curl https://super.siliconwitchery.com/api/chat \
 [
     {
         "role": "user",
-        "content": "what is the level of CO2 now?",
+        "content": "What is the level of CO2 now?",
         "reasoning": {
             "filter": "",
             "analysis": ""

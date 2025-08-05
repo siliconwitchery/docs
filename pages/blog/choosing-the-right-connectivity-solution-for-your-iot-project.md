@@ -1,6 +1,6 @@
 ---
 title: Choosing the Right Connectivity Solution for Your IoT Project
-parent: IoT Business Solutions Blog
+parent: IoT Solutions Blog
 nav_order: 4
 nav_exclude: true
 search_exclude: true
@@ -8,7 +8,7 @@ search_exclude: true
 
 # **Choosing the Right Connectivity Solution for Your IoT Project**
 
-Raj Nakarja, CEO & Chief Engineer \| 4 August 2025
+Raj Nakarja, CEO and Chief Engineer \| 4 August 2025
 {: .float-left	.fs-2 }
 ---
 
