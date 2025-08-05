@@ -11,9 +11,9 @@ Rohit Nareshkumar, Solutions Architect and Embedded Applications Engineer \| 28 
 
 ---
 
-Air quality is a key factor in our health and well-being. Poor air quality can cause respiratory issues, allergies, and long-term health problems, especially for children, the elderly, and those with pre-existing conditions. Monitoring air quality is important not only for comfort and safety in homes and offices, but also for regulatory in the workplace and for optimizing HVAC systems in commercial buildings. 
+Air quality is a key factor in our health and well-being. Poor air quality can cause respiratory issues, allergies, and long-term health problems, especially for children, the elderly, and those with pre-existing conditions. Monitoring air quality is important not only for comfort and safety in homes and offices, but also for regulatory compliance in the workplace and for optimizing HVAC systems in commercial buildings. 
 
-By tracking air quality metrics, we can make informed decisions to create healthier, more productive environments. This article demonstrates a straightforward indoor air quality monitoring system using the S2 Module and a low cost air quality sensing module available from popular distributors.
+By tracking air quality metrics, we can make informed decisions to create healthier, more productive environments. This article demonstrates a straightforward indoor air quality monitoring system using the S2 Module and a low-cost air quality sensing module available from popular distributors.
 
 ---
 
@@ -37,7 +37,7 @@ Start by creating a new deployment and adding your device to it:
 
 ## Implementation
 
-The following code initializes the ENS160 air quality sensor, reads AQI, TVOC, and eCO2 and sends the measurements to Superstack at regular intervals:
+The following code initializes the ENS160 air quality sensor, reads AQI, TVOC, and eCO2, and sends the measurements to Superstack at regular intervals:
 
 ```lua
 local ENS160_I2C_ADDRESS = 0x53
@@ -109,9 +109,9 @@ end
 
 ## Data Access and Analysis
 
-The **Data** tab shows all the measurement received from the device. The Lua table provided to `network.send_data()` is converted to a JSON object. The key names match that as provided in Lua. Nested fields are supported, allowing you to provide additional context or neatly separate fields of multiple sensors are used. Metadata such as device IMEI and timestamp are added automatically:
+The **Data** tab shows all the measurements received from the device. The Lua table provided to `network.send_data()` is converted to a JSON object. The key names match those provided in Lua. Nested fields are supported, allowing you to provide additional context or neatly separate fields when multiple sensors are used. Metadata such as device IMEI and timestamp are added automatically:
 
-> Using complete names for the keys in `network.send_data()` is helpful for the AI agent to understand context of what the data represents. Avoid returning acronyms or shorthand variable names.
+> Using complete names for the keys in `network.send_data()` is helpful for the AI agent to understand the context of what the data represents. Avoid using acronyms or shorthand variable names.
 >
 > Additionally, the **Device Role** field within the individual device details from the **Devices** tab can be used to provide more capabilities about the specific sensor and units of measurement that can help the AI agent analyze the data returned.
 
@@ -119,7 +119,7 @@ The **Data** tab shows all the measurement received from the device. The Lua tab
 
 ### Using the Agent Interface
 
-From within the **Agent** tab, you can then ask questions about the overall air quality. For example query averages, trends or peaks. By populating the **Agent Role** field with specifics regarding expected ranges or maximum healthy limits, the AI agent can better analyze the data against these limits and provide recommendations on how to improve air quality if needed.
+From within the **Agent** tab, you can then ask questions about the overall air quality. For example, query averages, trends, or peaks. By populating the **Agent Role** field with specifics regarding expected ranges or maximum healthy limits, the AI agent can better analyze the data against these limits and provide recommendations on how to improve air quality if needed.
 
 > To better understand how the AI agent works, see the [detailed documentation](/pages/superstack/#ai-agent) of Superstack.
 
@@ -127,13 +127,13 @@ From within the **Agent** tab, you can then ask questions about the overall air 
 
 ### External API Integration
 
-Both the data and AI agent are programmatically accessible via REST APIs, allowing for easy integration of Superstack's data logging and agentic capabilities to your own applications.
+Both the data and AI agent are programmatically accessible via REST APIs, allowing for easy integration of Superstack's data logging and agentic capabilities into your own applications.
 
 Begin by generating an API key from the **Settings** tab:
 
 ![Settings tab showing the new API key button](/assets/images/blog/easy-air-quality-monitoring-api-key.png)
 
-The following example demonstates how to use `curl` from a WSL, Linux or MacOS terminal to view data recorded between 10am and 11am UTC on the 21st of July 2025:
+The following example demonstrates how to use `curl` from a WSL, Linux, or macOS terminal to view data recorded between 10am and 11am UTC on the 21st of July 2025:
 
 > For more detailed examples, check the [complete API reference](/pages/superstack/#data-api) within the Superstack documentation.
 
@@ -218,7 +218,7 @@ curl https://super.siliconwitchery.com/api/chat \
 
 ## Conclusion
 
-
+This air quality monitoring system demonstrates how easily you can deploy IoT solutions using the S2 Module and Superstack platform. The combination of reliable hardware, simple code, and powerful AI-driven analysis makes it straightforward to monitor and improve indoor air quality in any environment.
 
 ---
 
