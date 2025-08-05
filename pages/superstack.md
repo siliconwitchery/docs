@@ -147,7 +147,7 @@ device.digital.set_output("A0", true)
 device.i2c.write(0x12, 0x4F, "\x01", { scl_pin="B0", sda_pin="B1"})
 
 -- Calling a function with only positional arguments. Note how the () can be omitted
-network.send{ sensor_value=31.5 }
+network.send_data{ sensor_value=31.5 }
 ```
 
 ---
@@ -995,7 +995,7 @@ device.power.set_vout(3.3)
     </tr>
     <tr>
         <td>
-            <code>network.send{ data }</code>
+            <code>network.send_data{ data }</code>
         </td>
         <td>
             Sends data to Superstack.
@@ -1018,10 +1018,10 @@ Example usage:
 -- A simple sensor value
 my_sensor_value = 23.5
 
-network.send{ temperature=my_sensor_value }
+network.send_data{ temperature=my_sensor_value }
 
 -- Network send can contain any arbitrary data
-network.send{ 
+network.send_data{ 
     some_int = -42, 
     some_float = 23.1
     some_string = "test"
