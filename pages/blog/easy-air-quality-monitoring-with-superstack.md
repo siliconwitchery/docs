@@ -135,7 +135,7 @@ Begin by generating an API key from the **Settings** tab:
 
 The following example demonstrates how to use `curl` from a WSL, Linux, or macOS terminal to view data recorded between 10am and 11am UTC on the 21st of July 2025:
 
-> For more detailed examples, check the [complete API reference](/pages/superstack/#data-api) within the Superstack documentation.
+> For more detailed examples, check the [complete API reference](/pages/superstack/#apis) within the Superstack documentation.
 
 **Data request**
 
