@@ -23,6 +23,48 @@ So, why does Lua matter for IoT platforms like Superstack? In short: *it lets yo
 - **Garbage collection:** Memory management is mostly hands-off, but real-time applications should watch for GC pauses. Coroutines offer a lightweight multitasking option if needed.
 - **Tables everywhere:** Lua’s tables do it all—arrays, dictionaries, objects. Once you get used to '1' based indexing, it’s surprisingly elegant.
 
+## Quickstart Guide to Lua
+
+```lua
+-- comments start with double hyphen
+
+-- variables can be nil, number, string, or boolean
+-- they are global by default
+var1 = 'hello'
+
+-- `local` keyword restricts scope to the current block 
+local var2 = 7
+
+-- for loops take initial value, end value, change
+-- do .. end marks the repeated block
+for i = 1, 10, 1 do
+    -- if .. then .. else .. end
+    if i % 2 == 1 then
+        print("odd")
+    else
+        print("even")
+    end
+end
+
+-- tables are dictionaries / maps, with any non nil key
+-- use number as key for array equivalent
+tab = {key1 = 'value1', key2 = false}
+
+-- table values can be accesses with `.` operator
+print(tab.key1)
+
+-- also allows nesting tables
+tab['key3'] = {[1] = 'abcd'}
+
+-- function definition
+function foo(a)
+    print("foo", a)
+end
+
+```
+
+More information, docs and reference books are available on the [Lua website](https://www.lua.org/docs.html)
+
 ## Lua Scripting for Embedded Systems
 
 Here’s where Lua really shines. With Superstack, you can tweak device logic by editing scripts right in the web IDE. No need to recompile or risk bricking your hardware with a bad firmware flash. Want to change how your device or sensor reacts to an event? Just update the Lua script and reboot. This makes prototyping a breeze and slashes development time.
