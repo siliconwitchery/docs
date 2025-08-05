@@ -11,14 +11,17 @@ Rohit Nareshkumar, Solutions Architect and Embedded Applications Engineer \| 28 
 
 ---
 
-Air quality is a key factor in our health and well-being. Poor air quality can cause respiratory issues, allergies, and long-term health problems, especially for children, the elderly, and those with pre-existing conditions. Monitoring air quality is important not only for comfort and safety in homes and offices, but also for regulatory compliance and worker safety in factories, and for optimizing HVAC systems in commercial buildings. By tracking air quality metrics, we can make informed decisions to create healthier, more productive environments. This article demonstrates a straightforward indoor air quality monitoring system using S2-Superstack.
+Air quality is a key factor in our health and well-being. Poor air quality can cause respiratory issues, allergies, and long-term health problems, especially for children, the elderly, and those with pre-existing conditions. Monitoring air quality is important not only for comfort and safety in homes and offices, but also for regulatory in the workplace and for optimizing HVAC systems in commercial buildings. 
+
+By tracking air quality metrics, we can make informed decisions to create healthier, more productive environments. This article demonstrates a straightforward indoor air quality monitoring system using the S2 Module and a low cost air quality sensing module available from popular distributors.
 
 ---
 
 ## Setup
 
 ### Hardware
-For this project, we use a [ScioSence ENS160](https://www.sciosense.com/wp-content/uploads/2023/12/ENS160-Datasheet.pdf) air quality sensor from [Sparkfun Electronics](https://learn.sparkfun.com/tutorials/sparkfun-indoor-air-quality-sensor---ens160-qwiic-hookup-guide/all), which measures the air quality index (AQI), equivalent carbon dioxide (eCO2), and total volatile organic compounds (TVOC). The sensor board features a Qwiic I<sup>2</sup>C interface and can be connected to any of the 4-pin ports on the S2 module.
+
+For this project, we will use a [ScioSence ENS160](https://www.sciosense.com/wp-content/uploads/2023/12/ENS160-Datasheet.pdf) air quality sensor from [Sparkfun Electronics](https://learn.sparkfun.com/tutorials/sparkfun-indoor-air-quality-sensor---ens160-qwiic-hookup-guide/all). It's capable of measuring Air Quality Index (AQI), Equivalent Carbon Dioxide (eCO2), as well as Total Volatile Organic Compounds (TVOC). The sensor module from Sparkfun features a Qwiic I<sup>2</sup>C interface and can be connected to any of the 4-pin ports on the S2 module.
 
 ![S2 Module connected to the ENS160 air quality sensor](/assets/images/blog/easy-air-quality-monitoring-hardware.png)
 
@@ -26,7 +29,7 @@ For this project, we use a [ScioSence ENS160](https://www.sciosense.com/wp-conte
 
 Start by creating a new deployment and adding your device to it:
 
-> For detailed steps, see [Getting Started with S2-Superstack](/pages/blog/getting-started-with-s2-superstack.md).
+> For detailed steps, see the blog post on [Getting Started with the S2 Module and Superstack](/pages/blog/getting-started-with-s2-superstack.md).
 
 ![Devices tab showing the air quality monitoring device](/assets/images/blog/easy-air-quality-monitoring-devices-tab.png)
 
@@ -34,7 +37,7 @@ Start by creating a new deployment and adding your device to it:
 
 ## Implementation
 
-The following code initializes the ENS160 air quality sensor, reads air quality data (AQI, TVOC, and eCO2) at regular intervals, and sends the measurements to the Superstack platform. The sensor is configured for typical indoor conditions, and the device sleeps between readings to conserve power.
+The following code initializes the ENS160 air quality sensor, reads AQI, TVOC, and eCO2 and sends the measurements to Superstack at regular intervals:
 
 ```lua
 local ENS160_I2C_ADDRESS = 0x53
@@ -100,31 +103,42 @@ while true do
 end
 ```
 
-![Code tab showing some debug print statements](/assets/images/blog/easy-air-quality-monitoring-code-tab.png)
+![Air quality sensor code running on the S2 Module](/assets/images/blog/easy-air-quality-monitoring-code-tab.png)
 
 ---
 
 ## Data Access and Analysis
 
-The data logged by the device is available in the **Data** tab. The Lua table sent with `network.send_data()` is converted to a JSON object under the `data` field. Metadata such as device IMEI and timestamp are added automatically. Nested fields are supported, allowing you to provide additional context.
+The **Data** tab shows all the measurement received from the device. The Lua table provided to `network.send_data()` is converted to a JSON object. The key names match that as provided in Lua. Nested fields are supported, allowing you to provide additional context or neatly separate fields of multiple sensors are used. Metadata such as device IMEI and timestamp are added automatically:
+
+> Using complete names for the keys in `network.send_data()` is helpful for the AI agent to understand context of what the data represents. Avoid returning acronyms or shorthand variable names.
+>
+> Additionally, the **Device Role** field within the individual device details from the **Devices** tab can be used to provide more capabilities about the specific sensor and units of measurement that can help the AI agent analyze the data returned.
 
 ![Data tab showing the logged air quality data](/assets/images/blog/easy-air-quality-monitoring-data-tab.png)
 
 ### Using the Agent Interface
 
-In the **Agent** tab, you can enter queries in the chat box. The agent retrieves, filters, and analyzes data, returning concise summaries. For example, you can ask about air quality on a specific date or location. The agent uses device names and date ranges to filter relevant entries and analyze the data. See the [documentation](/pages/superstack/#ai-agent) for technical details.
+From within the **Agent** tab, you can then ask questions about the overall air quality. For example query averages, trends or peaks. By populating the **Agent Role** field with specifics regarding expected ranges or maximum healthy limits, the AI agent can better analyze the data against these limits and provide recommendations on how to improve air quality if needed.
+
+> To better understand how the AI agent works, see the [detailed documentation](/pages/superstack/#ai-agent) of Superstack.
 
 ![Agent tab showing a query about indoor air quality](/assets/images/blog/easy-air-quality-monitoring-agent-tab.png)
 
 ### External API Integration
 
-Generate an API key in the Settings tab to access the data API.
+Both the data and AI agent are programmatically accessible via REST APIs, allowing for easy integration of Superstack's data logging and agentic capabilities to your own applications.
+
+Begin by generating an API key from the **Settings** tab:
 
 ![Settings tab showing the new API key button](/assets/images/blog/easy-air-quality-monitoring-api-key.png)
 
-The API allows you to read and delete device data, and to make programmatic agent queries. See the [documentation](/pages/superstack/#data-api) for usage examples.
+The following example demonstates how to use `curl` from a WSL, Linux or MacOS terminal to view data recorded between 10am and 11am UTC on the 21st of July 2025:
+
+> For more detailed examples, check the [complete API reference](/pages/superstack/#data-api) within the Superstack documentation.
 
 **Data request**
+
 ```sh
 curl https://super.siliconwitchery.com/api/data \
     -H 'Content-Type: application/json'         \
@@ -159,7 +173,10 @@ curl https://super.siliconwitchery.com/api/data \
 ]
 ```
 
+A `chat` endpoint is also available for interacting with the AI agent:
+
 **Agent request**
+
 ```sh
 curl https://super.siliconwitchery.com/api/chat \
     -H 'Content-Type: application/json'         \
@@ -199,10 +216,17 @@ curl https://super.siliconwitchery.com/api/chat \
 
 ---
 
+## Conclusion
+
+
+
+---
+
 ## Learn More
 
 - [Product page](https://www.siliconwitchery.com/s2-superstack)
-- [Documentation](/pages/superstack/)
+- [Superstack API reference and documentation](/pages/superstack/)
+- [S2 Module hardware manual](/pages/s2-module)
 
 ## Need Assistance?
 
