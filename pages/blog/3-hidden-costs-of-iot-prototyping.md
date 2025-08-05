@@ -97,7 +97,7 @@ Curious how S2 SuperStack can simplify your IoT deployment and cut hidden costs?
 ### **Talk to an Engineer**
 
 Have questions about your IoT project or want expert advice on reducing hidden costs? \
-[Email our engineering team](mailto:projects@siliconwitchery.com?subject=IoT Project Support - Superstack&amp;body=Hi Silicon Witchery team,%0D%0A%0D%0AI'm interested in implementation support for:%0D%0A%0D%0A- Project type:%0D%0A- Timeline:%0D%0A- Company:%0D%0A%0D%0ABest regards,) for a free consultation.
+[Email our engineering team](mailto:projects@siliconwitchery.com?subject=IoT Project Support - Superstack&amp;body=Hi Silicon Witchery team,%0D%0A%0D%0AI'm interested in implementation support for:%0D%0A%0D%0A- Project type:%0D%0A- Timeline:%0D%0A- Company:%0D%0A%0D%0ABest regards,).
 
 ## References
 <a id="1">1.</a> [Challenges with IoT product launches: Why time-to-market has increased 80% in 4 years](https://iot-analytics.com/challenges-iot-product-launches-why-time-to-market-has-increased-80-percent-in-4-years/) \
