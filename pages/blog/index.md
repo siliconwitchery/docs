@@ -1,5 +1,5 @@
 ---
-title: IoT Business Solutions Blog
+title: IoT Solutions Blog
 has_children: true
 nav_order: 8
 ---
