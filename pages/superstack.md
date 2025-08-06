@@ -489,7 +489,7 @@ end
 local result = device.i2c.read(0x23, 0x1F, 4)
 
 if result.success then
-    print(result.data[4])
+    print(string.byte(result.data, 4))
 end
 
 -- Write 0x1234 to the register 0xF9
