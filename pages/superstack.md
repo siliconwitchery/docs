@@ -908,7 +908,7 @@ device.audio.stop("E0")
     </tr>
     <tr>
         <td>
-            <code>device.power.battery.set_vout(voltage)</code>
+            <code>device.power.set_vout(voltage)</code>
         </td>
         <td>
             Sets the voltage of V<sub>OUT</sub>.
