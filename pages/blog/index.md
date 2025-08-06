@@ -1,5 +1,7 @@
 ---
 title: IoT Solutions Blog
+description: Practical IoT solutions and insights. Deploy IoT systems quickly, avoid costly mistakes, and transform your business with expert guides.
+image: /assets/images/blog/share-image.png
 has_children: true
 nav_order: 8
 ---
