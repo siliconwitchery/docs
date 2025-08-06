@@ -21,7 +21,7 @@ By tracking air quality metrics, we can make informed decisions to create health
 
 ### Hardware
 
-For this project, we will use a [ScioSence ENS160](https://www.sciosense.com/wp-content/uploads/2023/12/ENS160-Datasheet.pdf) air quality sensor from [Sparkfun Electronics](https://www.sparkfun.com/sparkfun-indoor-air-quality-sensor-ens160-qwiic.html). It's capable of measuring Air Quality Index (AQI), Equivalent Carbon Dioxide (eCO2), as well as Total Volatile Organic Compounds (TVOC). The sensor module from Sparkfun features a Qwiic I<sup>2</sup>C interface and can be connected to any of the 4-pin ports on the S2 module.
+For this project, we will use a [ScioSense ENS160](https://www.sciosense.com/wp-content/uploads/2023/12/ENS160-Datasheet.pdf) air quality sensor from [Sparkfun Electronics](https://www.sparkfun.com/sparkfun-indoor-air-quality-sensor-ens160-qwiic.html). It's capable of measuring Air Quality Index (AQI), Equivalent Carbon Dioxide (eCO2), as well as Total Volatile Organic Compounds (TVOC). The sensor module from Sparkfun features a Qwiic I<sup>2</sup>C interface and can be connected to any of the 4-pin ports on the S2 module.
 
 ![S2 Module connected to the ENS160 air quality sensor](/assets/images/blog/easy-air-quality-monitoring-hardware.png)
 
