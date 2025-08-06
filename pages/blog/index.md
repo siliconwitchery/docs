@@ -46,7 +46,7 @@ Companies like yours are using S2-Superstack to:
 
 ## Get Started Today
 
-- **Free Consultation**: [Talk to our team](mailto:projects@siliconwitchery.com) about your IoT project - no sales pitch, just practical advice
+- **Free Consultation**: [Talk to our engineering team](mailto:projects@siliconwitchery.com?subject= Superstack IoT Consultation&amp;body=Hello Silicon Witchery team,%0D%0A%0D%0AI'm interested in support for my project.%0D%0A%0D%0A- Brief description:%0D%0A- Timeline:%0D%0A- Company:%0D%0A%0D%0ABest regards,) about your IoT project - no sales pitch, just practical advice
 - **Product Demo**: See [S2-Superstack in action](https://super.siliconwitchery.com/?deployment=00000000-0000-0000-0000-000000000000) with live examples
 - **Documentation**: Dive into our [comprehensive product manuals](/) to unlock the full potential of your IoT solutions
 
