@@ -42,64 +42,53 @@ The following code initializes the ENS160 air quality sensor, reads AQI, TVOC, a
 ```lua
 local ENS160_I2C_ADDRESS = 0x53
 
-function init_sensor()
-    local resp = device.i2c.write(ENS160_I2C_ADDRESS, 0x10, "\x02")
-    if not resp.success then
-        error("I2C bus error")
-    end
-    device.sleep(0.2)
+-- Set the IO to 3.3V
+device.power.set_vout(3.3)
 
-    -- 25°C
-    resp = device.i2c.write(ENS160_I2C_ADDRESS, 0x13, "\x80\x4A")
-    if not resp.success then
-        error("I2C bus error")
-    end
-    device.sleep(0.2)
+-- Check if the device is connected by reading the part ID
+local response = device.i2c.read(ENS160_I2C_ADDRESS, 0x00, 2)
 
-    -- 50% RH
-    resp = device.i2c.write(ENS160_I2C_ADDRESS, 0x15, "\x00\x64")
-    if not resp.success then
-        error("I2C bus error")
-    end
-    device.sleep(0.2)
+if not response.success then
+    error("Device not found")
 end
 
-function read_sensor()
-    local sensor_data = {}
-    local resp = device.i2c.read(ENS160_I2C_ADDRESS, 0x21, 1)
-    if resp.success then
-        sensor_data.aqi = resp.value & 0x07
-    else
-        error("I2C bus error")
-    end
-    resp = device.i2c.read(ENS160_I2C_ADDRESS, 0x22, 2)
-    if resp.success then
-        sensor_data.tvoc = string.byte(resp.data, 1) | string.byte(resp.data, 2) << 8
-    else
-        error("I2C bus error")
-    end
-    resp = device.i2c.read(ENS160_I2C_ADDRESS, 0x24, 2)
-    if resp.success then
-        sensor_data.eco2 = string.byte(resp.data, 1) | string.byte(resp.data, 2) << 8
-    else
-        error("I2C bus error")
-    end
-    return sensor_data
+if string.byte(response.data, 1) ~= 0x60 or string.byte(response.data, 2) ~= 0x01 then
+    error("Incorrect device ID")
 end
 
--- Main loop
-device.power.set_vout(1.8)
-init_sensor()
+-- Enable gas sensing mode
+device.i2c.write(ENS160_I2C_ADDRESS, 0x10, "\x02")
+
+-- Provide temperature calibration to the sensor (assume 25°C)
+device.i2c.write(ENS160_I2C_ADDRESS, 0x13, "\x80\x4A")
+
+-- Provide relative humidity calibration to the sensor (assume 50%)
+device.i2c.write(ENS160_I2C_ADDRESS, 0x15, "\x00\x64")
+
+print("Sensor configured")
+
+-- Read the sensor periodically
 while true do
-    sensor_data = read_sensor()
-    -- print(string.format("AQI: %d, TVOC: %d ppb, eCO2: %d ppm", sensor_data.aqi, sensor_data.tvoc, sensor_data.eco2))
+    print("Reading AIQ, TVOC and eCO2")
+
+    response = device.i2c.read(ENS160_I2C_ADDRESS, 0x21, 1)
+    local aqi = response.value & 0x07
+
+    response = device.i2c.read(ENS160_I2C_ADDRESS, 0x22, 2)
+    local tvoc = string.byte(response.data, 1) | string.byte(response.data, 2) << 8
+
+    response = device.i2c.read(ENS160_I2C_ADDRESS, 0x24, 2)
+    local eco2 = string.byte(response.data, 1) | string.byte(response.data, 2) << 8
+
+    -- Send the values to Superstack
     network.send_data {
-        air_quality_index = sensor_data.aqi,
-        total_volatile_compounds = { value = sensor_data.tvoc, unit = "ppb" },
-        equivalent_CO2 = { value = sensor_data.eco2, unit = "ppm" }
+        air_quality_index = aqi,
+        total_volatile_compounds = { value = tvoc, unit = "ppb" },
+        equivalent_CO2 = { value = eco2, unit = "ppm" }
     }
+
     -- Sleep for 30 minutes
-    device.sleep(60*30)
+    device.sleep(30 * 60)
 end
 ```
 
