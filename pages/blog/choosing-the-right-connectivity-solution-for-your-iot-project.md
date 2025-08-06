@@ -71,8 +71,9 @@ If you’re looking for a hassle-free, globally scalable solution, S2-Superstack
 ## Learn More
 
 - [Product page](https://www.siliconwitchery.com/s2-superstack)
-- [Documentation](/pages/superstack/)
+- [Superstack API reference and documentation](/pages/superstack/)
+- [S2 Module hardware manual](/pages/s2-module)
 
 ## Need Assistance?
 
-For support or questions, [email our engineering team](mailto:projects@siliconwitchery.com?subject=IoT Project Support - Superstack&amp;body=Hi Silicon Witchery team,%0D%0A%0D%0AI'm interested in implementation support for:%0D%0A%0D%0A- Project type:%0D%0A- Timeline:%0D%0A- Company:%0D%0A%0D%0ABest regards,) for a free consultation.
+For support or questions, [email our engineering team](mailto:projects@siliconwitchery.com?subject= Superstack IoT Consultation&amp;body=Hello Silicon Witchery team,%0D%0A%0D%0AI'm interested in support for my project.%0D%0A%0D%0A- Brief description:%0D%0A- Timeline:%0D%0A- Company:%0D%0A%0D%0ABest regards,) for a free consultation.
