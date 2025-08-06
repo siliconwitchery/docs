@@ -1,6 +1,8 @@
 ---
 title: The 3 Hidden Costs of IoT Prototyping
 parent: IoT Solutions Blog
+description: Discover why IoT projects cost 3x more than expected and take twice as long. Learn about hidden engineering, compliance, and scaling costs in IoT development.
+image: /assets/images/blog/share-image.png
 nav_order: 3
 ---
 

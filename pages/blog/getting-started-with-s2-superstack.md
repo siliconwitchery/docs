@@ -1,6 +1,8 @@
 ---
 title: "Getting Started with S2 & Superstack"
 parent: IoT Solutions Blog
+description: Step-by-step guide to deploy your first IoT solution in minutes. Learn how to connect S2 modules, program with Lua, and analyze data with AI-powered insights.
+image: /assets/images/blog/share-image.png
 nav_order: 1
 ---
 

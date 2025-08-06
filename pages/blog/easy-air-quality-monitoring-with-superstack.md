@@ -1,6 +1,8 @@
 ---
 title: "Easy Air Quality Monitoring with Superstack"
 parent: IoT Solutions Blog
+description: Build an air quality monitoring system for workplace safety and compliance. Complete setup guide with ENS160 sensor, code examples, and AI analysis.
+image: /assets/images/blog/share-image.png
 nav_order: 2
 ---
 
