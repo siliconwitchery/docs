@@ -63,13 +63,17 @@ In our greenhouse temperature example, it would present the calculated average a
 
 ### Key Benefits
 
-This orchestrated approach delivers several critical advantages:
+This orchestrated approach delivers several critical advantages over traditional data analysis tools and naive LLM implementations:
 
-- **Model agnostic**: Each step can use the optimal model for its specific task—whether that's GPT-5 for complex reasoning or a smaller model for simple filtering. This flexibility allows us to quickly adopt new models and optimize for both performance and cost.
+- **Model agnostic**: Each step can use the optimal model for its specific task—whether that's GPT-5 for complex reasoning or a smaller, faster model for simple filtering. This flexibility allows us to quickly adopt new models and optimize for both performance and cost as the AI landscape evolves.
 
-- **Data sovereignty**: Your IoT data never leaves Superstack's infrastructure. AI providers only see metadata, data structures, and generated algorithms—never your actual sensor readings or device information.
+- **Data sovereignty**: Your IoT data never leaves Superstack's infrastructure. AI providers only see metadata, data structures, and generated algorithms—never your actual sensor readings or device information. This ensures compliance with data privacy regulations and eliminates concerns about sensitive operational data being used to train external models.
 
-- **Contextual precision**: The complete system context—including chat history, deployment-specific roles, and device metadata—is available at each step. This enables fine-tuned prompting that produces more accurate and relevant results than generic data analysis tools.
+- **Deterministic accuracy**: Unlike direct LLM analysis which can hallucinate or make calculation errors, our approach generates verifiable code that produces mathematically correct results. The separation between reasoning (LLM) and computation (deterministic algorithms) eliminates the reliability issues that plague other AI data analysis tools.
+
+- **Contextual precision**: The complete system context—including chat history, deployment-specific roles, and device metadata—is available at each step. This enables fine-tuned prompting that produces more accurate and relevant results than generic data analysis tools, while understanding domain-specific terminology and relationships.
+
+- **Scalable complexity**: The system handles everything from simple averages to sophisticated statistical analysis, automatically generating appropriate algorithms based on query complexity. As your data needs grow, the agent adapts without requiring manual reconfiguration.
 
 The conversational interface is accessible both through our web application and programmatically via REST API, making it easy to integrate natural language data analysis into your own applications or workflows.
 
