@@ -33,23 +33,33 @@ The Superstack agent works through a series of orchestrated steps that transform
 
 ![block diagram showing the agent pipeline](/assets/images/blog/superstack-agent-pipeline.drawio.png)
 
-Let's examine these steps in detail with a simple example query for a greenhouse deployment - consider the user asks `what was the average temperature of my tomatoes yesterday?`
+---
+
+Let's examine these steps in detail with a simple example query for a deployment of plant health monitors - consider the user asks `What's the average temperature in my greenhouse?`
 
 ### 1. Filter
 
-The Filter step analyzes your deployment's metadata and data structure to determine what information is relevant to the query. The LLM examines device names, groups, locations, and sensor types to identify which devices match "tomatoes" in the user's question. It also inspects the JSON data structure from these devices to understand reporting frequency, available sensor fields, and data patterns.
+The Filter step analyzes your deployment's metadata and data structure to determine what information is relevant to the query. The LLM examines device names, groups, locations, and sensor types to understand which devices are relevant to the user's question. In our example asking about "my greenhouse," the system identifies that only devices belonging to the "greenhouse" group should be included in the analysis.
 
-Based on the current date and the word "yesterday," it calculates the appropriate time range. The output is a precise filter specification that will select only the relevant temperature readings from tomato-related devices within the target timeframe—no raw data is shared with the AI provider at this stage.
+![Superstack devices tab showing greenhouse and outside groups](/assets/images/blog/superstack-agent-devices.png)
+
+As shown above, the system would select devices like "Tomatoes," "Rosemary & basil," and "Marjoram" from the greenhouse group, while excluding "Kale" and "Lettuce" from the outside group. The system also inspects the JSON data structure from these devices to understand reporting frequency, available sensor fields, and data patterns.
+
+Since no specific time range was provided in the query, the Filter tool assumes a reasonable default timeframe to ensure current and relevant data. It will look for the most recent temperature reading from each greenhouse device within the last few hours, ensuring that the analysis reflects the current state rather than stale data. If a device's last reported temperature is too old (for example, more than 6-12 hours depending on the expected reporting frequency), that device will be excluded from the calculation to maintain data quality and relevance.
+
+The output is a precise filter specification that will select only the relevant, recent temperature readings from active greenhouse devices—no raw data is shared with the AI provider.
 
 ### 2. Analyze
 
-Using the data structure understanding from Step 1, this step generates a deterministic algorithm tailored to answer the specific query. For our temperature average example, it would create code to calculate the mean of temperature values while handling missing data points, sensor calibration differences, and reporting frequency variations across devices.
+Using the data structure understanding from Step 1, this step generates a deterministic algorithm tailored to answer the specific query. The LLM creates executable code that will perform the exact calculation needed—in our temperature average example, it generates code to compute the mean of temperature values while properly handling missing data points, different units of measurement, and varying reporting frequencies across devices.
 
-The algorithm might include statistical validation, outlier detection, or temporal aggregation depending on the complexity of the query. This generated code then runs locally on Superstack's secure infrastructure, processing only the filtered data to produce a numerical result.
+The algorithm might include statistical validation, outlier detection, or temporal aggregation depending on the complexity of the query. Importantly, the LLM only generates the analysis code—it never sees or processes your actual data. This generated algorithm then executes in Superstack's secure runtime environment, processing only the filtered data to produce a precise numerical result.
 
 ### 3. Explain
 
-The final step takes the computed results along with the reasoning from both previous steps and synthesizes them into a clear, contextual answer. It considers the user's domain context, device roles, and chat history to frame the response appropriately. In our example, it would present the average temperature along with relevant context about the time period, number of sensors involved, and any data quality considerations.
+The final step takes the computed results along with the detailed reasoning from both previous steps and synthesizes them into a clear, contextual answer. It draws upon the user's domain context (such as device roles and deployment settings), chat history for conversational continuity, and the specific reasoning used in filtering and analysis to craft an appropriate response.
+
+In our greenhouse temperature example, it would present the calculated average along with relevant context such as which devices contributed to the calculation, the time period analyzed, any data quality considerations encountered, and suggestions for follow-up questions. The response is formatted appropriately whether accessed through the web interface or API, maintaining both human readability and programmatic usability.
 
 ### Key Benefits
 
@@ -82,16 +92,3 @@ Next we tried a much more complex query on a solar farm deployment consisting of
 - Average daily energy across available days for each device, normalize by the device’s panel area to get kWh per m² per day, and compare locations. 
 - Identify the better site as the one with higher per‑m² yield. Estimate the expected daily energy for a 15 m² panel at both sites and compute the percentage difference between them.
 ```
-The result was the agent correctly picked the correct location after 191.23 seconds, although the computation had some parameters which were wrong, resulting in failure to compute the percentage difference. We didn't perform any GPT5 specific optimisations on the prompts to keep the comparison fair, and we expect the performance to significantly improve.
-
----
-
-## Conclusion
-
-TODO:
-Performance vs time. Cost is the same so you don't need to mention it. Our future vision of how to improve the agent
-
-future vision
-- integrate multimodal outputs, charts etc.
-- internally optimise agent prompts by model / vendor
-- use the agent to create a data export bucket for further offline processing ?
