@@ -15,5 +15,5 @@ node_modules
 .vscode/settings.json
 
 # Draw.io temporary files
-assets/images/*.bkp
-assets/images/*.dtmp
+assets/images/**/*.bkp
+assets/images/**/*.dtmp

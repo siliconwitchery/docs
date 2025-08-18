@@ -1,5 +1,5 @@
 ---
-title: "TODO: superstack agent"
+title: "Superstack AI Agent"
 parent: IoT Solutions Blog
 description: TODO
 image: /assets/images/blog/share-image.png
@@ -8,36 +8,60 @@ nav_order: 4
 
 # **Superstack Agent**
 
-Rohit Nareshkumar, Solutions Architect and Embedded Applications Engineer \| 28 July 2025
+Raj Nakarja, CEO and Chief Engineer \| 15 August 2025
 {: .float-left .fs-2 }
 
 ---
 
-Why are LLMs useful for data analysis? They're not, unless you build the proper system to do it. What are they good for? Text compression, fuzzy search across other text, cross domain referencing. We leverage the power of these three in the right way to build our agent.
+Modern LLMs are not databases or number‑crunchers—and if you naively dump raw timeseries into them, they’ll hallucinate, drop edge cases, and miss units. To make LLMs useful for data analysis, you must wrap them in a proper system: one that retrieves the right data, computes deterministically, and asks the model only to reason, plan, and explain.
 
----
+In our experience, LLMs excel at three things:
+- **Text compression**: distilling long specs, schemas, and prior chats into concise working context. We use this to build compact analysis plans and keep prompts focused on what matters.
+- **Fuzzy search within text**: semantically locating relevant devices, fields, and time ranges across messy metadata, logs, and schemas. We use this to select the exact slice of data that should be analyzed.
+- **Cross‑domain comparison**: linking concepts, units, and heuristics across domains (e.g., “solar yield per m²” vs “kWh counters” vs “irradiance”). We use this to frame results, choose reasonable defaults, and translate findings for the end user.
+
+Superstack’s Agent is designed around those strengths. It never lets the model “touch” your raw rows directly. Instead, it orchestrates three steps:
+1) Filter: identify precisely which data is relevant,
+2) Analyse: run deterministic code on that data in a secure runtime,
+3) Explain: turn results into clear, contextual answers—along with the model’s reasoning.
+
+In this article, we’ll show how the Superstack Agent works end‑to‑end and share what changes with GPT‑5: better instruction‑following and robustness, but with notable latency trade‑offs. You’ll see where GPT‑5 helps, where it can slow things down, and how we’re optimizing prompts and execution to get the best of both.
 
 ## How does the agent work? 
 
-The superstack agent works through a series of orchestrated agents performing their specific tasks - filtering / fetching the relevant data, analysing the data and computing any parameters needed to answer the query, and finally summarising and framing the results in a helpful format. 
+The Superstack agent works through a series of orchestrated steps that transform natural language queries into precise data analysis. Each step leverages the LLM's strengths while maintaining strict separation between the AI models and your raw IoT data.
 
-![block diagram showing the agent pipeline](/assets/images/blog/agent-pipeline.drawio.svg)
+![block diagram showing the agent pipeline](/assets/images/blog/superstack-agent-pipeline.drawio.png)
 
-Let's examing these steps in detail with a simple example query for a greenhouse deployment - consider the user asks `what was the average temperature of my tomatoes yesterday?`
+Let's examine these steps in detail with a simple example query for a greenhouse deployment - consider the user asks `what was the average temperature of my tomatoes yesterday?`
 
 ### 1. Filter
-The role of this agent is to pick up on contextual information from the query and deployment metadata to filter the relevant data for the query. In the case of this example, that would entail inferring the device(s) referred to by 'tomato', the date-time range to apply based on the current date, and the relevant sensor data values required for the query.
 
-### 2. Analyse
-The role of this agent is to use the data to synthesise relevant metrics or parameters required to answer this question. In the case of this example, it would calculating the average of the temperature sensor(s), and handling missing or invalid data graciously.
+The Filter step analyzes your deployment's metadata and data structure to determine what information is relevant to the query. The LLM examines device names, groups, locations, and sensor types to identify which devices match "tomatoes" in the user's question. It also inspects the JSON data structure from these devices to understand reporting frequency, available sensor fields, and data patterns.
+
+Based on the current date and the word "yesterday," it calculates the appropriate time range. The output is a precise filter specification that will select only the relevant temperature readings from tomato-related devices within the target timeframe—no raw data is shared with the AI provider at this stage.
+
+### 2. Analyze
+
+Using the data structure understanding from Step 1, this step generates a deterministic algorithm tailored to answer the specific query. For our temperature average example, it would create code to calculate the mean of temperature values while handling missing data points, sensor calibration differences, and reporting frequency variations across devices.
+
+The algorithm might include statistical validation, outlier detection, or temporal aggregation depending on the complexity of the query. This generated code then runs locally on Superstack's secure infrastructure, processing only the filtered data to produce a numerical result.
 
 ### 3. Explain
-The role of this agent is to summarize and synthesize the insights produced by the Analysis agent, to accurately answer the user query. In this simple case it would just be to present the average temperature, or to describe any issues encountered while computing this.
 
-The key benefits of this approach are as follows
-- Model agnostic: Having independently sequenced agents mean that we can easily swap out the underlying model for each particular step to the best performing, and cost efficient model. It also gives us the ability to quickly adopt and test the latest models.
-- Data sovereignity: We have orchestrated the agents so that they do not have direct access to the data - they can only provide structured responses on how the data must be manipulated. These then run in a secure runtime on our servers, so the user data never leaves our servers.
-- TODO: 1 more would be nice here
+The final step takes the computed results along with the reasoning from both previous steps and synthesizes them into a clear, contextual answer. It considers the user's domain context, device roles, and chat history to frame the response appropriately. In our example, it would present the average temperature along with relevant context about the time period, number of sensors involved, and any data quality considerations.
+
+### Key Benefits
+
+This orchestrated approach delivers several critical advantages:
+
+- **Model agnostic**: Each step can use the optimal model for its specific task—whether that's GPT-5 for complex reasoning or a smaller model for simple filtering. This flexibility allows us to quickly adopt new models and optimize for both performance and cost.
+
+- **Data sovereignty**: Your IoT data never leaves Superstack's infrastructure. AI providers only see metadata, data structures, and generated algorithms—never your actual sensor readings or device information.
+
+- **Contextual precision**: The complete system context—including chat history, deployment-specific roles, and device metadata—is available at each step. This enables fine-tuned prompting that produces more accurate and relevant results than generic data analysis tools.
+
+The conversational interface is accessible both through our web application and programmatically via REST API, making it easy to integrate natural language data analysis into your own applications or workflows.
 
 ---
 
