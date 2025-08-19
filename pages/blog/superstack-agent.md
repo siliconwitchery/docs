@@ -1,14 +1,14 @@
 ---
-title: "Superstack AI Agent"
+title: "GPT-5 vs GPT-4.1 for Real-World IoT Data Analysis"
 parent: IoT Solutions Blog
-description: TODO
+description: "Testing GPT-5 vs GPT-4.1 on 70,000+ solar panel data points reveals accuracy gains but significant latency trade-offs for IoT analytics."
 image: /assets/images/blog/share-image.png
 nav_order: 4
 ---
 
-# **Superstack Agent**
+# **GPT-5 vs GPT-4.1 for Real-World IoT Data Analysis**
 
-Raj Nakarja, CEO and Chief Engineer \| 15 August 2025
+Raj Nakarja, CEO and Chief Engineer \| 19 August 2025
 {: .float-left .fs-2 }
 
 ---
@@ -115,16 +115,22 @@ Each query was tested multiple times across both model versions to assess consis
 | "What day in May had the best power output?" | Filter passed: **5/10**<br>Analysis passed: **10/10**  | Filter passed: **10/10**<br>Analysis passed: **10/10** |
 | "How many watt hours were generated in May?" | Filter passed: **10/10**<br>Analysis passed: **4/10**  | Filter passed: **10/10**<br>Analysis passed: **10/10** |
 
+The results reveal an interesting pattern: different query complexities cause failures at different stages of the pipeline, highlighting the distinct reasoning challenges each step presents.
+
 **Query 1: Average Power Output**
-Both GPT-4.1 and GPT-5 handled this query reliably. The filtering step correctly identified May data from both arrays, and the analysis step generated appropriate code to compute the mean across all 15-minute intervals. Response times were comparable, with both models consistently producing accurate results.
+Both models achieved perfect reliability across all pipeline steps. The filtering correctly identified May data from both solar arrays, and the analysis consistently generated appropriate aggregation code. This baseline query demonstrates that both GPT-4.1 and GPT-5 excel at straightforward temporal filtering and basic statistical operations.
 
 **Query 2: Best Day Identification**  
-Here we began to see differences. GPT-4.1 occasionally struggled with the temporal grouping logic, sometimes generating code that would aggregate across hours rather than days, or failing to properly handle timezone considerations for the Boulder location. GPT-5 showed more robust instruction-following, consistently generating correct daily aggregation algorithms and properly accounting for the Mountain Time zone.
+Here we see a fascinating inversion: GPT-4.1's failures occurred entirely in the **Filter** step (5/10 success rate), while the Analysis step remained perfectly reliable (10/10). The model struggled to correctly interpret "best day" in the context of solar data, sometimes filtering for individual peak readings rather than daily aggregates, or misunderstanding the temporal scope. However, when the filtering succeeded, GPT-4.1 consistently generated correct daily grouping and maximum-finding algorithms.
+
+GPT-5 resolved these Filter step issues completely, demonstrating superior semantic understanding of the query intent and temporal relationships.
 
 **Query 3: Energy Calculation (Watt Hours)**
-This query revealed the most significant gap between models. GPT-4.1 frequently failed to generate correct integration logic, often treating instantaneous power readings as if they were already energy measurements, or miscalculating the time intervals for numerical integration. 
+This query showed the opposite failure pattern: GPT-4.1's Filter step worked perfectly (10/10), correctly identifying all relevant power readings from May. However, the **Analysis** step failed frequently (4/10 success rate), struggling with the mathematical complexity of converting instantaneous power readings to cumulative energy. Common failures included treating power readings as already-integrated energy values, incorrect time interval calculations, or generating algorithms that summed watts instead of watt-hours.
 
-GPT-5, by contrast, consistently understood that converting from 15-minute power samples to total energy requires proper temporal integration. It reliably generated code that would sum `(power_reading * 0.25 hours)` across all intervals, correctly handling the units conversion from watts to watt-hours.
+GPT-5's superior mathematical reasoning eliminated these Analysis step failures entirely, consistently generating correct temporal integration logic: `sum(power_reading * 0.25 hours)` across all 15-minute intervals.
+
+This pattern suggests that as query complexity increases, different aspects of language understanding become the limiting factor—semantic comprehension for Query 2, mathematical reasoning for Query 3.
 
 ### Performance Implications
 
@@ -134,21 +140,41 @@ GPT-5, by contrast, consistently understood that converting from 15-minute power
 | "What day in May had the best power output?" | Filter: **10.5s**<br>Analysis: **16.1s** | Filter: **28.3s**<br>Analysis: **63.7s** |
 | "How many watt hours were generated in May?" | Filter: **10.5s**<br>Analysis: **22.1s** | Filter: **33.7s**<br>Analysis: **78.9s** |
 
-While GPT-5 demonstrated superior reasoning and instruction-following, this came with notable latency trade-offs. GPT-5 queries averaged 2-3 seconds longer than GPT-4.1, primarily in the Analysis step where more complex reasoning occurs. For applications requiring real-time responsiveness, this difference may influence model selection.
+The performance impact of GPT-5 is more substantial than initially expected. GPT-5 queries take 2.5-3x longer than GPT-4.1 across both pipeline steps, with the Analysis step showing particularly significant increases (4-5x slower). The Filter step, while containing less complex reasoning, still shows considerable latency increases (2.5-3x slower).
 
-However, the reliability gains often offset the latency cost. Failed queries require retry logic and user interaction to clarify intent, ultimately taking longer than a single successful GPT-5 response. For complex analytical workloads like energy calculations, GPT-5's improved accuracy significantly reduces the need for manual verification and correction.
-
-*[A graph showing the complete year of solar generation data will be inserted here, demonstrating how summer months generate significantly more energy than winter months - this seasonal pattern was correctly identified and explained by both models when analyzing the May data in context.]*
+Interestingly, query complexity affects GPT-4.1 timing more dramatically than GPT-5. GPT-4.1's Analysis step ranges from 13.4s to 22.1s depending on mathematical complexity, while GPT-5 shows more consistent timing regardless of query type.
 
 ### Optimization Strategies
 
-Based on these findings, we've implemented a hybrid approach in production:
+While GPT-5's superior accuracy is compelling, the 3-5x latency increase makes immediate full deployment impractical for production use. Our rollout strategy balances the benefits of improved reasoning with user experience requirements.
 
-- **Simple aggregations** (averages, counts, basic filtering) default to GPT-4.1 for faster response times
-- **Complex analytical queries** (unit conversions, temporal calculations, multi-step reasoning) automatically use GPT-5
-- **Query complexity scoring** in the Filter step helps determine optimal model selection
+**Migration Plan**
+We're planning a phased GPT-5 rollout as OpenAI continues optimizing inference speeds over the coming months. Based on our experience with OpenAI's model launches, we expect GPT-5 latency should decrease by 40-60% within the next quarter. Once GPT-5 achieves sub-30-second response times for complex queries, we'll begin enabling that option for high-complexity analytical workloads.
 
-This strategy delivers the best balance of accuracy and performance, ensuring users get fast responses for simple questions while maintaining reliability for sophisticated analysis.
+Additionally, to allow for further flexibility, we plan to allow users to choose between fast and slow responses, enabling a tradeoff for different kinds of use cases.
+
+These modes will be configurable both at the deployment level (for consistent team preferences) and per-query via API parameters (for application-specific requirements). This flexibility ensures that time-sensitive operational dashboards can maintain responsiveness while detailed analytical reports can leverage GPT-5's superior reasoning capabilities.
 
 ---
 
+## Conclusion
+
+The evolution from GPT-4.1 to GPT-5 represents a significant step forward in AI-powered data analysis, but not without important trade-offs. Our solar panel testing demonstrates that while GPT-5 delivers measurably better accuracy—particularly for complex mathematical operations and nuanced query interpretation—the substantial latency increase requires careful consideration of when and how to deploy it.
+
+The key insight from our analysis is that different types of complexity challenge different parts of the AI pipeline. Semantic understanding failures occur in the Filter step, while mathematical reasoning failures happen during Analysis. This granular understanding allows us to make smarter decisions about model selection and optimization strategies.
+
+As the AI landscape continues to evolve rapidly, Superstack's architecture provides the flexibility to adopt new models while maintaining the core principle that drives our approach: leverage AI for reasoning and planning, but keep your data processing deterministic and local. Whether you're analyzing solar panel output, monitoring industrial sensors, or tracking environmental conditions, this architecture ensures that your IoT data analysis remains both powerful and reliable.
+
+Ready to try natural language analytics on your IoT data? [Get started with Superstack](/) and experience the difference between naive LLM approaches and purpose-built IoT intelligence.
+
+---
+
+## Learn More
+
+- [Product page](https://www.siliconwitchery.com/s2-superstack)
+- [Superstack API reference and documentation](/pages/superstack/)
+- [S2 Module hardware manual](/pages/s2-module)
+
+## Need Assistance?
+
+For support or questions, [email our engineering team](mailto:projects@siliconwitchery.com?subject=Superstack IoT Consultation&body=Hello Silicon Witchery team,%0D%0A%0D%0AI'm interested in support for my project.%0D%0A%0D%0A- Brief description:%0D%0A- Timeline:%0D%0A- Company:%0D%0A%0D%0ABest regards,) for a free consultation.
