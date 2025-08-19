@@ -2,7 +2,7 @@
 title: "GPT-5 vs GPT-4.1 for Real-World IoT Data Analysis"
 parent: IoT Solutions Blog
 description: "Testing GPT-5 vs GPT-4.1 on 70,000+ solar panel data points reveals accuracy gains but significant latency trade-offs for IoT analytics."
-image: /assets/images/blog/share-image.png
+image: /assets/images/blog/superstack-agent-pipeline.drawio.png
 nav_order: 4
 ---
 
