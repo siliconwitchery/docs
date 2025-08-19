@@ -91,9 +91,9 @@ The conversational interface is accessible both through our web application and 
 
 ## GPT5 vs GPT4.1
 
-To evaluate the practical differences between GPT-4.1 and GPT-5 in our agent pipeline, we conducted a series of tests using real solar panel data from a ranch deployment in Boulder, Colorado. The setup consists of two 20-square-meter solar arrays—one mounted on a house roof and another on a barn—with panels reporting power output every 15 minutes throughout the year. This high-frequency data creates a substantial dataset perfect for testing the models' analytical capabilities.
+To evaluate the practical differences between GPT-4.1 and GPT-5 in our agent pipeline, we conducted a series of tests using solar panel data from a ranch deployment in Boulder, Colorado. The setup consists of two 20-square-meter solar arrays—one mounted on a house roof and another on a barn—with panels reporting power output every 15 minutes throughout the year. This high-frequency data creates a substantial dataset perfect for testing the models' analytical capabilities.
 
-![](/assets/images/blog/superstack-agent-solar-data.png)
+![Superstack Solar Panel Data](/assets/images/blog/superstack-agent-solar-data.png)
 
 This solar deployment exemplifies why Superstack's filtered approach is essential for real IoT analytics. With readings every 15 minutes from multiple panels across a full year, the dataset contains over 70,000 individual data points. Naively sending this raw data to an AI provider would cost hundreds of dollars per query due to token pricing, and would frequently exceed context limits entirely—GPT-4's 128k token limit could only accommodate a fraction of the year's data. More critically, LLMs perform poorly on large numerical datasets, often hallucinating patterns or dropping precision in calculations. Superstack's architecture solves this by using the LLM only for reasoning about *which* data to analyze and *how* to analyze it, while keeping the actual number-crunching deterministic and local.
 
@@ -111,21 +111,24 @@ Each query was tested multiple times across both model versions to assess consis
 
 | Query | GPT4.1 result | GPT5 result |
 |-------|:------:|:----:|
-| "What was the average power output in May?"  | Filter passed: **10/10**<br>Analysis passed: **10/10** | Filter passed: **10/10**<br>Analysis passed: **10/10** |
-| "What day in May had the best power output?" | Filter passed: **5/10**<br>Analysis passed: **10/10**  | Filter passed: **10/10**<br>Analysis passed: **10/10** |
-| "How many watt hours were generated in May?" | Filter passed: **10/10**<br>Analysis passed: **4/10**  | Filter passed: **10/10**<br>Analysis passed: **10/10** |
+| "What was the average power output in May?"  | Filter passed: <span style="color: rgb(83,178,135);">**10/10**</span><br>Analysis passed: <span style="color: rgb(83,178,135);">**10/10**</span> | Filter passed: <span style="color: rgb(83,178,135);">**10/10**</span><br>Analysis passed: <span style="color: rgb(83,178,135);">**10/10**</span> |
+| "What day in May had the best power output?" | Filter passed: <span style="color: rgb(203,63,56);">**5/10**</span> <br>Analysis passed: <span style="color: rgb(83,178,135);">**10/10**</span>  | Filter passed: <span style="color: rgb(83,178,135);">**10/10**</span><br>Analysis passed: <span style="color: rgb(83,178,135);">**10/10**</span> |
+| "How many watt hours were generated in May?" | Filter passed: <span style="color: rgb(83,178,135);">**10/10**</span><br>Analysis passed: <span style="color: rgb(203,63,56);">**4/10**</span>   | Filter passed: <span style="color: rgb(83,178,135);">**10/10**</span><br>Analysis passed: <span style="color: rgb(83,178,135);">**10/10**</span> |
 
 The results reveal an interesting pattern: different query complexities cause failures at different stages of the pipeline, highlighting the distinct reasoning challenges each step presents.
 
 **Query 1: Average Power Output**
+
 Both models achieved perfect reliability across all pipeline steps. The filtering correctly identified May data from both solar arrays, and the analysis consistently generated appropriate aggregation code. This baseline query demonstrates that both GPT-4.1 and GPT-5 excel at straightforward temporal filtering and basic statistical operations.
 
 **Query 2: Best Day Identification**  
+
 Here we see a fascinating inversion: GPT-4.1's failures occurred entirely in the **Filter** step (5/10 success rate), while the Analysis step remained perfectly reliable (10/10). The model struggled to correctly interpret "best day" in the context of solar data, sometimes filtering for individual peak readings rather than daily aggregates, or misunderstanding the temporal scope. However, when the filtering succeeded, GPT-4.1 consistently generated correct daily grouping and maximum-finding algorithms.
 
 GPT-5 resolved these Filter step issues completely, demonstrating superior semantic understanding of the query intent and temporal relationships.
 
 **Query 3: Energy Calculation (Watt Hours)**
+
 This query showed the opposite failure pattern: GPT-4.1's Filter step worked perfectly (10/10), correctly identifying all relevant power readings from May. However, the **Analysis** step failed frequently (4/10 success rate), struggling with the mathematical complexity of converting instantaneous power readings to cumulative energy. Common failures included treating power readings as already-integrated energy values, incorrect time interval calculations, or generating algorithms that summed watts instead of watt-hours.
 
 GPT-5's superior mathematical reasoning eliminated these Analysis step failures entirely, consistently generating correct temporal integration logic: `sum(power_reading * 0.25 hours)` across all 15-minute intervals.
@@ -136,19 +139,18 @@ This pattern suggests that as query complexity increases, different aspects of l
 
 | Query | GPT4.1 avg time taken | GPT5 avg time taken |
 |-------|:------:|:----:|
-| "What was the average power output in May?"  | Filter: **11.5s**<br>Analysis: **13.4s** | Filter: **31.1s**<br>Analysis: **69.7s** |
-| "What day in May had the best power output?" | Filter: **10.5s**<br>Analysis: **16.1s** | Filter: **28.3s**<br>Analysis: **63.7s** |
-| "How many watt hours were generated in May?" | Filter: **10.5s**<br>Analysis: **22.1s** | Filter: **33.7s**<br>Analysis: **78.9s** |
+| "What was the average power output in May?"  | Filter: <span style="color: rgb(83,178,135);">**11.5s**</span><br>Analysis: <span style="color: rgb(83,178,135);">**13.4s**</span> | Filter: <span style="color: rgb(223,177,61);">**31.1s**</span><br>Analysis: <span style="color: rgb(203,63,56);">**69.7s**</span> |
+| "What day in May had the best power output?" | Filter: <span style="color: rgb(83,178,135);">**10.5s**</span><br>Analysis: <span style="color: rgb(83,178,135);">**16.1s**</span> | Filter: <span style="color: rgb(223,177,61);">**28.3s**</span><br>Analysis: <span style="color: rgb(203,63,56);">**63.7s**</span> |
+| "How many watt hours were generated in May?" | Filter: <span style="color: rgb(83,178,135);">**10.5s**</span><br>Analysis: <span style="color: rgb(223,177,61);">**22.1s**</span> | Filter: <span style="color: rgb(223,177,61);">**33.7s**</span><br>Analysis: <span style="color: rgb(203,63,56);">**78.9s**</span> |
 
 The performance impact of GPT-5 is more substantial than initially expected. GPT-5 queries take 2.5-3x longer than GPT-4.1 across both pipeline steps, with the Analysis step showing particularly significant increases (4-5x slower). The Filter step, while containing less complex reasoning, still shows considerable latency increases (2.5-3x slower).
 
 Interestingly, query complexity affects GPT-4.1 timing more dramatically than GPT-5. GPT-4.1's Analysis step ranges from 13.4s to 22.1s depending on mathematical complexity, while GPT-5 shows more consistent timing regardless of query type.
 
-### Optimization Strategies
+### Migration Plan
 
 While GPT-5's superior accuracy is compelling, the 3-5x latency increase makes immediate full deployment impractical for production use. Our rollout strategy balances the benefits of improved reasoning with user experience requirements.
 
-**Migration Plan**
 We're planning a phased GPT-5 rollout as OpenAI continues optimizing inference speeds over the coming months. Based on our experience with OpenAI's model launches, we expect GPT-5 latency should decrease by 40-60% within the next quarter. Once GPT-5 achieves sub-30-second response times for complex queries, we'll begin enabling that option for high-complexity analytical workloads.
 
 Additionally, to allow for further flexibility, we plan to allow users to choose between fast and slow responses, enabling a tradeoff for different kinds of use cases.
