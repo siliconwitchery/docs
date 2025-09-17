@@ -137,11 +137,18 @@ The table below describes each of the LED states.
 | Fast blinking <br> ▇▇▁▁▇▇▁▁▇▇▁▁▇▇ | Button pressed – Pairing to deployment
 | Off           <br> ▁▁▁▁▁▁▁▁▁▁▁▁▁▁ | Connected & idle
 | Short blinks  <br> ▁▇▁▁▁▁▁▁▁▁▇▁▁▁ | Data transmission
+| Strobe        <br> ▁▇▁▇▁▇▁▇▁▇▁▇▁▇ | Firmware updating **Do not power off**
+
+### Automatic firmware updates
+
+We periodically release firmware updates which enables connectivity between the S2 Module and Superstack. Updates are rolled out automatically and require no user intervention.
+
+If you see a continuous strobe on the network led, this means that an update has begun. The process takes around **5 minutes**, during which the module will reboot and may not show any LED activity during the final part of the update. It is important to **not power off the device** during this period as this will cause the update process to restart. Simply wait the full time until the device has rebooted and reconnects to the network.
 
 ## LTE & GNSS connectivity
 
 The S2 Module ships with **LTE Cat-M1** enabled with support for the following bands:
-**1**, **2**, **3**, **4**, **5**, **8**, **13**, **18**, **19**, **20**, **25**, **26**, **65**, and **66**. All of which are supported by the integrated antenna. Additionally, the [external antenna variant](#external-antenna-variant) of the module supports the following bands: **12**, **17**, **28**, and **85**.
+**1**, **2**, **3**, **4**, **5**, **8**, **18**, **19**, **20**, **25**, **26**, **65**, and **66**. All of which are supported by the integrated antenna. Additionally, the [external antenna variant](#external-antenna-variant) of the module supports the following bands: **12**, **13**, **17**, **28**, and **85**.
 
 A softsim is pre-programmed into each module for included connectivity out of the box, where data allowance can be managed from inside the Superstack webapp.
 
@@ -151,29 +158,29 @@ The following regions are currently included in the data plan with more being re
 |--------|:---------:|--------|:--------------:|
 | Austria        | ✅ | Argentina            | Validated
 | Belgium        | ✅ | Australia            | Validated
-| Colombia       | ✅ | Brazil               | Validated
+| Colombia       | 📶 | Brazil               | Validated
 | Denmark        | ✅ | Canada               | Validated
 | Finland        | ✅ | Chile                | Validated
 | France         | ✅ | China                | Validated
 | Germany        | ✅ | Costa Rica           | Validated
-| Iceland        | ✅ | Croatia              | Validated
-| Japan          | ✅ | Czechia              | Validated
+| Iceland        | 📶 | Croatia              | Validated
+| Japan          | 📶 | Czechia              | Validated
 | Latvia         | ✅ | Ecuador              | Validated
-| Luxembourg     | ✅ | Estonia              | Validated
-| Mexico         | ✅ | Faroe Islands        | Validated
+| Luxembourg     | 📶 | Estonia              | Validated
+| Mexico         | 📶 | Faroe Islands        | Validated
 | Netherlands    | ✅ | Greece               | Validated
-| New Zealand    | ✅ | Hong Kong            | Validated
+| New Zealand    | 📶 | Hong Kong            | Validated
 | Norway         | ✅ | Hungary              | Validated
 | Romania        | ✅ | India                | Validated
 | Slovakia       | ✅ | Ireland              | Validated
 | Slovenia       | ✅ | Israel               | Validated
 | Spain          | ✅ | Jamaica              | Validated
 | Sweden         | ✅ | Korea                | Validated
-| Switzerland    | ✅ | Liechtenstein        | Validated
+| Switzerland    | 📶 | Liechtenstein        | Validated
 | Taiwan         | ✅ | Lithuania            | Validated
 | United Kingdom | ✅ | Poland               | Validated
 | United States  | 📶 | Portugal             | Validated
-| Uruguay        | ✅ | Puerto Rico          | Validated
+| Uruguay        | 📶 | Puerto Rico          | Validated
 |                |    | Saudi Arabia         | Validated
 |                |    | Singapore            | Validated
 |                |    | Thailand             | Validated
@@ -181,7 +188,7 @@ The following regions are currently included in the data plan with more being re
 |                |    | United Arab Emirates | Validated
 
 {: .note }
-📶 - Requires the external antenna variant of the module
+📶 - External antenna variant of the module is recommended for this region
 
 The module also supports **GPS L1 C/A** and **QZSS L1 C/A** reception with a maximum accuracy of 2.0m in continuous tracking mode, or 3.4m in periodic tracking mode.
 
