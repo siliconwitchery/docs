@@ -19,7 +19,7 @@ Ready-to-deploy LTE hardware plus intelligent cloud platform that lets you build
 
 [Datasheet](/pages/s2-module){: .btn .btn-purple}
 [Superstack](/pages/superstack){: .btn .btn-purple}
-[Early access](https://www.siliconwitchery.com/s2-superstack#sign-up){: .btn}
+[Order](https://www.digikey.com/en/products/filter/unclassified/48?s=N4IgTCBcDaIM4EsA2CDGB7AdgAgO4IBdUALAUwCcBPEAXQF8g){: .btn}
 
 ---
 
@@ -31,7 +31,7 @@ Integrated Bluetooth, FPGA & battery management all in one tiny form factor.
 
 [Datasheet](/pages/s1-module){: .btn .btn-purple}
 [SDK](https://github.com/siliconwitchery/s1-sdk){: .btn .btn-purple}
-[Order](https://www.digikey.com/en/products/detail/silicon-witchery/S1-MODULE/15926537){: .btn}
+[Order](https://www.digikey.com/en/products/detail/silicon-witchery/S1-MODULE/16580539){: .btn}
 
 ---
 
