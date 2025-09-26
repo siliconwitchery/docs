@@ -101,7 +101,7 @@ Deleting a Deployment will un-pair all Devices.
 
 ### Data usage
 
-Data usage in Superstack is managed per deployment and is determined by your subscription tier. Understanding how data is consumed can help you optimize your IoT application and choose the right plan for your needs.
+Superstack manages data usage per deployment based on your subscription tier. Understanding how your devices consume data helps you optimize your IoT application and choose the right plan for your needs.
 
 **Typical data usage examples:**
 
@@ -113,20 +113,20 @@ All three examples above fit perfectly within the **free tier**. For more freque
 
 **Data allowance and subscription tiers:**
 
-Your data allowance is based on your subscription tier. Each tier provides a specific monthly data limit that applies to your entire deployment.
+Your subscription tier determines your data allowance. Each tier provides a specific monthly data limit that applies to your entire deployment.
 
 **Per-deployment data pooling:**
 
-Data usage is counted per deployment, not per individual device. This means if your deployment has an 8MB monthly allowance, this 8MB is shared across **all devices** in that deployment. Any single device can consume as much of the 8MB as needed, as long as the total usage across all devices stays within the deployment limit.
+Each deployment counts data usage across all devices, not per individual device. This means if your deployment has an 8MB monthly allowance, all devices in that deployment share this 8MB pool. Any single device can consume as much of the 8MB as needed, as long as the total usage across all devices stays within the deployment limit.
 
 For example:
 - A deployment with 3 devices and 8MB allowance: Device 1 could use 6MB, Device 2 could use 1MB, and Device 3 could use 1MB
 
-The total consumption (8MB) stays within the limit, regardless of how it's distributed among devices
+Your total consumption (8MB) stays within the limit, regardless of how devices distribute usage.
 
 **What counts as data usage:**
 
-Data both sent and received to the device count toward your usage limit:
+Both data sent to and received from devices count toward your usage limit:
 
 - Logs sent using `print()`
 - Sensor values or any other data sent using `network.send_data()`
@@ -135,13 +135,13 @@ Data both sent and received to the device count toward your usage limit:
 {: .warning }
 **Code deployment impact**: When you update device code through Superstack, the entire code file is transmitted to each device. Large code files can consume significant data allowance, especially when deployed to multiple devices.
 
-Automatic module firmware updates, or viewing device telemetry from within Superstack such as power, data usage and location are not counted towards data usage. 
+Automatic module firmware updates, or viewing device telemetry from within Superstack such as power, data usage, and location do not count towards data usage.
 
 **Device-level usage tracking:**
 
-Data usage is tracked and remembered on a device-by-device basis. This has important implications:
+Superstack tracks and remembers data usage on a device-by-device basis. This has important implications:
 
-- If you remove a device from a deployment and later re-add it, the previous data usage for that device is not reset
+- If you remove a device from a deployment and later re-add it, the system does not reset the previous data usage for that device
 - If you move a device that has consumed significant data from a higher-tier deployment to a lower-tier deployment, it may immediately exhaust the new deployment's data allowance. In this case, you can either remove that specific device from the deployment or wait until the next billing period when usage counters reset.
 
 ---
@@ -1683,7 +1683,7 @@ curl https://super.siliconwitchery.com/api/data \
 
 ## Subscription & billing
 
-Billing is managed by Stripe, a well know and popular payment system provider. Silicon Witchery or the Superstack app therefore does not handle transactions directly, but rather, this is securely handled by Strip. Silicon Witchery, therefore, does not store, or has no access to any sensitive user billing details.
+Stripe, a well-known and popular payment system provider, manages billing. Silicon Witchery and the Superstack app do not handle transactions directly. Instead, Stripe securely handles all payment processing. Therefore, Silicon Witchery does not store or have access to any sensitive user billing details.
 
 To enable or manage your subscription, begin by clicking the **Edit** button from the **Settings Tab**.
 
@@ -1691,7 +1691,7 @@ To enable or manage your subscription, begin by clicking the **Edit** button fro
 
 ### Creating a new plan
 
-Choose one of the plans and follow the steps in order to create a plan. Once paid, you'll be returned to your deployment, the new usage allowance will be enabled right away.
+Choose one of the plans and follow the steps to create a plan. Once you complete payment, you'll return to your deployment, and the system will enable your new usage allowance right away.
 
 ![Superstack plans page](/assets/images/superstack-plans.png)
 
@@ -1701,11 +1701,11 @@ To adjust your plan, navigate to the plans page and click **Modify**.
 
 ![Superstack modify plans page](/assets/images/superstack-plans-modify.png)
 
-The next page will allow you to adjust your plan accordingly. In the case of downgrading or cancelling a plan. The current paid plan will remain active for the remaining billing period.
+The next page will allow you to adjust your plan accordingly. In the case of downgrading or cancelling a plan, your current paid plan will remain active for the remaining billing period.
 
 ### Viewing invoices
 
-The Stripe page also displays all paid invoices. These can be easily downloaded to accounting purposes.
+The Stripe page also displays all paid invoices. You can easily download these for accounting purposes.
 
 ![Superstack Stripe page](/assets/images/superstack-stripe-details.png)
 
