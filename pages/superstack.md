@@ -99,10 +99,50 @@ Deleting a Deployment will un-pair all Devices.
 
 ---
 
-### Managing your subscription
+### Data usage
 
-Details coming soon
-<!-- TODO -->
+Data usage in Superstack is managed per deployment and is determined by your subscription tier. Understanding how data is consumed can help you optimize your IoT application and choose the right plan for your needs.
+
+**Typical data usage examples:**
+
+- Single device sending a temperature value every 15 minutes: **~0.5MB/month**
+- Two devices sending a temperature value every 15 minutes: **~1MB/month**
+- Single device sending events every time a home presence sensor detects motion: **~0.25MB/month**
+
+All three examples above fit perfectly within the **free tier**. For more frequent data transmission or additional devices, consider upgrading to a paid plan.
+
+**Data allowance and subscription tiers:**
+
+Your data allowance is based on your subscription tier. Each tier provides a specific monthly data limit that applies to your entire deployment.
+
+**Per-deployment data pooling:**
+
+Data usage is counted per deployment, not per individual device. This means if your deployment has an 8MB monthly allowance, this 8MB is shared across **all devices** in that deployment. Any single device can consume as much of the 8MB as needed, as long as the total usage across all devices stays within the deployment limit.
+
+For example:
+- A deployment with 3 devices and 8MB allowance: Device 1 could use 6MB, Device 2 could use 1MB, and Device 3 could use 1MB
+
+The total consumption (8MB) stays within the limit, regardless of how it's distributed among devices
+
+**What counts as data usage:**
+
+Data both sent and received to the device count toward your usage limit:
+
+- Logs sent using `print()`
+- Sensor values or any other data sent using `network.send_data()`
+- Changes to Lua code
+
+{: .warning }
+**Code deployment impact**: When you update device code through Superstack, the entire code file is transmitted to each device. Large code files can consume significant data allowance, especially when deployed to multiple devices.
+
+Automatic module firmware updates, or viewing device telemetry from within Superstack such as power, data usage and location are not counted towards data usage. 
+
+**Device-level usage tracking:**
+
+Data usage is tracked and remembered on a device-by-device basis. This has important implications:
+
+- If you remove a device from a deployment and later re-add it, the previous data usage for that device is not reset
+- If you move a device that has consumed significant data from a higher-tier deployment to a lower-tier deployment, it may immediately exhaust the new deployment's data allowance. In this case, you can either remove that specific device from the deployment or wait until the next billing period when usage counters reset.
 
 ---
 
@@ -1641,7 +1681,37 @@ curl https://super.siliconwitchery.com/api/data \
 
 ---
 
-### Troubleshooting / FAQ
+## Subscription & billing
+
+Billing is managed by Stripe, a well know and popular payment system provider. Silicon Witchery or the Superstack app therefore does not handle transactions directly, but rather, this is securely handled by Strip. Silicon Witchery, therefore, does not store, or has no access to any sensitive user billing details.
+
+To enable or manage your subscription, begin by clicking the **Edit** button from the **Settings Tab**.
+
+![Superstack settings tab highlighting subscription edit button](/assets/images/superstack-settings-edit-subscription.png)
+
+### Creating a new plan
+
+Choose one of the plans and follow the steps in order to create a plan. Once paid, you'll be returned to your deployment, the new usage allowance will be enabled right away.
+
+![Superstack plans page](/assets/images/superstack-plans.png)
+
+### Modifying or cancelling plans
+
+To adjust your plan, navigate to the plans page and click **Modify**.
+
+![Superstack modify plans page](/assets/images/superstack-plans-modify.png)
+
+The next page will allow you to adjust your plan accordingly. In the case of downgrading or cancelling a plan. The current paid plan will remain active for the remaining billing period.
+
+### Viewing invoices
+
+The Stripe page also displays all paid invoices. These can be easily downloaded to accounting purposes.
+
+![Superstack Stripe page](/assets/images/superstack-stripe-details.png)
+
+---
+
+## Troubleshooting / FAQ
 
 1. While trying to set up my Device, the LED won't stop blinking
 
