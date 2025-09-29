@@ -1683,25 +1683,23 @@ curl https://super.siliconwitchery.com/api/data \
 
 ## Subscription & billing
 
-Stripe, a well-known and popular payment system provider, manages billing. Silicon Witchery and the Superstack app do not handle transactions directly. Instead, Stripe securely handles all payment processing. Therefore, Silicon Witchery does not store or have access to any sensitive user billing details.
-
-To enable or manage your subscription, begin by clicking the **Edit** button from the **Settings Tab**.
-
-![Superstack settings tab highlighting subscription edit button](/assets/images/superstack-settings-edit-subscription.png)
+Stripe, a well-known payment system provider, manages all billing. Silicon Witchery and the Superstack app do not handle transactions directly. Instead, Stripe securely processes all payments. Silicon Witchery does not store or access any sensitive user billing details.
 
 ### Creating a new plan
 
-Choose one of the plans and follow the steps to create a plan. Once you complete payment, you'll return to your deployment, and the system will enable your new usage allowance right away.
+To create a subscription, click the **Edit Plan** button from the **Settings Tab**.
 
-![Superstack plans page](/assets/images/superstack-plans.png)
+![Superstack settings tab highlighting subscription edit button](/assets/images/superstack-settings-edit-subscription.png)
+
+Choose one of the plans and follow the steps to complete your subscription. Once you complete payment, you'll return to your deployment, and the system will activate your new usage allowance immediately.
 
 ### Modifying or cancelling plans
 
-To adjust your plan, navigate to the plans page and click **Modify**.
+To adjust your plan, navigate to the plans page and click on your currently selected plan.
 
 ![Superstack modify plans page](/assets/images/superstack-plans-modify.png)
 
-The next page will allow you to adjust your plan accordingly. In the case of downgrading or cancelling a plan, your current paid plan will remain active for the remaining billing period.
+The next page will allow you to modify your plan. If you downgrade or cancel a plan, your current paid plan will remain active for the rest of the billing period.
 
 ### Viewing invoices
 
