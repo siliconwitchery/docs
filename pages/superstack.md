@@ -436,15 +436,14 @@ device.analog.set_output("E1", 25)
     </tr>
     <tr>
         <td>
-            <code>device.i2c.read(address, register, length, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400, register_address_size=8 })</code>
+            <code>device.i2c.read(address, length, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400 })</code>
         </td>
         <td>
-            Reads a number of bytes from a register on an I2C connected device.
+            Reads a number of bytes from an I2C connected device.
             <br><br>
             <strong>Parameters:</strong>
             <ul>
                 <li><code>address</code> - <strong>integer</strong> - The 7-bit address of the I2C device</li>
-                <li><code>register</code> - <strong>number</strong> - The address of the register to read from</li>
                 <li><code>length</code> - <strong>integer</strong> - The number of bytes to read</li>
             </ul>
             <strong>Optional parameters:</strong>
@@ -453,7 +452,6 @@ device.analog.set_output("E1", 25)
                 <li><code>scl_pin</code> - <strong>string</strong> - The pin name to use for the SCL signal. E.g <code>"C3"</code>. Must be used in conjunction with <code>sda_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
                 <li><code>sda_pin</code> - <strong>string</strong> - The pin name to use for the SDA signal. E.g <code>"C4"</code>. Must be used in conjunction with <code>scl_pin</code> and cannot be used if the <code>port</code> parameter is already specified</li>
                 <li><code>frequency</code> - <strong>integer</strong> - The frequency to use for I2C communications in kHz. Can be either <code>100</code>, <code>250</code> or <code>400</code></li>
-                <li><code>register_address_size</code> - <strong>integer</strong> - The size of the register to read in bits. Can be either <code>8</code>, <code>16</code> or <code>32</code></li>
             </ul>
             <strong>Returns:</strong><br>
             <ul>
@@ -468,15 +466,14 @@ device.analog.set_output("E1", 25)
     </tr>
     <tr>
         <td>
-            <code>device.i2c.write(address, register, data, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400, register_address_size=8 })</code>
+            <code>device.i2c.write(address, data, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400 })</code>
         </td>
         <td>
-            Writes a number of bytes to a register on an I2C connected device.
+            Writes a number of bytes to an I2C connected device.
             <br><br>
             <strong>Parameters:</strong>
             <ul>
                 <li><code>address</code> - <strong>integer</strong> - Same as above</li>
-                <li><code>register</code> - <strong>number</strong> - Same as above</li>
                 <li><code>data</code> - <strong>string</strong> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
             </ul>
             <strong>Optional parameters:</strong>
@@ -485,11 +482,44 @@ device.analog.set_output("E1", 25)
                 <li><code>scl_pin</code> - <strong>string</strong> - Same as above</li>
                 <li><code>sda_pin</code> - <strong>string</strong> - Same as above</li>
                 <li><code>frequency</code> - <strong>integer</strong> - Same as above</li>
-                <li><code>register_address_size</code> - <strong>integer</strong> - Same as above</li>
             </ul>
             <strong>Returns:</strong><br>
             <ul>
-                <li><strong>boolean</strong> - <code>true</code> if the transaction was a success, or <code>false</code> otherwise</li>
+                <li><strong>table</strong> - A table of key-value pairs:</li>
+                <ul>
+                    <li><code>success</code> - <strong>string</strong> - <code>true</code> if the transaction was a success, or <code>false</code> otherwise</li>
+                </ul>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.i2c.write_read(address, write_data, read_length { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400 })</code>
+        </td>
+        <td>
+            Writes a number of bytes, and then reads from an I2C connected device.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>address</code> - <strong>integer</strong> - Same as above</li>
+                <li><code>write_data</code> - <strong>string</strong> - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. <code>"\x1A\x50\x00\xF1"</code></li>
+                <li><code>length_length</code> - <strong>integer</strong> - The number of bytes to read</li>
+            </ul>
+            <strong>Optional parameters:</strong>
+            <ul>
+                <li><code>port</code> - <strong>string</strong> - Same as above</li>
+                <li><code>scl_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>sda_pin</code> - <strong>string</strong> - Same as above</li>
+                <li><code>frequency</code> - <strong>integer</strong> - Same as above</li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>table</strong> - A table of key-value pairs:</li>
+                <ul>
+                    <li><code>success</code> - <strong>string</strong> - <code>true</code> if the transaction was a success, or <code>false</code> otherwise</li>
+                    <li><code>data</code> - <strong>string</strong> - The bytes read. Always of size <code>length</code> as specified in the function call</li>
+                    <li><code>value</code> - <strong>string</strong> - The first data value, useful if only one byte was requested</li>
+                </ul>
             </ul>
         </td>
     </tr>
@@ -519,21 +549,21 @@ Example usage:
 
 ```lua
 -- Read a byte from register 0x1F on a device with address 0x23
-local result = device.i2c.read(0x23, 0x1F, 1)
+local result = device.i2c.write_read(0x23, "\x1F", 1)
 
 if result.success then
     print(result.value)
 end
 
 -- Read multiple bytes from the device and print the fourth byte
-local result = device.i2c.read(0x23, 0x1F, 4)
+local result = device.i2c.read(0x23, "\x1F", 4)
 
 if result.success then
     print(string.byte(result.data, 4))
 end
 
 -- Write 0x1234 to the register 0xF9
-device.i2c.write(0x23, 0xF9, "\x12\x34")
+device.i2c.write(0x23, "\xF9\x12\x34")
 
 -- Scan a port for devices
 local d = device.i2c.scan({port="PORTF"})
