@@ -48,7 +48,7 @@ local ENS160_I2C_ADDRESS = 0x53
 device.power.set_vout(3.3)
 
 -- Check if the device is connected by reading the part ID
-local response = device.i2c.read(ENS160_I2C_ADDRESS, 0x00, 2)
+local response = device.i2c.write_read(ENS160_I2C_ADDRESS, "\x00", 2)
 
 if not response.success then
     error("Device not found")
@@ -59,13 +59,13 @@ if string.byte(response.data, 1) ~= 0x60 or string.byte(response.data, 2) ~= 0x0
 end
 
 -- Enable gas sensing mode
-device.i2c.write(ENS160_I2C_ADDRESS, 0x10, "\x02")
+device.i2c.write(ENS160_I2C_ADDRESS, "\x10\x02")
 
 -- Provide temperature calibration to the sensor (assume 25°C)
-device.i2c.write(ENS160_I2C_ADDRESS, 0x13, "\x80\x4A")
+device.i2c.write(ENS160_I2C_ADDRESS, "\x13\x80\x4A")
 
 -- Provide relative humidity calibration to the sensor (assume 50%)
-device.i2c.write(ENS160_I2C_ADDRESS, 0x15, "\x00\x64")
+device.i2c.write(ENS160_I2C_ADDRESS, "\x15\x00\x64")
 
 print("Sensor configured")
 
@@ -73,13 +73,13 @@ print("Sensor configured")
 while true do
     print("Reading AIQ, TVOC and eCO2")
 
-    response = device.i2c.read(ENS160_I2C_ADDRESS, 0x21, 1)
+    response = device.i2c.write_read(ENS160_I2C_ADDRESS, "\x21", 1)
     local aqi = response.value & 0x07
 
-    response = device.i2c.read(ENS160_I2C_ADDRESS, 0x22, 2)
+    response = device.i2c.write_read(ENS160_I2C_ADDRESS, "\x22", 2)
     local tvoc = string.byte(response.data, 1) | string.byte(response.data, 2) << 8
 
-    response = device.i2c.read(ENS160_I2C_ADDRESS, 0x24, 2)
+    response = device.i2c.write_read(ENS160_I2C_ADDRESS, "\x24", 2)
     local eco2 = string.byte(response.data, 1) | string.byte(response.data, 2) << 8
 
     -- Send the values to Superstack
