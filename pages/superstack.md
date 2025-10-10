@@ -1617,7 +1617,7 @@ Runs a chat query with the AI Agent.
 **Example request**
 
 ```sh
-curl https://super.siliconwitchery.com/api/data \
+curl https://super.siliconwitchery.com/api/chat \
     -H 'Content-Type: application/json'         \
     -H 'X-Api-Key: <API-Key>'                   \
     -d '{
@@ -1638,6 +1638,7 @@ curl https://super.siliconwitchery.com/api/data \
     {
         "role": "user",
         "content": "What's the average temperature in my greenhouse?",
+        "answer": "",
         "reasoning": {
             "filter": "",
             "analysis": ""
@@ -1646,6 +1647,7 @@ curl https://super.siliconwitchery.com/api/data \
     {
         "role": "assistant",
         "content": "The average temperature in your greenhouse over the past 6 hours is approximately 26.7°C. If you need a breakdown by specific sensor or details for a different time frame, let me know!",
+        "answer": "26.7",
         "reasoning": {
             "filter": "To answer your question accurately, I need to filter data to only include the latest measurements from devices located in the greenhouse within the past 6 hours. This ensures recent and relevant information from all greenhouse devices is used for your analysis.",
             "analysis": "The logic is to identify all devices in the greenhouse group, extract their reported temperature values, and compute the average. If no temperature data is found for any greenhouse device, return an appropriate error message."
@@ -1694,6 +1696,10 @@ curl https://super.siliconwitchery.com/api/data \
     <tr>
         <td><code>content</code></td>
         <td><strong>string</strong> - The content of the message query</td>
+    </tr>
+    <tr>
+        <td><code>answer</code></td>
+        <td><strong>string</strong> - The computed answer related to the query</td>
     </tr>
     <tr>
         <td><code>reasoning</code></td>
