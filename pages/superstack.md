@@ -528,7 +528,7 @@ device.analog.set_output("E1", 25)
             <code>device.i2c.scan({ port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400 })</code>
         </td>
         <td>
-            Scans the given port for all connected I2C devices.
+            Scans the given port for all connected I2C devices and logs the device addresses found using the <code>print()</code> function.
             <br><br>
             <strong>Optional parameters:</strong>
             <ul>
@@ -539,7 +539,7 @@ device.analog.set_output("E1", 25)
             </ul>
             <strong>Returns:</strong><br>
             <ul>
-                <li><strong>table</strong> - A table of <strong>integers</strong> listing the 7-bit addresses of all the devices found</li>
+                <li><strong>nil</strong></li>
             </ul>
         </td>
     </tr>
@@ -566,9 +566,7 @@ end
 device.i2c.write(0x23, "\xF9\x12\x34")
 
 -- Scan a port for devices
-local d = device.i2c.scan({port="PORTF"})
-
-print("Found " .. tostring(#d) .. " devices")
+device.i2c.scan({port="PORTF"})
 ```
 
 ---
