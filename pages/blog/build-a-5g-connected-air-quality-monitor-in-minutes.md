@@ -4,6 +4,8 @@ parent: IoT Solutions Blog
 description: "Build a production-ready 5G air quality monitoring system using the S2 module and Superstack platform. Connect sensors, automate fan control, and access AI insights—all in under 70 lines of code."
 image: /assets/images/blog/share-image.png
 nav_order: 5
+redirect_from:
+  - /pages/blog/easy-air-quality-monitoring-with-superstack/
 ---
 
 # **Deploy Production IoT Air Quality Monitoring in Minutes**
