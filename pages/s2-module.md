@@ -19,7 +19,7 @@ This page is actively being updated. Information may change, so be sure to check
 
 ![Silicon Witchery S2 Module](/assets/images/s2-module-annotated-masthead.png)
 
-The S2 is a production-ready IoT module built around an advanced ARM SiP with integrated LTE Cat-M1 connectivity. Featuring comprehensive I/O support (SPI, I2C, analog), built-in GNSS, and sophisticated power management with battery charging capabilities, it's designed for rapid deployment and remote development. The module comes pre-configured with a softsim and flexible data plan, eliminating cellular integration complexity. Engineers can program and debug directly over LTE using our Lua-based runtime environment, with all device management and updates handled through the Superstack platform – no local toolchain required.
+The S2 is a production-ready IoT module built around an advanced ARM SiP with integrated LTE Cat-M1 connectivity. Featuring comprehensive I/O support (SPI, I2C, analog), built-in GNSS, and sophisticated power management with battery charging capabilities. It's designed for rapid deployment and remote development. The module comes pre-configured with a SoftSIM and flexible data plan, eliminating cellular integration complexity. Engineers can program and debug directly over LTE using our Lua-based runtime environment, with all device management and updates handled through the Superstack platform – no local toolchain required.
 
 ## Feature summary
 {: .no_toc}
@@ -101,7 +101,7 @@ The device exposes a range of I/O that can be used to connect external devices a
 
 A single button is included for easy setup and two status LEDs indicate network and power status at a glance.
 
-A multi-band antenna is included on the module supporting all the required LTE and GPS bands for global operation. A variant with [external antenna connectors](#external-antenna-variant) is available for designs where the built in antenna is not suitable.
+A multi-band antenna is included on the module supporting all the required LTE and GPS bands for global operation. A variant with [external antenna connectors](#external-antenna-variant) is available for designs where the built-in antenna is not suitable.
 
 ## Pinout
 
@@ -276,7 +276,7 @@ The S2 Module is compatible with [Tag-Connect TC2030-CTX](https://www.tag-connec
 
 The full schematic of the S2 Module is shown in the diagram below.
 
-![Silicon Witchery S2 Module Schematics](/assets/images/s2-module-schematic.png)
+[![Silicon Witchery S2 Module Schematics](/assets/images/s2-module-schematic.png)](/assets/files/s2-module-schematic.pdf)
 
 ---
 
@@ -353,17 +353,35 @@ Ratings and characteristics of the module are listed below. For further details,
 
 ⁑ – External antenna variant only
 
+## Housing & mounting
+
+Both variants of the module ships with a plastic housing, as well as a set of nylon screws and standoffs for easy mounting.
+
+- 1x plastic housing
+- 4x 12mm M2.5 countersunk screws
+- 4x 6mm M2.5 hex standoffs
+- 4x 4mm M2.5 pan head screws
+
+The module may be mounted to either a chassis, or a host PCB. If using the internal antenna variant of the module, ensure that there are no metal objects [close to the antenna](#antenna-considerations).
+
+![Silicon Witchery S2 Module Mounting](/assets/images/s2-module-mounting.png)
+
+If mounted to a PCB, it is possible to interface with all of the module power and IO connections using spring loaded pogo pins which press against the gold pads on the bottom of the module. If using the included 6mm standoffs, the following pogo pins are suitable:
+
+- [Mill Max spring-loaded pin with a standard tail](https://www.mill-max.com/products/discrete-spring-loaded-pins/spring-loaded-pin-with-standard-tail/0985)
+- [Mill Max surface mount spring-loaded pin](https://www.mill-max.com/products/discrete-spring-loaded-pins/surface-mount-spring-loaded-pin/0951/0951-0-15-20-71-14-11-0)
+
+## Labeling
+
+The position of the pre-attached IMEI label is shown below. The label displays the IMEI in both text and QR code format as shown:
+
+![Silicon Witchery S2 Module Labeling](/assets/images/s2-module-labeling.png)
+
 ## Mechanical dimensions
 
 Dimensional drawings of the module are shown below.
 
-![Silicon Witchery S2 Module Mechanical Drawing](/assets/images/s2-module-mechanical-drawing.png)
-
-## Labeling
-
-![Silicon Witchery S2 Module Labeling](/assets/images/s2-module-labeling.png)
-
-<!-- TODO more details around the IMEI labeling -->
+[![Silicon Witchery S2 Module Mechanical Drawing](/assets/images/s2-module-drawing.png)](/assets/files/s2-module-drawing.pdf)
 
 ## Ordering information
 
@@ -379,12 +397,6 @@ The S2 Module is available in the following SKUs:
 ### Approved bands
 
 Approved bands for the nRF9151 SiP are listed within [Nordic's documentation](https://docs.nordicsemi.com/bundle/ps_nrf9151/page/regulatory_information.html)
-
-### Type certifications
-
-Details coming soon
-
-<!-- TODO -->
 
 ---
 
