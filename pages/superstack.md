@@ -95,7 +95,11 @@ Scrolling to the bottom of the Device Details panel will reveal the **Remove dev
 
 ![Superstack remove device dialog](/assets/images/superstack-remove-device-dialog.png)
 
-Deleting a Deployment will un-pair all Devices.
+{: .warning }
+Unpairing a Device will delete all the associated Data and Logs for that Device.
+
+{: .warning }
+Deleting a Deployment will un-pair all Devices currently paired to that Deployment.
 
 ---
 
