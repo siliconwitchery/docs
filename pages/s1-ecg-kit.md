@@ -3,7 +3,6 @@ title: S1 ECG Kit
 description: An all-in-kit to build and test heart algorithms with ease.
 image: /assets/images/annotated-ecg-kit.png
 nav_order: 6
-last_modified_date: December 12th 2022, 13:56 UTC
 redirect_from:
   - /s1-ecg-kit/s1-ecg-kit/
 ---
