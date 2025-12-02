@@ -9,15 +9,6 @@ redirect_from:
   - /pages/superstack
 ---
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined">
-<style>
-.material-symbols-outlined {
-    font-size: 21px !important;
-    position: relative !important;
-    top: 3px !important;
-}
-</style>
-
 # Superstack IoT Platform
 {: .no_toc }
 {: .d-inline-block }
