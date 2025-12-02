@@ -1,5 +1,5 @@
 ---
-title: Superstack API Reference
+title: API Reference
 parent: Superstack Platform
 description: 
 image: /assets/images/superstack-annotated-masthead.png

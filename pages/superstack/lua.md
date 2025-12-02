@@ -1,15 +1,58 @@
 ---
-title: S2 Module Lua Reference
+title: Lua Library Reference
 parent: Superstack Platform
-description: 
+description: Lua scripting and library reference for Superstack IoT devices including the S2 Module
 image: /assets/images/superstack-annotated-masthead.png
 nav_order: 1
 ---
 
+# Superstack Lua Library Reference
+{: .no_toc }
 
-### Standard Lua libraries
+---
 
-Many of the standard libraries are included for the user to take advantage of.
+Superstack Devices such as the S2 Module run Lua. An incredibly lightweight, efficient and simple to learn language.
+
+The builtin Lua libraries provide Users complete hardware and network level functionality to **read sensors**, **report data**, **compute on-device algorithms** and take actions such as **driving IO** automatically.
+
+The Lua engine is almost as performant as writing native C firmware as it's a lightweight wrapper around naive C functions built into the Superstack firmware.
+
+Compared to writing firmware, the Superstack Lua engine allows for remote, and realtime development of IoT code without the need for compiler tools, hardware debuggers or physical access to the device. There's also no risk of bricking devices, as Lua runs in a container, and is always updatable and firewalled from sensitive internal functions such as network management.
+
+---
+
+## Contents
+{: .no_toc}
+
+1. TOC
+{:toc}
+
+---
+
+## Coding principals and notation
+
+The functions described in this reference typically represent single, atomic operations. For example `device.digital.set_output()` will output a high, or low voltage on a specified pin. Unlike most hardware level programming, a separate configuration step isn't needed. All configuration is optional and is passed directly into this function if desired.
+
+The functions may accept a combination of **positional** and **named** arguments. Positional arguments always come first, with the named arguments provided at the end as a Lua table of key-value pairs.
+
+Most of the named arguments will take on a default value if not provided. These are marked as *optional*.
+
+```lua
+-- Calling a function with only positional arguments
+device.digital.set_output("A0", true)
+
+-- Calling a function with both positional and named arguments
+device.i2c.write(0x12, 0x4F, "\x01", { scl_pin="B0", sda_pin="B1"})
+
+-- Calling a function with only named arguments. Note how the () can be omitted
+network.send_data{ sensor_value=31.5 }
+```
+
+---
+
+## Standard libraries
+
+Almost all of the standard Lua libraries that you would find on the desktop installation of Lua are included:
 
 - ✅ [Basic functions](https://www.lua.org/manual/5.4/manual.html#6.1)
 - ✅ [Math functions](https://www.lua.org/manual/5.4/manual.html#6.7)
@@ -19,32 +62,125 @@ Many of the standard libraries are included for the user to take advantage of.
 - ✅ [Coroutine manipulation](https://www.lua.org/manual/5.4/manual.html#6.2)
 - ✅ [Debug library](https://www.lua.org/manual/5.4/manual.html#6.10)
 
-Standard libraries which are not included are superseded by similar Device specific libraries:
+Only two standard libraries are not included, as they are superseded by similar functionality provided by the device specific libraries:
 
 - ❎ File IO functions - Replaced by the [non-volatile memory](#non-volatile-memory-file-system) library
 - ❎ Operating system functions - Replaced by the [timekeeping ](#timekeeping-functions) and [Device](#miscellaneous-functions) libraries
 
 ---
 
-The following Device-specific libraries allow access to all aspects of the Device I/O and feature set such as LTE-based communication and GPS. Additionally, some other libraries provide convenient functions for running DSP operations and type conversions.
-
-These functions may accept a combination of positional and named arguments. Named arguments are passed as tables which essentially expect key-value pairs. Most of these keys will take on a default value if not provided. These are marked as *optional*.
-
-```lua
--- Calling a function with only positional arguments
-device.digital.set_output("A0", true)
-
--- Calling a function with both positional and named arguments
-device.i2c.write(0x12, 0x4F, "\x01", { scl_pin="B0", sda_pin="B1"})
-
--- Calling a function with only positional arguments. Note how the () can be omitted
-network.send_data{ sensor_value=31.5 }
-```
-
----
+## Hardware libraries
 
 ### Digital IO
 
+<!-- New new structure -->
+
+{: .highlight }
+> ```lua
+> device.digital.set_output(pin, value)
+> ```
+
+{: .important-title }
+> My important title
+>
+> A paragraph
+>
+> Another paragraph
+>
+> The last paragraph
+
+<!-- New structure -->
+#### Set or clear a digital output on a pin
+{: .no_toc}
+
+<table>
+    <tr><th style="text-align:left;">
+        <code>device.digital.set_output(pin, value)</code>
+    </th></tr>
+    <tr><td>
+        <strong>Parameters:</strong>
+        <ul>
+            <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+            <li><code>value</code> - <strong>boolean</strong> - The level to set on the pin. <code>true</code> for high, or <code>false</code> for low</li>
+        </ul>
+        <strong>Returns:</strong><br>
+        <ul>
+            <li><strong>nil</strong></li>
+        </ul>
+    </td></tr>
+</table>
+
+#### Get the digital value on a pin
+{: .no_toc}
+
+<table>
+    <tr><th style="text-align:left;">
+        <code>device.digital.get_input(pin, { pull="PULL_DOWN" })</code>
+    </th></tr>
+    <tr><td>
+        <strong>Parameters:</strong>
+        <ul>
+            <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+        </ul>
+        <strong>Optional parameters:</strong>
+        <ul>
+            <li><code>pull</code> - <strong>string</strong> - Selects the pull mode on the pin. Can be <code>"PULL_UP"</code>, <code>"PULL_DOWN"</code>, or <code>"NO_PULL"</code></li>
+        </ul>
+        <strong>Returns:</strong><br>
+        <ul>
+            <li><strong>boolean</strong> - <code>true</code> if the pin is high, or <code>false</code> if it's low</li>
+        </ul>
+    </td></tr>
+</table>
+
+#### Assigns an event handler that triggers whenever the input value of a pin changes
+{: .no_toc}
+
+<table>
+    <tr><th style="text-align:left;">
+        <code>device.digital.assign_input_event(pin, handler, { pull="PULL_DOWN" })</code>
+    </th></tr>
+    <tr><td>
+        <strong>Parameters:</strong>
+        <ul>
+            <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+            <li><code>handler</code> - <strong>function</strong> - The function to call whenever the pin value changes. This function will be called with two arguments:</li>
+            <ul>
+                <li><code>pin</code> - <strong>string</strong> - The pin name that generated the event. E.g. <code>A0</code></li>
+                <li><code>state</code> - <strong>boolean</strong> - The value on the pin when the event occurred. <code>true</code> if the pin was high, or <code>false</code> if the pin was low</li>
+            </ul>
+        </ul>
+        <strong>Optional parameters:</strong>
+        <ul>
+            <li><code>pull</code> - <strong>string</strong> - Selects the pull mode on the pin. Can be <code>"PULL_UP"</code>, <code>"PULL_DOWN"</code>, or <code>"NO_PULL"</code></li>
+        </ul>
+        <strong>Returns:</strong><br>
+        <ul>
+            <li><strong>nil</strong></li>
+        </ul>
+    </td></tr>
+</table>
+
+#### Disables an event and detaches the pin from its handler
+{: .no_toc}
+
+<table>
+    <tr><th style="text-align:left;">
+        <code>device.digital.unassign_input_event(pin)</code>
+    </th></tr>
+    <tr><td>
+        <strong>Parameters:</strong>
+        <ul>
+            <li><code>pin</code> - <strong>string</strong> - The pin name. E.g. <code>A0</code></li>
+        </ul>
+        <strong>Returns:</strong><br>
+        <ul>
+            <li><strong>nil</strong></li>
+        </ul>
+    </td></tr>
+</table>
+
+<!-- Old structure -->
 <table>
     <tr>
         <th>Function</th>
@@ -757,153 +893,7 @@ device.audio.stop("E0")
 
 ---
 
-### Sleep, power & system info
-
-<table>
-    <tr>
-        <th>Function</th>
-        <th>Details</th>
-    </tr>
-    <tr>
-        <td>
-            <code>device.sleep(time)</code>
-        </td>
-        <td>
-            Puts the device into a low-power sleep for a certain amount of time.
-            <br><br>
-            <strong>Parameters:</strong>
-            <ul>
-                <li><code>time</code> - <strong>number</strong> - The time to sleep in seconds. E.g. <code>1.5</code></li>
-            </ul>
-            <strong>Returns:</strong><br>
-            <ul>
-                <li><strong>nil</strong></li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>device.power.battery.set_charger_cv_cc(voltage, current)</code>
-        </td>
-        <td>
-            Sets the termination voltage and constant current values for the charger.
-            <br><br>
-            <strong>Parameters:</strong>
-            <ul>
-                <li><code>voltage</code> - <strong>number</strong> - The termination voltage of the cell. Can be either <code>3.50</code>, <code>3.55</code>, <code>3.60</code>, <code>3.65</code>, <code>4.00</code>, <code>4.05</code>, <code>4.10</code>, <code>4.15</code>, <code>4.20</code>, <code>4.25</code>, <code>4.30</code>, <code>4.35</code>, <code>4.40</code>, or <code>4.45</code></li>
-                <li><code>current</code> - <strong>number</strong> - The constant current to charge the cell at. Must be between <code>32</code> and <code>800</code> in steps of <code>2</code></li>
-            </ul>
-            <strong>Returns:</strong><br>
-            <ul>
-                <li><strong>nil</strong></li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>device.power.battery.get_voltage()</code>
-        </td>
-        <td>
-            Gets the voltage of the cell.
-            <br><br>
-            <strong>Returns:</strong><br>
-            <ul>
-                <li><strong>number</strong> - The voltage of the cell in volts</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>device.power.battery.get_charging_status()</code>
-        </td>
-        <td>
-            Gets the charging status of the cell.
-            <br><br>
-            <strong>Returns:</strong><br>
-            <ul>
-                <li><strong>string</strong> - The current charging status. Either <code>charging</code>, <code>charged</code> or <code>discharging</code> if the battery is connected, or <code>external_power</code> if either no battery is installed, or the battery has a fault</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>device.power.set_vout(voltage)</code>
-        </td>
-        <td>
-            Sets the voltage of V<sub>OUT</sub>.
-            <br><br>
-            <strong>Parameters:</strong>
-            <ul>
-                <li><code>voltage</code> - <strong>number</strong> - The voltage to set. Can be between <code>1.8</code> and <code>3.3</code> in steps of <code>0.1</code></li>
-            </ul>
-            <strong>Returns:</strong><br>
-            <ul>
-                <li><strong>nil</strong></li>
-            </ul>
-        </td>
-    </tr>
-</table>
-
-<table>
-    <tr>
-        <th>Constant</th>
-        <th>Details</th>
-    </tr>
-    <tr>
-        <td>
-            <code>device.HARDWARE_VERSION</code>
-        </td>
-        <td>
-            The hardware version of the device.
-            <br><br>
-            <strong>Returns:</strong>
-            <ul>
-                <li><strong>string</strong> - Always <code>"s2-module"</code></li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>device.FIRMWARE_VERSION</code>
-        </td>
-        <td>
-            The current firmware version of the Superstack firmware running on the device.
-            <br><br>
-            <strong>Returns:</strong>
-            <ul>
-                <li><strong>string</strong> - A string representing the current firmware version. E.g. <code>"0.1.0+0"</code></li>
-            </ul>
-        </td>
-    </tr>
-</table>
-
-Example usage:
-
-```lua
--- Print the hardware version, sleep for 1.5 seconds and then print firmware version
-print(device.HARDWARE_VERSION)
-device.sleep(1.5)
-print(device.FIRMWARE_VERSION)
-
--- Configure the battery charger for a 4.2V 200mAh rated Li-Po cell
-device.power.battery.set_charger_cv_cc(4.2, 200)
-
--- Get the current battery status
-local voltage = device.power.battery.get_voltage()
-local status = device.power.battery.get_charging_status()
-
-if status ~= "external_power" then
-    print("Battery is "..status)
-    print("Battery voltage is "..tostring(voltage).."V")
-else
-    print("Battery not connected. On external power")
-end
-
--- Set the voltage of Vout to 3.3V
-device.power.set_vout(3.3)
-```
-
----
+## Networking libraries
 
 ### Networking (LTE)
 
@@ -1039,6 +1029,10 @@ end
 ```
 
 ---
+
+## System libraries
+
+### Logging
 
 ### File storage
 
@@ -1232,4 +1226,152 @@ local now = time.get_time_date()
 
 print(string.format("The current time is: %02d:%02d", now.minute, now.hour))
 print(string.format("The current date is: %d/%d/%d", now.year, now.month, now.day))
+```
+
+---
+
+### Sleep, power & system info
+
+<table>
+    <tr>
+        <th>Function</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.sleep(time)</code>
+        </td>
+        <td>
+            Puts the device into a low-power sleep for a certain amount of time.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>time</code> - <strong>number</strong> - The time to sleep in seconds. E.g. <code>1.5</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.power.battery.set_charger_cv_cc(voltage, current)</code>
+        </td>
+        <td>
+            Sets the termination voltage and constant current values for the charger.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>voltage</code> - <strong>number</strong> - The termination voltage of the cell. Can be either <code>3.50</code>, <code>3.55</code>, <code>3.60</code>, <code>3.65</code>, <code>4.00</code>, <code>4.05</code>, <code>4.10</code>, <code>4.15</code>, <code>4.20</code>, <code>4.25</code>, <code>4.30</code>, <code>4.35</code>, <code>4.40</code>, or <code>4.45</code></li>
+                <li><code>current</code> - <strong>number</strong> - The constant current to charge the cell at. Must be between <code>32</code> and <code>800</code> in steps of <code>2</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.power.battery.get_voltage()</code>
+        </td>
+        <td>
+            Gets the voltage of the cell.
+            <br><br>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>number</strong> - The voltage of the cell in volts</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.power.battery.get_charging_status()</code>
+        </td>
+        <td>
+            Gets the charging status of the cell.
+            <br><br>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>string</strong> - The current charging status. Either <code>charging</code>, <code>charged</code> or <code>discharging</code> if the battery is connected, or <code>external_power</code> if either no battery is installed, or the battery has a fault</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.power.set_vout(voltage)</code>
+        </td>
+        <td>
+            Sets the voltage of V<sub>OUT</sub>.
+            <br><br>
+            <strong>Parameters:</strong>
+            <ul>
+                <li><code>voltage</code> - <strong>number</strong> - The voltage to set. Can be between <code>1.8</code> and <code>3.3</code> in steps of <code>0.1</code></li>
+            </ul>
+            <strong>Returns:</strong><br>
+            <ul>
+                <li><strong>nil</strong></li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>Constant</th>
+        <th>Details</th>
+    </tr>
+    <tr>
+        <td>
+            <code>device.HARDWARE_VERSION</code>
+        </td>
+        <td>
+            The hardware version of the device.
+            <br><br>
+            <strong>Returns:</strong>
+            <ul>
+                <li><strong>string</strong> - Always <code>"s2-module"</code></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>device.FIRMWARE_VERSION</code>
+        </td>
+        <td>
+            The current firmware version of the Superstack firmware running on the device.
+            <br><br>
+            <strong>Returns:</strong>
+            <ul>
+                <li><strong>string</strong> - A string representing the current firmware version. E.g. <code>"0.1.0+0"</code></li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+Example usage:
+
+```lua
+-- Print the hardware version, sleep for 1.5 seconds and then print firmware version
+print(device.HARDWARE_VERSION)
+device.sleep(1.5)
+print(device.FIRMWARE_VERSION)
+
+-- Configure the battery charger for a 4.2V 200mAh rated Li-Po cell
+device.power.battery.set_charger_cv_cc(4.2, 200)
+
+-- Get the current battery status
+local voltage = device.power.battery.get_voltage()
+local status = device.power.battery.get_charging_status()
+
+if status ~= "external_power" then
+    print("Battery is "..status)
+    print("Battery voltage is "..tostring(voltage).."V")
+else
+    print("Battery not connected. On external power")
+end
+
+-- Set the voltage of Vout to 3.3V
+device.power.set_vout(3.3)
 ```
