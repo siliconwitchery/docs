@@ -19,7 +19,7 @@ Active
 
 ![Silicon Witchery Superstack platform](/assets/images/superstack-annotated-masthead.png)
 
-Superstack is a cloud IoT platform that lets you deploy, program, and manage connected devices from anywhere. You can update firmware, monitor data in real-time, and run AI-powered analytics, all through a secure web dashboard or API. Superstack handles connectivity, device onboarding, and fleet management, so you can focus on building your application. Its natural language query engine and easy business integration make it simple to turn raw device data into actionable insights at scale.
+Superstack is a cloud IoT platform that lets you deploy, program, and manage connected devices from anywhere. You can update firmware, monitor data in real-time, and run AI-powered analytics, all through a secure web dashboard or API. Superstack handles connectivity, Device onboarding, and fleet management, so you can focus on building your application. Its natural language query engine and easy business integration make it simple to turn raw device data into actionable insights at scale.
 
 ---
 
@@ -82,18 +82,18 @@ A Device can only be a part of one Deployment. To add a Device, click the **Add 
 
 Follow the steps shown to confirm pairing from the Device.
 
-A number of Devices up to the **Device Limit** can be added to a deployment. This Limit is determined by the **Subscription Plan** associated with that Deployment.
+A number of Devices up to the **Device Limit** can be added to a Deployment. This Limit is determined by the **Subscription Plan** associated with that Deployment.
 
 ### Removing a device
 
-If you no longer wish for a Device to be attached to a Deployment, or if you wish to move to the device to different Deployment, you can remove it.
+If you no longer wish for a Device to be attached to a Deployment, or if you wish to move the Device to a different Deployment, you can remove it.
 
 {: .warning }
-Unpairing a Device will delete all the associated Data and Logs for that Device.
+Un-pairing a Device will delete all the associated Data and Logs for that Device.
 
-To remove a Device, click the device in the Devices Tab to reveal the Device Details. Then scroll to the bottom and click **Remove Device**.
+To remove a Device, click the Device in the Devices Tab to reveal the Device Details. Then scroll to the bottom and click **Remove Device**.
 
-Once removed, the Device will immediately become available to pair. Anyone with physical access to the device will now be able to attach it to their Deployment.
+Once removed, the Device will immediately become available to pair. Anyone with physical access to the Device will now be able to attach it to their Deployment.
 
 ![Superstack remove device dialog](/assets/images/superstack-remove-device-dialog.png)
 
@@ -113,19 +113,19 @@ All three examples above fit perfectly within the **Free Starter Plan**. For mor
 
 **What counts as data usage:**
 
-Both data sent to and received from devices count toward your usage limit:
+Both data sent to and received from Devices count toward your usage limit:
 
 - Logs sent using `print()`
 - Sensor values or any other data sent using `network.send_data()`
 - Changes to Lua code
 
-Automatic module firmware updates, or viewing device telemetry from within Superstack such as power, data usage, and location do not count towards data usage.
+Automatic module firmware updates, or viewing Device telemetry from within Superstack such as power, data usage, and location do not count towards data usage.
 
 {: .warning }
-**Code deployment impact**: When you update device code through Superstack, the entire code file is transmitted to each device. Large code files can consume significant data allowance, especially when deployed to multiple devices.
+**Code deployment impact**: When you update Device code through Superstack, the entire code file is transmitted to each Device. Large code files can consume significant data allowance, especially when deployed to multiple Devices.
 
 {: .note }
-**Devices record their own usage:** Data usage cannot be reset by re-adding or moving a Device to a new Deployment. Device usage carries over with the device.
+**Devices record their own usage:** Data usage cannot be reset by re-adding or moving a Device to a new Deployment. Device usage carries over with the Device.
 
 ---
 
@@ -133,14 +133,14 @@ Automatic module firmware updates, or viewing device telemetry from within Super
 
 The **Code Tab** allows scripting of Devices to read sensors, toggle IO, and run algorithms using a popular scripting language called Lua. Lua is incredibly simple even compared to languages such as Python. Due to its small size and simplicity, it is used in many large projects such as Wikipedia and Redis, as well as massively multiplayer online games such as Roblox and World of Warcraft.
 
-The Superstack Lua engine allows for remote, and realtime development of IoT code without having to write C firmware, learn about realtime operating systems, or manage over-the-air firmware updates that risk bricking your Devices. Simply write your code in the **Code Tab Editor**, save, and test. If something didn't work, edit the code and save again. Your changes take affect within seconds.
+The Superstack Lua engine allows for remote, and realtime development of IoT code without having to write C firmware, learn about realtime operating systems, or manage over-the-air firmware updates that risk bricking your Devices. Simply write your code in the **Code Tab Editor**, save, and test. If something didn't work, edit the code and save again. Your changes take effect within seconds.
 
 To start editing the Code for a Device, click the <span class="material-symbols-outlined">memory</span> icon and select a Device. The Editor will help you with formatting and point out syntax errors automatically. Click the <span class="material-symbols-outlined">save</span> icon to save your code. Your Device will receive the code within a few seconds and run.
 
 If you wish to push the same code to multiple devices, click the <span class="material-symbols-outlined">upload</span> icon and select the Devices or Groups you wish to push this code to.
 
 {: .warning }
-The push feature will overwrite any existing code on the selected devices.
+The push feature will overwrite any existing code on the selected Devices.
 
 Detailed examples along with the **Lua Library Reference** can be found [here](/pages/superstack/lua.md).
 
@@ -148,7 +148,7 @@ Detailed examples along with the **Lua Library Reference** can be found [here](/
 
 ## Logs and Data tab
 
-The **Logs Tab** and **Data Tab** display realtime user defined messages and data sent from each Device. Logs are sent using the Lua `print()` function, and Data is sent using `network.send_data()`.
+The **Logs Tab** and **Data Tab** display realtime user-defined messages and data sent from each Device. Logs are sent using the Lua `print()` function, and Data is sent using `network.send_data()`.
 
 Logs and Data can also be individually deleted using the <span class="material-symbols-outlined">delete</span> icon.
 
@@ -158,7 +158,7 @@ Logs and Data can also be individually deleted using the <span class="material-s
 
 The **Agent Tab** lets you query your Devices and Data using natural language. It's additionally capable of running advanced statistical analysis using its reasoning capabilities.
 
-The **AI Agent** takes its content from a number of sources.
+The **AI Agent** takes its context from a number of sources.
 
 1. **Agent Role** - Determines the overall goal of the AI Agent
 1. **Device Name** - Informs the AI Agent what the specific Device is monitoring
@@ -193,9 +193,9 @@ The **Settings Tab** contains all Deployment related settings such as **Name**, 
 
 The **Device Limit**, **Data Allowance**, and **AI Allowance** is determined by the **Subscription Plan**. Plans are per Deployment, therefore multiple Users of the same Deployment gain the same benefits when a Deployment is upgraded, and organization managers do not need to manage per-User billing.
 
-The Plan can be changed at anytime using the **Edit Plan** button on the **Settings Tab**. Payments are managed using Stripe, a well-known payment provider. Superstack app do not handle transactions directly. Instead, Stripe securely processes all payments. Silicon Witchery does not store or access any sensitive user billing details.
+The Plan can be changed at anytime using the **Edit Plan** button on the **Settings Tab**. Payments are managed using Stripe, a well-known payment provider. The Superstack app does not handle transactions directly. Instead, Stripe securely processes all payments. Silicon Witchery does not store or access any sensitive User billing details.
 
-The **Data Usage** and **AI Usage** resets at the end of each **Billing Period**. This is the day of the month that the deployment was created. For example, if a Deployment was created on the 12th of September, the Usage will reset on the 12th of October. If a deployment was created after the 28th day of the month, the Usage will reset on the 28th of the following month.
+The **Data Usage** and **AI Usage** resets at the end of each **Billing Period**. This is the day of the month that the Deployment was created. For example, if a Deployment was created on the 12th of September, the Usage will reset on the 12th of October. If a Deployment was created after the 28th day of the month, the Usage will reset on the 28th of the following month.
 
 To view invoices, navigate to the **Settings Tab** → **Edit Plan** → **Modify Plan** → **Login to Stripe** and then scroll down to the **Invoice History**.
 
@@ -216,7 +216,7 @@ Click the <span class="material-symbols-outlined">edit</span> icon next to the K
 
 ### Deployment visibility
 
-By default, Deployments are created as **Private**. Only signed in users which are a part of that deployment can access it.
+By default, Deployments are created as **Private**. Only signed-in Users who are a part of that Deployment can access it.
 
 A deployment may be toggled as **Public** at which point Users which are not a part of that Deployment will now be able to view the Deployment via the **Deployment URL**. The following Permissions for the Deployment become public:
 
@@ -228,7 +228,7 @@ A deployment may be toggled as **Public** at which point Users which are not a p
 - Read agent role and usage
 - Interact with agent chat
 
-Public API access without the need for an API will also be grated on the above.
+Public API access without the need for an API Key will also be granted on the above.
 
 ### Transferring and deleting deployments
 
@@ -243,7 +243,7 @@ A Deployment can be deleted using the **Delete Deployment** button found at the 
 
 ## API
 
-Superstack exposes all functionality found within the Web App as REST APIs for easy integration with Customer applications.
+Superstack exposes all functionality found within the Web App as REST APIs for easy integration with customer applications.
 
 See the full API documentation [here](/pages/superstack/api.md)
 
@@ -251,14 +251,14 @@ See the full API documentation [here](/pages/superstack/api.md)
 
 ## Troubleshooting / FAQ
 
-1. While trying to set up my Device, the LED won't stop blinking
+1. While trying to set up my Device, the LED won't stop blinking.
 
     This indicates that the Device is not finding any LTE network to connect to. You may need to reposition your Device in order to receive better signal strength. Additionally, make sure that your country is supported within the Device [network list](/pages/s2-module#lte--gnss-connectivity).
 
-1. While trying to set up my Device, the LED stops blinking and doesn't seem connected
+1. While trying to set up my Device, the LED stops blinking and doesn't seem connected.
 
     This may indicate that either the power to the Device is insufficient, or that the Device is already connected to an active Deployment.
 
-1. My Device seems connected to a Deployment but I don't have access to it. How can I re-pair it
+1. My Device seems connected to a Deployment but I don't have access to it. How can I re-pair it?
 
     Access to the original Deployment is **required** in order to decommission a Device for re-pairing. This is to prevent unattended Devices being taken over without explicit permission of the Deployment owner.
