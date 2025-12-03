@@ -184,7 +184,7 @@ device.digital.unassign_input_event(pin)
 {: .note-title } 
 > Example:
 > ```lua
-> -- Disable the event and detach the pin from the handler if no longer needed
+> -- Disable the event and detach the pin from the handler
 > device.digital.unassign_input_event("C3")
 > ```
 
@@ -777,13 +777,13 @@ network.send_data{ data }
 > 
 > -- Network send can contain any arbitrary data
 > network.send_data{ 
->     some_int = -42, 
->     some_float = 23.1,
->     some_string = "test",
->     some_array = {1, 2, 3, 4},
->     some_nested_thing = {
->         another_int = 54,
->         another_string = "test again"
+>     my_int = -42, 
+>     my_float = 23.1,
+>     my_string = "my string",
+>     my_array = {1, 2, 3, 4},
+>     my_table = {
+>         my_other_int = 54,
+>         my_other_string = "another string"
 >     }
 > }
 > ```
@@ -862,6 +862,159 @@ location.set_options({ accuracy="HIGH", power_saving="MEDIUM", tracking_interval
 ## System libraries
 
 ### Logging
+
+#### Post log to Superstack
+{: .no_toc}
+
+```lua
+print(log)
+```
+
+{: .note-title }
+> Parameters:
+> - `log` - **string** - String to print
+
+{: .note-title } 
+> Returns:
+> - **nil**
+
+{: .note-title } 
+> Example:
+> ```lua
+> -- Simple print
+> print("hello world")
+>
+> -- Print variables
+> local my_num = 4 + 3
+> print(my_num)
+>
+> -- C printf style formatted prints
+> print(string.format("pi = %.4f", math.pi))
+> ```
+
+---
+
+### Sleep
+
+#### Sleep for a duration
+{: .no_toc}
+
+```lua
+device.sleep(time)
+```
+
+{: .note-title }
+> Parameters:
+> - `time` - **number** - The duration to sleep in seconds. E.g. `1.5`
+
+{: .note-title } 
+> Returns:
+> - **nil**
+
+{: .note-title } 
+> Example:
+> ```lua
+> -- Sleep for 1.5 seconds
+> device.sleep(1.5)
+> ```
+
+---
+
+### Power
+
+#### Configure the battery charger
+{: .no_toc}
+
+```lua
+device.power.battery.set_charger_cv_cc(voltage, current)
+```
+
+{: .note-title }
+> Parameters:
+> - `voltage` - **number** - The termination voltage. Can be `3.50`, `3.55`, `3.60`, `3.65`, `4.00`, `4.05`, `4.10`, `4.15`, `4.20`, `4.25`, `4.30`, `4.35`, `4.40`, or `4.45`
+> - `current` - **number** - The constant charge current in mA. Must be between `32` and `800` in steps of `2`
+
+{: .note-title } 
+> Returns:
+> - **nil**
+
+{: .note-title } 
+> Example:
+> ```lua
+> -- Configure the battery charger for a 4.2V 200mAh rated Li-Po cell
+> device.power.battery.set_charger_cv_cc(4.2, 200)
+> ```
+
+---
+
+#### Get the battery voltage
+{: .no_toc}
+
+```lua
+device.power.battery.get_voltage()
+```
+
+{: .note-title } 
+> Returns:
+> - **number** - The voltage of the cell in volts
+
+{: .note-title } 
+> Example:
+> ```lua
+> local voltage = device.power.battery.get_voltage()
+> print("Battery voltage is "..tostring(voltage).."V")
+> ```
+
+---
+
+#### Get the battery charging status
+{: .no_toc}
+
+```lua
+device.power.battery.get_charging_status()
+```
+
+{: .note-title } 
+> Returns:
+> - **string** - The charging status: `"charging"`, `"charged"`, or `"discharging"` if a battery is connected, or `"external_power"` if no battery is installed or the battery has a fault
+
+{: .note-title } 
+> Example:
+> ```lua
+> local status = device.power.battery.get_charging_status()
+> 
+> if status ~= "external_power" then
+>     print("Battery is "..status)
+> else
+>     print("Battery not connected. On external power")
+> end
+> ```
+
+---
+
+#### Set the IO voltage for all ports
+{: .no_toc}
+
+```lua
+device.power.set_vout(voltage)
+```
+
+{: .note-title }
+> Parameters:
+> - `voltage` - **number** - The IO voltage of `PORTA` - `PORTF`. Can be between `1.8` and `3.3` in steps of `0.1`
+
+{: .note-title } 
+> Returns:
+> - **nil**
+
+{: .note-title } 
+> Example:
+> ```lua
+> -- Set the voltage of Vout to 3.3V
+> device.power.set_vout(3.3)
+> ```
+
+---
 
 ### File storage
 
@@ -1062,125 +1215,7 @@ time.get_time_date({ unix_epoch, timezone })
 
 ---
 
-### Sleep, power & system info
-
-#### Sleep for a duration
-{: .no_toc}
-
-```lua
-device.sleep(time)
-```
-
-{: .note-title }
-> Parameters:
-> - `time` - **number** - The duration to sleep in seconds. E.g. `1.5`
-
-{: .note-title } 
-> Returns:
-> - **nil**
-
-{: .note-title } 
-> Example:
-> ```lua
-> -- Sleep for 1.5 seconds
-> device.sleep(1.5)
-> ```
-
----
-
-#### Configure the battery charger
-{: .no_toc}
-
-```lua
-device.power.battery.set_charger_cv_cc(voltage, current)
-```
-
-{: .note-title }
-> Parameters:
-> - `voltage` - **number** - The termination voltage. Can be `3.50`, `3.55`, `3.60`, `3.65`, `4.00`, `4.05`, `4.10`, `4.15`, `4.20`, `4.25`, `4.30`, `4.35`, `4.40`, or `4.45`
-> - `current` - **number** - The constant charge current in mA. Must be between `32` and `800` in steps of `2`
-
-{: .note-title } 
-> Returns:
-> - **nil**
-
-{: .note-title } 
-> Example:
-> ```lua
-> -- Configure the battery charger for a 4.2V 200mAh rated Li-Po cell
-> device.power.battery.set_charger_cv_cc(4.2, 200)
-> ```
-
----
-
-#### Get the battery voltage
-{: .no_toc}
-
-```lua
-device.power.battery.get_voltage()
-```
-
-{: .note-title } 
-> Returns:
-> - **number** - The voltage of the cell in volts
-
-{: .note-title } 
-> Example:
-> ```lua
-> local voltage = device.power.battery.get_voltage()
-> print("Battery voltage is "..tostring(voltage).."V")
-> ```
-
----
-
-#### Get the battery charging status
-{: .no_toc}
-
-```lua
-device.power.battery.get_charging_status()
-```
-
-{: .note-title } 
-> Returns:
-> - **string** - The charging status: `"charging"`, `"charged"`, or `"discharging"` if a battery is connected, or `"external_power"` if no battery is installed or the battery has a fault
-
-{: .note-title } 
-> Example:
-> ```lua
-> local status = device.power.battery.get_charging_status()
-> 
-> if status ~= "external_power" then
->     print("Battery is "..status)
-> else
->     print("Battery not connected. On external power")
-> end
-> ```
-
----
-
-#### Set the output voltage
-{: .no_toc}
-
-```lua
-device.power.set_vout(voltage)
-```
-
-{: .note-title }
-> Parameters:
-> - `voltage` - **number** - The output voltage. Can be between `1.8` and `3.3` in steps of `0.1`
-
-{: .note-title } 
-> Returns:
-> - **nil**
-
-{: .note-title } 
-> Example:
-> ```lua
-> -- Set the voltage of Vout to 3.3V
-> device.power.set_vout(3.3)
-> ```
-
----
+### Device information
 
 #### Hardware version constant
 {: .no_toc}
