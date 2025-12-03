@@ -11,14 +11,9 @@ nav_order: 2
 
 ---
 
-Superstack exposes all functionality featured in the web-app as REST APIs. This allows for tight integration of Superstack with your own applications. 
+Superstack exposes all functionality featured in the web app as REST APIs. This allows for tight integration of Superstack with your own applications.
 
-<!-- TODO explain these in a couple paragraphs -->
-- Pull data dynamically into your own apps as and when needed
-- Expose natural language interfaces for different types of users
-- Monitor logs from your own dashboards
-- Monitor and manage devices alongside existing IoT infrastructure
-- React to events and trigger actions on devices
+Use the API to pull data dynamically into your apps, expose natural language interfaces for different types of users, monitor logs from your own dashboards, manage devices alongside existing IoT infrastructure, and react to events by triggering actions on devices.
 
 ---
 
@@ -384,7 +379,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/telem
 >             "bytesTotal": 6912,                 // Total bytes at this time
 >             "powerState": "battery",            // Power state at this time
 >             "batteryLevel": 85,                 // Battery level percentage at this time
->             "signalStrength": 75 ,              // Signal strength at percentage this time
+>             "signalStrength": 75,               // Signal strength percentage at this time
 >             "gpsCoordinates": "51.5074,-0.1278" // GPS coordinates at this time
 >         }
 >     }
@@ -516,7 +511,6 @@ PUT https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/code/
 ```
 
 {: .note-title }
-
 > Authentication & Permissions
 > - API key requires **write code** permission
 
@@ -568,7 +562,6 @@ PUT https://super.siliconwitchery.com/api/{deploymentId}/code/push
 >     "groups": ["greenhouse", "outside"],     // Groups to push code to
 >     "devices": ["Tomatoes", "Kale"]          // Specific devices to push code to
 > }
-
 > ```
 > Note: At least one of `groups` or `devices` must be specified
 
@@ -598,7 +591,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/logs?filters=
 > {
 >     "bookmarked": true,                  // Filter for bookmarked logs if true
 >     "groups": ["greenhouse", "outside"], // Filter by device groups
->     "devices": ["tomatoes", "kale"],     // Filter by specific devices
+>     "devices": ["Tomatoes", "Kale"],     // Filter by specific devices
 >     
 >     "startTime": "2024-01-15T07:00:00Z", // Start of time range
 >     "endTime": "2024-01-15T11:30:00Z",   // End of time range
@@ -616,7 +609,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/logs?filters=
 >         {
 >             "id": 12345,                         // Log ID. Can be used for pagination or deletion
 >             "timestamp": "2024-01-15T10:30:00Z", // Timestamp the log was created
->             "device": "tomatoes",                // Device the log originated from
+>             "device": "Tomatoes",                // Device the log originated from
 >             "group": "greenhouse",               // Group that the device belongs to
 >             "message": "Log message content",    // Log content
 >             "level": "info"                      // Log level
@@ -700,7 +693,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/data?filters=
 >             "data": {                            // JSON data payload from the device
 >                 "temperature": 23.5,
 >                 "light": 850,
->                 "moisure": 45.2
+>                 "moisture": 45.2
 >             }
 >         }
 >     ],
