@@ -3,7 +3,6 @@ title: S1 MicroPython
 description: MicroPython docs for the S1 Module series products
 image: /images/annotated-micropython.png
 nav_order: 7
-last_modified_date: May 11th 2022, 07:00 PM
 redirect_from:
   - /micropython/micropython/
   - /micropython/adc/

@@ -3,7 +3,6 @@ title: S1 Popout Board
 description: A low cost development kit to quickly get started with the S1 Module.
 image: /assets/images/s1-popout-board-annotated-masthead.png
 nav_order: 5
-last_modified_date: December 12th 2022, 13:56 UTC
 redirect_from:
   - /s1-popout-board/s1-popout-board/
 ---
