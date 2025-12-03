@@ -70,7 +70,7 @@ If you are not signed in, you will be shown the Demo Deployments where you can e
 
 ## Devices tab
 
-The **Devices Tab** lets you add Devices, such as the [S2 Module](/pages/s2-module.md), to your Deployment. On this tab, you can monitor and manage all of your Devices.
+The **Devices Tab** lets you add Devices, such as the [S2 Module](/pages/s2-module), to your Deployment. On this tab, you can monitor and manage all of your Devices.
 
 Clicking on a specific Device will reveal the **Device Details** panel. This panel shows Device metrics and allows you to edit the Device **Name**, **Group** and **AI role**. Here, you can also remove a Device from the Deployment.
 
@@ -142,7 +142,7 @@ If you wish to push the same code to multiple devices, click the <span class="ma
 {: .warning }
 The push feature will overwrite any existing code on the selected Devices.
 
-Detailed examples along with the **Lua Library Reference** can be found [here](/pages/superstack/lua.md).
+Detailed examples along with the **Lua Library Reference** can be found [here](/pages/superstack/lua).
 
 ---
 
@@ -245,7 +245,7 @@ A Deployment can be deleted using the **Delete Deployment** button found at the 
 
 Superstack exposes all functionality found within the Web App as REST APIs for easy integration with customer applications.
 
-See the full API documentation [here](/pages/superstack/api.md)
+See the full API documentation [here](/pages/superstack/api)
 
 ---
 
