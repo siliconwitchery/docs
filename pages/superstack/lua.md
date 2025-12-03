@@ -11,13 +11,13 @@ nav_order: 1
 
 ---
 
-Superstack Devices such as the S2 Module run Lua. An incredibly lightweight, efficient and simple to learn language.
+Superstack devices such as the S2 Module run Lua—an incredibly lightweight, efficient and simple to learn language.
 
-The builtin Lua libraries provide Users complete hardware and network level functionality to **read sensors**, **report data**, **compute on-device algorithms** and take actions such as **driving IO** automatically.
+The built-in Lua libraries provide complete hardware and network level functionality to **read sensors**, **report data**, **compute on-device algorithms** and take actions such as **driving IO** automatically.
 
-The Lua engine is almost as performant as writing native C firmware as it's a lightweight wrapper around naive C functions built into the Superstack firmware.
+The Lua engine is almost as performant as writing native C firmware as it's a lightweight wrapper around native C functions built into the Superstack firmware.
 
-Compared to writing firmware, the Superstack Lua engine allows for remote, and realtime development of IoT code without the need for compiler tools, hardware debuggers or physical access to the device. There's also no risk of bricking devices, as Lua runs in a container, and is always updatable and firewalled from sensitive internal functions such as network management.
+Compared to writing firmware, the Superstack Lua engine allows for remote and realtime development of IoT code without the need for compiler tools, hardware debuggers or physical access to the device. There's also no risk of bricking devices as Lua runs in a container, and is always updatable and isolated from sensitive internal functions such as network management.
 
 ---
 
@@ -29,7 +29,7 @@ Compared to writing firmware, the Superstack Lua engine allows for remote, and r
 
 ---
 
-## Coding principals and notation
+## Coding principles and notation
 
 The functions described in this reference typically represent single, atomic operations. For example `device.digital.set_output()` will output a high, or low voltage on a specified pin. Unlike most hardware level programming, a separate configuration step isn't needed. All configuration is optional and is passed directly into this function if desired.
 
@@ -82,8 +82,8 @@ device.digital.set_output(pin, value)
 
 {: .note-title }
 > Parameters:
-> - `pin` - **string** - The pin name. E.g. `A0`
-> - `value` - **boolean** - The level to set on the pin. `true` for high, or `false` for low
+> - `pin` - **string** - The pin name. E.g. `"A0"`
+> - `value` - **boolean** - The level to set. `true` for high, `false` for low
 
 {: .note-title } 
 > Returns:
@@ -107,15 +107,15 @@ device.digital.get_input(pin, { pull="PULL_DOWN" })
 
 {: .note-title }
 > Parameters:
-> - `pin` - **string** - The pin name. E.g. `A0`
+> - `pin` - **string** - The pin name. E.g. `"A0"`
 
 {: .note-title }
 > Optional parameters:
-> - `pull` - **string** - Selects the pull mode on the pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
+> - `pull` - **string** - The pull mode on the pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
 
 {: .note-title } 
 > Returns:
-> - **boolean** - `true` if the pin is high, or `false` if it's low
+> - **boolean** - `true` if the pin is high, `false` if low
 
 {: .note-title } 
 > Example:
@@ -136,14 +136,14 @@ device.digital.assign_input_event(pin, handler, { pull="PULL_DOWN" })
 
 {: .note-title }
 > Parameters:
-> - `pin` - **string** - The pin name. E.g. `A0`
-> - `handler` - **function** - The function to call whenever the pin value changes. This function will be called with two arguments:
->   - `pin` - **string** - The pin name that generated the event. E.g. `A0`
->   - `state` - **boolean** - The value on the pin when the event occurred. `true` if the pin was high, or `false` if the pin was low
+> - `pin` - **string** - The pin name. E.g. `"A0"`
+> - `handler` - **function** - The function to call when the pin value changes. Called with two arguments:
+>   - `pin` - **string** - The pin name that generated the event. E.g. `"A0"`
+>   - `state` - **boolean** - The pin value when the event occurred. `true` if high, `false` if low
 
 {: .note-title }
 > Optional parameters:
-> - `pull` - **string** - Selects the pull mode on the pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
+> - `pull` - **string** - The pull mode on the pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
 
 {: .note-title } 
 > Returns:
@@ -152,7 +152,7 @@ device.digital.assign_input_event(pin, handler, { pull="PULL_DOWN" })
 {: .note-title } 
 > Example:
 > ```lua
-> -- Assign a function that triggers whenever the input value of C3 changes
+> -- Assign a function that triggers when the input value of C3 changes
 > function my_pin_handler(pin, state)
 >     if state == true then
 >         print(pin.." went high")
@@ -175,7 +175,7 @@ device.digital.unassign_input_event(pin)
 
 {: .note-title }
 > Parameters:
-> - `pin` - **string** - The pin name. E.g. `A0`
+> - `pin` - **string** - The pin name. E.g. `"A0"`
 
 {: .note-title } 
 > Returns:
@@ -201,23 +201,25 @@ device.analog.get_input(pin, { acquisition_time=40 })
 
 {: .note-title }
 > Parameters:
-> - `pin` - **string** - The pin name. E.g. `A0`
+> - `pin` - **string** - The pin name. Must be an analog capable pin. E.g. `"D0"`
 
 {: .note-title }
 > Optional parameters:
-> - `acquisition_time` - **integer** - A time in microseconds across which to make the measurement. Can be either `3`, `5`, `10`, `15`, `20`, or `40`. Higher values allow for accurate measurement of greater source resistances. Those maximum resistances being 10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ and 800kΩ respectively
+> - `acquisition_time` - **integer** - The measurement time in microseconds. Can be `3`, `5`, `10`, `15`, `20`, or `40`. Higher values support greater source resistances (10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ, 800kΩ respectively)
 
 {: .note-title } 
 > Returns:
-> - **number** - The voltage present on the pin
+> - **table** - A table of key-value pairs:
+>   - `voltage` - **number** - The voltage present on the pin
+>   - `percentage` - **number** - The voltage as a percentage of the full scale
 
 {: .note-title } 
 > Example:
 > ```lua
-> -- Read the analog value on pin D1 and print both the percentage and voltage values
-> local d0_val = device.analog.get_input("D1")
-> print(d0_val.percentage)
-> print(d0_val.voltage)
+> -- Read the analog value on pin D0 and print both the percentage and voltage values
+> local val = device.analog.get_input("D0")
+> print(val.percentage)
+> print(val.voltage)
 > ```
 
 ---
@@ -231,23 +233,25 @@ device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_t
 
 {: .note-title }
 > Parameters:
-> - `positive_pin` - **string** - The pin name of the positive pin
-> - `negative_pin` - **string** - The pin name of the negative pin
+> - `positive_pin` - **string** - The pin name of the positive pin. Must be an analog capable pin. E.g. "D0"
+> - `negative_pin` - **string** - The pin name of the negative pin. Must be an analog capable pin. E.g. "D1"
 
 {: .note-title }
 > Optional parameters:
-> - `acquisition_time` - **integer** - A time in microseconds across which to make the measurement. Can be either `3`, `5`, `10`, `15`, `20`, or `40`. Higher values allow for accurate measurement of greater source resistances
+> - `acquisition_time` - **integer** - The measurement time in microseconds. Can be `3`, `5`, `10`, `15`, `20`, or `40`. Higher values support greater source resistances (10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ, 800kΩ respectively)
 
 {: .note-title } 
 > Returns:
-> - **number** - The voltage present across the pins
+> - **table** - A table of key-value pairs:
+>   - `voltage` - **number** - The voltage present across the pins
+>   - `percentage` - **number** - The voltage as a percentage of the full scale
 
 {: .note-title } 
 > Example:
 > ```lua
-> -- Read the differential analog value across pins A0 and A1
-> local diff_val = device.analog.get_differential_input("A0", "A1")
-> print(diff_val)
+> -- Read the differential analog value across pins D0 and D1
+> local val = device.analog.get_differential_input("D0", "D1")
+> print(val.voltage)
 > ```
 
 ---
@@ -263,8 +267,8 @@ device.analog.set_output(pin, percentage, { frequency=1 })
 
 {: .note-title }
 > Parameters:
-> - `pin` - **string** - The pin name. E.g. `A0`
-> - `percentage` - **number** - The duty cycle to output on the pin as a percentage
+> - `pin` - **string** - The pin name. E.g. `"A0"`
+> - `percentage` - **number** - The duty cycle as a percentage
 
 {: .note-title }
 > Optional parameters:
@@ -299,17 +303,17 @@ device.i2c.read(address, length, { port="PORTA", scl_pin="A0", sda_pin="A1", fre
 
 {: .note-title }
 > Optional parameters:
-> - `port` - **string** - The 4-pin port which the I2C device is connected to. I.e. `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`. Using this parameter will assume the SCL and SDA pin order to match the [Stemma QT](https://learn.adafruit.com/introducing-adafruit-stemma-qt/what-is-stemma) and [Qwiic](https://www.sparkfun.com/qwiic) pinout. If a different pin order is required, the `scl_pin` and `sda_pin` parameters should be provided instead
-> - `scl_pin` - **string** - The pin name to use for the SCL signal. E.g `"C3"`. Must be used in conjunction with `sda_pin` and cannot be used if the `port` parameter is already specified
-> - `sda_pin` - **string** - The pin name to use for the SDA signal. E.g `"C4"`. Must be used in conjunction with `scl_pin` and cannot be used if the `port` parameter is already specified
-> - `frequency` - **integer** - The frequency to use for I2C communications in kHz. Can be either `100`, `250` or `400`
+> - `port` - **string** - The 4-pin port the I2C device is connected to. Can be `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`. Assumes [Stemma QT](https://learn.adafruit.com/introducing-adafruit-stemma-qt/what-is-stemma)/[Qwiic](https://www.sparkfun.com/qwiic) pinout. For a different pin order, use `scl_pin` and `sda_pin` instead
+> - `scl_pin` - **string** - The pin name for the SCL signal. E.g. `"C3"`. Must be used with `sda_pin`. Cannot be used with `port`
+> - `sda_pin` - **string** - The pin name for the SDA signal. E.g. `"C4"`. Must be used with `scl_pin`. Cannot be used with `port`
+> - `frequency` - **integer** - The I2C frequency in kHz. Can be `100`, `250`, or `400`
 
 {: .note-title } 
 > Returns:
 > - **table** - A table of key-value pairs:
->   - `success` - **string** - `true` if the transaction was a success, or `false` otherwise
+>   - `success` - **boolean** - `true` if the transaction was successful, `false` otherwise
 >   - `data` - **string** - The bytes read. Always of size `length` as specified in the function call
->   - `value` - **string** - The first data value, useful if only one byte was requested
+>   - `value` - **integer** - The first data byte, useful if only one byte was requested
 
 {: .note-title } 
 > Example:
@@ -338,15 +342,15 @@ device.i2c.write(address, data, { port="PORTA", scl_pin="A0", sda_pin="A1", freq
 
 {: .note-title }
 > Optional parameters:
-> - `port` - **string** - The 4-pin port which the I2C device is connected to. I.e. `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`
-> - `scl_pin` - **string** - The pin name to use for the SCL signal. E.g `"C3"`
-> - `sda_pin` - **string** - The pin name to use for the SDA signal. E.g `"C4"`
-> - `frequency` - **integer** - The frequency to use for I2C communications in kHz. Can be either `100`, `250` or `400`
+> - `port` - **string** - The 4-pin port the I2C device is connected to. Can be `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`
+> - `scl_pin` - **string** - The pin name for the SCL signal. E.g. `"C3"`
+> - `sda_pin` - **string** - The pin name for the SDA signal. E.g. `"C4"`
+> - `frequency` - **integer** - The I2C frequency in kHz. Can be `100`, `250`, or `400`
 
 {: .note-title } 
 > Returns:
 > - **table** - A table of key-value pairs:
->   - `success` - **string** - `true` if the transaction was a success, or `false` otherwise
+>   - `success` - **boolean** - `true` if the transaction was successful, `false` otherwise
 
 {: .note-title } 
 > Example:
@@ -372,17 +376,17 @@ device.i2c.write_read(address, write_data, read_length, { port="PORTA", scl_pin=
 
 {: .note-title }
 > Optional parameters:
-> - `port` - **string** - The 4-pin port which the I2C device is connected to. I.e. `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`
-> - `scl_pin` - **string** - The pin name to use for the SCL signal. E.g `"C3"`
-> - `sda_pin` - **string** - The pin name to use for the SDA signal. E.g `"C4"`
-> - `frequency` - **integer** - The frequency to use for I2C communications in kHz. Can be either `100`, `250` or `400`
+> - `port` - **string** - The 4-pin port the I2C device is connected to. Can be `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`
+> - `scl_pin` - **string** - The pin name for the SCL signal. E.g. `"C3"`
+> - `sda_pin` - **string** - The pin name for the SDA signal. E.g. `"C4"`
+> - `frequency` - **integer** - The I2C frequency in kHz. Can be `100`, `250`, or `400`
 
 {: .note-title } 
 > Returns:
 > - **table** - A table of key-value pairs:
->   - `success` - **string** - `true` if the transaction was a success, or `false` otherwise
+>   - `success` - **boolean** - `true` if the transaction was successful, `false` otherwise
 >   - `data` - **string** - The bytes read. Always of size `read_length` as specified in the function call
->   - `value` - **string** - The first data value, useful if only one byte was requested
+>   - `value` - **integer** - The first data byte, useful if only one byte was requested
 
 {: .note-title } 
 > Example:
@@ -406,10 +410,10 @@ device.i2c.scan({ port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400 })
 
 {: .note-title }
 > Optional parameters:
-> - `port` - **string** - The 4-pin port which the I2C device is connected to. I.e. `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`
-> - `scl_pin` - **string** - The pin name to use for the SCL signal. E.g `"C3"`
-> - `sda_pin` - **string** - The pin name to use for the SDA signal. E.g `"C4"`
-> - `frequency` - **integer** - The frequency to use for I2C communications in kHz. Can be either `100`, `250` or `400`
+> - `port` - **string** - The 4-pin port the I2C device is connected to. Can be `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`
+> - `scl_pin` - **string** - The pin name for the SCL signal. E.g. `"C3"`
+> - `sda_pin` - **string** - The pin name for the SDA signal. E.g. `"C4"`
+> - `frequency` - **integer** - The I2C frequency in kHz. Can be `100`, `250`, or `400`
 
 {: .note-title } 
 > Returns:
@@ -419,7 +423,7 @@ device.i2c.scan({ port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400 })
 > Example:
 > ```lua
 > -- Scan a port for devices
-> device.i2c.scan({port="PORTF"})
+> device.i2c.scan({ port="PORTF" })
 > ```
 
 ---
@@ -440,20 +444,20 @@ device.spi.write_read(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", m
 
 {: .note-title }
 > Optional parameters:
-> - `sclk_pin` - **string** - The pin name to use for the SCK signal. E.g `"D0"`
-> - `mosi_pin` - **string** - The pin name to use for the MOSI signal. E.g `"D1"`
-> - `miso_pin` - **string** - The pin name to use for the MISO signal. E.g `"D2"`
-> - `cs_pin` - **string** - The pin name to use for the CS signal. E.g `"D3"`
-> - `mode` - **integer** - The SPI mode. Can be either `0`, `1`, `2`, or `3`
-> - `frequency` - **integer** - The frequency to use for SPI transactions in kHz. Can be either `125`, `250`, `500`, `1000`, `2000`, `4000`, or `8000`
-> - `bit_order` - **string** - The bit order for the bytes transacted. Can be either `"MSB_FIRST"`, or `"LSB_FIRST"`
-> - `hold_cs` - **boolean** - If set to `true`, the CS pin will continue to be held after the transaction is completed. This can be useful if the transaction needs to be broken up into multiple steps. Any subsequent call to `device.spi.transaction` with `hold_cs` set to false will then return the CS pin to the unselected value
-> - `cs_active_high` - **boolean** - If set to `true`, the CS pin will be set to high during the transaction, and then low once completed
-> - `miso_pull` - **string** - Selects the pull mode on the MISO pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
+> - `sclk_pin` - **string** - The pin name for the SCK signal. E.g. `"D0"`
+> - `mosi_pin` - **string** - The pin name for the MOSI signal. E.g. `"D1"`
+> - `miso_pin` - **string** - The pin name for the MISO signal. E.g. `"D2"`
+> - `cs_pin` - **string** - The pin name for the CS signal. E.g. `"D3"`
+> - `mode` - **integer** - The SPI mode. Can be `0`, `1`, `2`, or `3`
+> - `frequency` - **integer** - The SPI frequency in kHz. Can be `125`, `250`, `500`, `1000`, `2000`, `4000`, or `8000`
+> - `bit_order` - **string** - The bit order for transactions. Can be `"MSB_FIRST"` or `"LSB_FIRST"`
+> - `hold_cs` - **boolean** - If `true`, the CS pin remains held after the transaction completes. Useful for multi-step transactions
+> - `cs_active_high` - **boolean** - If `true`, the CS pin is set high during the transaction and low once completed
+> - `miso_pull` - **string** - The pull mode on the MISO pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
 
 {: .note-title } 
 > Returns:
-> - **string** - The bytes read. Always of size `read_length` as specified in the function call
+> - **string** - The bytes read. Always of size `read_length`
 
 {: .note-title } 
 > Example:
@@ -478,16 +482,16 @@ device.spi.write(data, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C3
 
 {: .note-title }
 > Optional parameters:
-> - `sclk_pin` - **string** - The pin name to use for the SCK signal. E.g `"D0"`
-> - `mosi_pin` - **string** - The pin name to use for the MOSI signal. E.g `"D1"`
-> - `miso_pin` - **string** - The pin name to use for the MISO signal. E.g `"D2"`
-> - `cs_pin` - **string** - The pin name to use for the CS signal. E.g `"D3"`
-> - `mode` - **integer** - The SPI mode. Can be either `0`, `1`, `2`, or `3`
-> - `frequency` - **integer** - The frequency to use for SPI transactions in kHz. Can be either `125`, `250`, `500`, `1000`, `2000`, `4000`, or `8000`
-> - `bit_order` - **string** - The bit order for the bytes transacted. Can be either `"MSB_FIRST"`, or `"LSB_FIRST"`
-> - `hold_cs` - **boolean** - If set to `true`, the CS pin will continue to be held after the transaction is completed
-> - `cs_active_high` - **boolean** - If set to `true`, the CS pin will be set to high during the transaction, and then low once completed
-> - `miso_pull` - **string** - Selects the pull mode on the MISO pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
+> - `sclk_pin` - **string** - The pin name for the SCK signal. E.g. `"D0"`
+> - `mosi_pin` - **string** - The pin name for the MOSI signal. E.g. `"D1"`
+> - `miso_pin` - **string** - The pin name for the MISO signal. E.g. `"D2"`
+> - `cs_pin` - **string** - The pin name for the CS signal. E.g. `"D3"`
+> - `mode` - **integer** - The SPI mode. Can be `0`, `1`, `2`, or `3`
+> - `frequency` - **integer** - The SPI frequency in kHz. Can be `125`, `250`, `500`, `1000`, `2000`, `4000`, or `8000`
+> - `bit_order` - **string** - The bit order for transactions. Can be `"MSB_FIRST"` or `"LSB_FIRST"`
+> - `hold_cs` - **boolean** - If `true`, the CS pin remains held after the transaction completes
+> - `cs_active_high` - **boolean** - If `true`, the CS pin is set high during the transaction and low once completed
+> - `miso_pull` - **string** - The pull mode on the MISO pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
 
 {: .note-title } 
 > Returns:
@@ -515,20 +519,20 @@ device.spi.read(length, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C
 
 {: .note-title }
 > Optional parameters:
-> - `sclk_pin` - **string** - The pin name to use for the SCK signal. E.g `"D0"`
-> - `mosi_pin` - **string** - The pin name to use for the MOSI signal. E.g `"D1"`
-> - `miso_pin` - **string** - The pin name to use for the MISO signal. E.g `"D2"`
-> - `cs_pin` - **string** - The pin name to use for the CS signal. E.g `"D3"`
-> - `mode` - **integer** - The SPI mode. Can be either `0`, `1`, `2`, or `3`
-> - `frequency` - **integer** - The frequency to use for SPI transactions in kHz. Can be either `125`, `250`, `500`, `1000`, `2000`, `4000`, or `8000`
-> - `bit_order` - **string** - The bit order for the bytes transacted. Can be either `"MSB_FIRST"`, or `"LSB_FIRST"`
-> - `hold_cs` - **boolean** - If set to `true`, the CS pin will continue to be held after the transaction is completed
-> - `cs_active_high` - **boolean** - If set to `true`, the CS pin will be set to high during the transaction, and then low once completed
-> - `miso_pull` - **string** - Selects the pull mode on the MISO pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
+> - `sclk_pin` - **string** - The pin name for the SCK signal. E.g. `"D0"`
+> - `mosi_pin` - **string** - The pin name for the MOSI signal. E.g. `"D1"`
+> - `miso_pin` - **string** - The pin name for the MISO signal. E.g. `"D2"`
+> - `cs_pin` - **string** - The pin name for the CS signal. E.g. `"D3"`
+> - `mode` - **integer** - The SPI mode. Can be `0`, `1`, `2`, or `3`
+> - `frequency` - **integer** - The SPI frequency in kHz. Can be `125`, `250`, `500`, `1000`, `2000`, `4000`, or `8000`
+> - `bit_order` - **string** - The bit order for transactions. Can be `"MSB_FIRST"` or `"LSB_FIRST"`
+> - `hold_cs` - **boolean** - If `true`, the CS pin remains held after the transaction completes
+> - `cs_active_high` - **boolean** - If `true`, the CS pin is set high during the transaction and low once completed
+> - `miso_pull` - **string** - The pull mode on the MISO pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
 
 {: .note-title } 
 > Returns:
-> - **string** - The bytes read. Always of size `length` as specified in the function call
+> - **string** - The bytes read. Always of size `length`
 
 {: .note-title } 
 > Example:
@@ -554,16 +558,16 @@ device.spi.transact(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", mis
 
 {: .note-title }
 > Optional parameters:
-> - `sclk_pin` - **string** - The pin name to use for the SCK signal. E.g `"D0"`
-> - `mosi_pin` - **string** - The pin name to use for the MOSI signal. E.g `"D1"`
-> - `miso_pin` - **string** - The pin name to use for the MISO signal. E.g `"D2"`
-> - `cs_pin` - **string** - The pin name to use for the CS signal. E.g `"D3"`
-> - `mode` - **integer** - The SPI mode. Can be either `0`, `1`, `2`, or `3`
-> - `frequency` - **integer** - The frequency to use for SPI transactions in kHz. Can be either `125`, `250`, `500`, `1000`, `2000`, `4000`, or `8000`
-> - `bit_order` - **string** - The bit order for the bytes transacted. Can be either `"MSB_FIRST"`, or `"LSB_FIRST"`
-> - `hold_cs` - **boolean** - If set to `true`, the CS pin will continue to be held after the transaction is completed
-> - `cs_active_high` - **boolean** - If set to `true`, the CS pin will be set to high during the transaction, and then low once completed
-> - `miso_pull` - **string** - Selects the pull mode on the MISO pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
+> - `sclk_pin` - **string** - The pin name for the SCK signal. E.g. `"D0"`
+> - `mosi_pin` - **string** - The pin name for the MOSI signal. E.g. `"D1"`
+> - `miso_pin` - **string** - The pin name for the MISO signal. E.g. `"D2"`
+> - `cs_pin` - **string** - The pin name for the CS signal. E.g. `"D3"`
+> - `mode` - **integer** - The SPI mode. Can be `0`, `1`, `2`, or `3`
+> - `frequency` - **integer** - The SPI frequency in kHz. Can be `125`, `250`, `500`, `1000`, `2000`, `4000`, or `8000`
+> - `bit_order` - **string** - The bit order for transactions. Can be `"MSB_FIRST"` or `"LSB_FIRST"`
+> - `hold_cs` - **boolean** - If `true`, the CS pin remains held after the transaction completes
+> - `cs_active_high` - **boolean** - If `true`, the CS pin is set high during the transaction and low once completed
+> - `miso_pull` - **string** - The pull mode on the MISO pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
 
 {: .note-title } 
 > Returns:
@@ -594,11 +598,11 @@ device.uart.write(data, { baudrate=9600, tx_pin="B1", cts_pin=nil, parity=false,
 
 {: .note-title }
 > Optional parameters:
-> - `baudrate` - **integer** - The baudrate in bits-per-second at which to send the data. Can be `1200`, `2400`, `4800`, `9600`, `14400`, `19200`, `28800`, `31250`, `38400`, `56000`, `57600`, `76800`, `115200`, `230400`, `250000`, `460800`, `921600`, or `1000000`
-> - `tx_pin` - **string** - The pin name to use for the transmit signal. E.g `"C1"`
-> - `cts_pin` - **string** - The pin name to use for the clear-to-send signal. E.g `"C3"`. If `nil` is given, the signal isn't used
-> - `parity` - **boolean** - Enables the parity bit if set to `true`
-> - `stop_bits` - **integer** - Sets the number of stop bits. Can be either `1` or `2`
+> - `baudrate` - **integer** - The baudrate in bits-per-second. Can be `1200`, `2400`, `4800`, `9600`, `14400`, `19200`, `28800`, `31250`, `38400`, `56000`, `57600`, `76800`, `115200`, `230400`, `250000`, `460800`, `921600`, or `1000000`
+> - `tx_pin` - **string** - The pin name for the transmit signal. E.g. `"C1"`
+> - `cts_pin` - **string** - The pin name for the clear-to-send signal. E.g. `"C3"`. If `nil`, the signal isn't used
+> - `parity` - **boolean** - If `true`, enables the parity bit
+> - `stop_bits` - **integer** - The number of stop bits. Can be `1` or `2`
 
 {: .note-title } 
 > Returns:
@@ -622,16 +626,16 @@ device.uart.assign_read_event(terminator, handler, { baudrate=9600, rx_pin="B0",
 
 {: .note-title }
 > Parameters:
-> - `terminator` - **string** - The character to wait for until triggering the event. If set to `nil`, the event is triggered for every new character received
-> - `handler` - **function** - The function to call whenever data is received. This function will be called with one argument:
->   - `data` - **string** - All the buffered bytes since the last event was triggered, or the event was enabled
+> - `terminator` - **string** - The character to wait for before triggering the event. If `nil`, the event triggers for every character received
+> - `handler` - **function** - The function to call when data is received. Called with one argument:
+>   - `data` - **string** - All buffered bytes since the last event or since the event was enabled
 
 {: .note-title }
 > Optional parameters:
-> - `baudrate` - **integer** - The baudrate in bits-per-second at which to receive the data
-> - `rx_pin` - **string** - The pin name to use for the receive signal. E.g `"C0"`
-> - `rts_pin` - **string** - The pin name to use for the ready-to-send signal. E.g `"C2"`. If `nil` is given, the signal isn't used
-> - `parity` - **boolean** - Enables the parity bit if set to `true`
+> - `baudrate` - **integer** - The baudrate in bits-per-second
+> - `rx_pin` - **string** - The pin name for the receive signal. E.g. `"C0"`
+> - `rts_pin` - **string** - The pin name for the ready-to-send signal. E.g. `"C2"`. If `nil`, the signal isn't used
+> - `parity` - **boolean** - If `true`, enables the parity bit
 
 {: .note-title } 
 > Returns:
@@ -659,7 +663,7 @@ device.uart.unassign_read_event(rx_pin)
 
 {: .note-title }
 > Parameters:
-> - `rx_pin` - **string** - The pin name of the receive signal. E.g `"C0"`
+> - `rx_pin` - **string** - The pin name of the receive signal. E.g. `"C0"`
 
 {: .note-title } 
 > Returns:
@@ -685,16 +689,16 @@ device.audio.record(length, handler, { data_pin="E0", clock_pin="E1", sample_rat
 
 {: .note-title }
 > Parameters:
-> - `length` - **float** - The length to record in seconds. The maximum allowable time will depend on the RAM currently used on the device. Using a lower `sample_rate` and `bit_depth` will allow for longer recordings but at reduced quality
-> - `handler` - **function** - The function to call whenever data is ready to be processed. The function will be called with one argument:
->   - `data` - **string** - Audio data as 1-byte-per-sample in the case of `bit_depth=8`, or 2-bytes-per-sample in the case of `bit_depth=16`. The samples will be signed values. This function should not spend longer than `length` time to process the data and exit, otherwise the internal buffer will overflow and cause glitches in the final audio
+> - `length` - **number** - The duration to record in seconds. The maximum allowable time depends on the RAM currently used on the device. Using a lower `sample_rate` and `bit_depth` allows for longer recordings at reduced quality
+> - `handler` - **function** - The function to call when data is ready. Called with one argument:
+>   - `data` - **string** - Audio data as 1-byte-per-sample for `bit_depth=8`, or 2-bytes-per-sample for `bit_depth=16`. Samples are signed values. This function must complete within `length` time to avoid buffer overflow
 
 {: .note-title }
 > Optional parameters:
-> - `data_pin` - **string** - The pin name to use for the data input. E.g `"F0"`
-> - `clock_pin` - **string** - The pin name to use for the clock input. E.g `"F1"`
-> - `sample_rate` - **integer** - The sample rate to record in samples per second. Can be either `8000` or `16000`
-> - `bit_depth` - **integer** - The dynamic range of the samples recorded. Can be either `8` or `16`
+> - `data_pin` - **string** - The pin name for the data input. E.g. `"F0"`
+> - `clock_pin` - **string** - The pin name for the clock input. E.g. `"F1"`
+> - `sample_rate` - **integer** - The sample rate in samples per second. Can be `8000` or `16000`
+> - `bit_depth` - **integer** - The dynamic range of samples. Can be `8` or `16`
 
 {: .note-title } 
 > Returns:
@@ -729,7 +733,7 @@ device.audio.stop(data_pin)
 
 {: .note-title }
 > Parameters:
-> - `data_pin` - **string** - The pin name of the data input. E.g `"F0"`
+> - `data_pin` - **string** - The pin name of the data input. E.g. `"F0"`
 
 {: .note-title } 
 > Returns:
@@ -757,7 +761,7 @@ network.send_data{ data }
 
 {: .note-title }
 > Parameters:
-> - `data` - **table** - A table representing any data as key-value pairs. Will be converted to an equivalent JSON once it reaches Superstack. It's recommended to name keys in a full and clear way as that will be how the AI tools of Superstack will infer the meaning of the data. E.g. `temperature_celsius = 43.5` will help the AI understand that `43.5` represents temperature in Celsius units
+> - `data` - **table** - A table of key-value pairs. Converted to JSON when sent to Superstack. Use descriptive key names (e.g. `temperature_celsius = 43.5`) to help AI tools infer meaning
 
 {: .note-title } 
 > Returns:
@@ -839,9 +843,9 @@ location.set_options({ accuracy="HIGH", power_saving="MEDIUM", tracking_interval
 
 {: .note-title }
 > Optional parameters:
-> - `accuracy` - **string** - The accuracy of the reading to acquire. Can either be `"LOW"` where only three satellites are required to attain a fix, or `"HIGH"` where four satellites are required to attain a fix
-> - `power_saving` - **string** - The level of power saving that the GPS aim to achieve. Can either be `"OFF"`, `"MEDIUM"`, `"MAX"`. A higher level of power saving will result in less accuracy and a slower time to attain a fix
-> - `tracking_interval` - **integer** - The period to poll for new location updates. Can either be `1` for continuous 1-second updates, or a value in seconds between `10` and `65535` for slower updates which can save power
+> - `accuracy` - **string** - The accuracy of the fix. `"LOW"` requires three satellites, `"HIGH"` requires four satellites
+> - `power_saving` - **string** - The power saving level. Can be `"OFF"`, `"MEDIUM"`, or `"MAX"`. Higher power saving reduces accuracy and increases time to fix
+> - `tracking_interval` - **integer** - The period to poll for new location updates. `1` for continuous 1-second updates, or a value between `10` and `65535` seconds for slower updates to save power
 
 {: .note-title } 
 > Returns:
@@ -925,9 +929,9 @@ storage.read(filename, { line=-1, length=nil, offset=0 })
 
 {: .note-title }
 > Optional parameters:
-> - `line` - **integer** - The index of the line to return. `1` being the first line, `2` being the second line, etc. Likewise, the lines can also be indexed from the end of the file. `-1` returns the last line of the file, `-2` the second to last, etc. `length` and `offset` are ignored when `line` is specified
-> - `length` - **integer** - The number of bytes to read from the file. Cannot be used with the `line` option. If `length` is longer than the data present in the file, then a shorter result will be returned
-> - `offset` - **integer** - When `length` is specified, this option allows reading from some arbitrary offset from within the file
+> - `line` - **integer** - The line index to return. `1` is the first line, `2` the second, etc. Negative values index from the end: `-1` is the last line, `-2` the second to last, etc. When specified, `length` and `offset` are ignored
+> - `length` - **integer** - The number of bytes to read. Cannot be used with `line`. If longer than the file, a shorter result is returned
+> - `offset` - **integer** - When `length` is specified, read from this byte offset within the file
 
 {: .note-title } 
 > Returns:
@@ -1031,8 +1035,8 @@ time.get_time_date({ unix_epoch, timezone })
 
 {: .note-title }
 > Optional parameters:
-> - `unix_epoch` - **number** - A Unix timestamp that should be converted to a real time and date
-> - `timezone` - **string** - The timezone to observe when returning the time and date. Can be given as a standard timezone offset such as `"+02:00"` or `"-07:30"`
+> - `unix_epoch` - **number** - A Unix timestamp to convert to a time and date
+> - `timezone` - **string** - The timezone offset. E.g. `"+02:00"` or `"-07:30"`
 
 {: .note-title } 
 > Returns:
@@ -1040,8 +1044,8 @@ time.get_time_date({ unix_epoch, timezone })
 >   - `year` - **integer** - The current year
 >   - `month` - **integer** - The current month
 >   - `day` - **integer** - The current day
->   - `yearday` - **string** - The current day of the year
->   - `weekday` - **string** - The current weekday since Sunday
+>   - `yearday` - **integer** - The current day of the year
+>   - `weekday` - **integer** - The current day of the week since Sunday
 >   - `hour` - **integer** - The current hour
 >   - `minute` - **integer** - The current minute
 >   - `second` - **integer** - The current second
@@ -1069,7 +1073,7 @@ device.sleep(time)
 
 {: .note-title }
 > Parameters:
-> - `time` - **number** - The time to sleep in seconds. E.g. `1.5`
+> - `time` - **number** - The duration to sleep in seconds. E.g. `1.5`
 
 {: .note-title } 
 > Returns:
@@ -1093,8 +1097,8 @@ device.power.battery.set_charger_cv_cc(voltage, current)
 
 {: .note-title }
 > Parameters:
-> - `voltage` - **number** - The termination voltage of the cell. Can be either `3.50`, `3.55`, `3.60`, `3.65`, `4.00`, `4.05`, `4.10`, `4.15`, `4.20`, `4.25`, `4.30`, `4.35`, `4.40`, or `4.45`
-> - `current` - **number** - The constant current to charge the cell at. Must be between `32` and `800` in steps of `2`
+> - `voltage` - **number** - The termination voltage. Can be `3.50`, `3.55`, `3.60`, `3.65`, `4.00`, `4.05`, `4.10`, `4.15`, `4.20`, `4.25`, `4.30`, `4.35`, `4.40`, or `4.45`
+> - `current` - **number** - The constant charge current in mA. Must be between `32` and `800` in steps of `2`
 
 {: .note-title } 
 > Returns:
@@ -1138,7 +1142,7 @@ device.power.battery.get_charging_status()
 
 {: .note-title } 
 > Returns:
-> - **string** - The current charging status. Either `charging`, `charged` or `discharging` if the battery is connected, or `external_power` if either no battery is installed, or the battery has a fault
+> - **string** - The charging status: `"charging"`, `"charged"`, or `"discharging"` if a battery is connected, or `"external_power"` if no battery is installed or the battery has a fault
 
 {: .note-title } 
 > Example:
@@ -1163,7 +1167,7 @@ device.power.set_vout(voltage)
 
 {: .note-title }
 > Parameters:
-> - `voltage` - **number** - The voltage to set. Can be between `1.8` and `3.3` in steps of `0.1`
+> - `voltage` - **number** - The output voltage. Can be between `1.8` and `3.3` in steps of `0.1`
 
 {: .note-title } 
 > Returns:
