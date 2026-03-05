@@ -196,7 +196,7 @@ device.digital.unassign_input_event(pin)
 {: .no_toc}
 
 ```lua
-device.analog.get_input(pin, { acquisition_time=40 })
+device.analog.get_input(pin, { acquisition_time=10 })
 ```
 
 {: .note-title }
@@ -207,19 +207,16 @@ device.analog.get_input(pin, { acquisition_time=40 })
 > Optional parameters
 > - `acquisition_time` - **integer** - The measurement time in microseconds. Can be `3`, `5`, `10`, `15`, `20`, or `40`. Higher values support greater source resistances (10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ, 800kΩ respectively)
 
-{: .note-title } 
+{: .note-title }
 > Returns
-> - **table** - A table of key-value pairs:
->   - `voltage` - **number** - The voltage present on the pin
->   - `percentage` - **number** - The voltage as a percentage of the full scale
+> - **number** - The voltage present on the pin in volts
 
-{: .note-title } 
+{: .note-title }
 > Example
 > ```lua
-> -- Read the analog value on pin D0 and print both the percentage and voltage values
-> local val = device.analog.get_input("D0")
-> print(val.percentage)
-> print(val.voltage)
+> -- Read the analog voltage on pin D0
+> local voltage = device.analog.get_input("D0")
+> print(voltage)
 > ```
 
 ---
@@ -228,7 +225,7 @@ device.analog.get_input(pin, { acquisition_time=40 })
 {: .no_toc}
 
 ```lua
-device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_time=40 })
+device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_time=10 })
 ```
 
 {: .note-title }
@@ -240,49 +237,16 @@ device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_t
 > Optional parameters
 > - `acquisition_time` - **integer** - The measurement time in microseconds. Can be `3`, `5`, `10`, `15`, `20`, or `40`. Higher values support greater source resistances (10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ, 800kΩ respectively)
 
-{: .note-title } 
+{: .note-title }
 > Returns
-> - **table** - A table of key-value pairs:
->   - `voltage` - **number** - The voltage present across the pins
->   - `percentage` - **number** - The voltage as a percentage of the full scale
-
-{: .note-title } 
-> Example
-> ```lua
-> -- Read the differential analog value across pins D0 and D1
-> local val = device.analog.get_differential_input("D0", "D1")
-> print(val.voltage)
-> ```
-
----
-
-### PWM output (analog output)
-
-#### Set a PWM duty cycle on a pin
-{: .no_toc}
-
-```lua
-device.analog.set_output(pin, percentage, { frequency=1 })
-```
+> - **number** - The voltage present across the pins in volts
 
 {: .note-title }
-> Parameters
-> - `pin` - **string** - The pin name. E.g. `"A0"`
-> - `percentage` - **number** - The duty cycle as a percentage
-
-{: .note-title }
-> Optional parameters
-> - `frequency` - **number** - The PWM frequency in Hz
-
-{: .note-title } 
-> Returns
-> - **nil**
-
-{: .note-title } 
 > Example
 > ```lua
-> -- Set pin E1 to a 25% duty cycle at the default PWM frequency
-> device.analog.set_output("E1", 25)
+> -- Read the differential analog voltage across pins D0 and D1
+> local voltage = device.analog.get_differential_input("D0", "D1")
+> print(voltage)
 > ```
 
 ---
@@ -790,6 +754,54 @@ network.send_data{ data }
 
 ---
 
+#### Check if the network is connected
+{: .no_toc}
+
+```lua
+network.connected()
+```
+
+{: .note-title }
+> Returns
+> - **boolean** - `true` if the LTE network is connected, `false` otherwise
+
+{: .note-title }
+> Example
+> ```lua
+> if network.connected() then
+>     print("Network is up")
+> end
+> ```
+
+---
+
+#### Set low power mode
+{: .no_toc}
+
+```lua
+network.low_power_mode(enabled)
+```
+
+{: .note-title }
+> Parameters
+> - `enabled` - **boolean** - `true` to enable PSM (Power Saving Mode), `false` to disable it
+
+{: .note-title }
+> Returns
+> - **nil**
+
+{: .warning }
+> Enabling PSM introduces up to **15 minutes of latency** for code updates from Superstack. To return to real-time updates, call `network.low_power_mode(false)` and wait up to 15 minutes for the modem to re-register.
+
+{: .note-title }
+> Example
+> ```lua
+> -- Enable low power mode when the network is not needed
+> network.low_power_mode(true)
+> ```
+
+---
+
 ### Location (GPS)
 
 #### Get the latest GPS data
@@ -834,11 +846,11 @@ location.get_latest()
 
 ---
 
-#### Set GPS options
+#### Enable GPS
 {: .no_toc}
 
 ```lua
-location.set_options({ accuracy="HIGH", power_saving="MEDIUM", tracking_interval=1 })
+location.enable({ accuracy="HIGH", power_saving="OFF", tracking_interval=1 })
 ```
 
 {: .note-title }
@@ -847,14 +859,45 @@ location.set_options({ accuracy="HIGH", power_saving="MEDIUM", tracking_interval
 > - `power_saving` - **string** - The power saving level. Can be `"OFF"`, `"MEDIUM"`, or `"MAX"`. Higher power saving reduces accuracy and increases time to fix
 > - `tracking_interval` - **integer** - The period to poll for new location updates. `1` for continuous 1-second updates, or a value between `10` and `65535` seconds for slower updates to save power
 
-{: .note-title } 
+{: .note-title }
 > Returns
 > - **nil**
 
-{: .note-title } 
+{: .warning }
+> `location.enable()` automatically activates PSM to allow the modem to share hardware with the GPS. This introduces up to **15 minutes of latency** for code updates from Superstack. To return to real-time updates, call `location.disable()` followed by `network.low_power_mode(false)`, then wait up to 15 minutes.
+
+{: .note-title }
 > Example
 > ```lua
-> location.set_options({ accuracy = "LOW" })
+> -- Start GPS with default settings
+> location.enable()
+>
+> -- Start GPS with low accuracy to save power
+> location.enable({ accuracy="LOW", power_saving="MAX" })
+> ```
+
+---
+
+#### Disable GPS
+{: .no_toc}
+
+```lua
+location.disable()
+```
+
+{: .note-title }
+> Returns
+> - **nil**
+
+{: .warning }
+> Disabling GPS alone does **not** restore real-time code updates. PSM remains active until `network.low_power_mode(false)` is called. After calling it, wait up to 15 minutes for the modem to re-register before Superstack can push updates in real time.
+
+{: .note-title }
+> Example
+> ```lua
+> -- Stop GPS and restore real-time connectivity
+> location.disable()
+> network.low_power_mode(false)
 > ```
 
 ---
