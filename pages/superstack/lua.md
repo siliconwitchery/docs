@@ -257,7 +257,7 @@ device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_t
 {: .no_toc}
 
 ```lua
-device.i2c.read(address, length, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400 })
+device.i2c.read(address, length, { port="PORTA", scl_pin="A1", sda_pin="A0", frequency=100 })
 ```
 
 {: .note-title }
@@ -296,7 +296,7 @@ device.i2c.read(address, length, { port="PORTA", scl_pin="A0", sda_pin="A1", fre
 {: .no_toc}
 
 ```lua
-device.i2c.write(address, data, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400 })
+device.i2c.write(address, data, { port="PORTA", scl_pin="A1", sda_pin="A0", frequency=100 })
 ```
 
 {: .note-title }
@@ -329,7 +329,7 @@ device.i2c.write(address, data, { port="PORTA", scl_pin="A0", sda_pin="A1", freq
 {: .no_toc}
 
 ```lua
-device.i2c.write_read(address, write_data, read_length, { port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400 })
+device.i2c.write_read(address, write_data, read_length, { port="PORTA", scl_pin="A1", sda_pin="A0", frequency=100 })
 ```
 
 {: .note-title }
@@ -369,7 +369,7 @@ device.i2c.write_read(address, write_data, read_length, { port="PORTA", scl_pin=
 {: .no_toc}
 
 ```lua
-device.i2c.scan({ port="PORTA", scl_pin="A0", sda_pin="A1", frequency=400 })
+device.i2c.scan({ port="PORTA", scl_pin="A1", sda_pin="A0", frequency=100 })
 ```
 
 {: .note-title }
@@ -642,76 +642,6 @@ device.uart.unassign_read_event(rx_pin)
 
 ---
 
-### PDM microphone input
-
-#### Record audio from a PDM microphone
-{: .no_toc}
-
-```lua
-device.audio.record(length, handler, { data_pin="E0", clock_pin="E1", sample_rate=8000, bit_depth=8 })
-```
-
-{: .note-title }
-> Parameters
-> - `length` - **number** - The duration to record in seconds. The maximum allowable time depends on the RAM currently used on the device. Using a lower `sample_rate` and `bit_depth` allows for longer recordings at reduced quality
-> - `handler` - **function** - The function to call when data is ready. Called with one argument:
->   - `data` - **string** - Audio data as 1-byte-per-sample for `bit_depth=8`, or 2-bytes-per-sample for `bit_depth=16`. Samples are signed values. This function must complete within `length` time to avoid buffer overflow
-
-{: .note-title }
-> Optional parameters
-> - `data_pin` - **string** - The pin name for the data input. E.g. `"F0"`
-> - `clock_pin` - **string** - The pin name for the clock input. E.g. `"F1"`
-> - `sample_rate` - **integer** - The sample rate in samples per second. Can be `8000` or `16000`
-> - `bit_depth` - **integer** - The dynamic range of samples. Can be `8` or `16`
-
-{: .note-title } 
-> Returns
-> - **nil**
-
-{: .note-title } 
-> Example
-> ```lua
-> -- Create a handler for receiving and processing audio samples
-> function my_microphone_handler(data)
->     for i = 1, #data do
->         local value = string.sub(data, i, i)
->         
->         if value > 128 or value < -128 then
->             print("Loud noise detected")
->         end
->     end
-> end
-> 
-> -- Will capture 1s worth of audio at a time
-> device.audio.record(1, my_microphone_handler)
-> ```
-
----
-
-#### Stop recording audio
-{: .no_toc}
-
-```lua
-device.audio.stop(data_pin)
-```
-
-{: .note-title }
-> Parameters
-> - `data_pin` - **string** - The pin name of the data input. E.g. `"F0"`
-
-{: .note-title } 
-> Returns
-> - **nil**
-
-{: .note-title } 
-> Example
-> ```lua
-> -- Recording can be stopped at any time
-> device.audio.stop("E0")
-> ```
-
----
-
 ## Networking libraries
 
 ### Networking (LTE)
@@ -870,10 +800,10 @@ location.enable({ accuracy="HIGH", power_saving="OFF", tracking_interval=1 })
 > Example
 > ```lua
 > -- Start GPS with default settings
-> location.enable()
+> location.enable{}
 >
 > -- Start GPS with low accuracy to save power
-> location.enable({ accuracy="LOW", power_saving="MAX" })
+> location.enable{ accuracy="LOW", power_saving="MAX" }
 > ```
 
 ---
