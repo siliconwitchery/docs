@@ -7,7 +7,6 @@ nav_order: 1
 ---
 
 # Superstack Lua Library Reference
-
 {: .no_toc }
 
 ---
@@ -23,7 +22,6 @@ Compared to writing firmware, the Superstack Lua engine allows for remote and re
 ---
 
 ## Contents
-
 {: .no_toc}
 
 1. TOC
@@ -76,7 +74,6 @@ Only two standard libraries are not included, as they are superseded by similar 
 ### Digital IO
 
 #### Set or clear a digital output on a pin
-
 {: .no_toc}
 
 ```lua
@@ -108,7 +105,6 @@ device.digital.set_output(pin, value)
 ---
 
 #### Get the digital value on a pin
-
 {: .no_toc}
 
 ```lua
@@ -146,7 +142,6 @@ device.digital.get_input(pin, { pull="PULL_DOWN" })
 ---
 
 #### Assign an event handler for a pin input change
-
 {: .no_toc}
 
 ```lua
@@ -194,7 +189,6 @@ device.digital.assign_input_event(pin, handler, { pull="PULL_DOWN" })
 ---
 
 #### Disable an input event handler on a pin
-
 {: .no_toc}
 
 ```lua
@@ -227,7 +221,6 @@ device.digital.unassign_input_event(pin)
 ### Analog input
 
 #### Read the analog value on a pin
-
 {: .no_toc}
 
 ```lua
@@ -265,7 +258,6 @@ device.analog.get_input(pin, { acquisition_time=10 })
 ---
 
 #### Read the differential analog value across two pins
-
 {: .no_toc}
 
 ```lua
@@ -306,7 +298,6 @@ device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_t
 ### I2C communication
 
 #### Read bytes from an I2C device
-
 {: .no_toc}
 
 ```lua
@@ -354,7 +345,6 @@ device.i2c.read(address, length, { port="PORTA", scl_pin="A1", sda_pin="A0", fre
 ---
 
 #### Write bytes to an I2C device
-
 {: .no_toc}
 
 ```lua
@@ -396,7 +386,6 @@ device.i2c.write(address, data, { port="PORTA", scl_pin="A1", sda_pin="A0", freq
 ---
 
 #### Write then read bytes from an I2C device
-
 {: .no_toc}
 
 ```lua
@@ -445,7 +434,6 @@ device.i2c.write_read(address, write_data, read_length, { port="PORTA", scl_pin=
 ---
 
 #### Scan for I2C devices
-
 {: .no_toc}
 
 ```lua
@@ -481,7 +469,6 @@ device.i2c.scan({ port="PORTA", scl_pin="A1", sda_pin="A0", frequency=100 })
 ### SPI communication
 
 #### Write then read bytes from an SPI device
-
 {: .no_toc}
 
 ```lua
@@ -529,7 +516,6 @@ device.spi.write_read(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", m
 ---
 
 #### Write bytes to an SPI device
-
 {: .no_toc}
 
 ```lua
@@ -575,7 +561,6 @@ device.spi.write(data, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C3
 ---
 
 #### Read bytes from an SPI device
-
 {: .no_toc}
 
 ```lua
@@ -622,7 +607,6 @@ device.spi.read(length, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C
 ---
 
 #### Transact bytes with an SPI device (write and read in parallel)
-
 {: .no_toc}
 
 ```lua
@@ -672,7 +656,6 @@ device.spi.transact(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", mis
 ### UART communication
 
 #### Write UART data
-
 {: .no_toc}
 
 ```lua
@@ -713,7 +696,6 @@ device.uart.write(data, { baudrate=9600, tx_pin="B1", cts_pin=nil, parity=false,
 ---
 
 #### Assign an event handler for UART data
-
 {: .no_toc}
 
 ```lua
@@ -759,7 +741,6 @@ device.uart.assign_read_event(terminator, handler, { baudrate=9600, rx_pin="B0",
 ---
 
 #### Disable a UART read event handler
-
 {: .no_toc}
 
 ```lua
@@ -794,7 +775,6 @@ device.uart.unassign_read_event(rx_pin)
 ### Networking (LTE)
 
 #### Send data to Superstack
-
 {: .no_toc}
 
 ```lua
@@ -839,7 +819,6 @@ network.send_data{ data }
 ---
 
 #### Check if the network is connected
-
 {: .no_toc}
 
 ```lua
@@ -865,7 +844,6 @@ network.connected()
 ---
 
 #### Set low power mode
-
 {: .no_toc}
 
 ```lua
@@ -902,7 +880,6 @@ network.low_power_mode(enabled)
 ### Location (GPS)
 
 #### Enable GPS
-
 {: .no_toc}
 
 ```lua
@@ -942,7 +919,6 @@ location.enable({ accuracy="HIGH", power_saving="OFF", tracking_interval=1 })
 ---
 
 #### Get the latest GPS data
-
 {: .no_toc}
 
 ```lua
@@ -996,7 +972,6 @@ location.get_latest()
 ---
 
 #### Disable GPS
-
 {: .no_toc}
 
 ```lua
@@ -1030,7 +1005,6 @@ location.disable()
 ### Logging
 
 #### Post log to Superstack
-
 {: .no_toc}
 
 ```lua
@@ -1070,7 +1044,6 @@ print(log)
 ### Sleep
 
 #### Sleep for a duration
-
 {: .no_toc}
 
 ```lua
@@ -1103,7 +1076,6 @@ device.sleep(time)
 ### Power
 
 #### Configure the battery charger
-
 {: .no_toc}
 
 ```lua
@@ -1135,7 +1107,6 @@ device.power.battery.set_charger_cv_cc(voltage, current)
 ---
 
 #### Get the battery voltage
-
 {: .no_toc}
 
 ```lua
@@ -1160,7 +1131,6 @@ device.power.battery.get_voltage()
 ---
 
 #### Get the battery charging status
-
 {: .no_toc}
 
 ```lua
@@ -1190,7 +1160,6 @@ device.power.battery.get_charging_status()
 ---
 
 #### Set the IO voltage for all ports
-
 {: .no_toc}
 
 ```lua
@@ -1223,7 +1192,6 @@ device.power.set_vout(voltage)
 ### File storage
 
 #### Write data to a file
-
 {: .no_toc}
 
 ```lua
@@ -1255,7 +1223,6 @@ storage.write(filename, data)
 ---
 
 #### Append data to a file
-
 {: .no_toc}
 
 ```lua
@@ -1288,7 +1255,6 @@ storage.append(filename, data)
 ---
 
 #### Read data from a file
-
 {: .no_toc}
 
 ```lua
@@ -1330,7 +1296,6 @@ storage.read(filename, { line=-1, length=nil, offset=0 })
 ---
 
 #### Delete a file
-
 {: .no_toc}
 
 ```lua
@@ -1361,7 +1326,6 @@ storage.delete(filename)
 ---
 
 #### List all files
-
 {: .no_toc}
 
 ```lua
@@ -1394,7 +1358,6 @@ storage.list()
 ### Timekeeping
 
 #### Get the current Unix timestamp
-
 {: .no_toc}
 
 ```lua
@@ -1424,7 +1387,6 @@ time.get_unix_time()
 ---
 
 #### Get the current time and date
-
 {: .no_toc}
 
 ```lua
@@ -1469,7 +1431,6 @@ time.get_time_date({ unix_epoch, timezone })
 ### Device information
 
 #### Hardware version constant
-
 {: .no_toc}
 
 ```lua
@@ -1493,7 +1454,6 @@ device.HARDWARE_VERSION
 ---
 
 #### Firmware version constant
-
 {: .no_toc}
 
 ```lua
