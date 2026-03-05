@@ -7,6 +7,7 @@ nav_order: 1
 ---
 
 # Superstack Lua Library Reference
+
 {: .no_toc }
 
 ---
@@ -22,10 +23,11 @@ Compared to writing firmware, the Superstack Lua engine allows for remote and re
 ---
 
 ## Contents
+
 {: .no_toc}
 
 1. TOC
-{:toc}
+   {:toc}
 
 ---
 
@@ -35,7 +37,7 @@ The functions described in this reference typically represent single, atomic ope
 
 The functions may accept a combination of **positional** and **named** arguments. Positional arguments always come first, with the named arguments provided at the end as a Lua table of key-value pairs.
 
-Most of the named arguments will take on a default value if not provided. These are marked as *optional*.
+Most of the named arguments will take on a default value if not provided. These are marked as _optional_.
 
 ```lua
 -- Calling a function with only positional arguments
@@ -74,6 +76,7 @@ Only two standard libraries are not included, as they are superseded by similar 
 ### Digital IO
 
 #### Set or clear a digital output on a pin
+
 {: .no_toc}
 
 ```lua
@@ -81,16 +84,22 @@ device.digital.set_output(pin, value)
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `pin` - **string** - The pin name. E.g. `"A0"`
 > - `value` - **boolean** - The level to set. `true` for high, `false` for low
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Set pin B1 to a high value
 > device.digital.set_output("B1", true)
@@ -99,6 +108,7 @@ device.digital.set_output(pin, value)
 ---
 
 #### Get the digital value on a pin
+
 {: .no_toc}
 
 ```lua
@@ -106,19 +116,27 @@ device.digital.get_input(pin, { pull="PULL_DOWN" })
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `pin` - **string** - The pin name. E.g. `"A0"`
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `pull` - **string** - The pull mode on the pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **boolean** - `true` if the pin is high, `false` if low
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Print the value on pin D0
 > local val = device.digital.get_input("D0")
@@ -128,6 +146,7 @@ device.digital.get_input(pin, { pull="PULL_DOWN" })
 ---
 
 #### Assign an event handler for a pin input change
+
 {: .no_toc}
 
 ```lua
@@ -135,22 +154,30 @@ device.digital.assign_input_event(pin, handler, { pull="PULL_DOWN" })
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `pin` - **string** - The pin name. E.g. `"A0"`
 > - `handler` - **function** - The function to call when the pin value changes. Called with two arguments:
->   - `pin` - **string** - The pin name that generated the event. E.g. `"A0"`
->   - `state` - **boolean** - The pin value when the event occurred. `true` if high, `false` if low
+>     - `pin` - **string** - The pin name that generated the event. E.g. `"A0"`
+>     - `state` - **boolean** - The pin value when the event occurred. `true` if high, `false` if low
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `pull` - **string** - The pull mode on the pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Assign a function that triggers when the input value of C3 changes
 > function my_pin_handler(pin, state)
@@ -160,13 +187,14 @@ device.digital.assign_input_event(pin, handler, { pull="PULL_DOWN" })
 >         print(pin.." went low")
 >     end
 > end
-> 
+>
 > device.digital.assign_input_event("C3", my_pin_handler)
 > ```
 
 ---
 
 #### Disable an input event handler on a pin
+
 {: .no_toc}
 
 ```lua
@@ -174,15 +202,21 @@ device.digital.unassign_input_event(pin)
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `pin` - **string** - The pin name. E.g. `"A0"`
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Disable the event and detach the pin from the handler
 > device.digital.unassign_input_event("C3")
@@ -193,6 +227,7 @@ device.digital.unassign_input_event(pin)
 ### Analog input
 
 #### Read the analog value on a pin
+
 {: .no_toc}
 
 ```lua
@@ -200,19 +235,27 @@ device.analog.get_input(pin, { acquisition_time=10 })
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `pin` - **string** - The pin name. Must be an analog capable pin. E.g. `"D0"`
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `acquisition_time` - **integer** - The measurement time in microseconds. Can be `3`, `5`, `10`, `15`, `20`, or `40`. Higher values support greater source resistances (10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ, 800kΩ respectively)
 
 {: .note-title }
+
 > Returns
+>
 > - **number** - The voltage present on the pin in volts
 
 {: .note-title }
+
 > Example
+>
 > ```lua
 > -- Read the analog voltage on pin D0
 > local voltage = device.analog.get_input("D0")
@@ -222,6 +265,7 @@ device.analog.get_input(pin, { acquisition_time=10 })
 ---
 
 #### Read the differential analog value across two pins
+
 {: .no_toc}
 
 ```lua
@@ -229,20 +273,28 @@ device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_t
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `positive_pin` - **string** - The pin name of the positive pin. Must be an analog capable pin. E.g. "D0"
 > - `negative_pin` - **string** - The pin name of the negative pin. Must be an analog capable pin. E.g. "D1"
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `acquisition_time` - **integer** - The measurement time in microseconds. Can be `3`, `5`, `10`, `15`, `20`, or `40`. Higher values support greater source resistances (10kΩ, 40kΩ, 100kΩ, 200kΩ, 400kΩ, 800kΩ respectively)
 
 {: .note-title }
+
 > Returns
+>
 > - **number** - The voltage present across the pins in volts
 
 {: .note-title }
+
 > Example
+>
 > ```lua
 > -- Read the differential analog voltage across pins D0 and D1
 > local voltage = device.analog.get_differential_input("D0", "D1")
@@ -254,6 +306,7 @@ device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_t
 ### I2C communication
 
 #### Read bytes from an I2C device
+
 {: .no_toc}
 
 ```lua
@@ -261,30 +314,38 @@ device.i2c.read(address, length, { port="PORTA", scl_pin="A1", sda_pin="A0", fre
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `address` - **integer** - The 7-bit address of the I2C device
 > - `length` - **integer** - The number of bytes to read
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `port` - **string** - The 4-pin port the I2C device is connected to. Can be `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`. Assumes [Stemma QT](https://learn.adafruit.com/introducing-adafruit-stemma-qt/what-is-stemma)/[Qwiic](https://www.sparkfun.com/qwiic) pinout. For a different pin order, use `scl_pin` and `sda_pin` instead
 > - `scl_pin` - **string** - The pin name for the SCL signal. E.g. `"C3"`. Must be used with `sda_pin`. Cannot be used with `port`
 > - `sda_pin` - **string** - The pin name for the SDA signal. E.g. `"C4"`. Must be used with `scl_pin`. Cannot be used with `port`
 > - `frequency` - **integer** - The I2C frequency in kHz. Can be `100`, `250`, or `400`
 
-{: .note-title } 
-> Returns
-> - **table** - A table of key-value pairs:
->   - `success` - **boolean** - `true` if the transaction was successful, `false` otherwise
->   - `data` - **string** - The bytes read. Always of size `length` as specified in the function call
->   - `value` - **integer** - The first data byte, useful if only one byte was requested
+{: .note-title }
 
-{: .note-title } 
+> Returns
+>
+> - **table** - A table of key-value pairs:
+>     - `success` - **boolean** - `true` if the transaction was successful, `false` otherwise
+>     - `data` - **string** - The bytes read. Always of size `length` as specified in the function call
+>     - `value` - **integer** - The first data byte, useful if only one byte was requested
+
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Read multiple bytes from the device and print the fourth byte
 > local result = device.i2c.read(0x23, 4)
-> 
+>
 > if result.success then
 >     print(string.byte(result.data, 4))
 > end
@@ -293,6 +354,7 @@ device.i2c.read(address, length, { port="PORTA", scl_pin="A1", sda_pin="A0", fre
 ---
 
 #### Write bytes to an I2C device
+
 {: .no_toc}
 
 ```lua
@@ -300,24 +362,32 @@ device.i2c.write(address, data, { port="PORTA", scl_pin="A1", sda_pin="A0", freq
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `address` - **integer** - The 7-bit address of the I2C device
 > - `data` - **string** - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. `"\x1A\x50\x00\xF1"`
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `port` - **string** - The 4-pin port the I2C device is connected to. Can be `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`
 > - `scl_pin` - **string** - The pin name for the SCL signal. E.g. `"C3"`
 > - `sda_pin` - **string** - The pin name for the SDA signal. E.g. `"C4"`
 > - `frequency` - **integer** - The I2C frequency in kHz. Can be `100`, `250`, or `400`
 
-{: .note-title } 
-> Returns
-> - **table** - A table of key-value pairs:
->   - `success` - **boolean** - `true` if the transaction was successful, `false` otherwise
+{: .note-title }
 
-{: .note-title } 
+> Returns
+>
+> - **table** - A table of key-value pairs:
+>     - `success` - **boolean** - `true` if the transaction was successful, `false` otherwise
+
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Write 0x1234 to the register 0xF9
 > device.i2c.write(0x23, "\xF9\x12\x34")
@@ -326,6 +396,7 @@ device.i2c.write(address, data, { port="PORTA", scl_pin="A1", sda_pin="A0", freq
 ---
 
 #### Write then read bytes from an I2C device
+
 {: .no_toc}
 
 ```lua
@@ -333,31 +404,39 @@ device.i2c.write_read(address, write_data, read_length, { port="PORTA", scl_pin=
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `address` - **integer** - The 7-bit address of the I2C device
 > - `write_data` - **string** - The data to write to the device. Can be a hexadecimal string containing zeros. E.g. `"\x1A\x50\x00\xF1"`
 > - `read_length` - **integer** - The number of bytes to read
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `port` - **string** - The 4-pin port the I2C device is connected to. Can be `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`
 > - `scl_pin` - **string** - The pin name for the SCL signal. E.g. `"C3"`
 > - `sda_pin` - **string** - The pin name for the SDA signal. E.g. `"C4"`
 > - `frequency` - **integer** - The I2C frequency in kHz. Can be `100`, `250`, or `400`
 
-{: .note-title } 
-> Returns
-> - **table** - A table of key-value pairs:
->   - `success` - **boolean** - `true` if the transaction was successful, `false` otherwise
->   - `data` - **string** - The bytes read. Always of size `read_length` as specified in the function call
->   - `value` - **integer** - The first data byte, useful if only one byte was requested
+{: .note-title }
 
-{: .note-title } 
+> Returns
+>
+> - **table** - A table of key-value pairs:
+>     - `success` - **boolean** - `true` if the transaction was successful, `false` otherwise
+>     - `data` - **string** - The bytes read. Always of size `read_length` as specified in the function call
+>     - `value` - **integer** - The first data byte, useful if only one byte was requested
+
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Read a byte from register 0x1F on a device with address 0x23
 > local result = device.i2c.write_read(0x23, "\x1F", 1)
-> 
+>
 > if result.success then
 >     print(result.value)
 > end
@@ -366,6 +445,7 @@ device.i2c.write_read(address, write_data, read_length, { port="PORTA", scl_pin=
 ---
 
 #### Scan for I2C devices
+
 {: .no_toc}
 
 ```lua
@@ -373,18 +453,24 @@ device.i2c.scan({ port="PORTA", scl_pin="A1", sda_pin="A0", frequency=100 })
 ```
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `port` - **string** - The 4-pin port the I2C device is connected to. Can be `"PORTA"`, `"PORTB"`, `"PORTE"`, or `"PORTF"`
 > - `scl_pin` - **string** - The pin name for the SCL signal. E.g. `"C3"`
 > - `sda_pin` - **string** - The pin name for the SDA signal. E.g. `"C4"`
 > - `frequency` - **integer** - The I2C frequency in kHz. Can be `100`, `250`, or `400`
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Scan a port for devices
 > device.i2c.scan({ port="PORTF" })
@@ -395,6 +481,7 @@ device.i2c.scan({ port="PORTA", scl_pin="A1", sda_pin="A0", frequency=100 })
 ### SPI communication
 
 #### Write then read bytes from an SPI device
+
 {: .no_toc}
 
 ```lua
@@ -402,12 +489,16 @@ device.spi.write_read(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", m
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `write_data` - **string** - The data to write to the device
 > - `read_length` - **integer** - The number of bytes to read from the device
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `sclk_pin` - **string** - The pin name for the SCK signal. E.g. `"D0"`
 > - `mosi_pin` - **string** - The pin name for the MOSI signal. E.g. `"D1"`
 > - `miso_pin` - **string** - The pin name for the MISO signal. E.g. `"D2"`
@@ -419,12 +510,16 @@ device.spi.write_read(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", m
 > - `cs_active_high` - **boolean** - If `true`, the CS pin is set high during the transaction and low once completed
 > - `miso_pull` - **string** - The pull mode on the MISO pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **string** - The bytes read. Always of size `read_length`
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Read data from an SPI flash device
 > local data = device.spi.write_read("\x03\x00\x00\x00", 11)
@@ -434,6 +529,7 @@ device.spi.write_read(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", m
 ---
 
 #### Write bytes to an SPI device
+
 {: .no_toc}
 
 ```lua
@@ -441,11 +537,15 @@ device.spi.write(data, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C3
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `data` - **string** - The data to write to the device
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `sclk_pin` - **string** - The pin name for the SCK signal. E.g. `"D0"`
 > - `mosi_pin` - **string** - The pin name for the MOSI signal. E.g. `"D1"`
 > - `miso_pin` - **string** - The pin name for the MISO signal. E.g. `"D2"`
@@ -457,12 +557,16 @@ device.spi.write(data, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C3
 > - `cs_active_high` - **boolean** - If `true`, the CS pin is set high during the transaction and low once completed
 > - `miso_pull` - **string** - The pull mode on the MISO pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Wake up the flash with the 0xAB command
 > device.spi.write("\xAB")
@@ -471,6 +575,7 @@ device.spi.write(data, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C3
 ---
 
 #### Read bytes from an SPI device
+
 {: .no_toc}
 
 ```lua
@@ -478,11 +583,15 @@ device.spi.read(length, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `length` - **integer** - The number of bytes to read from the device
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `sclk_pin` - **string** - The pin name for the SCK signal. E.g. `"D0"`
 > - `mosi_pin` - **string** - The pin name for the MOSI signal. E.g. `"D1"`
 > - `miso_pin` - **string** - The pin name for the MISO signal. E.g. `"D2"`
@@ -494,12 +603,16 @@ device.spi.read(length, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C
 > - `cs_active_high` - **boolean** - If `true`, the CS pin is set high during the transaction and low once completed
 > - `miso_pull` - **string** - The pull mode on the MISO pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **string** - The bytes read. Always of size `length`
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Read 4 bytes from an SPI device
 > local data = device.spi.read(4)
@@ -509,6 +622,7 @@ device.spi.read(length, { sclk_pin="C0", mosi_pin="C1", miso_pin="C2", cs_pin="C
 ---
 
 #### Transact bytes with an SPI device (write and read in parallel)
+
 {: .no_toc}
 
 ```lua
@@ -516,12 +630,16 @@ device.spi.transact(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", mis
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `write_data` - **string** - The data to write to the device
 > - `read_length` - **integer** - The number of bytes to read from the device
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `sclk_pin` - **string** - The pin name for the SCK signal. E.g. `"D0"`
 > - `mosi_pin` - **string** - The pin name for the MOSI signal. E.g. `"D1"`
 > - `miso_pin` - **string** - The pin name for the MISO signal. E.g. `"D2"`
@@ -533,12 +651,16 @@ device.spi.transact(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", mis
 > - `cs_active_high` - **boolean** - If `true`, the CS pin is set high during the transaction and low once completed
 > - `miso_pull` - **string** - The pull mode on the MISO pin. Can be `"PULL_UP"`, `"PULL_DOWN"`, or `"NO_PULL"`
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **string** - The bytes read. Always of size `read_length` as specified in the function call
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Write and read data simultaneously
 > local data = device.spi.transact("\x9F", 3)
@@ -550,6 +672,7 @@ device.spi.transact(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", mis
 ### UART communication
 
 #### Write UART data
+
 {: .no_toc}
 
 ```lua
@@ -557,23 +680,31 @@ device.uart.write(data, { baudrate=9600, tx_pin="B1", cts_pin=nil, parity=false,
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `data` - **string** - The data to send
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `baudrate` - **integer** - The baudrate in bits-per-second. Can be `1200`, `2400`, `4800`, `9600`, `14400`, `19200`, `28800`, `31250`, `38400`, `56000`, `57600`, `76800`, `115200`, `230400`, `250000`, `460800`, `921600`, or `1000000`
 > - `tx_pin` - **string** - The pin name for the transmit signal. E.g. `"C1"`
 > - `cts_pin` - **string** - The pin name for the clear-to-send signal. E.g. `"C3"`. If `nil`, the signal isn't used
 > - `parity` - **boolean** - If `true`, enables the parity bit
 > - `stop_bits` - **integer** - The number of stop bits. Can be `1` or `2`
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Send UART data
 > device.uart.write("Hello there. This is some data\n", { baudrate=19200 })
@@ -582,6 +713,7 @@ device.uart.write(data, { baudrate=9600, tx_pin="B1", cts_pin=nil, parity=false,
 ---
 
 #### Assign an event handler for UART data
+
 {: .no_toc}
 
 ```lua
@@ -589,36 +721,45 @@ device.uart.assign_read_event(terminator, handler, { baudrate=9600, rx_pin="B0",
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `terminator` - **string** - The character to wait for before triggering the event. If `nil`, the event triggers for every character received
 > - `handler` - **function** - The function to call when data is received. Called with one argument:
->   - `data` - **string** - All buffered bytes since the last event or since the event was enabled
+>     - `data` - **string** - All buffered bytes since the last event or since the event was enabled
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `baudrate` - **integer** - The baudrate in bits-per-second
 > - `rx_pin` - **string** - The pin name for the receive signal. E.g. `"C0"`
 > - `rts_pin` - **string** - The pin name for the ready-to-send signal. E.g. `"C2"`. If `nil`, the signal isn't used
 > - `parity` - **boolean** - If `true`, enables the parity bit
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Create a handler for receiving UART data
 > function my_receive_handler(data)
 >     print("Got a new line: "..data)
 > end
-> 
+>
 > device.uart.assign_read_event("\n", my_receive_handler, { baudrate=19200 })
 > ```
 
 ---
 
 #### Disable a UART read event handler
+
 {: .no_toc}
 
 ```lua
@@ -626,15 +767,21 @@ device.uart.unassign_read_event(rx_pin)
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `rx_pin` - **string** - The pin name of the receive signal. E.g. `"C0"`
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Disable the event and detach the pin from the handler if no longer needed
 > device.uart.unassign_read_event("B0")
@@ -647,6 +794,7 @@ device.uart.unassign_read_event(rx_pin)
 ### Networking (LTE)
 
 #### Send data to Superstack
+
 {: .no_toc}
 
 ```lua
@@ -654,24 +802,30 @@ network.send_data{ data }
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `data` - **table** - A table of key-value pairs. Converted to JSON when sent to Superstack. Use descriptive key names (e.g. `temperature_celsius = 43.5`) to help AI tools infer meaning
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- A simple sensor value
 > my_sensor_value = 23.5
-> 
+>
 > network.send_data{ temperature=my_sensor_value }
-> 
+>
 > -- Network send can contain any arbitrary data
-> network.send_data{ 
->     my_int = -42, 
+> network.send_data{
+>     my_int = -42,
 >     my_float = 23.1,
 >     my_string = "my string",
 >     my_array = {1, 2, 3, 4},
@@ -685,6 +839,7 @@ network.send_data{ data }
 ---
 
 #### Check if the network is connected
+
 {: .no_toc}
 
 ```lua
@@ -692,11 +847,15 @@ network.connected()
 ```
 
 {: .note-title }
+
 > Returns
+>
 > - **boolean** - `true` if the LTE network is connected, `false` otherwise
 
 {: .note-title }
+
 > Example
+>
 > ```lua
 > if network.connected() then
 >     print("Network is up")
@@ -706,6 +865,7 @@ network.connected()
 ---
 
 #### Set low power mode
+
 {: .no_toc}
 
 ```lua
@@ -713,18 +873,25 @@ network.low_power_mode(enabled)
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `enabled` - **boolean** - `true` to enable PSM (Power Saving Mode), `false` to disable it
 
 {: .note-title }
+
 > Returns
+>
 > - **nil**
 
 {: .warning }
+
 > Enabling PSM introduces up to **15 minutes of latency** for code updates from Superstack. To return to real-time updates, call `network.low_power_mode(false)` and wait up to 15 minutes for the modem to re-register.
 
 {: .note-title }
+
 > Example
+>
 > ```lua
 > -- Enable low power mode when the network is not needed
 > network.low_power_mode(true)
@@ -734,49 +901,8 @@ network.low_power_mode(enabled)
 
 ### Location (GPS)
 
-#### Get the latest GPS data
-{: .no_toc}
-
-```lua
-location.get_latest()
-```
-
-{: .note-title } 
-> Returns
-> - **table** - A table of key-value pairs:
->   - `valid` - **boolean** - `true` if the GPS data is valid, or `false` otherwise
->   - `latitude` - **number** - The current latitude
->   - `longitude` - **number** - The current longitude
->   - `altitude` - **number** - The current altitude
->   - `accuracy` - **number** - The location and altitude accuracy
->   - `speed` - **number** - The current speed
->   - `speed_accuracy` - **number** - The speed accuracy
->   - `satellites` - **table** - A table of key-value pairs:
->     - `tracked` - **integer** - The number of satellites currently being tracked
->     - `in_fix` - **integer** - The number of satellites currently being used for measurement
->     - `unhealthy` - **integer** - The number of satellites that could not be used for measurement
-
-{: .note-title } 
-> Example
-> ```lua
-> local l = location.get_latest()
-> 
-> print("valid: " .. tostring(l["valid"]))
-> print("latitude: " .. tostring(l["latitude"]))
-> print("longitude: " .. tostring(l["longitude"]))
-> print("altitude: " .. tostring(l["altitude"]))
-> print("accuracy: " .. tostring(l["accuracy"]))
-> print("speed: " .. tostring(l["speed"]))
-> print("speed_accuracy: " .. tostring(l["speed_accuracy"]))
-> 
-> print("satellites tracked: " .. tostring(l["satellites"]["tracked"]))
-> print("satellites in fix: " .. tostring(l["satellites"]["in_fix"]))
-> print("satellites unhealthy: " .. tostring(l["satellites"]["unhealthy"]))
-> ```
-
----
-
 #### Enable GPS
+
 {: .no_toc}
 
 ```lua
@@ -784,20 +910,27 @@ location.enable({ accuracy="HIGH", power_saving="OFF", tracking_interval=1 })
 ```
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `accuracy` - **string** - The accuracy of the fix. `"LOW"` requires three satellites, `"HIGH"` requires four satellites
 > - `power_saving` - **string** - The power saving level. Can be `"OFF"`, `"MEDIUM"`, or `"MAX"`. Higher power saving reduces accuracy and increases time to fix
 > - `tracking_interval` - **integer** - The period to poll for new location updates. `1` for continuous 1-second updates, or a value between `10` and `65535` seconds for slower updates to save power
 
 {: .note-title }
+
 > Returns
+>
 > - **nil**
 
 {: .warning }
+
 > `location.enable()` automatically activates PSM to allow the modem to share hardware with the GPS. This introduces up to **15 minutes of latency** for code updates from Superstack. To return to real-time updates, call `location.disable()` followed by `network.low_power_mode(false)`, then wait up to 15 minutes.
 
 {: .note-title }
+
 > Example
+>
 > ```lua
 > -- Start GPS with default settings
 > location.enable{}
@@ -808,7 +941,62 @@ location.enable({ accuracy="HIGH", power_saving="OFF", tracking_interval=1 })
 
 ---
 
+#### Get the latest GPS data
+
+{: .no_toc}
+
+```lua
+location.get_latest()
+```
+
+{: .note-title }
+
+> Returns
+>
+> - **table** - A table of key-value pairs:
+>     - `valid` - **boolean** - `true` if the GPS data is valid, or `false` otherwise
+>     - `latitude` - **number** - The current latitude
+>     - `longitude` - **number** - The current longitude
+>     - `altitude` - **number** - The current altitude
+>     - `accuracy` - **number** - The location and altitude accuracy
+>     - `speed` - **number** - The current speed
+>     - `speed_accuracy` - **number** - The speed accuracy
+>     - `satellites` - **table** - A table of key-value pairs:
+>         - `tracked` - **integer** - The number of satellites currently being tracked
+>         - `in_fix` - **integer** - The number of satellites currently being used for measurement
+>         - `unhealthy` - **integer** - The number of satellites that could not be used for measurement
+
+{: .note-title }
+
+> Example
+>
+> ```lua
+> -- GPS must be enabled before getting a location fix
+> location.enable{ accuracy="HIGH", power_saving="OFF" }
+>
+> -- Avoid sending logs or data while waiting for a fix — network
+> -- activity competes for the modem hardware and delays acquisition
+> device.sleep(60)
+>
+> local l = location.get_latest()
+>
+> print("valid: " .. tostring(l["valid"]))
+> print("latitude: " .. tostring(l["latitude"]))
+> print("longitude: " .. tostring(l["longitude"]))
+> print("altitude: " .. tostring(l["altitude"]))
+> print("accuracy: " .. tostring(l["accuracy"]))
+> print("speed: " .. tostring(l["speed"]))
+> print("speed_accuracy: " .. tostring(l["speed_accuracy"]))
+>
+> print("satellites tracked: " .. tostring(l["satellites"]["tracked"]))
+> print("satellites in fix: " .. tostring(l["satellites"]["in_fix"]))
+> print("satellites unhealthy: " .. tostring(l["satellites"]["unhealthy"]))
+> ```
+
+---
+
 #### Disable GPS
+
 {: .no_toc}
 
 ```lua
@@ -816,14 +1004,19 @@ location.disable()
 ```
 
 {: .note-title }
+
 > Returns
+>
 > - **nil**
 
 {: .warning }
+
 > Disabling GPS alone does **not** restore real-time code updates. PSM remains active until `network.low_power_mode(false)` is called. After calling it, wait up to 15 minutes for the modem to re-register before Superstack can push updates in real time.
 
 {: .note-title }
+
 > Example
+>
 > ```lua
 > -- Stop GPS and restore real-time connectivity
 > location.disable()
@@ -837,6 +1030,7 @@ location.disable()
 ### Logging
 
 #### Post log to Superstack
+
 {: .no_toc}
 
 ```lua
@@ -844,15 +1038,21 @@ print(log)
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `log` - **string** - String to print
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Simple print
 > print("hello world")
@@ -870,6 +1070,7 @@ print(log)
 ### Sleep
 
 #### Sleep for a duration
+
 {: .no_toc}
 
 ```lua
@@ -877,15 +1078,21 @@ device.sleep(time)
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `time` - **number** - The duration to sleep in seconds. E.g. `1.5`
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Sleep for 1.5 seconds
 > device.sleep(1.5)
@@ -896,6 +1103,7 @@ device.sleep(time)
 ### Power
 
 #### Configure the battery charger
+
 {: .no_toc}
 
 ```lua
@@ -903,16 +1111,22 @@ device.power.battery.set_charger_cv_cc(voltage, current)
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `voltage` - **number** - The termination voltage. Can be `3.50`, `3.55`, `3.60`, `3.65`, `4.00`, `4.05`, `4.10`, `4.15`, `4.20`, `4.25`, `4.30`, `4.35`, `4.40`, or `4.45`
 > - `current` - **number** - The constant charge current in mA. Must be between `32` and `800` in steps of `2`
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Configure the battery charger for a 4.2V 200mAh rated Li-Po cell
 > device.power.battery.set_charger_cv_cc(4.2, 200)
@@ -921,18 +1135,23 @@ device.power.battery.set_charger_cv_cc(voltage, current)
 ---
 
 #### Get the battery voltage
+
 {: .no_toc}
 
 ```lua
 device.power.battery.get_voltage()
 ```
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **number** - The voltage of the cell in volts
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > local voltage = device.power.battery.get_voltage()
 > print("Battery voltage is "..tostring(voltage).."V")
@@ -941,21 +1160,26 @@ device.power.battery.get_voltage()
 ---
 
 #### Get the battery charging status
+
 {: .no_toc}
 
 ```lua
 device.power.battery.get_charging_status()
 ```
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **string** - The charging status: `"charging"`, `"charged"`, or `"discharging"` if a battery is connected, or `"external_power"` if no battery is installed or the battery has a fault
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > local status = device.power.battery.get_charging_status()
-> 
+>
 > if status ~= "external_power" then
 >     print("Battery is "..status)
 > else
@@ -966,6 +1190,7 @@ device.power.battery.get_charging_status()
 ---
 
 #### Set the IO voltage for all ports
+
 {: .no_toc}
 
 ```lua
@@ -973,15 +1198,21 @@ device.power.set_vout(voltage)
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `voltage` - **number** - The IO voltage of `PORTA` - `PORTF`. Can be between `1.8` and `3.3` in steps of `0.1`
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Set the voltage of Vout to 3.3V
 > device.power.set_vout(3.3)
@@ -992,6 +1223,7 @@ device.power.set_vout(voltage)
 ### File storage
 
 #### Write data to a file
+
 {: .no_toc}
 
 ```lua
@@ -999,16 +1231,22 @@ storage.write(filename, data)
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `filename` - **string** - The name of the file
 > - `data` - **string** - The data to save to the file
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Create a file and write data to it
 > storage.write("my_file.txt", "Hello world")
@@ -1017,6 +1255,7 @@ storage.write(filename, data)
 ---
 
 #### Append data to a file
+
 {: .no_toc}
 
 ```lua
@@ -1024,16 +1263,22 @@ storage.append(filename, data)
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `filename` - **string** - The name of the file
 > - `data` - **string** - The data to append to the file
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **nil**
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Append more data to the file
 > storage.append("my_file.txt", "\nThis is another line of text")
@@ -1043,6 +1288,7 @@ storage.append(filename, data)
 ---
 
 #### Read data from a file
+
 {: .no_toc}
 
 ```lua
@@ -1050,25 +1296,33 @@ storage.read(filename, { line=-1, length=nil, offset=0 })
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `filename` - **string** - The name of the file
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `line` - **integer** - The line index to return. `1` is the first line, `2` the second, etc. Negative values index from the end: `-1` is the last line, `-2` the second to last, etc. When specified, `length` and `offset` are ignored
 > - `length` - **integer** - The number of bytes to read. Cannot be used with `line`. If longer than the file, a shorter result is returned
 > - `offset` - **integer** - When `length` is specified, read from this byte offset within the file
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **string** - The contents read
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Read the entire file
 > print(storage.read("my_file.txt"))
-> 
+>
 > -- Print the last line from the file
 > print(storage.read("my_file.txt", { line=-1 }))
 > ```
@@ -1076,6 +1330,7 @@ storage.read(filename, { line=-1, length=nil, offset=0 })
 ---
 
 #### Delete a file
+
 {: .no_toc}
 
 ```lua
@@ -1083,15 +1338,21 @@ storage.delete(filename)
 ```
 
 {: .note-title }
+
 > Parameters
+>
 > - `filename` - **string** - The name of the file
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **boolean** - `true` if the file was found and deleted, `false` otherwise
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Delete the file
 > storage.delete("my_file.txt")
@@ -1100,21 +1361,26 @@ storage.delete(filename)
 ---
 
 #### List all files
+
 {: .no_toc}
 
 ```lua
 storage.list()
 ```
 
-{: .note-title } 
-> Returns
-> - **table** - A table of tables:
->   - **table** - A table of key-value pairs:
->     - `name` - **string** - The name of the file
->     - `size` - **integer** - The size of the file in bytes
+{: .note-title }
 
-{: .note-title } 
+> Returns
+>
+> - **table** - A table of tables:
+>     - **table** - A table of key-value pairs:
+>         - `name` - **string** - The name of the file
+>         - `size` - **integer** - The size of the file in bytes
+
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- List all files on the device
 > local files = storage.list()
@@ -1128,22 +1394,27 @@ storage.list()
 ### Timekeeping
 
 #### Get the current Unix timestamp
+
 {: .no_toc}
 
 ```lua
 time.get_unix_time()
 ```
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **integer** - The current Unix timestamp (i.e the number of non-leap milliseconds that have elapsed since 00:00:00 UTC on 1 January 1970), or if the time is not yet known, returns the uptime of the device in milliseconds
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Repeat something for 30 seconds
 > local t = time.get_unix_time()
-> 
+>
 > while t + 30 > time.get_unix_time() do
 >     print("waiting")
 >     device.sleep(5)
@@ -1153,6 +1424,7 @@ time.get_unix_time()
 ---
 
 #### Get the current time and date
+
 {: .no_toc}
 
 ```lua
@@ -1160,28 +1432,34 @@ time.get_time_date({ unix_epoch, timezone })
 ```
 
 {: .note-title }
+
 > Optional parameters
+>
 > - `unix_epoch` - **number** - A Unix timestamp to convert to a time and date
 > - `timezone` - **string** - The timezone offset. E.g. `"+02:00"` or `"-07:30"`
 
-{: .note-title } 
-> Returns
-> - **table** - A table of key-value pairs:
->   - `year` - **integer** - The current year
->   - `month` - **integer** - The current month
->   - `day` - **integer** - The current day
->   - `yearday` - **integer** - The current day of the year
->   - `weekday` - **integer** - The current day of the week since Sunday
->   - `hour` - **integer** - The current hour
->   - `minute` - **integer** - The current minute
->   - `second` - **integer** - The current second
+{: .note-title }
 
-{: .note-title } 
+> Returns
+>
+> - **table** - A table of key-value pairs:
+>     - `year` - **integer** - The current year
+>     - `month` - **integer** - The current month
+>     - `day` - **integer** - The current day
+>     - `yearday` - **integer** - The current day of the year
+>     - `weekday` - **integer** - The current day of the week since Sunday
+>     - `hour` - **integer** - The current hour
+>     - `minute` - **integer** - The current minute
+>     - `second` - **integer** - The current second
+
+{: .note-title }
+
 > Example
+>
 > ```lua
 > -- Print the current time and date
 > local now = time.get_time_date()
-> 
+>
 > print(string.format("The current time is: %02d:%02d", now.hour, now.minute))
 > print(string.format("The current date is: %d/%d/%d", now.year, now.month, now.day))
 > ```
@@ -1191,18 +1469,23 @@ time.get_time_date({ unix_epoch, timezone })
 ### Device information
 
 #### Hardware version constant
+
 {: .no_toc}
 
 ```lua
 device.HARDWARE_VERSION
 ```
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **string** - Always `"s2-module"`
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > print(device.HARDWARE_VERSION)
 > ```
@@ -1210,18 +1493,23 @@ device.HARDWARE_VERSION
 ---
 
 #### Firmware version constant
+
 {: .no_toc}
 
 ```lua
 device.FIRMWARE_VERSION
 ```
 
-{: .note-title } 
+{: .note-title }
+
 > Returns
+>
 > - **string** - A string representing the current firmware version. E.g. `"0.1.0+0"`
 
-{: .note-title } 
+{: .note-title }
+
 > Example
+>
 > ```lua
 > print(device.FIRMWARE_VERSION)
 > ```
