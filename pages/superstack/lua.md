@@ -27,7 +27,8 @@ Compared to writing firmware, the Superstack Lua engine allows for remote and re
 {: .no_toc}
 
 1. TOC
-   {:toc}
+
+{:toc}
 
 ---
 
