@@ -4,10 +4,11 @@ description: Hardware datasheet for the S1 Bluetooth-FPGA Module.
 image: /assets/images/s1-module-annotated-masthead.png
 nav_order: 4
 redirect_from:
-  - /s1-module/s1-module/
+    - /s1-module/s1-module/
 ---
 
 # S1 Module
+
 {: .no_toc }
 {: .d-inline-block }
 Active
@@ -23,14 +24,16 @@ Simply connect a battery, and the module is fully operational.
 
 The on board [Lattice iCE40 Ultra Plus](https://www.latticesemi.com/en/Products/FPGAandCPLD/iCE40UltraPlus) FPGA features 5k LUTs, 1Mb RAM, DSP blocks, PLL, and hardware serial blocks. 8 GPIO pins are exposed, including I3C capable IO and a differential pair for USB.
 
-The main processor is a [Nordic nRF52811](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/nRF52811) supporting Bluetooth 5.2,  Long Range, and Thread. The module includes an integrated antenna and two additional GPIO pins connected to the nRF52 which may be used as ADC channels, or wake from deep sleep triggers.
+The main processor is a [Nordic nRF52811](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/nRF52811) supporting Bluetooth 5.2, Long Range, and Thread. The module includes an integrated antenna and two additional GPIO pins connected to the nRF52 which may be used as ADC channels, or wake from deep sleep triggers.
 
 Power control and battery charging is managed from a dedicated [Maxim MAX77654 PMIC](https://www.maximintegrated.com/en/products/power/power-management-ics/MAX77654.html). The PMIC provides three adjustable voltage rails, one of which may be used as a buck-boost output and can provide up to 5.5V from a single lithium cell. The lithium cell may be charged and monitored directly from the module with a wide range of rate and safety options.
 
 [32-Mbit of on board Flash](https://www.mouser.se/datasheet/2/590/AT25SL321_112-1385816.pdf) allow the FPGA binary to be stored on the module, as well as other user data which can be read or written to during runtime.
 
 ## Feature summary
+
 {: .no_toc}
+
 - **Bluetooth 5.2** support including Long Range.
 - **Thread** support.
 - **64MHz Cortex M4** processor.
@@ -43,7 +46,9 @@ Power control and battery charging is managed from a dedicated [Maxim MAX77654 P
 - **Integrated antenna, passives and crystals**.
 
 ## Use cases
+
 {: .no_toc}
+
 - High speed & time critical DSP.
 - Pre-processing data on the edge.
 - Power efficient algorithm design.
@@ -54,21 +59,23 @@ Power control and battery charging is managed from a dedicated [Maxim MAX77654 P
 - Bespoke DSP algorithm deployment.
 
 ## Contents
+
 {: .no_toc}
 
 1. TOC
-{:toc}
+   {:toc}
 
 ## Block diagram
 
 The S1 Module consists of four key devices:
+
 - Bluetooth microcontroller - [Nordic nRF52811](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/nRF52811)
 - Low power FPGA - [Lattice iCE40 Ultra Plus](https://www.latticesemi.com/en/Products/FPGAandCPLD/iCE40UltraPlus)
 - Power management IC - [Maxim MAX77654](https://www.maximintegrated.com/en/products/power/power-management-ics/MAX77654.html)
 - 32-Mbit flash - [Adesto AT25SL321](https://www.mouser.se/datasheet/2/590/AT25SL321_112-1385816.pdf)
-<br>
-<br>
-![S1 Module Block Diagram](/assets/images/s1-module-block-diagram.png)
+  <br>
+  <br>
+  ![S1 Module Block Diagram](/assets/images/s1-module-block-diagram.png)
 
 The devices are fully supported internally including all RF, power and decoupling circuitry. Simply connecting a battery powers up the module and brings it into its normal operating mode.
 
@@ -78,20 +85,20 @@ It's recommended to study the [module schematics](#schematics) as well as the da
 
 ![S1 Module pinout](/assets/images/s1-module-pinout.png)
 
-| Pin Number | Signal                            | Direction | Description |
-| :--------: | :-------------------------------: | :-------: | ----------- |
-| 2 - 9      | D1 - D8                           | IO        | FPGA IO. These pins can be used as general purpose IO. They are all referenced to V<sub>IO</sub> and can be configured as push-pull, open drain/collector or tristates. Internal pull resistors may also be configured individually for each pin. Some pins provide extra functions as described below. |
-| 2,5        | USBP / USBN                       | IO        | These FPGA pins can be used as a complimentary pair for USB data or other complimentary signals. |
-| 8, 9       | I3C                               | IO        | These FPGA pins support high speed I3C with built in terminations and pull resistors. |
-| 15, 16     | ADC1, ADC2                        | IO        | ADC pins connected directly to the nRF52. These pins can be used as GPIO or low power wake-up pins when the module is in deep sleep. These pins are referenced to the V<sub>ADC</sub> rail, typically 1.8V. |
-| 10         | V<sub>CHG</sub>                   | I         | Main power input for the charging circuit. This pin can be used to power the module, typically from a 5V<sub>USB</sub> rail. |
-| 11         | V<sub>BATT</sub>                  | IO        | A lithium cell can be connected to this pin, and will be charged whenever V<sub>CHG</sub> is applied. The module supports a wide range lithium technologies where both charge voltage and current may be configured in software to support each type. |
-| 12         | V<sub>AUX</sub>                   | O         | Software configurable buck-boost rail which also powers the internal LDO exposed on V<sub>IO</sub>. Can be set up to 5.5V regardless of the input supply voltage. |
-| 13         | V<sub>IO</sub>                    | O         | Software configurable 100mA LDO that can also be configured as a load switch. This pin acts as the logic reference for all of the FPGA IO and is limited to 3.6V. It is internally powered from the exposed V<sub>AUX</sub> rail which must also be enabled. |
-| 17         | V<sub>nRF</sub> / V<sub>ADC</sub> | O         | 1.8V voltage rail powering the nRF52 and flash memory. Can be used to power external devices. When the ADC is used, this voltage also functions as the ADC reference output. |
-| 1, 20, 14  | GND                               | –         | Ground. Pins 1 and 20 are close to the antenna and must connect to a good ground plane. Pin 14 aids as the return path for the power rails and battery charging. |
-| 18         | SWDIO                             | IO        | Serial wire debug IO for the ARM core of the nRF52. Should not exceed the V<sub>NRF</sub> voltage. |
-| 19         | SWDCLK                            | I         | Serial wire debug clock for the ARM core of the nRF52. Should not exceed the V<sub>NRF</sub> voltage. |
+| Pin Number |              Signal               | Direction | Description                                                                                                                                                                                                                                                                                             |
+| :--------: | :-------------------------------: | :-------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   2 - 9    |              D1 - D8              |    IO     | FPGA IO. These pins can be used as general purpose IO. They are all referenced to V<sub>IO</sub> and can be configured as push-pull, open drain/collector or tristates. Internal pull resistors may also be configured individually for each pin. Some pins provide extra functions as described below. |
+|    2,5     |            USBP / USBN            |    IO     | These FPGA pins can be used as a complimentary pair for USB data or other complimentary signals.                                                                                                                                                                                                        |
+|    8, 9    |                I3C                |    IO     | These FPGA pins support high speed I3C with built in terminations and pull resistors.                                                                                                                                                                                                                   |
+|   15, 16   |            ADC1, ADC2             |    IO     | ADC pins connected directly to the nRF52. These pins can be used as GPIO or low power wake-up pins when the module is in deep sleep. These pins are referenced to the V<sub>ADC</sub> rail, typically 1.8V.                                                                                             |
+|     10     |          V<sub>CHG</sub>          |     I     | Main power input for the charging circuit. This pin can be used to power the module, typically from a 5V<sub>USB</sub> rail.                                                                                                                                                                            |
+|     11     |         V<sub>BATT</sub>          |    IO     | A lithium cell can be connected to this pin, and will be charged whenever V<sub>CHG</sub> is applied. The module supports a wide range lithium technologies where both charge voltage and current may be configured in software to support each type.                                                   |
+|     12     |          V<sub>AUX</sub>          |     O     | Software configurable buck-boost rail which also powers the internal LDO exposed on V<sub>IO</sub>. Can be set up to 5.5V regardless of the input supply voltage.                                                                                                                                       |
+|     13     |          V<sub>IO</sub>           |     O     | Software configurable 100mA LDO that can also be configured as a load switch. This pin acts as the logic reference for all of the FPGA IO and is limited to 3.6V. It is internally powered from the exposed V<sub>AUX</sub> rail which must also be enabled.                                            |
+|     17     | V<sub>nRF</sub> / V<sub>ADC</sub> |     O     | 1.8V voltage rail powering the nRF52 and flash memory. Can be used to power external devices. When the ADC is used, this voltage also functions as the ADC reference output.                                                                                                                            |
+| 1, 20, 14  |                GND                |     –     | Ground. Pins 1 and 20 are close to the antenna and must connect to a good ground plane. Pin 14 aids as the return path for the power rails and battery charging.                                                                                                                                        |
+|     18     |               SWDIO               |    IO     | Serial wire debug IO for the ARM core of the nRF52. Should not exceed the V<sub>NRF</sub> voltage.                                                                                                                                                                                                      |
+|     19     |              SWDCLK               |     I     | Serial wire debug clock for the ARM core of the nRF52. Should not exceed the V<sub>NRF</sub> voltage.                                                                                                                                                                                                   |
 
 Download and print out a [S1 Module reference card](/assets/images/s1-module-pinout-card.png).
 
@@ -115,7 +122,7 @@ The module does not expose the FPGA programming interface directly. It is intend
 
 ## nRF52, FPGA & memory intercommunication
 
-The three devices are internally connected via SPI. The nRF52 controls overall communication flow, though communication is possible in any direction between the three devices. 
+The three devices are internally connected via SPI. The nRF52 controls overall communication flow, though communication is possible in any direction between the three devices.
 
 ![Internal communication bus of the S1 Module](/assets/images/s1-module-internal-spi-interface.png)
 
@@ -184,29 +191,29 @@ Precautions should be taken when developing software and changing configurations
 
 ### Absolute maximum ratings
 
-| Symbol                  | Parameter                                   | Min  | Max                    | Unit            |
-| :---------------------: | ------------------------------------------- | :--: | :--------------------: | :-------------: |
-| V<sub>CHG-MAX</sub>     | Charge input terminal voltage               | -0.3 | 30                     | V               |
-| V<sub>BAT-MAX</sub>     | Battery terminal voltage                    | -0.3 | 6                      | V               |
-| V<sub>AUX-MAX</sub>     | V<sub>AUX</sub> terminal voltage            | -0.3 | 6                      | V               |
-| V<sub>IO-MAX</sub>      | V<sub>IO</sub> terminal voltage             | -0.3 | 3.6                    | V               |
-| V<sub>nRF-MAX</sub>     | V<sub>nRF</sub> terminal voltage            | -0.3 | 2.4                    | V               |
-| V<sub>FPGA-IO-MAX</sub> | Voltage on FPGA IO pins D1 - D8             | -0.5 | 3.6                    | V               |
-| V<sub>nRF-IO-MAX</sub>  | Voltage on ADC1, ADC2 and SWD pins          | -0.3 | V<sub>nRF</sub>+0.3    | V               |
-| I<sub>SYS</sub>         | Continuous current through module           | –    | 1.2                    | A<sub>RMS</sub> |
-| T<sub>AMB-OP</sub>      | Operating temperature range                 | -40  | 85                     | °C              |
-| T<sub>AMB-STG</sub>     | Storage temperature range                   | -40  | 125                    | °C              |
+|         Symbol          | Parameter                          | Min  |         Max         |      Unit       |
+| :---------------------: | ---------------------------------- | :--: | :-----------------: | :-------------: |
+|   V<sub>CHG-MAX</sub>   | Charge input terminal voltage      | -0.3 |         30          |        V        |
+|   V<sub>BAT-MAX</sub>   | Battery terminal voltage           | -0.3 |          6          |        V        |
+|   V<sub>AUX-MAX</sub>   | V<sub>AUX</sub> terminal voltage   | -0.3 |          6          |        V        |
+|   V<sub>IO-MAX</sub>    | V<sub>IO</sub> terminal voltage    | -0.3 |         3.6         |        V        |
+|   V<sub>nRF-MAX</sub>   | V<sub>nRF</sub> terminal voltage   | -0.3 |         2.4         |        V        |
+| V<sub>FPGA-IO-MAX</sub> | Voltage on FPGA IO pins D1 - D8    | -0.5 |         3.6         |        V        |
+| V<sub>nRF-IO-MAX</sub>  | Voltage on ADC1, ADC2 and SWD pins | -0.3 | V<sub>nRF</sub>+0.3 |        V        |
+|     I<sub>SYS</sub>     | Continuous current through module  |  –   |         1.2         | A<sub>RMS</sub> |
+|   T<sub>AMB-OP</sub>    | Operating temperature range        | -40  |         85          |       °C        |
+|   T<sub>AMB-STG</sub>   | Storage temperature range          | -40  |         125         |       °C        |
 
 For detailed ESD performance and other parameters, see the datasheets of the individual devices. They are linked within the [Block diagram](#block-diagram) section above.
 
 ### Flash endurance and data retention
 
-| Parameter                                        | Min     | Max                    | Unit   |
-| ------------------------------------------------ | :-----: | :--------------------: | :----: |
-| Flash IC erase / program cycles                  | 100,000 | –                      | Cycles |
-| Flash IC data retention (full temperature range) | –       | 20                     | Years  |
-| nRF IC erase / program cycles                    | 10,000  | –                      | Cycles |
-| nRF IC data retention (40°C)                     | –       | 10                     | Years  |
+| Parameter                                        |   Min   | Max |  Unit  |
+| ------------------------------------------------ | :-----: | :-: | :----: |
+| Flash IC erase / program cycles                  | 100,000 |  –  | Cycles |
+| Flash IC data retention (full temperature range) |    –    | 20  | Years  |
+| nRF IC erase / program cycles                    | 10,000  |  –  | Cycles |
+| nRF IC data retention (40°C)                     |    –    | 10  | Years  |
 
 ### Sensitivity to light
 
@@ -218,38 +225,38 @@ For accurate information it is recommended to check the individual IC datasheets
 
 Some of the operating characteristics are listed here, but may not reflect all cases.
 
-| Symbol               | Parameter                                                    | Min             | Max             | Unit |
-| :------------------: | ------------------------------------------------------------ | :-------------: | :-------------: | :--: |
-| V<sub>CHG</sub>      | Recommended charge in voltage                                | 4.1             | 7.25            | V    |
-| V<sub>BAT-CHG</sub>  | Adjustable battery charge voltage range                      | 3.6             | 4.6             | V    |
-| I<sub>BAT-CHG</sub>  | Adjustable battery charge current range                      | 7.5             | 300             | mA   |
-| V<sub>BAT-PRE</sub>  | Adjustable battery pre-qualification threshold voltage range | 2.3             | 3.0             | V    |
-| V<sub>IO-LDO</sub> * | Adjustable V<sub>IO</sub> output voltage in LDO mode         | 1.71            | 3.6 **          | V    |
-| V<sub>IO-LSW</sub> * | Adjustable V<sub>IO</sub> output voltage in load switch mode | V<sub>AUX</sub> | V<sub>AUX</sub> | V    |
-| V<sub>AUX</sub>      | Adjustable buck-boost output voltage range                   | 0.8             | 5.5             | V    |
-| V<sub>nRF</sub>      | Adjustable nRF52 / flash supply voltage range                | 1.7             | 2.2 **          | V    |
-| I<sub>IO</sub>       | V<sub>IO</sub> maximum output current                        | –               | 50 / 100 \*\*\* | mA   | 
-| I<sub>AUX</sub>      | V<sub>AUX</sub> maximum output current                       | –               | 1 \*\*\*\*      | A    |
-| I<sub>nRF</sub>      | V<sub>nRF</sub> maximum output current                       | –               | 1 \*\*\*\*      | A    |
+|        Symbol         | Parameter                                                    |       Min       |       Max       | Unit |
+| :-------------------: | ------------------------------------------------------------ | :-------------: | :-------------: | :--: |
+|    V<sub>CHG</sub>    | Recommended charge in voltage                                |       4.1       |      7.25       |  V   |
+|  V<sub>BAT-CHG</sub>  | Adjustable battery charge voltage range                      |       3.6       |       4.6       |  V   |
+|  I<sub>BAT-CHG</sub>  | Adjustable battery charge current range                      |       7.5       |       300       |  mA  |
+|  V<sub>BAT-PRE</sub>  | Adjustable battery pre-qualification threshold voltage range |       2.3       |       3.0       |  V   |
+| V<sub>IO-LDO</sub> \* | Adjustable V<sub>IO</sub> output voltage in LDO mode         |      1.71       |    3.6 \*\*     |  V   |
+| V<sub>IO-LSW</sub> \* | Adjustable V<sub>IO</sub> output voltage in load switch mode | V<sub>AUX</sub> | V<sub>AUX</sub> |  V   |
+|    V<sub>AUX</sub>    | Adjustable buck-boost output voltage range                   |       0.8       |       5.5       |  V   |
+|    V<sub>nRF</sub>    | Adjustable nRF52 / flash supply voltage range                |       1.7       |    2.2 \*\*     |  V   |
+|    I<sub>IO</sub>     | V<sub>IO</sub> maximum output current                        |        –        | 50 / 100 \*\*\* |  mA  |
+|    I<sub>AUX</sub>    | V<sub>AUX</sub> maximum output current                       |        –        |   1 \*\*\*\*    |  A   |
+|    I<sub>nRF</sub>    | V<sub>nRF</sub> maximum output current                       |        –        |   1 \*\*\*\*    |  A   |
 
 \* V<sub>IO</sub> is powered from V<sub>AUX</sub>. In LDO mode, V<sub>AUX</sub> must be 100mV higher than the desired V<sub>IO</sub> voltage. In load switch mode. V<sub>IO</sub> always matches V<sub>AUX</sub>.
 
 \*\* Range is limited to avoid damage to the nRF52, Flash and FPGA which uses the respective rails.
 
-\*\*\* I<sub>IO</sub> is dependent on  V<sub>AUX</sub> voltage and current availability. See [MAX77654 datasheet](https://datasheets.maximintegrated.com/en/ds/MAX77654.pdf) for full details.
+\*\*\* I<sub>IO</sub> is dependent on V<sub>AUX</sub> voltage and current availability. See [MAX77654 datasheet](https://datasheets.maximintegrated.com/en/ds/MAX77654.pdf) for full details.
 
 \*\*\*\* Up to 1A of peak current can be shared across all of the combined power rails. These include V<sub>AUX</sub>, V<sub>nRF</sub> as well as the internal FPGA rail.
 
-### RF characteristics 
+### RF characteristics
 
-| Symbol              | Parameter                        | Min  | Max  | Unit |
+|       Symbol        | Parameter                        | Min  | Max  | Unit |
 | :-----------------: | -------------------------------- | :--: | :--: | :--: |
-| f<sub>OP</sub>      | Operating frequency range        | 2360 | 2500 | MHz  |
-| fsk<sub>BPS</sub>   | On-the-air data rate             | 125  | 2000 | kbps |
-| P<sub>RF</sub>      | Transmit power at nRF output pin | –    | 4    | dBm  |
-| P<sub>SENS</sub>    | Receive sensitivity \*           | -91  | -104 | dBm  |
-| A<sub>ANT-PK</sub>  | Integrated antenna peak gain     | –    | 3.5  | dBi  |
-| A<sub>ANT-AVG</sub> | Integrated antenna average gain  | –    | -1.5 | dBi  |
+|   f<sub>OP</sub>    | Operating frequency range        | 2360 | 2500 | MHz  |
+|  fsk<sub>BPS</sub>  | On-the-air data rate             | 125  | 2000 | kbps |
+|   P<sub>RF</sub>    | Transmit power at nRF output pin |  –   |  4   | dBm  |
+|  P<sub>SENS</sub>   | Receive sensitivity \*           | -91  | -104 | dBm  |
+| A<sub>ANT-PK</sub>  | Integrated antenna peak gain     |  –   | 3.5  | dBi  |
+| A<sub>ANT-AVG</sub> | Integrated antenna average gain  |  –   | -1.5 | dBi  |
 
 \* Receiver sensitivity minimum specified at 2Mbps BLE ideal transmitter, and maximum specified at 125kbps long range BLE ideal transmitter. In between specifications can be found within the [nRF52811 datasheet](https://infocenter.nordicsemi.com/pdf/nRF52811_PS_v1.0.pdf).
 
@@ -263,7 +270,7 @@ The full schematics of the S1 Module. A PDF version can be downloaded [here](/as
 
 ![S1 Module Footprint](/assets/images/s1-module-footprint-drawing.png)
 
-Module footprint is symmetrical left-to-right. Ensure soldermask is present between the pads to prevent shorting. 
+Module footprint is symmetrical left-to-right. Ensure soldermask is present between the pads to prevent shorting.
 
 A cutout should be present on the carrier board to clear the passive components on the underside of the module.
 
@@ -286,6 +293,10 @@ In the case of highly integrated designs where the module must reside in a tight
 ![S1 Mechanical Drawing](/assets/images/s1-module-mechanical-drawing.png)
 
 Dimensions shown are in mm.
+
+### 3D model
+
+A 3D model of the S1 Module can be downloaded as a [STEP file here](/assets/files/s1-module-3d-model.step).
 
 ## Ordering information
 
