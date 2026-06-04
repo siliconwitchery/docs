@@ -4,37 +4,48 @@ This site is built with [Jekyll](https://jekyllrb.com) and [Just the Docs](https
 
 **If you spot any errors** in our documentation, feel free to make an [issue](https://github.com/siliconwitchery/docs/issues).
 
-If you'd like to do some extensive editing, you can also fork/clone this repository and view the pages live editing.
+If you'd like to make extensive edits, you can also clone this repository locally and view the pages live while editing.
 
 ## Running locally
 
-This site uses [Nix](https://nixos.org) to provide a reproducible toolchain — Ruby, Bundler, and the native build dependencies its gems need. The steps below are identical on macOS, Linux, and NixOS.
+This site uses [Nix](https://nixos.org) to provide a reproducible toolchain. It works on NixOS, Linux and MacOS.
 
-1. Install Nix, if you don't have it already. The [Determinate Systems installer](https://determinate.systems/nix-installer) works on macOS and Linux and enables flakes out of the box (on NixOS, Nix is already set up):
-
-    ```bash
-    curl -fsSL https://install.determinate.systems/nix | sh -s -- install
-    ```
-
-1. Clone this repository and enter it:
+1. Clone this repository:
 
     ```bash
     git clone https://github.com/siliconwitchery/docs.git
-    cd docs
     ```
 
-1. Enter the development shell. The first run downloads the pinned toolchain:
+1. Install Nix (on NixOS, Nix is already set up):
 
     ```bash
-    nix develop
+    # Linux (not needed on NixOS)
+    sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
+
+    # MacOS
+    sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
+    ```
+
+1. Install `direnv`. It automatically loads the environment whenever entering the directory:
+    - On NixOS, simply add `programs.direnv.enable = true;` to your `configuration.nix`.
+    - On Linux/MacOS, install with:
+        ```sh
+        nix profile install nixpkgs#direnv --extra-experimental-features nix-command --extra-experimental-features flakes
+        echo 'eval "$(direnv hook zsh)"' >> $ZDOTDIR/.zshrc
+        exec zsh
+        ```
+
+1. Enable `direnv`:
+
+    ```sh
+    cd docs
+    direnv allow
     ```
 
 1. Start the live server:
 
-    ```bash
+    ```sh
     start
     ```
 
 1. Open <http://localhost:4000>. The site rebuilds and refreshes your browser automatically as you edit.
-
-> **Tip:** install [direnv](https://direnv.net) and run `direnv allow` once in the repo, and the shell loads automatically whenever you `cd` in — then you can skip `nix develop` and just run `start`.

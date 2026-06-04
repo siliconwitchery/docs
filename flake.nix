@@ -12,7 +12,8 @@
         default = pkgs.mkShell {
           packages = with pkgs; [
             ruby_3_3   # Includes `bundle` and matches github-pages (~> 228)
-            gcc        # Tools to build native gems
+            git        # Tools to build native gems
+            gcc
             gnumake
             pkg-config
             zlib
