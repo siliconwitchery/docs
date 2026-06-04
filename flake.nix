@@ -19,7 +19,7 @@
             libffi
 
             # Shortcut for starting the server
-            (writeShellScriptBin "start" "bundle install && exec bundle exec jekyll serve --livereload '$@'")
+            (writeShellScriptBin "start" "bundle install && exec bundle exec jekyll serve --livereload")
           ];
           shellHook = ''
             export BUNDLE_PATH="$PWD/.bundle"   # Keep gems here rather than on system path

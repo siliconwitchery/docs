@@ -6,28 +6,35 @@ This site is built with [Jekyll](https://jekyllrb.com) and [Just the Docs](https
 
 If you'd like to do some extensive editing, you can also fork/clone this repository and view the pages live editing.
 
-## To set it up:
+## Running locally
 
-1. Ensure you have [Ruby installed](https://www.ruby-lang.org/en/documentation/installation/). On MacOS, ruby is already installed and ready to go.
+This site uses [Nix](https://nixos.org) to provide a reproducible toolchain — Ruby, Bundler, and the native build dependencies its gems need. The steps below are identical on macOS, Linux, and NixOS.
 
-1. Clone this repository:
+1. Install Nix, if you don't have it already. The [Determinate Systems installer](https://determinate.systems/nix-installer) works on macOS and Linux and enables flakes out of the box (on NixOS, Nix is already set up):
+
+    ```bash
+    curl -fsSL https://install.determinate.systems/nix | sh -s -- install
+    ```
+
+1. Clone this repository and enter it:
 
     ```bash
     git clone https://github.com/siliconwitchery/docs.git
-    ```
-
-1. Set up the environment:
-
-    ```bash
     cd docs
-    bundle update
-    bundle install
     ```
 
-1. Open the project in your browser:
+1. Enter the development shell. The first run downloads the pinned toolchain:
 
     ```bash
-    bundle exec jekyll serve --livereload --open-url
+    nix develop
     ```
 
-That's it! As you edit the pages. The website will automatically refresh. Be sure to keep an eye on your terminal to spot any error messages while you're developing.
+1. Start the live server:
+
+    ```bash
+    start
+    ```
+
+1. Open <http://localhost:4000>. The site rebuilds and refreshes your browser automatically as you edit.
+
+> **Tip:** install [direnv](https://direnv.net) and run `direnv allow` once in the repo, and the shell loads automatically whenever you `cd` in — then you can skip `nix develop` and just run `start`.
