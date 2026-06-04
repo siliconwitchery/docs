@@ -5,6 +5,9 @@ source "https://rubygems.org"
 
 gem "github-pages", "~> 228", group: :jekyll_plugins
 
+# Ruby 3.0+ dropped webrick from the standard library; jekyll serve needs it.
+gem "webrick", "~> 1.8.1"
+
 # Plugins go here
 group :jekyll_plugins do
   gem 'jekyll-include-cache', "~> 0.2.1"
@@ -18,9 +21,6 @@ end
 platforms :mingw, :x64_mingw, :mswin, :jruby do
   gem "tzinfo", "~> 1.2"
   gem "tzinfo-data"
-
-  # this was required on a fresh install of Ruby on Windows (see https://github.com/jekyll/jekyll/issues/8523):
-  gem "webrick", "~> 1.8.1"
 end
 
 # Performance-booster for watching directories on Windows

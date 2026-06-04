@@ -4,11 +4,11 @@ This site is built with [Jekyll](https://jekyllrb.com) and [Just the Docs](https
 
 **If you spot any errors** in our documentation, feel free to make an [issue](https://github.com/siliconwitchery/docs/issues).
 
-If you'd like to do some extensive editing, you can also fork/clone this repository and view the pages live editing.
+If you'd like to make extensive edits, you can also clone this repository locally and view the pages live while editing.
 
-## To set it up:
+## Running locally
 
-1. Ensure you have [Ruby installed](https://www.ruby-lang.org/en/documentation/installation/). On MacOS, ruby is already installed and ready to go.
+This site uses [Nix](https://nixos.org) to provide a reproducible toolchain. It works on NixOS, Linux and MacOS.
 
 1. Clone this repository:
 
@@ -16,18 +16,36 @@ If you'd like to do some extensive editing, you can also fork/clone this reposit
     git clone https://github.com/siliconwitchery/docs.git
     ```
 
-1. Set up the environment:
+1. Install Nix (on NixOS, Nix is already set up):
 
     ```bash
+    # Linux (not needed on NixOS)
+    sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
+
+    # MacOS
+    sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
+    ```
+
+1. Install `direnv`. It automatically loads the environment whenever entering the directory:
+    - On NixOS, simply add `programs.direnv.enable = true;` to your `configuration.nix`.
+    - On Linux/MacOS, install with:
+        ```sh
+        nix profile install nixpkgs#direnv --extra-experimental-features nix-command --extra-experimental-features flakes
+        echo 'eval "$(direnv hook zsh)"' >> $ZDOTDIR/.zshrc
+        exec zsh
+        ```
+
+1. Enable `direnv`:
+
+    ```sh
     cd docs
-    bundle update
-    bundle install
+    direnv allow
     ```
 
-1. Open the project in your browser:
+1. Start the live server:
 
-    ```bash
-    bundle exec jekyll serve --livereload --open-url
+    ```sh
+    start
     ```
 
-That's it! As you edit the pages. The website will automatically refresh. Be sure to keep an eye on your terminal to spot any error messages while you're developing.
+1. Open <http://localhost:4000>. The site rebuilds and refreshes your browser automatically as you edit.
