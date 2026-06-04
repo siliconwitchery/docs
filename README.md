@@ -8,32 +8,24 @@ If you'd like to make extensive edits, you can also clone this repository locall
 
 ## Running locally
 
-This site uses [Nix](https://nixos.org) to provide a reproducible toolchain. It works on NixOS, Linux and MacOS.
+This project uses [Nix](https://nixos.org) to provide a reproducible toolchain. It works on NixOS, Linux and MacOS.
+
+1. On NixOS, simply add `programs.direnv.enable = true;` to your `configuration.nix`.
+
+1. On Linux/MacOS setup Nix:
+
+    ```sh
+    sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
+    nix profile install nixpkgs#direnv --extra-experimental-features nix-command --extra-experimental-features flakes
+    echo 'eval "$(direnv hook zsh)"' >> $ZDOTDIR/.zshrc
+    exec zsh
+    ```
 
 1. Clone this repository:
 
-    ```bash
-    git clone https://github.com/siliconwitchery/docs.git
+    ```sh
+    git clone git@github.com:siliconwitchery/docs.git
     ```
-
-1. Install Nix (on NixOS, Nix is already set up):
-
-    ```bash
-    # Linux (not needed on NixOS)
-    sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
-
-    # MacOS
-    sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
-    ```
-
-1. Install `direnv`. It automatically loads the environment whenever entering the directory:
-    - On NixOS, simply add `programs.direnv.enable = true;` to your `configuration.nix`.
-    - On Linux/MacOS, install with:
-        ```sh
-        nix profile install nixpkgs#direnv --extra-experimental-features nix-command --extra-experimental-features flakes
-        echo 'eval "$(direnv hook zsh)"' >> $ZDOTDIR/.zshrc
-        exec zsh
-        ```
 
 1. Enable `direnv`:
 
