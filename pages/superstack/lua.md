@@ -19,6 +19,11 @@ The Lua engine is almost as performant as writing native C firmware as it's a li
 
 Compared to writing firmware, the Superstack Lua engine allows for remote and realtime development of IoT code without the need for compiler tools, hardware debuggers or physical access to the device. There's also no risk of bricking devices as Lua runs in a container, and is always updatable and isolated from sensitive internal functions such as network management.
 
+Complete ready-to-run scripts are available in the example repository, and if you write code with an AI assistant, our plugin for Claude teaches it this entire reference.
+
+[Example scripts](https://github.com/siliconwitchery/s2-lua-examples){: .btn .btn-purple}
+[AI plugin for Claude](https://github.com/siliconwitchery/claude-plugins){: .btn}
+
 ---
 
 ## Contents

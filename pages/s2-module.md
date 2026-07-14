@@ -17,6 +17,10 @@ Active
 
 The S2 is a production-ready IoT module built around an advanced ARM SiP with integrated LTE Cat-M1 connectivity. Featuring comprehensive I/O support (SPI, I2C, analog), built-in GNSS, and sophisticated power management with battery charging capabilities. It's designed for rapid deployment and remote development. The module comes pre-configured with a SoftSIM and flexible data plan, eliminating cellular integration complexity. Engineers can program and debug directly over LTE using our Lua-based runtime environment, with all device management and updates handled through the Superstack platform – no local toolchain required.
 
+[Lua reference](/pages/superstack/lua){: .btn .btn-purple}
+[Example scripts](https://github.com/siliconwitchery/s2-lua-examples){: .btn .btn-purple}
+[AI plugin for Claude](https://github.com/siliconwitchery/claude-plugins){: .btn}
+
 ## Feature summary
 {: .no_toc}
 

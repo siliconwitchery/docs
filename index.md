@@ -19,6 +19,8 @@ Ready-to-deploy LTE hardware plus intelligent cloud platform that lets you build
 
 [Datasheet](/pages/s2-module){: .btn .btn-purple}
 [Superstack](/pages/superstack){: .btn .btn-purple}
+[Example scripts](https://github.com/siliconwitchery/s2-lua-examples){: .btn .btn-purple}
+[AI plugin for Claude](https://github.com/siliconwitchery/claude-plugins){: .btn}
 [Order](https://www.digikey.com/en/products/filter/rf-transceiver-modules-and-modems/872?s=N4IgTCBcDaIMoEsA2CDGB7AdgAgOoIBdUALAUwCcBPbEAXQF8g){: .btn}
 
 ---

@@ -21,6 +21,10 @@ Active
 
 Superstack is a cloud IoT platform that lets you deploy, program, and manage connected devices from anywhere. You can update firmware, monitor data in real-time, and run AI-powered analytics, all through a secure web dashboard or API. Superstack handles connectivity, Device onboarding, and fleet management, so you can focus on building your application. Its natural language query engine and easy business integration make it simple to turn raw device data into actionable insights at scale.
 
+[Lua reference](/pages/superstack/lua){: .btn .btn-purple}
+[Example scripts](https://github.com/siliconwitchery/s2-lua-examples){: .btn .btn-purple}
+[AI plugin for Claude](https://github.com/siliconwitchery/claude-plugins){: .btn}
+
 ---
 
 ## Contents
@@ -142,7 +146,9 @@ If you wish to push the same code to multiple devices, click the <span class="ma
 {: .warning }
 The push feature will overwrite any existing code on the selected Devices.
 
-Detailed examples along with the **Lua Library Reference** can be found [here](/pages/superstack/lua).
+Detailed examples along with the **Lua Library Reference** can be found [here](/pages/superstack/lua). Complete ready-to-run scripts — sensor drivers, an air quality monitor, a weather station and more — are in the [example scripts repository](https://github.com/siliconwitchery/s2-lua-examples).
+
+If you write code with an AI assistant, install our [plugin for Claude](https://github.com/siliconwitchery/claude-plugins) — it teaches the assistant the entire Lua library and Superstack API, including the quirks, so it generates code that runs correctly on your Devices first time.
 
 ---
 
