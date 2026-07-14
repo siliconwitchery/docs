@@ -126,16 +126,12 @@ end
 
 Once your air quality monitor is collecting data, you can easily access it programmatically using Superstack's REST API. This makes it simple to integrate the sensor data into your existing dashboards, applications, or business systems.
 
-Here's a simple example of how to fetch the air quality data using a curl request:
+Here's a simple example of how to fetch the air quality data using a curl request. It uses a demo API key with read-only access to the device info, logs and data of this deployment, so you can try it right away:
 
 ```bash
-curl https://super.siliconwitchery.com/api/data \
-    -H 'Content-Type: application/json' \
-    -H 'X-Api-Key: Jc9kdtAMoNiQcao-SDQvg8dtZ33HoWkHFJmjhnY5Mu4' \
-    -d '{
-        "deploymentId": "2b549e58-b05b-4a24-8266-2843b6538de6",
-        "devices": ["Air Quality Sensors"]
-    }'
+curl -G 'https://super.siliconwitchery.com/api/2b549e58-b05b-4a24-8266-2843b6538de6/data' \
+    --data-urlencode 'filters={"devices": ["Air Quality Sensors"]}' \
+    -H 'X-Api-Key: BgmFIzLiKirbvZ9uZ38oe5YzEPSXhMwIF1d1fP3PiXE'
 ```
 
 The API returns structured JSON data containing all sensor readings with timestamps, making it easy to build custom visualizations, set up alerts, or integrate with existing monitoring systems.
@@ -152,9 +148,9 @@ The dashboard demonstrates how to create a production-ready IoT visualization us
 
 Superstack's embedded AI agent takes your air quality data to the next level by providing intelligent insights and natural language analysis of your sensor readings. The AI can identify patterns, detect anomalies, and provide actionable recommendations based on your specific deployment data.
 
-**Try the AI agent yourself** directly within the public deployment at [super.siliconwitchery.com](https://super.siliconwitchery.com/?deployment=2b549e58-b05b-4a24-8266-2843b6538de6)
+**Explore the deployment yourself** at [super.siliconwitchery.com](https://super.siliconwitchery.com/?deployment=2b549e58-b05b-4a24-8266-2843b6538de6) to browse the live devices, logs and data.
 
-You can ask questions like "What were the air quality trends this week?" or "When should I expect the next maintenance cycle?" and get intelligent, context-aware responses based on your actual sensor data.
+On your own deployments, you can ask the agent questions like "What were the air quality trends this week?" or "When should I expect the next maintenance cycle?" and get intelligent, context-aware responses based on your actual sensor data.
 
 ---
 

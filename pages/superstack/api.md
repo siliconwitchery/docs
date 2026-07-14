@@ -56,6 +56,12 @@ curl https://super.siliconwitchery.com/api/{deploymentId}/logs \
     -H 'X-Api-Key: <Your newly created API key>'
 ```
 
+{: .note }
+All deployments are private, and require an API Key with the relevant permissions. The only exception is the **Demo Deployments** shown when signed out, which allow read-only requests without an API Key.
+
+{: .note }
+Successful requests which return no data respond with `{"ok": "OK"}`. Failed requests respond with an appropriate HTTP status code, and an `{"error": "<description>"}` body.
+
 {: .warning-title }
 > Treat API Keys as secrets
 >
@@ -73,7 +79,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/info
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
+> - API key is not required for demo deployments
 > - API key requires **read deployment info** permission
 
 {: .note-title }
@@ -83,8 +89,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/info
 >     "created": "2024-10-28T10:30:00Z",                                   // When deployment was created
 >     "name": "Greenhouse Demo",                                           // Deployment name
 >     "description": "A plant growth monitoring system for a greenhouse",  // Deployment description
->     "plan": "Professional",                                              // Current subscription plan
->     "public": true                                                       // Deployment visibility
+>     "plan": "Professional"                                               // Current subscription plan
 > }
 > ```
 
@@ -109,6 +114,7 @@ PUT https://super.siliconwitchery.com/api/{deploymentId}/info
 >     "description": "A plant growth monitoring system for a greenhouse"  // Max 300 characters
 > }
 > ```
+> Note: Both fields are replaced with the values given. Omitting the description clears it
 
 {: .note-title }
 > Response (200 OK)
@@ -126,7 +132,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/devices
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
+> - API key is not required for demo deployments
 > - API key requires **read devices info** permission
 
 {: .note-title }
@@ -135,18 +141,18 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/devices
 > {
 >     "devices": [
 >         {
->             "id": 1,                              // Device ID
->             "name": "Tomatoes",                   // Device friendly name
->             "group": "greenhouse",                // Group the device belongs to
->             "bookmarked": false,                  // True if device is bookmarked
->             "online": true,                       // True if device is currently online
->             "codeState": "running",               // Code state: "running", "stopped", "error"
->             "bytesUp": 12345,                     // Bytes sent since billing period
->             "bytesDown": 67890,                   // Bytes received since billing period
->             "powerState": "battery",              // Power state: "battery", "charging", "usb"
->             "batteryLevel": 85,                   // Battery level percentage
->             "signalStrength": 75,                 // Signal strength percentage
->             "gpsCoordinates": "51.5074,-0.1278"   // GPS coordinates (latitude,longitude)
+>             "id": 1,                               // Device ID
+>             "name": "Tomatoes",                    // Device friendly name
+>             "group": "greenhouse",                 // Group the device belongs to
+>             "bookmarked": false,                   // True if device is bookmarked
+>             "online": true,                        // True if device is currently online
+>             "codeState": "running",                // Code state: "running", "stopped", "crashed"
+>             "bytesUp": 12345,                      // Bytes sent since billing period
+>             "bytesDown": 67890,                    // Bytes received since billing period
+>             "powerState": "charging",              // Power state: "discharging", "charging", "charged", "external power". null if unknown
+>             "batteryLevel": 85,                    // Battery level percentage. null if unknown
+>             "signalStrength": 75,                  // Signal strength percentage. null if unknown
+>             "gpsCoordinates": "(51.5074,-0.1278)"  // GPS coordinates (latitude,longitude). null if unknown
 >         }
 >     ]
 > }
@@ -162,7 +168,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/devices/groups
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
+> - API key is not required for demo deployments
 > - API key requires **read devices info** permission
 
 {: .note-title }
@@ -183,12 +189,14 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/devices/online?days=
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
+> - API key is not required for demo deployments
 > - API key requires **read devices info** permission
 
 {: .note-title }
 > Optional query parameters
-> - `days` - **integer** - Number of days of history to retrieve
+> - `days` - **integer** - Number of days of history to retrieve. Defaults to the current billing period
+>
+> Note: History is returned in hourly intervals for periods under 14 days, otherwise daily intervals
 
 {: .note-title }
 > Response (200 OK)
@@ -218,12 +226,14 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/devices/usage?days=
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
+> - API key is not required for demo deployments
 > - API key requires **read devices info** permission
 
 {: .note-title }
 > Optional query parameters
-> - `days` - **integer** - Number of days of history to retrieve
+> - `days` - **integer** - Number of days of history to retrieve. Defaults to the current billing period
+>
+> Note: History is returned in hourly intervals for periods under 14 days, otherwise daily intervals. When `days` is given, the totals cover the last `days` days rather than the billing period, and `billingDay` is returned as 0
 
 {: .note-title }
 > Response (200 OK)
@@ -254,7 +264,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/devices/location
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
+> - API key is not required for demo deployments
 > - API key requires **read devices info** permission
 
 {: .note-title }
@@ -281,7 +291,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/info
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
+> - API key is not required for demo deployments
 > - API key requires **read devices info** permission
 
 {: .note-title }
@@ -302,16 +312,16 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/info
 >     "role": "I monitor Roma tomato plants...",  // AI role description
 >     "online": true,                             // True if device is currently online
 >     "uptime": 24681,                            // Device uptime in seconds
->     "codeState": "running",                     // Code state: "running", "stopped", "error"
+>     "codeState": "running",                     // Code state: "running", "stopped", "crashed"
 >     "firmwareVersion": "1.0.0",                 // Current firmware version
 >     "storageUsed": 47293,                       // Storage used in bytes
 >     "storageTotal": 1048576,                    // Total storage in bytes
 >     "bytesUp": 12345,                           // Bytes sent since billing period
 >     "bytesDown": 67890,                         // Bytes received since billing period
->     "powerState": "battery",                    // Power state: "battery", "charging", "usb"
->     "batteryLevel": 85,                         // Battery level percentage 
->     "signalStrength": 75,                       // Signal strength percentage
->     "gpsCoordinates": "51.5074,-0.1278"         // GPS coordinates (latitude,longitude)
+>     "powerState": "charging",                   // Power state: "discharging", "charging", "charged", "external power". null if unknown
+>     "batteryLevel": 85,                         // Battery level percentage. null if unknown
+>     "signalStrength": 75,                       // Signal strength percentage. null if unknown
+>     "gpsCoordinates": "(51.5074,-0.1278)"       // GPS coordinates (latitude,longitude). null if unknown
 > }
 > ```
 
@@ -336,12 +346,13 @@ PUT https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/info
 > Request body
 > ```jsonc
 > {
->     "name": "Tomatoes",           // Device friendly name (max 50 characters)
->     "group": "greenhouse",        // Group the device belongs to (max 50 characters)
+>     "name": "Tomatoes",           // Device friendly name (required, max 50 characters)
+>     "group": "greenhouse",        // Group the device belongs to (required, max 50 characters)
 >     "bookmarked": false,          // True to bookmark the device
 >     "role": "I monitor tomatoes"  // AI role description (max 2000 characters)
 > }
 > ```
+> Note: All fields are replaced with the values given. Omitted optional fields are cleared
 
 {: .note-title }
 > Response (200 OK)
@@ -357,7 +368,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/telem
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
+> - API key is not required for demo deployments
 > - API key requires **read devices info** permission
 
 {: .note-title }
@@ -366,7 +377,9 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/telem
 
 {: .note-title }
 > Optional query parameters
-> - `days` - **integer** - Number of days of history to retrieve
+> - `days` - **integer** - Number of days of history to retrieve. Defaults to the current billing period
+>
+> Note: Telemetry is returned in hourly intervals for periods under 14 days, otherwise daily intervals
 
 {: .note-title }
 > Response (200 OK)
@@ -374,13 +387,13 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/telem
 > {
 >     "telemetry": {
 >         "2024-01-15T10:30:00Z": {
->             "bytesSent": 1234,                  // Bytes sent at this time
->             "bytesReceived": 5678,              // Bytes received at this time
->             "bytesTotal": 6912,                 // Total bytes at this time
->             "powerState": "battery",            // Power state at this time
->             "batteryLevel": 85,                 // Battery level percentage at this time
->             "signalStrength": 75,               // Signal strength percentage at this time
->             "gpsCoordinates": "51.5074,-0.1278" // GPS coordinates at this time
+>             "bytesSent": 1234,                    // Bytes sent at this time
+>             "bytesReceived": 5678,                // Bytes received at this time
+>             "bytesTotal": 6912,                   // Total bytes at this time
+>             "powerState": "charging",             // Power state at this time: "discharging", "charging", "charged", "external power". Empty if unknown
+>             "batteryLevel": 85,                   // Battery level percentage at this time. 0 if unknown
+>             "signalStrength": 75,                 // Signal strength percentage at this time. 0 if unknown
+>             "gpsCoordinates": "(51.5074,-0.1278)" // GPS coordinates (latitude,longitude) at this time. Empty if unknown
 >         }
 >     }
 > }
@@ -404,15 +417,17 @@ POST https://super.siliconwitchery.com/api/{deploymentId}/device
 > ```jsonc
 > {
 >     "imei": "578949671258131",    // Device IMEI (required)
->     "name": "Tomatoes",           // Device friendly name (max 50 characters)
->     "group": "greenhouse",        // Group the device belongs to (max 50 characters)
+>     "name": "Tomatoes",           // Device friendly name (max 50 characters, defaults to the IMEI)
+>     "group": "greenhouse",        // Group the device belongs to (max 50 characters, defaults to "development")
 >     "role": "I monitor tomatoes", // AI role description (max 2000 characters)
 >     "bookmarked": false           // True to bookmark the device
 > }
 > ```
 
 {: .warning-title }
-API will wait up to 60 seconds for the button to be clicked on the device
+> Device pairing
+>
+> The device must be online, and the API will wait up to 60 seconds for the button to be pressed on the device
 
 {: .note-title }
 > Response (200 OK)
@@ -459,7 +474,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/code
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
+> - API key is not required for demo deployments
 > - API key requires **read code** permission
 
 {: .note-title }
@@ -484,6 +499,7 @@ PUT https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/code
 
 {: .note-title }
 > Authentication & Permissions
+> - API key is required
 > - API key requires **write code** permission
 
 {: .note-title }
@@ -497,6 +513,7 @@ PUT https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/code
 >     "code": "-- Your Lua code here..."  // Lua code (max 100,000 characters)
 > }
 > ```
+> Note: Updated code automatically starts running on the device
 
 {: .note-title }
 > Response (200 OK)
@@ -512,6 +529,7 @@ PUT https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/code/
 
 {: .note-title }
 > Authentication & Permissions
+> - API key is required
 > - API key requires **write code** permission
 
 {: .note-title }
@@ -532,6 +550,7 @@ PUT https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/code/
 
 {: .note-title }
 > Authentication & Permissions
+> - API key is required
 > - API key requires **write code** permission
 
 {: .note-title }
@@ -552,6 +571,7 @@ PUT https://super.siliconwitchery.com/api/{deploymentId}/code/push
 
 {: .note-title }
 > Authentication & Permissions
+> - API key is required
 > - API key requires **write code** permission
 
 {: .note-title }
@@ -563,7 +583,7 @@ PUT https://super.siliconwitchery.com/api/{deploymentId}/code/push
 >     "devices": ["Tomatoes", "Kale"]          // Specific devices to push code to
 > }
 > ```
-> Note: At least one of `groups` or `devices` must be specified
+> Note: At least one of `groups` or `devices` must be specified. Pushed code automatically starts running on the devices
 
 {: .note-title }
 > Response (200 OK)
@@ -581,7 +601,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/logs?filters=
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
+> - API key is not required for demo deployments
 > - API key requires **read logs** permission
 
 {: .note-title }
@@ -589,17 +609,18 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/logs?filters=
 > - `filters` - **json string** - JSON-encoded filter object
 > ```jsonc
 > {
->     "bookmarked": true,                  // Filter for bookmarked logs if true
+>     "bookmarked": true,                  // Filter for logs from bookmarked devices if true
 >     "groups": ["greenhouse", "outside"], // Filter by device groups
 >     "devices": ["Tomatoes", "Kale"],     // Filter by specific devices
 >     
->     "startTime": "2024-01-15T07:00:00Z", // Start of time range
->     "endTime": "2024-01-15T11:30:00Z",   // End of time range
+>     "startTime": "2024-01-15T07:00:00Z", // Start of time range (defaults to 1 hour ago)
+>     "endTime": "2024-01-15T11:30:00Z",   // End of time range (defaults to now)
 >     // or
 >     "id": 41231,                         // Reference log ID for pagination
->     "count": -10                         // Number of logs to fetch, negative = older, positive = newer
+>     "count": -10                         // Number of logs to fetch, negative = older, positive = newer (max 1000)
 > }
 > ```
+> Note: A time range cannot be combined with `id`/`count`, and may return at most 1000 logs. Without time or `id`/`count` filters, the latest 100 logs are returned
 
 {: .note-title }
 > Response (200 OK)
@@ -612,7 +633,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/logs?filters=
 >             "device": "Tomatoes",                // Device the log originated from
 >             "group": "greenhouse",               // Group that the device belongs to
 >             "message": "Log message content",    // Log content
->             "level": "info"                      // Log level
+>             "level": "info"                      // Log level: "lua", "info", "error"
 >         }
 >     ],
 >     "newerAvailable": true,                      // True if new logs are available
@@ -630,6 +651,7 @@ DELETE https://super.siliconwitchery.com/api/{deploymentId}/log/{logId}
 
 {: .note-title }
 > Authentication & Permissions
+> - API key is required
 > - API key requires **delete logs** permission
 
 {: .note-title }
@@ -660,7 +682,7 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/data?filters=
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
+> - API key is not required for demo deployments
 > - API key requires **read data** permission
 
 {: .note-title }
@@ -668,17 +690,18 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/data?filters=
 > - `filters` - **json string** - JSON-encoded filter object
 > ```jsonc
 > {
->     "bookmarked": true,                  // Filter for bookmarked data if true
+>     "bookmarked": true,                  // Filter for data from bookmarked devices if true
 >     "groups": ["greenhouse", "outside"], // Filter by device groups
 >     "devices": ["Tomatoes", "Kale"],     // Filter by specific devices
 >     
->     "startTime": "2024-01-15T07:00:00Z", // Start of time range
->     "endTime": "2024-01-15T11:30:00Z",   // End of time range
+>     "startTime": "2024-01-15T07:00:00Z", // Start of time range (defaults to 1 hour ago)
+>     "endTime": "2024-01-15T11:30:00Z",   // End of time range (defaults to now)
 >     // or
 >     "id": 41231,                         // Reference data ID for pagination
->     "count": -10                         // Number of data entries to fetch, negative = older, positive = newer
+>     "count": -10                         // Number of data entries to fetch, negative = older, positive = newer (max 1000)
 > }
 > ```
+> Note: A time range cannot be combined with `id`/`count`, and may return at most 1000 entries. Without time or `id`/`count` filters, the latest 100 entries are returned
 
 {: .note-title }
 > Response (200 OK)
@@ -712,6 +735,7 @@ DELETE https://super.siliconwitchery.com/api/{deploymentId}/data/{dataId}
 
 {: .note-title }
 > Authentication & Permissions
+> - API key is required
 > - API key requires **delete data** permission
 
 {: .note-title }
@@ -732,44 +756,177 @@ DELETE https://super.siliconwitchery.com/api/{deploymentId}/data/{dataId}
 
 ---
 
-## Agent
+## Agents
 
-#### Retrieve agent role
+**Agents** are AI assistants that answer natural language questions about the data in your deployment. Each agent has a **Role** describing its purpose, access to some or all **Device Groups**, and an optional list of **Users** who can chat with the agent directly over WhatsApp.
+
+---
+
+#### Retrieve all agents
 
 ```
-GET https://super.siliconwitchery.com/api/{deploymentId}/agent/role
+GET https://super.siliconwitchery.com/api/{deploymentId}/agents
 ```
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
-> - API key requires **read agent role** permission
+> - API key is not required for demo deployments
+> - API key requires **read agents** permission
 
 {: .note-title }
 > Response (200 OK)
 > ```jsonc
 > {
->     "role": "You are an expert gardener. You are responsible for ensuring optimal growth of herbs and vegetables in a greenhouse."
+>     "agents": [
+>         {
+>             "id": 1,                                  // Agent ID
+>             "name": "Greenhouse Expert",              // Agent name
+>             "role": "You are an expert gardener...",  // Agent role description
+>             "groups": ["greenhouse"],                 // Device groups the agent can access. Empty means all groups
+>             "users": ["Amanda", "Bob"],               // Names of users who can chat with the agent over WhatsApp
+>             "usage": 12500                            // Tokens used by the agent in the current billing period
+>         }
+>     ]
 > }
 > ```
 
 ---
 
-#### Update agent role
+#### Create an agent
 
 ```
-PUT https://super.siliconwitchery.com/api/{deploymentId}/agent/role
+POST https://super.siliconwitchery.com/api/{deploymentId}/agents
 ```
 
 {: .note-title }
 > Authentication & Permissions
-> - API key requires **write agent role** permission
+> - API key is required
+> - API key requires **edit agents** permission
 
 {: .note-title }
 > Request body
 > ```jsonc
 > {
->     "role": "You are an expert gardener. You are responsible for ensuring optimal growth of herbs and vegetables in a greenhouse."
+>     "name": "Greenhouse Expert",                 // Agent name (max 50 characters, cannot be blank)
+>     "role": "You are an expert gardener...",     // Agent role description (max 2000 characters)
+>     "groups": ["greenhouse"],                    // Device groups the agent can access. Empty means all groups
+>     "users": [
+>         {
+>             "name": "Amanda",                    // User's name
+>             "phone": "+46701234567",             // User's WhatsApp number in international format
+>             "admin": "Raj",                      // Name of the admin. Mentioned in the introduction message
+>             "description": "Head gardener"       // User's role. Mentioned in the introduction message
+>         }
+>     ]
+> }
+> ```
+> Note: The deployment must contain at least one device before an agent can be created
+
+{: .note-title }
+> Response (200 OK)
+>
+
+{: .note }
+Each user with a phone number receives an introduction message on WhatsApp, and can then chat with the agent directly from WhatsApp. WhatsApp queries count towards the same AI allowance as API queries.
+
+---
+
+#### Retrieve agent info
+
+```
+GET https://super.siliconwitchery.com/api/{deploymentId}/agent/{agentId}/info
+```
+
+{: .note-title }
+> Authentication & Permissions
+> - API key is not required for demo deployments
+> - API key requires **read agents** permission
+
+{: .note-title }
+> Path parameters
+> - `agentId` - **integer** - ID of the agent
+
+{: .note-title }
+> Response (200 OK)
+> ```jsonc
+> {
+>     "name": "Greenhouse Expert",                 // Agent name
+>     "role": "You are an expert gardener...",     // Agent role description
+>     "groups": ["greenhouse"],                    // Device groups the agent can access. Empty means all groups
+>     "users": [
+>         {
+>             "id": 1,                             // User ID
+>             "name": "Amanda",                    // User's name
+>             "phone": "+46701234567"              // User's WhatsApp number
+>         }
+>     ],
+>     "created": "2024-10-28T10:30:00Z",           // When the agent was created
+>     "accessed": "2024-11-02T08:12:00Z"           // When the agent was last queried. Zero timestamp if never queried
+> }
+> ```
+
+---
+
+#### Update agent info
+
+```
+PUT https://super.siliconwitchery.com/api/{deploymentId}/agent/{agentId}/info
+```
+
+{: .note-title }
+> Authentication & Permissions
+> - API key is required
+> - API key requires **edit agents** permission
+
+{: .note-title }
+> Path parameters
+> - `agentId` - **integer** - ID of the agent
+
+{: .note-title }
+> Request body
+> ```jsonc
+> {
+>     "name": "Greenhouse Expert",                 // Agent name (max 50 characters, cannot be blank)
+>     "role": "You are an expert gardener...",     // Agent role description (max 2000 characters)
+>     "groups": ["greenhouse"],                    // Device groups the agent can access. Empty means all groups
+>     "users": [
+>         {
+>             "name": "Amanda",                    // User's name
+>             "phone": "+46701234567",             // User's WhatsApp number in international format
+>             "admin": "Raj",                      // Name of the admin. Mentioned in the introduction message
+>             "description": "Head gardener"       // User's role. Mentioned in the introduction message
+>         }
+>     ]
+> }
+> ```
+> Note: All fields are replaced with the values given. The `users` list replaces the agent's existing users, and every listed user with a phone number is sent the WhatsApp introduction message again
+
+{: .note-title }
+> Response (200 OK)
+>
+
+---
+
+#### Delete an agent
+
+```
+DELETE https://super.siliconwitchery.com/api/{deploymentId}/agent/{agentId}
+```
+
+{: .note-title }
+> Authentication & Permissions
+> - API key is required
+> - API key requires **edit agents** permission
+
+{: .note-title }
+> Path parameters
+> - `agentId` - **integer** - ID of the agent
+
+{: .note-title }
+> Request body
+> ```jsonc
+> {
+>     "confirm": true // Must be true to confirm deletion
 > }
 > ```
 
@@ -779,20 +936,22 @@ PUT https://super.siliconwitchery.com/api/{deploymentId}/agent/role
 
 ---
 
-#### Retrieve agent usage
+#### Retrieve total agent usage
 
 ```
-GET https://super.siliconwitchery.com/api/{deploymentId}/agent/usage?days=
+GET https://super.siliconwitchery.com/api/{deploymentId}/agents/usage?days=
 ```
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
-> - API key requires **agent usage** permission
+> - API key is not required for demo deployments
+> - API key requires **read agents** permission
 
 {: .note-title }
 > Optional query parameters
-> - `days` - **integer** - Number of days of usage history to retrieve
+> - `days` - **integer** - Number of days of usage history to retrieve. Defaults to the current billing period
+>
+> Note: Usage is returned in hourly intervals for periods under 14 days, otherwise daily intervals. When `days` is given, `used` and `remaining` cover the last `days` days rather than the billing period, and `billingDay` is returned as 0
 
 {: .note-title }
 > Response (200 OK)
@@ -802,9 +961,9 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/agent/usage?days=
 >     "used": 12500,                               // Tokens used in the current billing period
 >     "remaining": 37500,                          // Tokens remaining in the current billing period
 >     "billingDay": 23,                            // Day of month when billing resets
->     "usage": {                                   // Daily usage breakdown
+>     "usage": {                                   // Usage breakdown across all agents
 >         "2024-01-15T00:00:00Z": {
->             "usage": 2500                        // Tokens used on this day
+>             "usage": 2500                        // Tokens used at this time
 >         },
 >         "2024-01-14T00:00:00Z": {
 >             "usage": 3200
@@ -815,16 +974,58 @@ GET https://super.siliconwitchery.com/api/{deploymentId}/agent/usage?days=
 
 ---
 
-#### Chat with agent
+#### Retrieve agent usage
 
 ```
-POST https://super.siliconwitchery.com/api/{deploymentId}/agent/chat
+GET https://super.siliconwitchery.com/api/{deploymentId}/agent/{agentId}/usage?days=
 ```
 
 {: .note-title }
 > Authentication & Permissions
-> - API key is not required if the deployment is public
-> - API key requires **agent chat** permission
+> - API key is not required for demo deployments
+> - API key requires **read agents** permission
+
+{: .note-title }
+> Path parameters
+> - `agentId` - **integer** - ID of the agent
+
+{: .note-title }
+> Optional query parameters
+> - `days` - **integer** - Number of days of usage history to retrieve. Defaults to the current billing period
+>
+> Note: Usage is returned in hourly intervals for periods under 14 days, otherwise daily intervals
+
+{: .note-title }
+> Response (200 OK)
+> ```jsonc
+> {
+>     "usage": {                                   // Usage breakdown for this agent
+>         "2024-01-15T00:00:00Z": {
+>             "usage": 2500                        // Tokens used at this time
+>         },
+>         "2024-01-14T00:00:00Z": {
+>             "usage": 3200
+>         }
+>     }
+> }
+> ```
+
+---
+
+#### Query an agent
+
+```
+POST https://super.siliconwitchery.com/api/{deploymentId}/agent/{agentId}/query
+```
+
+{: .note-title }
+> Authentication & Permissions
+> - API key is required
+> - API key requires **query agents** permission
+
+{: .note-title }
+> Path parameters
+> - `agentId` - **integer** - ID of the agent
 
 {: .note-title }
 > Request body
@@ -832,31 +1033,29 @@ POST https://super.siliconwitchery.com/api/{deploymentId}/agent/chat
 > {
 >     "messages": [
 >         {
->             "role": "user",
+>             "role": "user",  // "user" or "assistant"
 >             "content": "What is the average temperature in the greenhouse?"
 >         }
 >     ]
 > }
 > ```
+> Note: For follow-up questions, include the previous `user` and `assistant` messages before the new question
 
 {: .note-title }
 > Response (200 OK)
 > ```jsonc
 > {
->     "messages": [
->         {
->             "role": "user",                      // Original user message
->             "content": "What is the average temperature in the greenhouse?"
->         },
->         {
->             "role": "assistant",                 // Agent response
->             "content": "The average temperature in the greenhouse is currently 23.5°C. The Tomatoes sensor is reading 24.1°C and the Rosemary & basil sensor is reading 22.9°C.",
->             "answer": "23.5",                    // Raw computed answer
->             "reasoning": {                       // Internal reasoning (for debugging)
->                 "filter": "Filtered to greenhouse devices from the last 6 hours",
->                 "analysis": "Calculated mean temperature from all greenhouse sensors"
->             }
->         }
->     ]
+>     "response": "The average temperature in the greenhouse is currently 23.5°C. The Tomatoes sensor is reading 24.1°C and the Rosemary & basil sensor is reading 22.9°C.", // Natural language reply from the agent
+>     "answer": "23.5",                        // Raw computed answer
+>     "reasoning": {                           // Internal reasoning (for debugging)
+>         "filter": "Filtered to greenhouse devices from the last 6 hours",
+>         "analysis": "Calculated mean temperature from all greenhouse sensors"
+>     },
+>     "usage": 1350                            // Tokens consumed by this query
 > }
 > ```
+
+{: .warning-title }
+> AI allowance
+>
+> Queries return **402 Payment Required** once the deployment's AI token allowance for the billing period has been used up. The allowance is determined by the subscription plan, and resets at the start of the next billing period.

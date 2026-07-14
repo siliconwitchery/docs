@@ -187,7 +187,7 @@ The **AI Usage Graph** on the Agent Tab shows the usage for the current [Billing
 
 ## Settings
 
-The **Settings Tab** contains all Deployment related settings such as **Name**, **Description**, **Subscription Plan**, **Users**, **API Keys** and **Visibility**.
+The **Settings Tab** contains all Deployment related settings such as **Name**, **Description**, **Subscription Plan**, **Users** and **API Keys**.
 
 ### Managing your subscription plan
 
@@ -210,25 +210,9 @@ Click the <span class="material-symbols-outlined">edit</span> icon next to a Use
 
 ### Creating and managing API keys
 
-**API Keys** follow the same Permissions structure as Users and can be used for making REST API requests to Superstack. Click **Create** to create a new API Key and check the desired Permisions.
+**API Keys** follow the same Permissions structure as Users and can be used for making REST API requests to Superstack. Click **Create** to create a new API Key and check the desired Permissions.
 
-Click the <span class="material-symbols-outlined">edit</span> icon next to the Key name to modify Permissions or delete they key.
-
-### Deployment visibility
-
-By default, Deployments are created as **Private**. Only signed-in Users who are a part of that Deployment can access it.
-
-A deployment may be toggled as **Public** at which point Users which are not a part of that Deployment will now be able to view the Deployment via the **Deployment URL**. The following Permissions for the Deployment become public:
-
-- Read deployment name and description
-- Read device name, description, roles, status, usage and location
-- Read device code
-- Read device logs
-- Read device data
-- Read agent role and usage
-- Interact with agent chat
-
-Public API access without the need for an API Key will also be granted on the above.
+Click the <span class="material-symbols-outlined">edit</span> icon next to the Key name to modify Permissions or delete the key.
 
 ### Transferring and deleting deployments
 
