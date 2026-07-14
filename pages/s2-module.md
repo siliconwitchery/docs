@@ -109,6 +109,24 @@ The bottom of the module additionally exposes the same IO as the physical connec
 
 ![Silicon Witchery S2 Module Bottom Pinout](/assets/images/s2-module-bottom-pinout-diagram.png)
 
+The table below summarizes all ports and pins. Pin 1 of every IO port is GND, and pin 2 is the port's power rail. The pin names shown are the exact strings used in [Lua code](/pages/superstack/lua).
+
+| Port | Connector | Power rail | IO pins (connector pin №) | Analog capable |
+|------|-----------|------------|---------------------------|----------------|
+| PORTA | 4-pin | V<sub>OUT1</sub> | A0 (3), A1 (4) | - |
+| PORTB | 4-pin | V<sub>OUT1</sub> | B0 (3), B1 (4) | - |
+| PORTC | 7-pin | V<sub>OUT1</sub> | C0 (3), C1 (4), C2 (5), C3 (6), C4 (7) | C2, C3, C4 |
+| PORTD | 7-pin | V<sub>OUT2</sub> | D0 (3), D1 (4), D2 (5), D3 (6), D4 (7) | D0, D1, D2, D3, D4 |
+| PORTE | 4-pin | V<sub>OUT2</sub> | E0 (3), E1 (4) | - |
+| PORTF | 4-pin | V<sub>OUT2</sub> | F0 (3), F1 (4) | - |
+
+| Power connector | Pins |
+|-----------------|------|
+| Power Port | 1: V<sub>SYS</sub>, 2: V<sub>IN</sub>, 3: GND |
+| Battery Port | 1: V<sub>BATT</sub>, 2: GND |
+
+The 4-pin ports follow the [Stemma QT](https://learn.adafruit.com/introducing-adafruit-stemma-qt/what-is-stemma)/[Qwiic](https://www.sparkfun.com/qwiic) pin order, where pin 3 carries SDA and pin 4 carries SCL when used for I2C.
+
 ## Status LEDs & button
 
 The on-board button is only used for initial pairing of the device with the cloud. Once paired, the button has no other functionality. This is to prevent tampering with the device when in the field. If needed, the device can later be unpaired from within Superstack and then paired again to a different deployment using the button.

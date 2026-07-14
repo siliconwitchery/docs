@@ -42,7 +42,7 @@ Most of the named arguments will take on a default value if not provided. These 
 device.digital.set_output("A0", true)
 
 -- Calling a function with both positional and named arguments
-device.i2c.write(0x12, 0x4F, "\x01", { scl_pin="B0", sda_pin="B1"})
+device.i2c.write(0x12, "\x4F\x01", { scl_pin="B0", sda_pin="B1" })
 
 -- Calling a function with only named arguments. Note how the () can be omitted
 network.send_data{ sensor_value=31.5 }
@@ -52,20 +52,21 @@ network.send_data{ sensor_value=31.5 }
 
 ## Standard libraries
 
-Almost all of the standard Lua libraries that you would find on the desktop installation of Lua are included:
+The device runs **Lua 5.5**. Most of the standard Lua libraries that you would find on the desktop installation of Lua are included:
 
-- ✅ [Basic functions](https://www.lua.org/manual/5.4/manual.html#6.1)
-- ✅ [Math functions](https://www.lua.org/manual/5.4/manual.html#6.7)
-- ✅ [String manipulation](https://www.lua.org/manual/5.4/manual.html#6.4)
-- ✅ [Table manipulation](https://www.lua.org/manual/5.4/manual.html#6.6)
-- ✅ [UTF-8 support](https://www.lua.org/manual/5.4/manual.html#6.5)
-- ✅ [Coroutine manipulation](https://www.lua.org/manual/5.4/manual.html#6.2)
-- ✅ [Debug library](https://www.lua.org/manual/5.4/manual.html#6.10)
+- ✅ [Basic functions](https://www.lua.org/manual/5.5/manual.html#6.1)
+- ✅ [Math functions](https://www.lua.org/manual/5.5/manual.html#6.7)
+- ✅ [String manipulation](https://www.lua.org/manual/5.5/manual.html#6.4)
+- ✅ [Table manipulation](https://www.lua.org/manual/5.5/manual.html#6.6)
+- ✅ [UTF-8 support](https://www.lua.org/manual/5.5/manual.html#6.5)
+- ✅ [Coroutine manipulation](https://www.lua.org/manual/5.5/manual.html#6.2)
 
-Only two standard libraries are not included, as they are superseded by similar functionality provided by the device specific libraries:
+The remaining standard libraries are not included, as they are superseded by similar functionality provided by the device specific libraries:
 
-- ❎ File IO functions - Replaced by the [non-volatile memory](#non-volatile-memory-file-system) library
-- ❎ Operating system functions - Replaced by the [timekeeping ](#timekeeping-functions) and [Device](#miscellaneous-functions) libraries
+- ❎ Debug library
+
+- ❎ File IO functions - Replaced by the [file storage](#file-storage) library
+- ❎ Operating system functions - Replaced by the [timekeeping](#timekeeping) and [device information](#device-information) libraries
 
 ---
 
@@ -269,7 +270,7 @@ device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_t
 > Parameters
 >
 > - `positive_pin` - **string** - The pin name of the positive pin. Must be an analog capable pin. E.g. "D0"
-> - `negative_pin` - **string** - The pin name of the negative pin. Must be an analog capable pin. E.g. "D1"
+> - `negative_pin` - **string** - The pin name of the negative pin. Must be an analog capable pin, and different from `positive_pin`. E.g. "D1"
 
 {: .note-title }
 
@@ -296,6 +297,10 @@ device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_t
 ---
 
 ### I2C communication
+
+{: .note }
+
+> A single I2C transaction may read or write at most **8191 bytes**.
 
 #### Read bytes from an I2C device
 {: .no_toc}
@@ -467,6 +472,10 @@ device.i2c.scan({ port="PORTA", scl_pin="A1", sda_pin="A0", frequency=100 })
 ---
 
 ### SPI communication
+
+{: .note }
+
+> The pin options `sclk_pin`, `mosi_pin`, `miso_pin` and `cs_pin` must all be specified together — providing only some of them raises an error. A single transfer may read or write at most **8191 bytes**.
 
 #### Write then read bytes from an SPI device
 {: .no_toc}
@@ -655,6 +664,10 @@ device.spi.transact(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", mis
 
 ### UART communication
 
+{: .warning }
+
+> The UART functions are **not yet functional** in the current firmware release. Calls succeed silently but perform no UART operation. This section describes the planned interface.
+
 #### Write UART data
 {: .no_toc}
 
@@ -792,6 +805,14 @@ network.send_data{ data }
 > Returns
 >
 > - **nil**
+
+{: .warning }
+
+> If the Device has no network connection, the data is **dropped** — it is not buffered by the firmware. If data must survive connectivity gaps, check `network.connected()` and buffer to a file using the [file storage](#file-storage) library until the connection returns.
+
+{: .note }
+
+> The table must not be empty, and top-level keys must be strings. A complete encoded message may be around **1KB** — keep individual payloads below **900 bytes** to be safe, and split larger data across multiple sends. The call is synchronous and can block for a few seconds on a poor connection. If the Deployment's data allowance has been exceeded, `send_data` and `print` become inactive until the allowance resets or code is re-deployed.
 
 {: .note-title }
 
@@ -1039,6 +1060,10 @@ print(log)
 > print(string.format("pi = %.4f", math.pi))
 > ```
 
+{: .note }
+
+> Each log message is truncated to **1023 characters**. Prefer a single string argument: `print("a", "b")` produces **separate log entries** for each argument and separator, so use `string.format` or concatenation to combine values into one message. Logs stop being sent once the Deployment's data allowance is exceeded.
+
 ---
 
 ### Sleep
@@ -1061,6 +1086,10 @@ device.sleep(time)
 > Returns
 >
 > - **nil**
+
+{: .note }
+
+> Assigned event handlers continue to fire during sleep. See [assign an event handler](#assign-an-event-handler-for-a-pin-input-change).
 
 {: .note-title }
 
@@ -1094,6 +1123,10 @@ device.power.battery.set_charger_cv_cc(voltage, current)
 > Returns
 >
 > - **nil**
+
+{: .note }
+
+> This setting reverts to the firmware default (**3.50V** termination, **32mA** charge current) at reboot. Configure the charger near the top of your code so that it is reapplied whenever the script restarts.
 
 {: .note-title }
 
@@ -1170,13 +1203,17 @@ device.power.set_vout(voltage)
 
 > Parameters
 >
-> - `voltage` - **number** - The IO voltage of `PORTA` - `PORTF`. Can be between `1.8` and `3.3` in steps of `0.1`
+> - `voltage` - **number** - The IO voltage of `PORTA` - `PORTF`. Can be between `1.8` and `3.3` in steps of `0.1`, or `0` to switch the port power outputs off entirely
 
 {: .note-title }
 
 > Returns
 >
 > - **nil**
+
+{: .note }
+
+> At boot, the port rails default to **1.8V**. If a connected sensor requires a higher IO voltage, call this function before communicating with it.
 
 {: .note-title }
 
@@ -1190,6 +1227,10 @@ device.power.set_vout(voltage)
 ---
 
 ### File storage
+
+{: .note }
+
+> The filesystem provides roughly **48kB** of usable space, **shared with the Device's code file**. Files survive code pushes and reboots, but are erased when the Device is un-paired from its Deployment.
 
 #### Write data to a file
 {: .no_toc}
@@ -1258,7 +1299,7 @@ storage.append(filename, data)
 {: .no_toc}
 
 ```lua
-storage.read(filename, { line=-1, length=nil, offset=0 })
+storage.read(filename, { line=1, length=nil, offset=0 })
 ```
 
 {: .note-title }
@@ -1271,7 +1312,7 @@ storage.read(filename, { line=-1, length=nil, offset=0 })
 
 > Optional parameters
 >
-> - `line` - **integer** - The line index to return. `1` is the first line, `2` the second, etc. Negative values index from the end: `-1` is the last line, `-2` the second to last, etc. When specified, `length` and `offset` are ignored
+> - `line` - **integer** - The line index to return. `1` is the first line, `2` the second, etc. Negative values index from the end: `-1` is the last line, `-2` the second to last, etc. Cannot be `0`, and cannot be combined with `length` or `offset`
 > - `length` - **integer** - The number of bytes to read. Cannot be used with `line`. If longer than the file, a shorter result is returned
 > - `offset` - **integer** - When `length` is specified, read from this byte offset within the file
 
@@ -1286,12 +1327,16 @@ storage.read(filename, { line=-1, length=nil, offset=0 })
 > Example
 >
 > ```lua
-> -- Read the entire file
+> -- Read the first line of the file
 > print(storage.read("my_file.txt"))
 >
 > -- Print the last line from the file
 > print(storage.read("my_file.txt", { line=-1 }))
 > ```
+
+{: .note }
+
+> Reading a file which does not exist raises an error. Use `pcall`, or check with `storage.list()` first.
 
 ---
 
@@ -1378,11 +1423,13 @@ time.get_unix_time()
 > -- Repeat something for 30 seconds
 > local t = time.get_unix_time()
 >
-> while t + 30 > time.get_unix_time() do
+> while t + 30000 > time.get_unix_time() do
 >     print("waiting")
 >     device.sleep(5)
 > end
 > ```
+>
+> Note: the returned value is in **milliseconds**, so 30 seconds is `30000`
 
 ---
 
