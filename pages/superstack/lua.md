@@ -68,7 +68,7 @@ The device runs **Lua 5.5**. Most of the standard Lua libraries that you would f
 
 The remaining standard libraries are not included, as they are superseded by similar functionality provided by the device specific libraries:
 
-- ❎ File IO functions - Replaced by the [file storage](#file-storage) library
+- ❎ File IO functions - Replaced by the [temporary files](#temporary-files) library
 - ❎ Operating system functions - Replaced by the [timekeeping](#timekeeping) and [device information](#device-information) libraries
 - ❎ Debug library
 
@@ -812,7 +812,7 @@ network.send_data{ data }
 
 {: .warning }
 
-> If the Device has no network connection, the data is **dropped** — it is not buffered by the firmware. If data must survive connectivity gaps, check `network.connected()` and buffer to a file using the [file storage](#file-storage) library until the connection returns.
+> If the Device has no network connection, the data is **dropped** — it is not buffered by the firmware. If data must survive connectivity gaps, check `network.connected()` and buffer to a [temporary file](#temporary-files) until the connection returns.
 
 {: .note }
 
@@ -1230,25 +1230,66 @@ device.power.set_vout(voltage)
 
 ---
 
-### File storage
+### Temporary files
 
 {: .note }
 
-> The filesystem provides roughly **48kB** of usable space, **shared with the Device's code file**. Files survive code pushes and reboots, but are erased when the Device is un-paired from its Deployment.
+> A temporary file is created by `storage.open()` and reached only through the handle it returns. Closing the handle deletes the file, and every temporary file is deleted when the code starts, stops or restarts. Storage is shared with the code files in the bundle, and provides roughly **48kB** of usable space in total.
 
-#### Write data to a file
+#### Open a temporary file
 {: .no_toc}
 
 ```lua
-storage.write(filename, data)
+storage.open()
+```
+
+{: .note-title }
+
+> Returns
+>
+> - **handle** - A new, empty temporary file. Call `write`, `append`, `read` and `close` on it using the `:` syntax
+
+{: .note-title }
+
+> Example
+>
+> ```lua
+> -- Buffer readings in a temporary file while the network is down
+> local readings = storage.open()
+> local count = 0
+>
+> while not network.connected() do
+>     readings:append(device.power.battery.get_voltage() .. "\n")
+>     count = count + 1
+>     device.sleep(60)
+> end
+>
+> -- Send the buffered readings once the network returns
+> for i = 1, count do
+>     network.send_data{ battery_voltage=tonumber(readings:read{ line=i }) }
+> end
+>
+> readings:close()
+> ```
+
+{: .note }
+
+> Every method raises an error once the handle is closed. A handle dropped without closing is closed when the garbage collector reclaims it, so close a file as soon as it is no longer needed to free its space.
+
+---
+
+#### Write data to a temporary file
+{: .no_toc}
+
+```lua
+handle:write(data)
 ```
 
 {: .note-title }
 
 > Parameters
 >
-> - `filename` - **string** - The name of the file
-> - `data` - **string** - The data to save to the file
+> - `data` - **string** - The data to write. Replaces the whole content of the file
 
 {: .note-title }
 
@@ -1261,25 +1302,33 @@ storage.write(filename, data)
 > Example
 >
 > ```lua
-> -- Create a file and write data to it
-> storage.write("my_file.txt", "Hello world")
+> -- Write data to the file, then replace it
+> local file = storage.open()
+> file:write("Hello world")
+> file:write("Goodbye world")
+>
+> -- Prints "Goodbye world"
+> print(file:read())
 > ```
+
+{: .note }
+
+> If the data does not fit in the remaining space, the write raises an error and leaves the file unchanged.
 
 ---
 
-#### Append data to a file
+#### Append data to a temporary file
 {: .no_toc}
 
 ```lua
-storage.append(filename, data)
+handle:append(data)
 ```
 
 {: .note-title }
 
 > Parameters
 >
-> - `filename` - **string** - The name of the file
-> - `data` - **string** - The data to append to the file
+> - `data` - **string** - The data to append to the end of the file
 
 {: .note-title }
 
@@ -1293,24 +1342,22 @@ storage.append(filename, data)
 >
 > ```lua
 > -- Append more data to the file
-> storage.append("my_file.txt", "\nThis is another line of text")
-> storage.append("my_file.txt", "\nAnd this is a final line of text")
+> file:append("\nThis is another line of text")
+> file:append("\nAnd this is a final line of text")
 > ```
+
+{: .note }
+
+> If the data does not fit in the remaining space, the append raises an error and leaves the file unchanged.
 
 ---
 
-#### Read data from a file
+#### Read data from a temporary file
 {: .no_toc}
 
 ```lua
-storage.read(filename, { line=1, length=nil, offset=0 })
+handle:read{ line=1, length=nil, offset=0 }
 ```
-
-{: .note-title }
-
-> Parameters
->
-> - `filename` - **string** - The name of the file
 
 {: .note-title }
 
@@ -1332,75 +1379,42 @@ storage.read(filename, { line=1, length=nil, offset=0 })
 >
 > ```lua
 > -- Read the first line of the file
-> print(storage.read("my_file.txt"))
+> print(file:read())
 >
 > -- Print the last line from the file
-> print(storage.read("my_file.txt", { line=-1 }))
+> print(file:read{ line=-1 })
+>
+> -- Read 16 bytes starting from the 8th byte
+> print(file:read{ length=16, offset=8 })
+> ```
+
+---
+
+#### Close a temporary file
+{: .no_toc}
+
+```lua
+handle:close()
+```
+
+{: .note-title }
+
+> Returns
+>
+> - **nil**
+
+{: .note-title }
+
+> Example
+>
+> ```lua
+> -- Close the file. This deletes it and frees its space
+> file:close()
 > ```
 
 {: .note }
 
-> Reading a file which does not exist raises an error. Use `pcall`, or check with `storage.list()` first.
-
----
-
-#### Delete a file
-{: .no_toc}
-
-```lua
-storage.delete(filename)
-```
-
-{: .note-title }
-
-> Parameters
->
-> - `filename` - **string** - The name of the file
-
-{: .note-title }
-
-> Returns
->
-> - **boolean** - `true` if the file was found and deleted, `false` otherwise
-
-{: .note-title }
-
-> Example
->
-> ```lua
-> -- Delete the file
-> storage.delete("my_file.txt")
-> ```
-
----
-
-#### List all files
-{: .no_toc}
-
-```lua
-storage.list()
-```
-
-{: .note-title }
-
-> Returns
->
-> - **table** - A table of tables:
->     - **table** - A table of key-value pairs:
->         - `name` - **string** - The name of the file
->         - `size` - **integer** - The size of the file in bytes
-
-{: .note-title }
-
-> Example
->
-> ```lua
-> -- List all files on the device
-> local files = storage.list()
-> for i, file in ipairs(files) do
->     print(file.name .. " - " .. file.size .. " bytes")
-> end
-> ```
+> Any use of the handle after closing raises an error. Use `pcall` if the code cannot guarantee the handle is still open.
 
 ---
 
