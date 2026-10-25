@@ -401,6 +401,15 @@ Dimensional drawings of the module are shown below.
 
 [![Silicon Witchery S2 Module Mechanical Drawing](/assets/images/s2-module-drawing.png)](/assets/files/s2-module-drawing.pdf)
 
+## Let us build it for you
+
+Silicon Witchery builds complete products on the S2 Module. We design the carrier board that holds your sensors, connectors and power supply, write the Lua code, and take your product through CE, FCC and UKCA certification into production.
+
+[Book a free 30-minute call](https://cal.com/siliconwitchery/30min){: .btn .btn-purple}
+[IoT product development services](https://www.siliconwitchery.com/services){: .btn}
+
+You get a written proposal and price before any work starts.
+
 ## Ordering information
 
 The S2 Module is available in the following SKUs:

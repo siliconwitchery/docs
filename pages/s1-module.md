@@ -298,6 +298,15 @@ Dimensions shown are in mm.
 
 A 3D model of the S1 Module can be downloaded as a [STEP file here](/assets/files/s1-module-3d-model.step).
 
+## Let us build it for you
+
+Silicon Witchery builds Bluetooth and FPGA products on the S1 Module. We design the hardware, antenna and firmware, and take your product through CE, FCC and UKCA certification into production.
+
+[Book a free 30-minute call](https://cal.com/siliconwitchery/30min){: .btn .btn-purple}
+[IoT product development services](https://www.siliconwitchery.com/services){: .btn}
+
+You get a written proposal and price before any work starts.
+
 ## Ordering information
 
 ### Packaging
