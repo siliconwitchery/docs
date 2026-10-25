@@ -2,6 +2,7 @@
 title: "Silicon Witchery Documentation Center"
 logo: "/assets/images/site-title.png"
 remote_theme: pmarsceill/just-the-docs
+color_scheme: grimoire
 description: "Technical documentation for all Silicon Witchery hardware and firmware products."
 permalink: pretty
 heading_anchors: true
@@ -26,7 +27,7 @@ aux_links:
    - "https://github.com/siliconwitchery"
 
 # Footer
-footer_content: "Copyright &copy; 2022-2025 <a href=\"https://www.siliconwitchery.com\">Silicon Witchery AB</a> (<a href=\"https://github.com/siliconwitchery/website#privacy-policy\">Privacy policy</a>)"
+footer_content: "Copyright &copy; 2022-2026 <a href=\"https://www.siliconwitchery.com\">Silicon Witchery AB</a> (<a href=\"https://www.siliconwitchery.com/privacy\">Privacy policy</a>)"
 last_edit_timestamp: true
 last_edit_time_format: "%b %e %Y"
 
@@ -83,6 +84,7 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
   # specific to this site:
+  - docs/
   - .vscode/
   - .gitignore
   - CNAME

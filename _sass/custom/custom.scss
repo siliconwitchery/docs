@@ -10,3 +10,402 @@
     position: relative;
     bottom: 6px;
 }
+
+/* Grimoire theme shared with siliconwitchery.com */
+
+$candle: #e8c27c;
+$candle-bright: #f3d59c;
+$candle-ink: #1e140a;
+$moon: #ab95e3;
+$herb: #b3cc8c;
+$line-strong: #463a52;
+$night-deep: #0b0810;
+$serif: "Fraunces", Georgia, serif;
+$fell: "IM Fell English", Georgia, serif;
+$fell-sc: "IM Fell English SC", Georgia, serif;
+
+body {
+    background:
+        radial-gradient(rgba(236, 227, 208, 0.05) 1px, transparent 1.6px) 0 0 / 24px 24px,
+        $body-background-color;
+    -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+    background: $candle;
+    color: $candle-ink;
+}
+
+:focus-visible {
+    outline: 2px dashed $candle;
+    outline-offset: 3px;
+}
+
+.site-logo {
+    filter: invert(1) sepia(0.3) brightness(0.93);
+}
+
+.side-bar {
+    border-right: 1px solid $border-color;
+}
+
+.site-header,
+.main-header {
+    background: rgba(16, 12, 20, 0.86);
+}
+
+.site-footer,
+.main-content footer {
+    font-family: $mono-font-family;
+    color: #756a7c;
+
+    a:not(.btn) {
+        color: #a99fae;
+        font-weight: 400;
+        text-decoration: none;
+        transition: color 0.15s;
+    }
+
+    a:not(.btn):hover {
+        color: $candle;
+    }
+}
+
+/* Navigation */
+
+.nav-list .nav-list-item .nav-list-link,
+.aux-nav .site-button,
+.breadcrumb-nav-list-item a {
+    color: $nav-child-link-color;
+    font-weight: 400;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+.nav-list .nav-list-item .nav-list-link:hover,
+.nav-list .nav-list-item .nav-list-link.active,
+.nav-list .nav-list-item > .nav-list .nav-list-item .nav-list-link:is(:hover, .active),
+.aux-nav .site-button:hover,
+.breadcrumb-nav-list-item a:hover {
+    color: $candle;
+    background-image: none;
+}
+
+.nav-list .nav-list-item .nav-list-link.active::before {
+    content: "✦ ";
+    color: $moon;
+}
+
+.nav-list .nav-list-item .nav-list-expander {
+    color: $moon;
+}
+
+.aux-nav .site-button,
+.breadcrumb-nav-list-item {
+    font-family: $mono-font-family;
+    font-size: 0.8rem !important;
+}
+
+.breadcrumb-nav-list-item::after {
+    content: "✦" !important;
+    color: $moon;
+}
+
+.search-input {
+    font-family: $mono-font-family;
+    font-size: 0.85rem !important;
+}
+
+.search-label {
+    color: $candle;
+}
+
+.search-result-title {
+    font-family: $serif;
+}
+
+/* Headings */
+
+.main-content {
+    h1,
+    h2,
+    h3 {
+        font-family: $serif;
+        font-weight: 400;
+        font-variation-settings:
+            "SOFT" 20,
+            "WONK" 0;
+        letter-spacing: -0.025em;
+        text-wrap: balance;
+        color: $body-heading-color;
+    }
+
+    h1 {
+        font-size: clamp(2.2rem, 4.4vw, 3.2rem) !important;
+        line-height: 1.02;
+    }
+
+    h2 {
+        font-size: 1.9rem !important;
+        line-height: 1.02;
+    }
+
+    h3 {
+        font-size: 1.4rem !important;
+    }
+
+    h4,
+    .text-delta {
+        font-family: $fell-sc;
+        font-size: 1.1rem !important;
+        font-weight: 400;
+        letter-spacing: 0.06em;
+        text-transform: none;
+        color: $candle;
+    }
+
+    h5,
+    h6 {
+        font-family: $fell;
+        font-style: italic;
+        font-size: 1.05rem !important;
+        color: $moon;
+    }
+
+    a:not(.btn) {
+        color: $candle;
+        font-weight: 600;
+        text-decoration-line: none;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+    }
+
+    a:not(.btn):is(:hover, :focus-visible) {
+        text-decoration-line: underline;
+        text-decoration-color: currentColor;
+    }
+
+    hr {
+        height: auto;
+        margin: 2.5rem 0;
+        background: none;
+        text-align: center;
+        overflow: visible;
+
+        &::after {
+            content: "☽ ✦ ☾";
+            letter-spacing: 0.6em;
+            color: $moon;
+        }
+    }
+
+    blockquote:not([class]) {
+        padding-left: 1.2rem;
+        border-left: 2px solid $candle;
+        font-family: $fell;
+        font-style: italic;
+        font-size: 1.15rem;
+        color: $body-heading-color;
+    }
+
+    ol > li::before {
+        color: $moon;
+        font-family: $mono-font-family;
+    }
+
+    ul > li::before {
+        content: "✦" !important;
+        color: $candle;
+        font-size: 0.75em;
+    }
+
+    dt {
+        font-family: $fell-sc;
+        color: $candle;
+    }
+}
+
+/* Buttons */
+
+.btn {
+    border-radius: 3px;
+    border: 1px solid rgba(232, 194, 124, 0.35);
+    background: transparent;
+    box-shadow: none;
+    color: $body-heading-color !important;
+    font-family: $mono-font-family;
+    font-size: 0.85rem !important;
+    font-weight: 500;
+    transition:
+        background 0.2s,
+        border-color 0.2s,
+        color 0.2s,
+        box-shadow 0.3s,
+        transform 0.15s;
+
+    &:hover,
+    &:focus {
+        background: transparent;
+        background-image: none;
+        border-color: $candle;
+        box-shadow: none;
+        color: $candle !important;
+    }
+
+    &:active {
+        transform: translateY(1px);
+    }
+}
+
+.btn-purple,
+.btn-primary,
+.btn-blue,
+.btn-green {
+    border-color: $candle;
+    background: $candle;
+    background-image: none;
+    color: $candle-ink !important;
+    box-shadow:
+        inset 0 0 0 2px $candle,
+        inset 0 0 0 3px rgba(30, 20, 10, 0.4);
+
+    &:hover,
+    &:focus {
+        border-color: $candle-bright;
+        background: $candle-bright;
+        background-image: none;
+        color: $candle-ink !important;
+        box-shadow:
+            inset 0 0 0 2px $candle-bright,
+            inset 0 0 0 3px rgba(30, 20, 10, 0.4),
+            0 0 32px rgba(232, 194, 124, 0.35);
+    }
+}
+
+/* Code */
+
+:not(pre):not(figure) > code {
+    padding: 0.1em 0.4em;
+    border: 1px solid $border-color;
+    border-radius: 3px;
+    background: $night-deep;
+    color: $herb;
+}
+
+div.highlighter-rouge div.highlight {
+    border-color: $line-strong;
+}
+
+.highlight .c,
+.highlight .c1,
+.highlight .cm,
+.highlight .cs {
+    color: #756a7c;
+    font-style: italic;
+}
+
+.highlight .k,
+.highlight .kd,
+.highlight .kn,
+.highlight .kr,
+.highlight .ow {
+    color: #e3a1bf;
+}
+
+.highlight .s,
+.highlight .s1,
+.highlight .s2,
+.highlight .se {
+    color: $herb;
+}
+
+.highlight .m,
+.highlight .mi,
+.highlight .mf,
+.highlight .mh {
+    color: $moon;
+}
+
+.highlight .nf,
+.highlight .nb,
+.highlight .nx {
+    color: $candle;
+}
+
+/* Tables */
+
+.table-wrapper {
+    border: 1px solid $line-strong;
+    border-radius: 3px;
+    box-shadow: none;
+}
+
+.main-content table {
+    border-collapse: collapse;
+}
+
+.main-content th {
+    font-family: $fell-sc;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: $candle;
+}
+
+.main-content th,
+.main-content td {
+    border-left: 0;
+    border-bottom: 1px dashed $line-strong;
+}
+
+/* Callouts and labels */
+
+.main-content {
+    .note,
+    .note-title,
+    .warning,
+    .warning-title {
+        border-width: 1px;
+        border-left-width: 2px;
+        border-radius: 3px;
+        box-shadow: none;
+        background: rgba(171, 149, 227, 0.04);
+    }
+
+    .warning,
+    .warning-title {
+        background: rgba(208, 106, 84, 0.05);
+    }
+
+    .note::before,
+    .warning::before,
+    .note-title > p:first-child,
+    .warning-title > p:first-child {
+        font-family: $fell-sc;
+        font-size: 1.05rem;
+        font-weight: 400;
+        letter-spacing: 0.06em;
+        text-transform: none;
+    }
+}
+
+.label,
+.label-blue,
+.label-green,
+.label-purple,
+.label-red,
+.label-yellow {
+    border-radius: 2px;
+    font-family: $mono-font-family;
+    font-weight: 700;
+    text-transform: none;
+    color: #100c14 !important;
+}
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
