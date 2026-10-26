@@ -1,0 +1,18 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 320" role="img" aria-labelledby="s2-module-external-antenna-title">
+    <title id="s2-module-external-antenna-title">S2 Module external antenna variant: the external GPS antenna connector sits beside the gps marking on the left of the board, and the external LTE antenna connector sits beside the lte marking on the right.</title>
+
+    <image class="hardware" href="/assets/images/s2-module-ext-antenna-front.webp" x="301.25" y="20" width="277.5" height="280" />
+
+    <path class="leader" d="M363.75 135.5 L253.25 77" />
+    <path class="leader" d="M493.25 113.25 L626.75 34" />
+    <circle class="point" cx="363.75" cy="135.5" r="4" />
+    <circle class="point" cx="493.25" cy="113.25" r="4" />
+    <rect class="chip" x="90.45" y="55" width="162.8" height="44" />
+    <text class="chip-text" x="100.45" y="68">External GPS</text>
+    <text class="chip-text" x="100.45" y="86">antenna connector</text>
+    <rect class="chip" x="626.75" y="12" width="162.8" height="44" />
+    <text class="chip-text" x="636.75" y="25">External LTE</text>
+    <text class="chip-text" x="636.75" y="43">antenna connector</text>
+</svg>
+</figure>

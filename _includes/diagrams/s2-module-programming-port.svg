@@ -1,0 +1,12 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 320" role="img" aria-labelledby="s2-module-programming-port-title">
+    <title id="s2-module-programming-port-title">S2 Module ARM SWD programming port: a six-pad Tag-Connect footprint on the back of the board, beside port D.</title>
+
+    <image class="hardware" href="/assets/images/s2-module-back.webp" x="300" y="20" width="280" height="280" />
+
+    <path class="leader" d="M375.6 215 L252 145" />
+    <circle class="point" cx="375.6" cy="215" r="4" />
+    <rect class="chip" x="30.4" y="132" width="221.6" height="26" />
+    <text class="chip-text" x="40.4" y="145">ARM SWD programming port</text>
+</svg>
+</figure>

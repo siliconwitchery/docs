@@ -1,0 +1,39 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 520" role="img" aria-labelledby="s2-module-mounting-title">
+    <title id="s2-module-mounting-title">S2 Module mounting, exploded from top to bottom: four 12mm M2.5 nylon screws pass through the housing and the S2 Module into four 6mm nylon standoffs on the host PCB, and four 4mm M2.5 nylon screws fix the standoffs from under the host PCB. Pogo pin contacts on the host PCB sit under the module.</title>
+
+    <image class="hardware" href="/assets/images/s2-module-exploded.webp" x="220" y="20" width="440" height="476.8" />
+
+    <path class="leader" d="M339 88.5 L172 88.5" />
+    <path class="leader" d="M374.1 148.4 L172 148.4" />
+    <path class="leader" d="M338.6 313.2 L172 300" />
+    <path class="leader" d="M338.6 456.6 L172 456.6" />
+    <path class="leader" d="M449 246.9 L708 170" />
+    <path class="leader" d="M562.4 345.3 L708 345.3" />
+    <path class="leader" d="M482 360.3 L708 390" />
+    <circle class="point" cx="339" cy="88.5" r="4" />
+    <circle class="point" cx="374.1" cy="148.4" r="4" />
+    <circle class="point" cx="338.6" cy="313.2" r="4" />
+    <circle class="point" cx="338.6" cy="456.6" r="4" />
+    <circle class="point" cx="449" cy="246.9" r="4" />
+    <circle class="point" cx="562.4" cy="345.3" r="4" />
+    <circle class="point" cx="482" cy="360.3" r="4" />
+    <rect class="chip" x="51.2" y="66.5" width="120.8" height="44" />
+    <text class="chip-text" x="61.2" y="79.5">12mm M2.5</text>
+    <text class="chip-text" x="61.2" y="97.5">nylon screws</text>
+    <rect class="chip" x="93.2" y="135.4" width="78.8" height="26" />
+    <text class="chip-text" x="103.2" y="148.4">Housing</text>
+    <rect class="chip" x="76.4" y="278" width="95.6" height="44" />
+    <text class="chip-text" x="86.4" y="291">6mm nylon</text>
+    <text class="chip-text" x="86.4" y="309">standoffs</text>
+    <rect class="chip" x="51.2" y="434.6" width="120.8" height="44" />
+    <text class="chip-text" x="61.2" y="447.6">4mm M2.5</text>
+    <text class="chip-text" x="61.2" y="465.6">nylon screws</text>
+    <rect class="chip" x="708" y="157" width="95.6" height="26" />
+    <text class="chip-text" x="718" y="170">S2 Module</text>
+    <rect class="chip" x="708" y="332.3" width="87.2" height="26" />
+    <text class="chip-text" x="718" y="345.3">Host PCB</text>
+    <rect class="chip" x="708" y="377" width="162.8" height="26" />
+    <text class="chip-text" x="718" y="390">Pogo pin contacts</text>
+</svg>
+</figure>

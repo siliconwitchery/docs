@@ -61,7 +61,7 @@ The block diagram below shows the simplistic nature of devices built with the S1
 
 This design features a single ECG frontend amplifier as the only active external component in the system. All other processing is done within the S1 Module.
 
-![S1 ECG kit system block diagram](/assets/images/s1-ecg-kit-block-diagram.png)
+{% include diagrams/s1-ecg-kit-block-diagram.svg %}
 
 ---
 
@@ -93,7 +93,7 @@ Seven LEDs on the front of the board display a smooth waveform of the measured E
 
 If required, up to four of the LED pins (**D1 - D4**) can be repurposed as GPIO lines via the solder points on the back of the PCB. This allows you to add additional sensors or peripherals to develop your application.
 
-![Back side IO connections of the S1 ECG Kit](/assets/images/s1-ecg-kit-back-pcb.png)
+{% include diagrams/s1-ecg-kit-back.svg %}
 
 Additionally, the raw ECG analog output is also exposed for ease of testing.
 

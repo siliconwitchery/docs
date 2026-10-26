@@ -1,0 +1,11 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 300" role="img" aria-labelledby="s1-module-antenna-edge-placement-title">
+    <title id="s1-module-antenna-edge-placement-title">S1 Module antenna placement: the SR4W035 antenna sits on the edge of the host PCB, with its long side along the board edge.</title>
+
+    <rect class="board" x="40" y="110" width="800" height="170" />
+    <rect class="part" x="360" y="110" width="160" height="100" />
+    <text class="link-label middle" x="440" y="135">a</text>
+    <text class="link-label middle" x="440" y="160">SR4W035</text>
+    <text class="link-label middle" x="440" y="185">YYWW</text>
+</svg>
+</figure>

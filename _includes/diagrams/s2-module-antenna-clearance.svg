@@ -1,0 +1,30 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 490" role="img" aria-labelledby="s2-module-antenna-clearance-title">
+    <title id="s2-module-antenna-clearance-title">S2 Module antenna clearance: keep a keep-out area clear of metal around the antenna. It extends 30mm above the top edge of the board, 30mm beyond each side of the board, and 12.2mm down from the top edge of the board.</title>
+
+    <defs>
+        <marker id="s2-module-antenna-clearance-arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+            <path class="arrowhead" d="M0 0 L10 5 L0 10 z" />
+        </marker>
+    </defs>
+
+    <rect class="keep-out" x="134.8" y="20" width="610.4" height="234.5" />
+
+    <image class="hardware" href="/assets/images/s2-module-front.webp" x="301.5" y="186.7" width="277" height="280" />
+
+    <path class="dimension" d="M440 20 V186.7" marker-start="url(#s2-module-antenna-clearance-arrow)" marker-end="url(#s2-module-antenna-clearance-arrow)" />
+    <path class="dimension" d="M134.8 254.5 V289.9" />
+    <path class="dimension" d="M134.8 279.9 H301.5" marker-start="url(#s2-module-antenna-clearance-arrow)" marker-end="url(#s2-module-antenna-clearance-arrow)" />
+    <path class="dimension" d="M745.2 254.5 V289.9" />
+    <path class="dimension" d="M578.5 279.9 H745.2" marker-start="url(#s2-module-antenna-clearance-arrow)" marker-end="url(#s2-module-antenna-clearance-arrow)" />
+    <path class="dimension" d="M264.5 186.7 H284.5" />
+    <path class="dimension" d="M264.5 254.5 H284.5" />
+    <path class="dimension" d="M274.5 186.7 V254.5" marker-start="url(#s2-module-antenna-clearance-arrow)" marker-end="url(#s2-module-antenna-clearance-arrow)" />
+
+    <text class="link-label" x="448" y="103.35">30mm</text>
+    <text class="link-label middle" x="218.15" y="295">30mm</text>
+    <text class="link-label middle" x="661.85" y="295">30mm</text>
+    <text class="link-label end" x="266" y="220.6">12.2mm</text>
+    <text class="link-label end" x="733" y="232">Keep-out area</text>
+</svg>
+</figure>

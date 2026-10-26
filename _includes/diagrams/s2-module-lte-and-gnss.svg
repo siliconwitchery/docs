@@ -1,0 +1,29 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 320" role="img" aria-labelledby="s2-module-lte-and-gnss-title">
+    <title id="s2-module-lte-and-gnss-title">S2 Module LTE and GNSS section: the multi-band antenna runs along the top edge of the board. The GNSS matching circuits and the GNSS LNA and filter sit on the left, beside the gps marking. The LTE matching circuits sit on the right, beside the lte marking. The SiP with pre-programmed SIM sits in the centre.</title>
+
+    <image class="hardware" href="/assets/images/s2-module-front.webp" x="301.5" y="20" width="277" height="280" />
+
+    <path class="leader" d="M364 95 L253.5 54" />
+    <path class="leader" d="M388.5 110.5 L253.5 199" />
+    <path class="leader" d="M440 28.75 L626.5 28.75" />
+    <path class="leader" d="M511 100.5 L626.5 120" />
+    <path class="leader" d="M439.95 128 L626.5 174" />
+    <circle class="point" cx="364" cy="95" r="4" />
+    <circle class="point" cx="388.5" cy="110.5" r="4" />
+    <circle class="point" cx="440" cy="28.75" r="4" />
+    <circle class="point" cx="511" cy="100.5" r="4" />
+    <circle class="point" cx="439.95" cy="128" r="4" />
+    <rect class="chip" x="48.7" y="41" width="204.8" height="26" />
+    <text class="chip-text" x="58.7" y="54">GNSS matching circuits</text>
+    <rect class="chip" x="90.7" y="186" width="162.8" height="26" />
+    <text class="chip-text" x="100.7" y="199">GNSS LNA &amp; filter</text>
+    <rect class="chip" x="626.5" y="15.75" width="171.2" height="26" />
+    <text class="chip-text" x="636.5" y="28.75">Multi-band antenna</text>
+    <rect class="chip" x="626.5" y="107" width="196.4" height="26" />
+    <text class="chip-text" x="636.5" y="120">LTE matching circuits</text>
+    <rect class="chip" x="626.5" y="152" width="171.2" height="44" />
+    <text class="chip-text" x="636.5" y="165">SiP with</text>
+    <text class="chip-text" x="636.5" y="183">pre-programmed SIM</text>
+</svg>
+</figure>

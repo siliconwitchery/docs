@@ -1,0 +1,47 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 550" role="img" aria-labelledby="s1-module-power-management-title">
+    <title id="s1-module-power-management-title">S1 Module power management: inside the PMIC, battery control takes VCHG, charges an external lithium cell, sends a voltage and current monitor to the ADC, and feeds the buck boost. The buck boost outputs VnRF, VFPGA and VAUX, and VAUX also feeds the LDO, which outputs VIO. The control block takes I2C control.</title>
+
+    <defs>
+        <marker id="s1-module-power-management-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+            <path class="arrowhead" d="M0 0 L10 5 L0 10 z" />
+        </marker>
+    </defs>
+
+    <!-- blocks -->
+    <rect class="block" x="271.7" y="20" width="218.2" height="502.9" />
+    <text class="block-title" x="447.2" y="506.5">PMIC</text>
+    <rect class="block" x="296.4" y="42.3" width="163" height="99.9" />
+    <text class="block-title" x="377.9" y="79.3">Battery</text>
+    <text class="block-title" x="377.9" y="105.3">control</text>
+    <rect class="block" x="296.4" y="161.6" width="163" height="99.9" />
+    <text class="block-title" x="377.9" y="198.6">Buck</text>
+    <text class="block-title" x="377.9" y="224.6">boost</text>
+    <rect class="block" x="296.4" y="280.9" width="163" height="99.9" />
+    <text class="block-title" x="377.9" y="330.9">LDO</text>
+    <rect class="block" x="296.4" y="400.2" width="163" height="65" />
+    <text class="block-title" x="377.9" y="432.7">Control</text>
+
+    <!-- links -->
+    <path class="link" d="M94.2 66.6 H296.4" marker-end="url(#s1-module-power-management-arrow)" />
+    <text class="link-label end" x="86.2" y="66.6">V<tspan class="sub" dy="4">CHG</tspan></text>
+    <path class="link" d="M459.4 54.9 H556.4 V68.5" />
+    <path class="link" d="M459.4 98.1 H556.4 V83" />
+    <path class="link" d="M524.8 68.5 H588.9 M540.9 83 H570.9" />
+    <text class="link-label" x="598.9" y="75.8">Ext Li Cell</text>
+    <path class="link" d="M459.4 121.8 H660.6" marker-end="url(#s1-module-power-management-arrow)" />
+    <text class="link-label" x="670.4" y="121.8">V/I monitor to ADC</text>
+    <path class="link" d="M296.4 117 H215.9 V211.6 H296.4" marker-end="url(#s1-module-power-management-arrow)" />
+    <path class="link" d="M459.4 178.6 H660.6" marker-end="url(#s1-module-power-management-arrow)" />
+    <text class="link-label" x="670.4" y="178.6">V<tspan class="sub" dy="4">nRF</tspan></text>
+    <path class="link" d="M459.4 210.6 H660.6" marker-end="url(#s1-module-power-management-arrow)" />
+    <text class="link-label" x="670.4" y="210.6">V<tspan class="sub" dy="4">FPGA</tspan></text>
+    <path class="link" d="M459.4 242.6 H660.6" marker-end="url(#s1-module-power-management-arrow)" />
+    <text class="link-label" x="670.4" y="242.6">V<tspan class="sub" dy="4">AUX</tspan></text>
+    <path class="link" d="M539.9 242.6 V308.1 H459.4" marker-end="url(#s1-module-power-management-arrow)" />
+    <path class="link" d="M459.4 350.8 H660.6" marker-end="url(#s1-module-power-management-arrow)" />
+    <text class="link-label" x="670.4" y="350.8">V<tspan class="sub" dy="4">IO</tspan></text>
+    <path class="link" d="M660.6 433.2 H459.4" marker-end="url(#s1-module-power-management-arrow)" />
+    <text class="link-label" x="670.4" y="433.2">I2C control</text>
+</svg>
+</figure>

@@ -95,7 +95,7 @@ The S2 Module features two key devices:
 
 The module includes all supporting circuitry such that no external hardware except a simple power source is needed to operate the device.
 
-![Silicon Witchery S2 Module Hardware Block Diagram](/assets/images/s2-module-block-diagram.drawio.svg)
+{% include diagrams/s2-module-block-diagram.svg %}
 
 The device exposes a range of I/O that can be used to connect external devices and features smart power management to run off either external power or a single-cell lithium polymer battery, saving power whenever possible.
 
@@ -107,11 +107,11 @@ A multi-band antenna is included on the module supporting all the required LTE a
 
 The S2 Module features six IO ports and three power ports. Digital IO is freely configurable across all ports, while analog inputs are limited to certain pins. A detailed description of all the pins is shown in the diagram below.
 
-![Silicon Witchery S2 Module Top Pinout](/assets/images/s2-module-top-pinout-diagram.png)
+{% include diagrams/s2-module-top-pinout.svg %}
 
 The bottom of the module additionally exposes the same IO as the physical connectors such that the board can be mounted to a carrier PCB and electrically interfaced via pogo-pins. See the section on [mechanical dimensions](#mechanical-dimensions) for a recommended landing pattern.
 
-![Silicon Witchery S2 Module Bottom Pinout](/assets/images/s2-module-bottom-pinout-diagram.png)
+{% include diagrams/s2-module-bottom-pinout.svg %}
 
 The table below summarizes all ports and pins. Pin 1 of every IO port is GND, and pin 2 is the port's power rail. The pin names shown are the exact strings used in [Lua code](/pages/superstack/lua).
 
@@ -137,7 +137,7 @@ The on-board button is only used for initial pairing of the device with the clou
 
 The status LEDs, meanwhile, indicate the networking and power status of the device throughout the lifetime of the application. 
 
-![Silicon Witchery S2 Module Button and LEDs](/assets/images/s2-module-button-led-diagram.png)
+{% include diagrams/s2-module-button-and-leds.svg %}
 
 The table below describes each of the LED states.
 
@@ -213,7 +213,7 @@ A country joins this table once all of it has LTE-M coverage. Many more countrie
 
 The module also supports **GPS L1 C/A** and **QZSS L1 C/A** reception with a maximum accuracy of 2.0m in continuous tracking mode, or 3.4m in periodic tracking mode.
 
-![Silicon Witchery S2 Module GNSS section](/assets/images/s2-module-lte-and-gnss-diagram.png)
+{% include diagrams/s2-module-lte-and-gnss.svg %}
 
 ### Antenna considerations
 
@@ -221,13 +221,13 @@ The S2 Module features an integrated multi-band antenna supporting all the LTE a
 
 For optimum GPS accuracy, the antenna should have line of sight to open sky.
 
-![Silicon Witchery S2 Module Antenna clearance](/assets/images/s2-module-antenna-clearance.png)
+{% include diagrams/s2-module-antenna-clearance.svg %}
 
 ### External antenna variant
 
 If the mounting requirements for the module within an installation make it difficult for the integrated antenna to receive good reception, then a variant of the module is available with external antenna connectors. This variant allows the module to be placed inside metal enclosures with antenna routed outside to achieve better reception.
 
-![Silicon Witchery S2 Module External Antenna diagram](/assets/images/s2-module-external-antenna-diagram.png)
+{% include diagrams/s2-module-external-antenna.svg %}
 
 A wide variety of external antennas are available from various manufacturers. LTE antennas should support 698-960MHz and 1745-2200MHz with a VSWR of 3 or better. GPS antennas should support 1575MHz with a VSWR of 2 or better.
 
@@ -240,7 +240,7 @@ Examples of external antennas are listed below:
 
 The S2 Module features an extensive power management solution built in. It can be powered in a variety of ways, includes lithium battery charging capabilities, as well as outputting multiple voltages to power sensors or other low power electronics. Additionally, the power management ensures low power operation of the module, saving power whenever possible.
 
-![Silicon Witchery S2 Module power section](/assets/images/s2-module-power-interfaces-diagram.png)
+{% include diagrams/s2-module-power-interfaces.svg %}
 
 ### Power inputs
 
@@ -272,7 +272,7 @@ The module has two voltage outputs which can be used for powering external senso
 
 ⁑ – **V<sub>SYS</sub>** is a 5V regulated output which powers everything on the module including **V<sub>OUT1</sub>**, **V<sub>OUT2</sub>**, the radio and battery charging. Its current capability is therefore highly dependent on what else is being powered. Assuming a suitable power input to one of the input ports, **V<sub>SYS</sub>** is capable of providing up to 1A of current.
 
-![Silicon Witchery S2 Module power outputs](/assets/images/s2-module-power-outputs.png)
+{% include diagrams/s2-module-power-outputs.svg %}
 
 ### Battery charger
 
@@ -289,7 +289,7 @@ It is not expected that the user should program the device directly, but rather 
 
 If desired however, the module can be completely erased and a fully custom firmware may be loaded onto it. Note that this will also erase the SIM, data plan and superstack server license. After which it will be no longer possible to use the module with Superstack.
 
-![Silicon Witchery S2 Module programming interface](/assets/images/s2-module-programming-interface-diagram.png)
+{% include diagrams/s2-module-programming-port.svg %}
 
 The S2 Module is compatible with [Tag-Connect TC2030-CTX](https://www.tag-connect.com/product/tc2030-ctx-6-pin-cable-for-arm-cortex) programming cables, which can be used in conjunction with [Segger J-Link debug probes](https://www.segger.com/debug-trace-embedded-systems/) for firmware development and debugging.
 
@@ -385,7 +385,7 @@ Both variants of the module ships with a plastic housing, as well as a set of ny
 
 The module may be mounted to either a chassis, or a host PCB. If using the internal antenna variant of the module, ensure that there are no metal objects [close to the antenna](#antenna-considerations).
 
-![Silicon Witchery S2 Module Mounting](/assets/images/s2-module-mounting.png)
+{% include diagrams/s2-module-mounting.svg %}
 
 If mounted to a PCB, it is possible to interface with all of the module power and IO connections using spring loaded pogo pins which press against the gold pads on the bottom of the module. If using the included 6mm standoffs, the following pogo pins are suitable:
 
@@ -396,7 +396,7 @@ If mounted to a PCB, it is possible to interface with all of the module power an
 
 The position of the pre-attached IMEI label is shown below. The label displays the IMEI in both text and QR code format as shown:
 
-![Silicon Witchery S2 Module Labeling](/assets/images/s2-module-labeling.png)
+{% include diagrams/s2-module-labeling.svg %}
 
 ## Mechanical dimensions
 

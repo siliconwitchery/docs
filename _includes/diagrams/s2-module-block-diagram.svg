@@ -1,0 +1,83 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 660" role="img" aria-labelledby="s2-module-block-diagram-title">
+    <title id="s2-module-block-diagram-title">S2 Module block diagram: inside the S2 Module, the nRF9151 cellular SoC drives the LTE antenna, which links to the cellular network, and the GNSS antenna, which links to satellites. The pairing button feeds the nRF9151, and the nRF9151 drives the status LEDs. The nRF9151 exchanges data with the 6x IO ports, which offer GPIO, I2C, SPI and analog to external devices, and with the nPM1300 PMIC. The PMIC takes power from the USB power port, exchanges power with the external power port and the battery port, and supplies VIO1 and VIO2 to the IO ports.</title>
+
+    <defs>
+        <marker id="s2-module-block-diagram-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+            <path class="arrowhead" d="M0 0 L10 5 L0 10 z" />
+        </marker>
+    </defs>
+
+    <!-- blocks -->
+    <rect class="block" x="120" y="150" width="610" height="489" />
+    <text class="block-title" x="435" y="172">S2 Module</text>
+    <rect class="block" x="140" y="195" width="275" height="56" />
+    <text class="block-title" x="277.5" y="223">LTE Antenna</text>
+    <rect class="block" x="435" y="195" width="275" height="56" />
+    <text class="block-title" x="572.5" y="223">GNSS Antenna</text>
+    <rect class="block" x="140" y="287" width="170" height="56" />
+    <text class="block-title" x="225" y="315">Pairing Button</text>
+    <rect class="block" x="140" y="379" width="170" height="56" />
+    <text class="block-title" x="225" y="407">Status LEDs</text>
+    <rect class="block" x="140" y="471" width="170" height="56" />
+    <text class="block-title" x="225" y="499">USB Power Port</text>
+    <rect class="block" x="140" y="563" width="170" height="56" />
+    <text class="block-title" x="225" y="591">Ext Power Port</text>
+    <rect class="block" x="350" y="287" width="150" height="148" />
+    <text class="block-title" x="425" y="349">nRF9151</text>
+    <text class="block-text" x="425" y="375">Cellular SoC</text>
+    <rect class="block" x="350" y="471" width="150" height="148" />
+    <text class="block-title" x="425" y="533">nPM1300</text>
+    <text class="block-text" x="425" y="559">PMIC</text>
+    <rect class="block" x="540" y="287" width="170" height="148" />
+    <text class="block-title" x="625" y="315">6x IO Ports</text>
+    <text class="block-text" x="625" y="343">GPIO</text>
+    <text class="block-text" x="625" y="365">I<tspan class="sub" dy="-5">2</tspan><tspan dy="5">C</tspan></text>
+    <text class="block-text" x="625" y="387">SPI</text>
+    <text class="block-text" x="625" y="409">Analog</text>
+    <rect class="block" x="540" y="563" width="170" height="56" />
+    <text class="block-title" x="625" y="591">Battery Port</text>
+
+    <!-- links -->
+    <path class="link" d="M277.5 75 V195" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M572.5 75 V195" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M380 287 V251" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M470 287 V251" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M310 315 H350" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M350 407 H310" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M500 361 H540" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M425 435 V471" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M310 499 H350" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M310 591 H350" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M500 591 H540" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M500 490 H580 V435" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M500 510 H660 V435" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <text class="link-label" x="588" y="458">V<tspan class="sub" dy="4">IO1</tspan></text>
+    <text class="link-label" x="668" y="458">V<tspan class="sub" dy="4">IO2</tspan></text>
+    <path class="link" d="M710 300 H800" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M710 324.4 H800" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M710 348.8 H800" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M710 373.2 H800" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M710 397.6 H800" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M710 422 H800" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M75 499 H140" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M75 591 H140" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+    <path class="link" d="M710 591 H800" marker-start="url(#s2-module-block-diagram-arrow)" marker-end="url(#s2-module-block-diagram-arrow)" />
+
+    <!-- icons: network, satellite, devices, USB power, external power, battery -->
+    <circle class="link" cx="277.5" cy="45" r="22" />
+    <ellipse class="link" cx="277.5" cy="45" rx="10" ry="22" />
+    <path class="link" d="M255.5 45 H299.5 M259 34 H296 M259 56 H296" />
+    <rect class="link" x="565.5" y="38" width="14" height="14" />
+    <rect class="link" x="537.5" y="40" width="22" height="10" />
+    <rect class="link" x="585.5" y="40" width="22" height="10" />
+    <path class="link" d="M559.5 45 H565.5 M579.5 45 H585.5 M572.5 38 V30 M566 28 Q572.5 22 579 28" />
+    <circle class="link" cx="830" cy="361" r="22" />
+    <path class="link" d="M830 343 L836 361 L830 379 L824 361 Z M830 361 Z" />
+    <rect class="link" x="27" y="487" width="26" height="24" rx="3" />
+    <path class="link" d="M53 493 H65 M53 505 H65 M27 499 H18" />
+    <path class="link" d="M50 569 L36 594 H46 L40 613 L56 586 H46 Z" />
+    <rect class="link" x="818" y="571" width="24" height="40" rx="3" />
+    <path class="link" d="M825 571 V566 H835 V571 M830 583 V599 M822 591 H838" />
+</svg>
+</figure>

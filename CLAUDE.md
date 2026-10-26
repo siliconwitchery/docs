@@ -40,8 +40,7 @@ front matter, which must be a PNG or JPEG. They have no source file.
 Datasheet diagrams are SVG files in `_includes/diagrams/`. A page includes the
 SVG inline, so the diagram uses the site's fonts and the styles in the
 "Diagrams" section of `_sass/custom/custom.scss`. Draw every new or changed
-diagram this way. The other PNG diagrams in `assets/images` are old Figma
-exports. Replace one with an SVG when you change it.
+diagram this way.
 
 `_includes/diagrams/s2-module-power-inputs.svg` is the reference diagram. Copy
 its structure.
@@ -55,8 +54,8 @@ the same size in every diagram.
 
 Diagrams use the CAD renders in `~/company/branding/hardware`, named
 `<date>-sw-render-<product>-<view>.png`. Use the newest render of the view you
-need. Never use a `cutout` or `photo` file in a diagram. If no render shows the
-view you need, ask the user.
+need. If no render shows the view, use the newest `cutout` of it, or else the
+newest `photo`. The S1 Module, S1 Popout Board and S1 ECG Kit have no renders.
 
 The exported file is `assets/images/<product>-<view>.webp`, such as
 `assets/images/s2-module-front.webp`. If it already exists, reuse it. Otherwise
@@ -313,12 +312,11 @@ Write `_includes/diagrams/<page>-<subject>.svg` in this order:
   name.
 - State in the `<title>` what an unlabelled wire is, such as "Its pin 1 is
   the VSYS output, not an input."
-- Use the classes `hardware`, `wire`, `wire-label`, `sub`, `chip`,
-  `chip-text`, `leader` and `point`. Never write a colour, font or stroke into
-  the SVG. Every style lives in the "Diagrams" section of
-  `_sass/custom/custom.scss`.
-- Take every label from the page text or the datasheet tables. Don't name a
-  part or a pin the page doesn't describe.
+- Use the classes in the "Diagrams" section of `_sass/custom/custom.scss`.
+  Never write a colour, font or stroke into the SVG.
+- When you convert an old PNG, keep its labels. Otherwise take every label
+  from the page text or the datasheet tables, and don't name a part or a pin
+  the page doesn't describe.
 
 On the page, replace the image line with the include on its own line, with a
 blank line above and below:
@@ -370,5 +368,5 @@ blank line above and below:
 
    Fix anything that fails, then take the screenshot again.
 
-On a screen narrower than 700 pixels, the diagram keeps its size and scrolls
-sideways, so its text stays readable.
+The diagram scales to the width of the column, so a phone shows all of it
+without scrolling sideways.

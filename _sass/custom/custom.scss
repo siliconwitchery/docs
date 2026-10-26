@@ -408,12 +408,10 @@ div.highlighter-rouge div.highlight {
 
 .diagram {
     margin: 2rem 0;
-    overflow-x: auto;
 
     svg {
         display: block;
         width: 100%;
-        min-width: 700px;
         height: auto;
         font-family: $mono-font-family;
         font-size: 14px;
@@ -428,12 +426,20 @@ div.highlighter-rouge div.highlight {
         stroke-width: 5;
     }
 
+    .wire.fine {
+        stroke-width: 3;
+    }
+
     .wire.power {
         stroke: $ember;
     }
 
     .wire.ground {
         stroke: $dim;
+    }
+
+    .wire.signal {
+        stroke: $herb;
     }
 
     .wire.unused {
@@ -474,6 +480,79 @@ div.highlighter-rouge div.highlight {
         fill: $moon;
         stroke: $body-background-color;
         stroke-width: 2;
+    }
+
+    .pin-number {
+        font-weight: 700;
+    }
+
+    .analog {
+        fill: $moon;
+    }
+
+    .block {
+        fill: $base-button-color;
+        stroke: $line-strong;
+        rx: 3px;
+    }
+
+    .block-title {
+        fill: $body-heading-color;
+        font-family: $serif;
+        font-size: 20px;
+        text-anchor: middle;
+        dominant-baseline: central;
+    }
+
+    .block-text {
+        fill: $nav-child-link-color;
+        text-anchor: middle;
+        dominant-baseline: central;
+    }
+
+    .link {
+        fill: none;
+        stroke: $candle;
+        stroke-width: 2;
+    }
+
+    .arrowhead {
+        fill: $candle;
+    }
+
+    .link-label {
+        fill: $body-heading-color;
+        dominant-baseline: central;
+    }
+
+    .link-label.middle {
+        text-anchor: middle;
+    }
+
+    .link-label.end {
+        text-anchor: end;
+    }
+
+    .board {
+        fill: $code-background-color;
+        stroke: $line-strong;
+    }
+
+    .part {
+        fill: $line-strong;
+        stroke: $dim;
+    }
+
+    .keep-out {
+        fill: rgba($candle, 0.08);
+        stroke: $candle;
+        stroke-dasharray: 6 4;
+    }
+
+    .dimension {
+        fill: none;
+        stroke: $candle;
+        stroke-width: 1.5;
     }
 }
 

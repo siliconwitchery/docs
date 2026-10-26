@@ -1,0 +1,36 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 430" role="img" aria-labelledby="s2-module-power-interfaces-title">
+    <title id="s2-module-power-interfaces-title">S2 Module power interfaces: adjustable rail 0 powers the three IO ports on the left edge, and adjustable rail 1 powers the three IO ports on the right edge. The external power port, the USB-C power port and the battery port sit along the bottom edge, from left to right.</title>
+
+    <image class="hardware" href="/assets/images/s2-module-front.webp" x="301.5" y="20" width="277" height="280" />
+
+    <path class="leader" d="M253.5 138 L313.75 109.5" />
+    <path class="leader" d="M253.5 138 L313.75 159" />
+    <path class="leader" d="M253.5 138 L313.75 216.75" />
+    <path class="leader" d="M366.75 273.75 L253.5 314.5" />
+    <path class="leader" d="M626.5 138 L565.75 109.5" />
+    <path class="leader" d="M626.5 138 L565.75 159" />
+    <path class="leader" d="M626.5 138 L565.75 216.75" />
+    <path class="leader" d="M512.75 273.75 L626.5 314.7" />
+    <path class="leader" d="M440 274.7 L626.5 392" />
+    <circle class="point" cx="313.75" cy="109.5" r="4" />
+    <circle class="point" cx="313.75" cy="159" r="4" />
+    <circle class="point" cx="313.75" cy="216.75" r="4" />
+    <circle class="point" cx="366.75" cy="273.75" r="4" />
+    <circle class="point" cx="565.75" cy="109.5" r="4" />
+    <circle class="point" cx="565.75" cy="159" r="4" />
+    <circle class="point" cx="565.75" cy="216.75" r="4" />
+    <circle class="point" cx="512.75" cy="273.75" r="4" />
+    <circle class="point" cx="440" cy="274.7" r="4" />
+    <rect class="chip" x="90.7" y="125" width="162.8" height="26" />
+    <text class="chip-text" x="100.7" y="138">Adjustable rail 0</text>
+    <rect class="chip" x="73.9" y="301.5" width="179.6" height="26" />
+    <text class="chip-text" x="83.9" y="314.5">External power port</text>
+    <rect class="chip" x="626.5" y="125" width="162.8" height="26" />
+    <text class="chip-text" x="636.5" y="138">Adjustable rail 1</text>
+    <rect class="chip" x="626.5" y="301.7" width="120.8" height="26" />
+    <text class="chip-text" x="636.5" y="314.7">Battery port</text>
+    <rect class="chip" x="626.5" y="379" width="154.4" height="26" />
+    <text class="chip-text" x="636.5" y="392">USB-C power port</text>
+</svg>
+</figure>
