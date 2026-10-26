@@ -250,7 +250,7 @@ The S2 Module features three options for input power:
 - External 5 - 17VDC input – **V<sub>IN</sub>**
 - Single lithium polymer cell – **V<sub>BATT</sub>**
 
-![Silicon Witchery S2 Module power inputs](/assets/images/s2-module-power-inputs.png)
+{% include diagrams/s2-module-power-inputs.svg %}
 
 The USB-C input includes the proper negotiation with hosts to ensure the correct voltage and current is provided to the module. Voltage is always negotiated at 5V, with current draw either 500mA or 1A depending on the host capabilities.
 
