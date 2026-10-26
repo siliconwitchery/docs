@@ -170,43 +170,46 @@ The S2 Module ships with **LTE Cat-M1** enabled with support for the following b
 
 A softsim is pre-programmed into each module for included connectivity out of the box, where data allowance can be managed from inside the Superstack webapp.
 
-The following regions are currently included in the data plan with more being regularly added.
+The following countries are included in the data plan, with more added regularly. The list follows Onomondo's network list of 13 October 2026.
 
-| Region | Connected | Region | Connected soon | 
-|--------|:---------:|--------|:--------------:|
-| Austria        | ✅ | Argentina            | Validated
-| Belgium        | ✅ | Australia            | Validated
-| Colombia       | 📶 | Brazil               | Validated
-| Denmark        | ✅ | Canada               | Validated
-| Finland        | ✅ | Chile                | Validated
-| France         | ✅ | China                | Validated
-| Germany        | ✅ | Costa Rica           | Validated
-| Iceland        | 📶 | Croatia              | Validated
-| Japan          | 📶 | Czechia              | Validated
-| Latvia         | ✅ | Ecuador              | Validated
-| Luxembourg     | 📶 | Estonia              | Validated
-| Mexico         | 📶 | Faroe Islands        | Validated
-| Netherlands    | ✅ | Greece               | Validated
-| New Zealand    | 📶 | Hong Kong            | Validated
-| Norway         | ✅ | Hungary              | Validated
-| Romania        | ✅ | India                | Validated
-| Slovakia       | ✅ | Ireland              | Validated
-| Slovenia       | ✅ | Israel               | Validated
-| Spain          | ✅ | Jamaica              | Validated
-| Sweden         | ✅ | Korea                | Validated
-| Switzerland    | 📶 | Liechtenstein        | Validated
-| Taiwan         | ✅ | Lithuania            | Validated
-| United Kingdom | ✅ | Poland               | Validated
-| United States  | 📶 | Portugal             | Validated
-| Uruguay        | 📶 | Puerto Rico          | Validated
-|                |    | Saudi Arabia         | Validated
-|                |    | Singapore            | Validated
-|                |    | Thailand             | Validated
-|                |    | Turkey               | Validated
-|                |    | United Arab Emirates | Validated
+| Country | Connected | Country | Connected soon |
+|---------|:---------:|---------|:--------------:|
+| Austria        | ✅ | Argentina          | Validated 📶
+| Belgium        | ✅ | Australia          | Validated 📶
+| Colombia       | ✅ | Canada             | Validated 📶
+| Costa Rica     | ✅ | Chile              | Validated
+| Denmark        | ✅ | Croatia            | Validated
+| Finland        | ✅ | Czechia            | Validated
+| France         | ✅ | Dominican Republic | Validated
+| Germany        | ✅ | Ecuador            | Validated
+| Iceland        | 📶 | Estonia            | Validated
+| Japan          | ✅ | Faroe Islands      | Validated
+| Latvia         | ✅ | Greece             | Validated
+| Liechtenstein  | ✅ | Hungary            | Validated
+| Luxembourg     | ✅ | Ireland            | Validated
+| Malta          | ✅ | Jamaica            | Validated
+| Mexico         | ✅ | Lithuania          | Validated
+| Netherlands    | ✅ | Portugal           | Validated
+| New Zealand    | 📶 | Puerto Rico        | Validated
+| Norway         | ✅ | Saudi Arabia       | Validated
+| Poland         | ✅ | South Korea        | Validated
+| Romania        | ✅ | Thailand           | Validated
+| Singapore      | ✅ |                    |
+| Slovakia       | ✅ |                    |
+| Slovenia       | ✅ |                    |
+| Spain          | ✅ |                    |
+| Sweden         | ✅ |                    |
+| Switzerland    | ✅ |                    |
+| Taiwan         | ✅ |                    |
+| Turkey         | ✅ |                    |
+| United Kingdom | ✅ |                    |
+| United States  | 📶 |                    |
+| Uruguay        | 📶 |                    |
 
 {: .note }
-📶 - External antenna variant of the module is recommended for this region
+📶 - Buy the external antenna variant for this country. Its networks carry LTE-M on the 700 MHz bands 12, 13, 17 or 28, which the integrated antenna doesn't cover. In the United States and New Zealand the cities also have LTE-M on higher bands, so the integrated antenna works there but not in the countryside.
+
+A country joins this table once all of it has LTE-M coverage. Many more countries, such as Italy, already have LTE-M in cities but not everywhere, so test one module at the site before you deploy a fleet there. Brazil and Israel have LTE-M networks, but their data costs many times more, so the S2 doesn't support them. If your country isn't listed, email [info@siliconwitchery.com](mailto:info@siliconwitchery.com) before you deploy.
 
 The module also supports **GPS L1 C/A** and **QZSS L1 C/A** reception with a maximum accuracy of 2.0m in continuous tracking mode, or 3.4m in periodic tracking mode.
 
