@@ -71,6 +71,5 @@ exclude:
   - CNAME
   - LICENSE.md
   - README.md
-  - CLAUDE.md
   - flake.nix
   - flake.lock
