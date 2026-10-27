@@ -188,25 +188,14 @@ body {
     }
 
     hr {
-        height: auto;
+        height: 1px;
         margin: 2.5rem 0;
-        background: none;
-        text-align: center;
-        overflow: visible;
-
-        &::after {
-            content: "☽ ✦ ☾";
-            letter-spacing: 0.6em;
-            color: $moon;
-        }
+        background: $border-color;
     }
 
     blockquote:not([class]) {
         padding-left: 1.2rem;
         border-left: 2px solid $candle;
-        font-family: $fell;
-        font-style: italic;
-        font-size: 1.15rem;
         color: $body-heading-color;
     }
 
@@ -222,7 +211,6 @@ body {
     }
 
     dt {
-        font-family: $fell-sc;
         color: $candle;
     }
 }
@@ -286,6 +274,15 @@ body {
 
 /* Code */
 
+/* JetBrains Mono joins == and ~= into single glyphs, which misleads readers copying code */
+code,
+pre,
+kbd,
+samp,
+.diagram svg {
+    font-variant-ligatures: none;
+}
+
 :not(pre):not(figure) > code {
     padding: 0.1em 0.4em;
     border: 1px solid $border-color;
@@ -347,10 +344,7 @@ div.highlighter-rouge div.highlight {
 }
 
 .main-content th {
-    font-family: $fell-sc;
-    font-size: 1rem;
-    font-weight: 400;
-    letter-spacing: 0.04em;
+    font-weight: 600;
     color: $candle;
 }
 
@@ -383,10 +377,7 @@ div.highlighter-rouge div.highlight {
     .warning::before,
     .note-title > p:first-child,
     .warning-title > p:first-child {
-        font-family: $fell-sc;
-        font-size: 1.05rem;
-        font-weight: 400;
-        letter-spacing: 0.06em;
+        font-weight: 600;
         text-transform: none;
     }
 }
