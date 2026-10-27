@@ -1,0 +1,366 @@
+---
+title: "S2 & Superstack"
+description: Set up your first S2 Module step by step. Install the Superstack CLI, pair the S2 with a fleet and run print("hello world") over cellular.
+image: /assets/images/s2-module-annotated-masthead.png
+nav_order: 2
+has_children: true
+has_toc: false
+redirect_from:
+  - /pages/superstack/
+  - /pages/superstack
+  - /pages/blog/getting-started-with-s2-superstack/
+  - /pages/blog/build-a-5g-connected-air-quality-monitor-in-minutes/
+  - /pages/blog/easy-air-quality-monitoring-with-superstack/
+---
+
+# Get started with the S2 Module
+{: .no_toc }
+
+---
+
+![Silicon Witchery S2 Module](/assets/images/s2-module-annotated-masthead.png)
+
+This guide takes a new S2 Module from the box to running its first line of Lua over cellular. It takes about ten minutes.
+
+[Lua reference](/pages/superstack/lua){: .btn .btn-purple}
+[CLI reference](/pages/superstack/cli){: .btn .btn-purple}
+[Example code](https://github.com/siliconwitchery/s2-lua-examples){: .btn}
+
+---
+
+## Contents
+{: .no_toc}
+
+1. TOC
+{:toc}
+
+---
+
+## What you need
+
+- An S2 Module.
+- A USB-C cable, and a computer or USB phone charger to plug it into.
+- A computer running macOS, Windows or Linux.
+- A GitHub or GitLab account, to log in to Superstack.
+
+You don't need a SIM card or a data plan. Every S2 has both built in, with €10 of starter credit.
+
+---
+
+## Step 1: Install the Superstack CLI
+
+You set up and program the S2 with `superstack`, a command line tool. Open a terminal and install it.
+
+On macOS:
+
+```sh
+brew install --cask siliconwitchery/tap/superstack
+```
+
+On Windows:
+
+```sh
+scoop bucket add siliconwitchery https://github.com/siliconwitchery/scoop-bucket
+scoop install superstack
+```
+
+On Linux, follow the [CLI install instructions](https://github.com/siliconwitchery/superstack-cli#install).
+
+Check that it installed:
+
+```sh
+superstack version
+```
+
+The CLI prints its version number, such as `0.0.4`.
+
+---
+
+## Step 2: Log in
+
+1. Run:
+
+    ```sh
+    superstack login github
+    ```
+
+    Use `gitlab` instead of `github` to log in with GitLab.
+
+1. The CLI prints a one-time code:
+
+    ```
+    Copy your one-time code: WDJB-MJHT
+    Then enter it at https://github.com/login/device
+    Press enter to open the browser.
+    ```
+
+1. Press Enter. Your browser opens the login page.
+1. Enter the code in the browser, and approve the login.
+1. Return to the terminal. The CLI prints `Logged in as` and your email address.
+
+---
+
+## Step 3: Create a fleet
+
+A fleet is a group of devices that share code, members and credit. Your S2 must belong to a fleet before it can run code.
+
+```sh
+superstack fleet create "My first fleet"
+```
+
+The CLI prints the fleet's id:
+
+```
+Created fleet "My first fleet" with id 12.
+```
+
+Write down the id. The next steps call it `<fleet_id>`.
+
+---
+
+## Step 4: Find the IMEI
+
+The IMEI is the 15-digit number that identifies your S2. Turn the S2 over. The IMEI is printed on the label on the back, as text and as a QR code.
+
+{% include diagrams/s2-module-labeling.svg %}
+
+Write down the IMEI. The next steps call it `<imei>`.
+
+---
+
+## Step 5: Power on the S2
+
+1. Plug the USB-C cable into the USB-C power port on the S2.
+1. Plug the other end into your computer or a USB phone charger.
+1. Watch the network status LED, next to the pairing button.
+
+{% include diagrams/s2-superstack-power-and-pairing.svg %}
+
+The network status LED blinks slowly while the S2 searches for a cellular network. Wait until it stops blinking and stays on. The S2 is then connected and ready to pair.
+
+| Network status LED | Meaning | What to do |
+|--------------------|---------|------------|
+| Slow blinking <br> ▇▇▇▇▁▁▁▁▇▇▇▇▁▁ | Searching for a cellular network | Wait |
+| On <br> ▇▇▇▇▇▇▇▇▇▇▇▇▇▇ | Connected and ready to pair | Go to step 6 |
+| Strobe <br> ▁▇▁▇▁▇▁▇▁▇▁▇▁▇ | Updating its firmware | Wait, and keep it powered |
+
+{: .note }
+**A new S2 often updates its firmware the first time it connects.** The network status LED strobes during the update. The update takes several minutes, and the S2 may restart and go dark more than once. Keep the S2 powered and wait until the LED stays on. Unplugging it only makes the update start again.
+
+If the LED keeps blinking for more than a few minutes, move the S2 closer to a window. Check that your country is in the [S2 coverage list](/pages/s2-module#lte--gnss-connectivity).
+
+---
+
+## Step 6: Pair the S2 with your fleet
+
+Pairing puts your S2 in your fleet. You press the pairing button on the S2, so only someone holding the S2 can pair it.
+
+1. Check that the network status LED is on and not blinking.
+1. Run this command, with your IMEI and fleet id. The last word names the device. This guide calls it `bench`.
+
+    ```sh
+    superstack device pair <imei> <fleet_id> bench
+    ```
+
+1. The CLI prints:
+
+    ```
+    Press the pairing button on device "bench".
+    ```
+
+1. Press the pairing button on the S2 once, within 60 seconds. The network status LED blinks fast.
+1. Wait for the CLI to print:
+
+    ```
+    Paired device "bench" with fleet 12.
+    ```
+
+The network status LED now turns off, and flashes briefly whenever the S2 sends or receives data. Pairing gave your fleet the S2's €10 of starter credit.
+
+If the CLI prints `pairing timed out`, run the command again and press the button sooner.
+
+---
+
+## Step 7: Run hello world
+
+1. Create a file named `main.lua` that contains one line:
+
+    ```lua
+    print("hello world")
+    ```
+
+1. In the same folder, run:
+
+    ```sh
+    superstack dev <imei> main.lua
+    ```
+
+    `superstack dev` uploads `main.lua` to the S2, then prints the S2's log as it arrives.
+
+1. After a short wait, the log shows:
+
+    ```
+    2026-10-27T14:02:11+01:00 350457790012345 print [bench] hello world
+    ```
+
+Your S2 is set up. While `superstack dev` runs, it uploads `main.lua` again every time you save it. Press Ctrl-C to stop it. The code keeps running on the S2.
+
+You can now unplug the S2, power it from a battery, and update its code from anywhere with cellular coverage.
+
+---
+
+## Set up with an AI agent
+
+The Superstack plugin teaches Claude Code and Codex to write S2 Lua and to run the `superstack` CLI for you. You can use it in place of steps 2, 3, 6 and 7. You still install the CLI and handle the hardware yourself.
+
+1. Install the Superstack CLI, as in [step 1](#step-1-install-the-superstack-cli).
+1. Install the plugin.
+
+    In Claude Code:
+
+    ```
+    /plugin marketplace add siliconwitchery/superstack-agent-plugins
+    /plugin install superstack@siliconwitchery
+    ```
+
+    In Codex:
+
+    ```sh
+    codex plugin marketplace add siliconwitchery/superstack-agent-plugins
+    codex plugin add superstack@siliconwitchery
+    ```
+
+    Codex runs `superstack` outside its sandbox, because the CLI needs network access and saves your login. Approve it when Codex asks.
+
+1. Find the IMEI, as in [step 4](#step-4-find-the-imei).
+1. Power on the S2, and wait until the network status LED stays on, as in [step 5](#step-5-power-on-the-s2).
+1. Ask the agent, with your own IMEI:
+
+    > Log me in to Superstack with GitHub, create a fleet called "My first fleet", pair my S2 with IMEI 350457790012345, and make it print hello world.
+
+1. When the agent logs you in, enter the one-time code in your browser.
+1. When the agent asks, press the pairing button on the S2 within 60 seconds.
+
+The agent cannot enter the login code or press the pairing button for you. It does the rest.
+
+The [plugin repository](https://github.com/siliconwitchery/superstack-agent-plugins) has install steps for other agents and for claude.ai.
+
+---
+
+## Post a temperature to your server
+
+The S2 can make HTTP requests from Lua. Superstack makes each request on the S2's behalf and returns the response to Lua. This example reads an MCP9808 temperature sensor every minute and posts the reading to your server as JSON.
+
+1. Connect an [Adafruit MCP9808 breakout](https://www.adafruit.com/product/5027) to **PORTA** with a Stemma QT or Qwiic cable.
+
+1. Replace `main.lua` with this code, and set `SERVER_URL` to an endpoint on your server:
+
+    ```lua
+    local SERVER_URL = "https://example.com/temperature"
+    local MCP9808_ADDRESS = 0x18
+
+    -- Power the sensor at 3.3V, then let the supply settle
+    device.power.set_vout(3.3)
+    device.sleep(0.1)
+
+    while true do
+        local result = device.i2c.write_read(MCP9808_ADDRESS, "\x05", 2) -- ambient temperature register
+
+        if result.success then
+            local value = string.unpack(">I2", result.data)
+            local temperature = (value & 0x0FFF) / 16
+
+            if value & 0x1000 ~= 0 then -- sign bit
+                temperature = temperature - 256
+            end
+
+            local response, error = network.post(SERVER_URL, json.encode({ temperature = temperature }), {
+                headers = { ["Content-Type"] = "application/json" }
+            })
+
+            if error then
+                print("Post failed: " .. error)
+            else
+                print(string.format("Posted %.2f C, server answered %d", temperature, response.status))
+            end
+        else
+            print("No answer from the MCP9808. Check that it is on PORTA")
+        end
+
+        device.sleep(60)
+    end
+    ```
+
+1. Upload it:
+
+    ```sh
+    superstack dev <imei> main.lua
+    ```
+
+Your server receives a `POST` with a body such as `{"temperature":21.5}`. The server must have a public address, because Superstack does not connect to `localhost` or a private network.
+
+`network.post` waits for the response and returns it as `response.status` and `response.content`. When no response arrives, `error` says why, such as `timeout` or `no credit`. Each request and its response spend credit at €1 per MB.
+
+---
+
+## Turn on a motor from your project
+
+Your own project can send a message to an S2 with an HTTP `POST` to Superstack. This example turns a motor on and off when the S2 receives the message `on` or `off`.
+
+1. Connect a motor driver board, or a logic-level MOSFET, to **PORTB**. Connect its input to pin **B0**, which is PORTB pin 3, and its ground to PORTB pin 1. Power the motor from its own supply. An S2 IO pin cannot power a motor directly.
+
+1. Replace `main.lua` with this code:
+
+    ```lua
+    device.digital.set_output("B0", false)
+
+    network.assign_message_event(function(message)
+        if message == "on" then
+            device.digital.set_output("B0", true)
+        elseif message == "off" then
+            device.digital.set_output("B0", false)
+        end
+
+        print("Motor " .. message)
+    end)
+
+    -- Messages arrive only while the code runs, so keep it running
+    while true do
+        device.sleep(1)
+    end
+    ```
+
+1. Upload it:
+
+    ```sh
+    superstack dev <imei> main.lua
+    ```
+
+1. In another terminal, create a fleet key for your project:
+
+    ```sh
+    superstack key create <fleet_id> motor
+    ```
+
+    The CLI prints the fleet key once. Store it where your project can read it, because anyone who holds it can send messages to the fleet.
+
+1. Send `on` to the S2:
+
+    ```sh
+    curl -X POST "https://supernext.siliconwitchery.com/fleets/<fleet_id>/messages?imei=<imei>" \
+        -H "Authorization: Bearer <fleet_key>" \
+        --data "on"
+    ```
+
+    Superstack answers `202 Accepted` and holds the message until the S2 collects it. The S2 turns on the motor and logs `Motor on`. Send `off` to stop the motor.
+
+Leave out `imei` to send the message to every device in the fleet. A message is at most 4096 bytes and can be any text or binary, such as JSON. Superstack discards a message that the S2 has not collected within an hour. Set `expires_in` in seconds, such as `expires_in=86400`, to keep it for up to 14 days.
+
+---
+
+## Next steps
+
+- Read the [Lua reference](/pages/superstack/lua) for every function the S2 can run.
+- Read the [CLI reference](/pages/superstack/cli) to manage fleets, members, fleet keys and credit.
+- Browse the [example code](https://github.com/siliconwitchery/s2-lua-examples) for sensor drivers and complete projects.
+- Read the [S2 Module datasheet](/pages/s2-module) for the pinout, power and network coverage.

@@ -17,9 +17,9 @@ Technical documentation for all Silicon Witchery products. For the most up to da
 
 The S2 is an LTE-M IoT board with the SIM and prepaid data built in. Wire up sensors or relays, write a few lines of Lua, and the S2 sends readings to your own API and acts on your commands. Once it's bolted to the equipment, you still change its code and watch its log from your desk.
 
-[![Silicon Witchery S2 Module](/assets/images/s2-module-annotated-masthead.png)](/pages/superstack)
+[![Silicon Witchery S2 Module](/assets/images/s2-module-annotated-masthead.png)](/pages/s2-superstack)
 
-[Get started](/pages/superstack){: .btn .btn-purple}
+[Get started](/pages/s2-superstack){: .btn .btn-purple}
 [Datasheet](/pages/s2-module){: .btn .btn-purple}
 [Lua reference](/pages/superstack/lua){: .btn .btn-purple}
 [CLI reference](/pages/superstack/cli){: .btn .btn-purple}
