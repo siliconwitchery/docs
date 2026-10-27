@@ -2,7 +2,8 @@
 title: S1 MicroPython
 description: MicroPython docs for the S1 Module series products
 image: /images/annotated-micropython.png
-nav_order: 7
+nav_order: 4
+parent: S1 Series
 redirect_from:
   - /micropython/micropython/
   - /micropython/adc/

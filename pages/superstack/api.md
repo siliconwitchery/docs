@@ -1,9 +1,9 @@
 ---
-title: API Reference
-parent: Superstack Platform
-description: 
+title: Superstack API
+parent: "S2 & Superstack"
+description: API reference for reaching Superstack and your S2 Modules from your own applications.
 image: /assets/images/superstack-annotated-masthead.png
-nav_order: 2
+nav_order: 4
 ---
 
 # Superstack API Reference

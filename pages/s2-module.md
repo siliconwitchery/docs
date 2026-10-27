@@ -1,8 +1,9 @@
 ---
-title: S2 Module
+title: S2 Module datasheet
 description: Hardware datasheet for the LTE-enabled S2 Module
 image: /assets/images/s2-module-annotated-masthead.png
-nav_order: 2
+nav_order: 1
+parent: "S2 & Superstack"
 ---
 
 # S2 Module

@@ -1,9 +1,9 @@
 ---
-title: Lua Library Reference
-parent: Superstack Platform
+title: Lua reference
+parent: "S2 & Superstack"
 description: Lua scripting and library reference for Superstack IoT devices including the S2 Module
 image: /assets/images/superstack-annotated-masthead.png
-nav_order: 1
+nav_order: 2
 ---
 
 # Superstack Lua Library Reference

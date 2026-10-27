@@ -1,10 +1,11 @@
 ---
-title: S1 Module
+title: S1 Module datasheet
 description: Hardware datasheet for the S1 Bluetooth-FPGA Module.
 image: /assets/images/s1-module-annotated-masthead.png
-nav_order: 4
+nav_order: 1
+parent: S1 Series
 redirect_from:
-    - /s1-module/s1-module/
+  - /s1-module/s1-module/
 ---
 
 # S1 Module

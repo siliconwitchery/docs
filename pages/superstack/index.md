@@ -1,12 +1,15 @@
 ---
-title: Superstack Platform
-description: Documentation for the Superstack platform
+title: "S2 & Superstack"
+description: Get started with the S2 Module and Superstack. Unbox the S2, install the CLI, pair the module with a fleet and run your first Lua script.
 image: /assets/images/superstack-annotated-masthead.png
-nav_order: 3
+nav_order: 2
 has_children: true
 has_toc: false
 redirect_from:
   - /pages/superstack
+  - /pages/blog/getting-started-with-s2-superstack/
+  - /pages/blog/build-a-5g-connected-air-quality-monitor-in-minutes/
+  - /pages/blog/easy-air-quality-monitoring-with-superstack/
 ---
 
 # Superstack IoT Platform
