@@ -27,7 +27,7 @@ aux_links:
    - "https://github.com/siliconwitchery"
 
 # Footer
-footer_content: "Copyright &copy; 2022-2026 <a href=\"https://www.siliconwitchery.com\">Silicon Witchery AB</a> (<a href=\"https://www.siliconwitchery.com/privacy\">Privacy policy</a>)"
+footer_content: "&copy; <a href=\"https://www.siliconwitchery.com\">Silicon Witchery AB</a> (<a href=\"https://www.siliconwitchery.com/privacy\">Privacy policy</a>)"
 
 # SEO settings
 twitter:
