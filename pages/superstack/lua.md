@@ -50,7 +50,15 @@ device.digital.set_output("A0", true)
 device.i2c.write(0x12, "\x4F\x01", { scl_pin="B0", sda_pin="B1" })
 
 -- Calling a function with only named arguments. Note how the () can be omitted
-network.send_data{ sensor_value=31.5 }
+location.enable{ accuracy="LOW" }
+```
+
+Event handlers, such as those assigned with `device.digital.assign_input_event()`, run only while the code is running. Code that reaches the end of `main.lua` ends, and its handlers stop. To keep handling events, end `main.lua` with a loop:
+
+```lua
+while true do
+    device.sleep(1)
+end
 ```
 
 ---
@@ -71,6 +79,12 @@ The remaining standard libraries are not included, as they are superseded by sim
 - ❎ File IO functions - Replaced by the [temporary files](#temporary-files) library
 - ❎ Operating system functions - Replaced by the [timekeeping](#timekeeping) and [device information](#device-information) libraries
 - ❎ Debug library
+
+Three basic functions differ from desktop Lua:
+
+- `require` loads another code file. See [code files](#code-files)
+- `load` accepts only text, not precompiled bytecode
+- `dofile` and `loadfile` cannot open files. Use `require` instead
 
 ---
 
@@ -223,6 +237,49 @@ device.digital.unassign_input_event(pin)
 
 ---
 
+### PWM output
+
+#### Output a PWM signal on a pin
+{: .no_toc}
+
+```lua
+device.pwm.set_output(pin, duty_cycle, { frequency=1000 })
+```
+
+{: .note-title }
+
+> Parameters
+>
+> - `pin` - **string** - The pin name. E.g. `"A0"`
+> - `duty_cycle` - **number** - The percentage of each period that the pin is high. From `0` to `100`
+
+{: .note-title }
+
+> Optional parameters
+>
+> - `frequency` - **number** - The PWM frequency in Hz. From `4` to `5000000`
+
+{: .note-title }
+
+> Returns
+>
+> - **nil**
+
+{: .note }
+
+> Up to four pins can output PWM at once. Starting PWM on a fifth pin stops it on the pin that started first. Any other function that uses the pin, such as `device.digital.set_output()`, also stops it.
+
+{: .note-title }
+
+> Example
+>
+> ```lua
+> -- Dim an LED on pin A0 to 25% brightness
+> device.pwm.set_output("A0", 25, { frequency=2000 })
+> ```
+
+---
+
 ### Analog input
 
 #### Read the analog value on a pin
@@ -236,7 +293,7 @@ device.analog.get_input(pin, { acquisition_time=10 })
 
 > Parameters
 >
-> - `pin` - **string** - The pin name. Must be an analog capable pin. E.g. `"D0"`
+> - `pin` - **string** - The pin name. Must be an analog capable pin: `"C2"` to `"C4"`, or `"D0"` to `"D4"`
 
 {: .note-title }
 
@@ -273,8 +330,8 @@ device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_t
 
 > Parameters
 >
-> - `positive_pin` - **string** - The pin name of the positive pin. Must be an analog capable pin. E.g. "D0"
-> - `negative_pin` - **string** - The pin name of the negative pin. Must be an analog capable pin, and different from `positive_pin`. E.g. "D1"
+> - `positive_pin` - **string** - The pin name of the positive pin. Must be an analog capable pin. E.g. `"D0"`
+> - `negative_pin` - **string** - The pin name of the negative pin. Must be an analog capable pin, and different from `positive_pin`. E.g. `"D1"`
 
 {: .note-title }
 
@@ -286,7 +343,7 @@ device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_t
 
 > Returns
 >
-> - **number** - The voltage present across the pins in volts
+> - **number** - The voltage across the pins in volts. Negative when `negative_pin` is at the higher voltage
 
 {: .note-title }
 
@@ -304,7 +361,7 @@ device.analog.get_differential_input(positive_pin, negative_pin, { acquisition_t
 
 {: .note }
 
-> A single I2C transaction may read or write at most **8191 bytes**.
+> A single I2C transaction may read or write at most **8191 bytes**. A transaction fails, and returns `success=false`, if the device does not acknowledge or does not finish within 2 seconds.
 
 #### Read bytes from an I2C device
 {: .no_toc}
@@ -335,8 +392,8 @@ device.i2c.read(address, length, { port="PORTA", scl_pin="A1", sda_pin="A0", fre
 >
 > - **table** - A table of key-value pairs:
 >     - `success` - **boolean** - `true` if the transaction was successful, `false` otherwise
->     - `data` - **string** - The bytes read. Always of size `length` as specified in the function call
->     - `value` - **integer** - The first data byte, useful if only one byte was requested
+>     - `data` - **string** - The bytes read. Always of size `length`. Absent if `success` is `false`
+>     - `value` - **integer** - The first byte read, useful if only one byte was requested. Absent if `success` is `false` or `length` is `0`
 
 {: .note-title }
 
@@ -423,9 +480,9 @@ device.i2c.write_read(address, write_data, read_length, { port="PORTA", scl_pin=
 > Returns
 >
 > - **table** - A table of key-value pairs:
->     - `success` - **boolean** - `true` if the transaction was successful, `false` otherwise
->     - `data` - **string** - The bytes read. Always of size `read_length` as specified in the function call
->     - `value` - **integer** - The first data byte, useful if only one byte was requested
+>     - `success` - **boolean** - `true` if both the write and the read were successful, `false` otherwise
+>     - `data` - **string** - The bytes read. Always of size `read_length`. Absent if `success` is `false`
+>     - `value` - **integer** - The first byte read, useful if only one byte was requested. Absent if `success` is `false` or `read_length` is `0`
 
 {: .note-title }
 
@@ -462,14 +519,14 @@ device.i2c.scan({ port="PORTA", scl_pin="A1", sda_pin="A0", frequency=100 })
 
 > Returns
 >
-> - **nil**
+> - **nil** - The address of each device found is printed to the logs. E.g. `Device found: 0x23`
 
 {: .note-title }
 
 > Example
 >
 > ```lua
-> -- Scan a port for devices
+> -- Log the address of every device on PORTF
 > device.i2c.scan({ port="PORTF" })
 > ```
 
@@ -479,7 +536,7 @@ device.i2c.scan({ port="PORTA", scl_pin="A1", sda_pin="A0", frequency=100 })
 
 {: .note }
 
-> The pin options `sclk_pin`, `mosi_pin`, `miso_pin` and `cs_pin` must all be specified together — providing only some of them raises an error. A single transfer may read or write at most **8191 bytes**.
+> The pin options `sclk_pin`, `mosi_pin`, `miso_pin` and `cs_pin` must all be specified together. Providing only some of them raises an error. A single transfer may read or write at most **8191 bytes**.
 
 #### Write then read bytes from an SPI device
 {: .no_toc}
@@ -668,15 +725,11 @@ device.spi.transact(write_data, read_length, { sclk_pin="C0", mosi_pin="C1", mis
 
 ### UART communication
 
-{: .warning }
-
-> The UART functions are **not yet functional** in the current firmware release. Calls succeed silently but perform no UART operation. This section describes the planned interface.
-
 #### Write UART data
 {: .no_toc}
 
 ```lua
-device.uart.write(data, { baudrate=9600, tx_pin="B1", cts_pin=nil, parity=false, stop_bits=1 })
+device.uart.write(data, { tx_pin="A1", baudrate=9600, parity=false, stop_bits=1 })
 ```
 
 {: .note-title }
@@ -689,9 +742,8 @@ device.uart.write(data, { baudrate=9600, tx_pin="B1", cts_pin=nil, parity=false,
 
 > Optional parameters
 >
-> - `baudrate` - **integer** - The baudrate in bits-per-second. Can be `1200`, `2400`, `4800`, `9600`, `14400`, `19200`, `28800`, `31250`, `38400`, `56000`, `57600`, `76800`, `115200`, `230400`, `250000`, `460800`, `921600`, or `1000000`
 > - `tx_pin` - **string** - The pin name for the transmit signal. E.g. `"C1"`
-> - `cts_pin` - **string** - The pin name for the clear-to-send signal. E.g. `"C3"`. If `nil`, the signal isn't used
+> - `baudrate` - **integer** - The baudrate in bits-per-second. Can be `1200`, `2400`, `4800`, `9600`, `14400`, `19200`, `28800`, `31250`, `38400`, `56000`, `57600`, `76800`, `115200`, `230400`, `250000`, `460800`, `921600`, or `1000000`
 > - `parity` - **boolean** - If `true`, enables the parity bit
 > - `stop_bits` - **integer** - The number of stop bits. Can be `1` or `2`
 
@@ -699,7 +751,7 @@ device.uart.write(data, { baudrate=9600, tx_pin="B1", cts_pin=nil, parity=false,
 
 > Returns
 >
-> - **nil**
+> - **nil** - Returns once all the data is sent
 
 {: .note-title }
 
@@ -716,25 +768,25 @@ device.uart.write(data, { baudrate=9600, tx_pin="B1", cts_pin=nil, parity=false,
 {: .no_toc}
 
 ```lua
-device.uart.assign_read_event(terminator, handler, { baudrate=9600, rx_pin="B0", tx_pin="B1", rts_pin=nil, cts_pin=nil, parity=false, stop_bits=1 })
+device.uart.assign_read_event(terminator, handler, { rx_pin="A0", baudrate=9600, parity=false, stop_bits=1 })
 ```
 
 {: .note-title }
 
 > Parameters
 >
-> - `terminator` - **string** - The character to wait for before triggering the event. If `nil`, the event triggers for every character received
+> - `terminator` - **string** - The character to wait for before calling `handler`. If `nil`, `handler` is called with whatever data has arrived
 > - `handler` - **function** - The function to call when data is received. Called with one argument:
->     - `data` - **string** - All buffered bytes since the last event or since the event was enabled
+>     - `data` - **string** - The bytes received since the last call, including the terminator
 
 {: .note-title }
 
 > Optional parameters
 >
-> - `baudrate` - **integer** - The baudrate in bits-per-second
 > - `rx_pin` - **string** - The pin name for the receive signal. E.g. `"C0"`
-> - `rts_pin` - **string** - The pin name for the ready-to-send signal. E.g. `"C2"`. If `nil`, the signal isn't used
+> - `baudrate` - **integer** - The baudrate in bits-per-second. Takes the same values as `device.uart.write()`
 > - `parity` - **boolean** - If `true`, enables the parity bit
+> - `stop_bits` - **integer** - The number of stop bits. Can be `1` or `2`
 
 {: .note-title }
 
@@ -742,33 +794,29 @@ device.uart.assign_read_event(terminator, handler, { baudrate=9600, rx_pin="B0",
 >
 > - **nil**
 
+{: .note }
+
+> Only one UART read event can be assigned at a time. Assigning another replaces it. If 512 bytes arrive without a terminator, `handler` is called with them anyway. If more than 2048 bytes arrive before the code handles them, they are dropped.
+
 {: .note-title }
 
 > Example
 >
 > ```lua
-> -- Create a handler for receiving UART data
-> function my_receive_handler(data)
->     print("Got a new line: "..data)
-> end
->
-> device.uart.assign_read_event("\n", my_receive_handler, { baudrate=19200 })
+> -- Log each line received
+> device.uart.assign_read_event("\n", function(line)
+>     print("Got a new line: " .. line)
+> end, { baudrate=19200 })
 > ```
 
 ---
 
-#### Disable a UART read event handler
+#### Disable the UART read event handler
 {: .no_toc}
 
 ```lua
-device.uart.unassign_read_event(rx_pin)
+device.uart.unassign_read_event()
 ```
-
-{: .note-title }
-
-> Parameters
->
-> - `rx_pin` - **string** - The pin name of the receive signal. E.g. `"C0"`
 
 {: .note-title }
 
@@ -781,8 +829,8 @@ device.uart.unassign_read_event(rx_pin)
 > Example
 >
 > ```lua
-> -- Disable the event and detach the pin from the handler if no longer needed
-> device.uart.unassign_read_event("B0")
+> -- Stop receiving UART data
+> device.uart.unassign_read_event()
 > ```
 
 ---
@@ -791,18 +839,124 @@ device.uart.unassign_read_event(rx_pin)
 
 ### Networking (LTE)
 
-#### Send data to Superstack
+#### Send a GET or DELETE request to a web service
 {: .no_toc}
 
 ```lua
-network.send_data{ data }
+network.get(url, { headers=nil, callback=nil })
+network.delete(url, { headers=nil, callback=nil })
 ```
 
 {: .note-title }
 
 > Parameters
 >
-> - `data` - **table** - A table of key-value pairs. Converted to JSON when sent to Superstack. Use descriptive key names (e.g. `temperature_celsius = 43.5`) to help AI tools infer meaning
+> - `url` - **string** - The full address, starting with `https://` or `http://`, including any query string. E.g. `"https://example.com/api?city=Oslo"`
+
+{: .note-title }
+
+> Optional parameters
+>
+> - `headers` - **table** - The request headers, as names mapped to values. E.g. `{ ["Authorization"]="Bearer abc" }`
+> - `callback` - **function** - If given, the call returns at once and this function is called when the request finishes. Called with the same `response` and `error` that the call would otherwise return
+
+{: .note-title }
+
+> Returns
+>
+> - `response` - **table** - A table of key-value pairs, or `nil` if `error` is set:
+>     - `status` - **integer** - The HTTP status code. E.g. `200`
+>     - `content` - **string** - The response body
+> - `error` - **string** - `nil`, or the reason no response arrived:
+>     - `"no network"` - The request did not reach Superstack, or Superstack did not accept it
+>     - `"timeout"` - The web service did not answer in time
+>     - `"connection failed"` - Superstack could not connect to the web service
+>     - `"too large"` - The response body was longer than 4096 bytes
+>
+> With `callback`, the call returns only `error`, which is `nil`
+
+{: .note }
+
+> Superstack makes the request on the device's behalf, so the web service must have a public address. A response such as a 404 or 500 is returned in `response`, not as an `error`. A request that fails is not retried. Only one request can wait at a time, with or without `callback`, and making another raises an error.
+
+{: .note-title }
+
+> Example
+>
+> ```lua
+> local response, err = network.get("https://example.com/api/weather?city=Oslo")
+>
+> if response then
+>     print(response.status, response.content)
+> else
+>     print("Request failed: " .. err)
+> end
+> ```
+
+---
+
+#### Send a POST, PUT or PATCH request to a web service
+{: .no_toc}
+
+```lua
+network.post(url, body, { headers=nil, callback=nil })
+network.put(url, body, { headers=nil, callback=nil })
+network.patch(url, body, { headers=nil, callback=nil })
+```
+
+{: .note-title }
+
+> Parameters
+>
+> - `url` - **string** - The full address, starting with `https://` or `http://`
+> - `body` - **string** - The request body, sent unchanged. At most 4096 bytes
+
+{: .note-title }
+
+> Optional parameters
+>
+> - `headers` - **table** - The request headers, as names mapped to values
+> - `callback` - **function** - Called with `response` and `error` when the request finishes
+
+{: .note-title }
+
+> Returns
+>
+> - `response` and `error` - The same as [`network.get()`](#send-a-get-or-delete-request-to-a-web-service)
+
+{: .note }
+
+> The URL and headers fit in about 980 bytes beside a 4096-byte body. A longer request raises an error.
+
+{: .note-title }
+
+> Example
+>
+> ```lua
+> -- Send a reading as JSON without waiting for the answer
+> network.post("https://example.com/api/readings", json.encode{ temperature=21.5 }, {
+>     headers={ ["Content-Type"]="application/json" },
+>     callback=function(response, err)
+>         print(err or response.status)
+>     end,
+> })
+> ```
+
+---
+
+#### Assign an event handler for messages
+{: .no_toc}
+
+```lua
+network.assign_message_event(handler)
+```
+
+{: .note-title }
+
+> Parameters
+>
+> - `handler` - **function** - The function to call when a message arrives from your application through Superstack. Called with one argument:
+>     - `content` - **string** - The message exactly as your application sent it. At most 4096 bytes
 
 {: .note-title }
 
@@ -810,35 +964,43 @@ network.send_data{ data }
 >
 > - **nil**
 
-{: .warning }
-
-> If the Device has no network connection, the data is **dropped** — it is not buffered by the firmware. If data must survive connectivity gaps, check `network.connected()` and buffer to a [temporary file](#temporary-files) until the connection returns.
-
 {: .note }
 
-> The table must not be empty, and top-level keys must be strings. A complete encoded message may be around **1KB** — keep individual payloads below **900 bytes** to be safe, and split larger data across multiple sends. The call is synchronous and can block for a few seconds on a poor connection. If the Deployment's data allowance has been exceeded, `send_data` and `print` become inactive until the allowance resets or code is re-deployed.
+> Messages reach the device when it next checks in with Superstack, which can take up to 15 minutes in low power mode. A message that arrives while no handler is assigned, or while the code is stopped, is discarded.
 
 {: .note-title }
 
 > Example
 >
 > ```lua
-> -- A simple sensor value
-> my_sensor_value = 23.5
+> -- Switch an output from a JSON message such as {"led":true}
+> network.assign_message_event(function(content)
+>     device.digital.set_output("B1", json.decode(content).led)
+> end)
+> ```
+
+---
+
+#### Disable the message event handler
+{: .no_toc}
+
+```lua
+network.unassign_message_event()
+```
+
+{: .note-title }
+
+> Returns
 >
-> network.send_data{ temperature=my_sensor_value }
+> - **nil**
+
+{: .note-title }
+
+> Example
 >
-> -- Network send can contain any arbitrary data
-> network.send_data{
->     my_int = -42,
->     my_float = 23.1,
->     my_string = "my string",
->     my_array = {1, 2, 3, 4},
->     my_table = {
->         my_other_int = 54,
->         my_other_string = "another string"
->     }
-> }
+> ```lua
+> -- Stop handling messages. Later messages are discarded
+> network.unassign_message_event()
 > ```
 
 ---
@@ -908,12 +1070,14 @@ network.low_power_mode(enabled)
 {: .no_toc}
 
 ```lua
-location.enable({ accuracy="HIGH", power_saving="OFF", tracking_interval=1 })
+location.enable{ accuracy="HIGH", power_saving="OFF", tracking_interval=1 }
 ```
 
 {: .note-title }
 
 > Optional parameters
+>
+> The table itself is required. Pass `{}` to use every default
 >
 > - `accuracy` - **string** - The accuracy of the fix. `"LOW"` requires three satellites, `"HIGH"` requires four satellites
 > - `power_saving` - **string** - The power saving level. Can be `"OFF"`, `"MEDIUM"`, or `"MAX"`. Higher power saving reduces accuracy and increases time to fix
@@ -955,13 +1119,13 @@ location.get_latest()
 > Returns
 >
 > - **table** - A table of key-value pairs:
->     - `valid` - **boolean** - `true` if the GPS data is valid, or `false` otherwise
->     - `latitude` - **number** - The current latitude
->     - `longitude` - **number** - The current longitude
->     - `altitude` - **number** - The current altitude
->     - `accuracy` - **number** - The location and altitude accuracy
->     - `speed` - **number** - The current speed
->     - `speed_accuracy` - **number** - The speed accuracy
+>     - `valid` - **boolean** - `true` if the latest fix is valid. If `false`, the location and speed values are from the last valid fix, or `0` before the first
+>     - `latitude` - **number** - The latitude in degrees
+>     - `longitude` - **number** - The longitude in degrees
+>     - `altitude` - **number** - The altitude in meters
+>     - `accuracy` - **number** - The location accuracy in meters
+>     - `speed` - **number** - The horizontal speed in meters per second
+>     - `speed_accuracy` - **number** - The speed accuracy in meters per second
 >     - `satellites` - **table** - A table of key-value pairs:
 >         - `tracked` - **integer** - The number of satellites currently being tracked
 >         - `in_fix` - **integer** - The number of satellites currently being used for measurement
@@ -973,25 +1137,19 @@ location.get_latest()
 >
 > ```lua
 > -- GPS must be enabled before getting a location fix
-> location.enable{ accuracy="HIGH", power_saving="OFF" }
+> location.enable{}
 >
-> -- Avoid sending logs or data while waiting for a fix — network
-> -- activity competes for the modem hardware and delays acquisition
+> -- Avoid network activity while waiting for a fix. It competes
+> -- for the modem hardware and delays acquisition
 > device.sleep(60)
 >
-> local l = location.get_latest()
+> local fix = location.get_latest()
 >
-> print("valid: " .. tostring(l["valid"]))
-> print("latitude: " .. tostring(l["latitude"]))
-> print("longitude: " .. tostring(l["longitude"]))
-> print("altitude: " .. tostring(l["altitude"]))
-> print("accuracy: " .. tostring(l["accuracy"]))
-> print("speed: " .. tostring(l["speed"]))
-> print("speed_accuracy: " .. tostring(l["speed_accuracy"]))
->
-> print("satellites tracked: " .. tostring(l["satellites"]["tracked"]))
-> print("satellites in fix: " .. tostring(l["satellites"]["in_fix"]))
-> print("satellites unhealthy: " .. tostring(l["satellites"]["unhealthy"]))
+> if fix.valid then
+>     print(string.format("%.5f, %.5f", fix.latitude, fix.longitude))
+> else
+>     print("No fix yet. Tracking " .. fix.satellites.tracked .. " satellites")
+> end
 > ```
 
 ---
@@ -1033,14 +1191,14 @@ location.disable()
 {: .no_toc}
 
 ```lua
-print(log)
+print(...)
 ```
 
 {: .note-title }
 
 > Parameters
 >
-> - `log` - **string** - String to print
+> - `...` - **any** - One or more values to print. They are converted to strings and joined with tabs into one log
 
 {: .note-title }
 
@@ -1056,9 +1214,8 @@ print(log)
 > -- Simple print
 > print("hello world")
 >
-> -- Print variables
-> local my_num = 4 + 3
-> print(my_num)
+> -- Print several values in one log, separated by tabs
+> print("count", 4 + 3)
 >
 > -- C printf style formatted prints
 > print(string.format("pi = %.4f", math.pi))
@@ -1066,7 +1223,7 @@ print(log)
 
 {: .note }
 
-> Each log message is truncated to **1023 characters**. Prefer a single string argument: `print("a", "b")` produces **separate log entries** for each argument and separator, so use `string.format` or concatenation to combine values into one message. Logs stop being sent once the Deployment's data allowance is exceeded.
+> `print` never waits for the network. Logs wait on the device in a 2048-byte buffer until they are sent, and a log that does not fit is dropped. Logs are not stored while the fleet has no credit.
 
 ---
 
@@ -1102,6 +1259,42 @@ device.sleep(time)
 > ```lua
 > -- Sleep for 1.5 seconds
 > device.sleep(1.5)
+> ```
+
+---
+
+#### Sleep for a short duration
+{: .no_toc}
+
+```lua
+device.sleep_ms(time)
+```
+
+{: .note-title }
+
+> Parameters
+>
+> - `time` - **integer** - The duration to sleep in milliseconds. From `0` to `1000`
+
+{: .note-title }
+
+> Returns
+>
+> - **nil**
+
+{: .note }
+
+> Event handlers do not fire during `device.sleep_ms()`, and stopping the code waits for it to return. Use `device.sleep()` for anything longer.
+
+{: .note-title }
+
+> Example
+>
+> ```lua
+> -- Pulse pin B1 high for 5 milliseconds
+> device.digital.set_output("B1", true)
+> device.sleep_ms(5)
+> device.digital.set_output("B1", false)
 > ```
 
 ---
@@ -1230,6 +1423,43 @@ device.power.set_vout(voltage)
 
 ---
 
+### Code files
+
+#### Run another code file
+{: .no_toc}
+
+```lua
+require(name)
+```
+
+{: .note-title }
+
+> Parameters
+>
+> - `name` - **string** - The path of a code file in the bundle, without `.lua`. E.g. `"sensors"` for `sensors.lua`, or `"lib/sensors"` for `lib/sensors.lua`
+
+{: .note-title }
+
+> Returns
+>
+> - **any** - The value the file returns
+
+{: .note }
+
+> Each call runs the file again, so call `require` once per file and keep the result. Files can require other files up to 8 levels deep.
+
+{: .note-title }
+
+> Example
+>
+> ```lua
+> -- sensors.lua returns a table of functions
+> local sensors = require("sensors")
+> print(sensors.read_temperature())
+> ```
+
+---
+
 ### Temporary files
 
 {: .note }
@@ -1256,19 +1486,14 @@ storage.open()
 > ```lua
 > -- Buffer readings in a temporary file while the network is down
 > local readings = storage.open()
-> local count = 0
 >
 > while not network.connected() do
 >     readings:append(device.power.battery.get_voltage() .. "\n")
->     count = count + 1
 >     device.sleep(60)
 > end
 >
 > -- Send the buffered readings once the network returns
-> for i = 1, count do
->     network.send_data{ battery_voltage=tonumber(readings:read{ line=i }) }
-> end
->
+> network.post("https://example.com/api/readings", readings:read{ length=4096 })
 > readings:close()
 > ```
 
@@ -1365,13 +1590,13 @@ handle:read{ line=1, length=nil, offset=0 }
 >
 > - `line` - **integer** - The line index to return. `1` is the first line, `2` the second, etc. Negative values index from the end: `-1` is the last line, `-2` the second to last, etc. Cannot be `0`, and cannot be combined with `length` or `offset`
 > - `length` - **integer** - The number of bytes to read. Cannot be used with `line`. If longer than the file, a shorter result is returned
-> - `offset` - **integer** - When `length` is specified, read from this byte offset within the file
+> - `offset` - **integer** - Read from this byte offset within the file. Requires `length`
 
 {: .note-title }
 
 > Returns
 >
-> - **string** - The contents read
+> - **string** - The contents read. A line is returned without its newline. `nil` if the line does not exist
 
 {: .note-title }
 
@@ -1455,15 +1680,15 @@ time.get_unix_time()
 {: .no_toc}
 
 ```lua
-time.get_time_date({ unix_epoch, timezone })
+time.get_time_date({ unix_epoch=nil, timezone="+00:00" })
 ```
 
 {: .note-title }
 
 > Optional parameters
 >
-> - `unix_epoch` - **number** - A Unix timestamp to convert to a time and date
-> - `timezone` - **string** - The timezone offset. E.g. `"+02:00"` or `"-07:30"`
+> - `unix_epoch` - **integer** - A Unix timestamp in milliseconds to convert, as returned by `time.get_unix_time()`. If `nil`, the current time is used, and an error is raised if the time is not yet known
+> - `timezone` - **string** - The timezone offset, from `"-12:00"` to `"+14:00"`. E.g. `"+02:00"` or `"-07:30"`
 
 {: .note-title }
 
@@ -1473,8 +1698,8 @@ time.get_time_date({ unix_epoch, timezone })
 >     - `year` - **integer** - The current year
 >     - `month` - **integer** - The current month
 >     - `day` - **integer** - The current day
->     - `yearday` - **integer** - The current day of the year
->     - `weekday` - **integer** - The current day of the week since Sunday
+>     - `yearday` - **integer** - The days since 1 January. `0` on 1 January
+>     - `weekday` - **integer** - The days since Sunday. `0` on Sunday
 >     - `hour` - **integer** - The current hour
 >     - `minute` - **integer** - The current minute
 >     - `second` - **integer** - The current second
@@ -1529,7 +1754,7 @@ device.FIRMWARE_VERSION
 
 > Returns
 >
-> - **string** - A string representing the current firmware version. E.g. `"0.1.0+0"`
+> - **string** - A string representing the current firmware version. E.g. `"3.0.0"`
 
 {: .note-title }
 
@@ -1537,4 +1762,77 @@ device.FIRMWARE_VERSION
 >
 > ```lua
 > print(device.FIRMWARE_VERSION)
+> ```
+
+---
+
+### JSON
+
+#### Encode a value as JSON
+{: .no_toc}
+
+```lua
+json.encode(value)
+```
+
+{: .note-title }
+
+> Parameters
+>
+> - `value` - **any** - A table, string, number, boolean or `json.null`. A table with only the keys `1` to `n` becomes an array, and any other table becomes an object. An empty table becomes `{}`
+
+{: .note-title }
+
+> Returns
+>
+> - **string** - The JSON text
+
+{: .note }
+
+> Tables can nest up to 16 levels deep. A value that JSON cannot hold, such as a function, raises an error.
+
+{: .note-title }
+
+> Example
+>
+> ```lua
+> -- Prints {"temperature":21.5,"readings":[1,2,3]}, with the keys in any order
+> print(json.encode{ temperature=21.5, readings={1, 2, 3} })
+> ```
+
+---
+
+#### Decode JSON text
+{: .no_toc}
+
+```lua
+json.decode(text)
+```
+
+{: .note-title }
+
+> Parameters
+>
+> - `text` - **string** - The JSON text
+
+{: .note-title }
+
+> Returns
+>
+> - **any** - The decoded value. Objects and arrays become tables, and `null` becomes `json.null`
+
+{: .note }
+
+> Text that is not valid JSON raises an error. Use `pcall` to handle text that might be invalid.
+
+{: .note-title }
+
+> Example
+>
+> ```lua
+> local ok, message = pcall(json.decode, '{"led":true,"level":null}')
+>
+> if ok and message.level == json.null then
+>     print("No level given")
+> end
 > ```
