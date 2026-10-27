@@ -1,7 +1,7 @@
 ---
 title: Superstack API
 parent: "S2 & Superstack"
-description: API reference for sending messages from your own application to one S2 Module, several, or a whole fleet through Superstack.
+description: API reference for sending messages from your application to S2 Modules, and for answering their requests, through Superstack.
 image: /assets/images/superstack-annotated-masthead.png
 nav_order: 4
 ---
@@ -12,6 +12,8 @@ nav_order: 4
 ---
 
 Your application sends data to S2 Modules with an HTTP `POST` to Superstack. Each request carries one message of up to 4096 bytes, such as a command, a setting or a JSON document. Superstack holds the message until each device collects it, and the Lua on the device receives it through [`network.assign_message_event`](/pages/superstack/lua#assign-an-event-handler-for-messages).
+
+Lua on the device sends data to your application with an HTTP request, which Superstack makes on the device's behalf. [Receive requests from a device](#receive-requests-from-a-device) describes what your application receives and how it must answer.
 
 To manage fleets, devices and code, use the [Superstack CLI](/pages/superstack/cli).
 
@@ -45,6 +47,8 @@ A fleet key lets your application send messages to the devices in one fleet. The
 
 A fleet key reaches only its own fleet. It works until you revoke it or delete the fleet. To revoke one, find its id with `superstack key list`, then run `superstack key revoke <key_id>`.
 
+A fleet can have at most 100 fleet keys, and a label is at most 100 characters.
+
 ---
 
 ## Send a message
@@ -71,7 +75,7 @@ POST https://supernext.siliconwitchery.com/fleets/{fleet_id}/messages
 {: .note-title }
 > Response (202 Accepted)
 >
-> The body is empty. Superstack has queued the message for every device the request names, but no device has received it yet.
+> The body is empty. Superstack has queued the message for every device the request names, but no device has received it yet. A request without `imei` to a fleet with no paired devices also gets `202 Accepted`, and queues nothing.
 
 Send `on` to one device:
 
@@ -145,16 +149,32 @@ The [Lua reference](/pages/superstack/lua#assign-an-event-handler-for-messages) 
 
 ---
 
-## Errors
+## Message errors
 
 Superstack refuses the whole request when any part of it fails, and queues nothing. The response body is a plain-text sentence that says what went wrong.
 
 | Status | Cause |
 | --- | --- |
-| `400 Bad Request` | An `imei` is not 15 digits, an `imei` names a device that is not paired with the fleet, or `expires_in` is outside 30 to 1209600 |
-| `401 Unauthorized` | The request has no fleet key, or the fleet key has been revoked or its fleet deleted |
+| `400 Bad Request` | An `imei` is not 15 digits, an `imei` names a device that is not paired with the fleet, `expires_in` is not a whole number from 30 to 1209600, or Superstack could not read the message |
+| `401 Unauthorized` | The request has no fleet key, or the fleet key is not valid, such as one that has been revoked or whose fleet has been deleted |
 | `403 Forbidden` | The fleet key belongs to another fleet |
-| `404 Not Found` | The fleet id in the path is not a number |
+| `404 Not Found` | The fleet id in the path is not a whole number above 0 |
 | `413 Content Too Large` | The message is longer than 4096 bytes |
 | `429 Too Many Requests` | A device the request names already has 100 messages queued. Try again after it collects some |
-| `503 Service Unavailable` | Superstack could not queue the message. Try again |
+| `503 Service Unavailable` | Superstack could not check the fleet key or queue the message. Try again |
+
+---
+
+## Receive requests from a device
+
+Lua on the device calls a function such as [`network.post()`](/pages/superstack/lua#send-a-post-put-or-patch-request-to-a-web-service), and Superstack makes the request to your application. Your application receives the method, URL, headers and body that the Lua code set, with a body of at most 4096 bytes.
+
+Your application must meet these limits, or Lua receives an error in place of the response:
+
+- **Public address.** Superstack connects only to public addresses, including after a redirect. It never connects to `localhost` or a private network. Lua receives `connection failed`.
+- **8 seconds.** Superstack waits 8 seconds for the whole response, including any redirects. Lua receives `timeout`.
+- **4096 bytes.** The response body is at most 4096 bytes. Lua receives `too large`.
+
+Superstack follows redirects. Lua receives the status code and body of the final response, but not its headers. A response with any status code, such as `404` or `500`, reaches Lua as a response, not as an error.
+
+A request that fails is not retried.

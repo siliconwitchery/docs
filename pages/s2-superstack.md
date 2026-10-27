@@ -57,7 +57,7 @@ On macOS:
 brew install --cask siliconwitchery/tap/superstack
 ```
 
-On Windows:
+On Windows, with [Scoop](https://scoop.sh) and Git installed:
 
 ```sh
 scoop bucket add siliconwitchery https://github.com/siliconwitchery/scoop-bucket
@@ -102,7 +102,7 @@ The CLI prints its version number, such as `0.0.4`.
 
 ## Step 3: Create a fleet
 
-A fleet is a group of devices that share code, members and credit. Your S2 must belong to a fleet before it can run code.
+A fleet is a group of devices with its own members, fleet keys and credit. Your S2 must belong to a fleet before it can run code.
 
 ```sh
 superstack fleet create "My first fleet"
@@ -195,15 +195,21 @@ If the CLI prints `pairing timed out`, run the command again and press the butto
     superstack dev <imei> main.lua
     ```
 
-    `superstack dev` uploads `main.lua` to the S2, then prints the S2's log as it arrives.
+    `superstack dev` uploads `main.lua` to the S2, then prints the S2's log as it arrives. It first prints:
+
+    ```
+    Uploaded 1 file to device 350457790012345. It arrives at its next check-in.
+    ```
 
 1. After a short wait, the log shows:
 
     ```
+    2026-10-27T14:02:11+01:00 350457790012345 state [bench] Code started
     2026-10-27T14:02:11+01:00 350457790012345 print [bench] hello world
+    2026-10-27T14:02:11+01:00 350457790012345 state [bench] Code ended
     ```
 
-Your S2 is set up. While `superstack dev` runs, it uploads `main.lua` again every time you save it. Press Ctrl-C to stop it. The code keeps running on the S2.
+Your S2 is set up. The code ends after its one line, so the log shows `Code ended`. While `superstack dev` runs, it uploads `main.lua` again every time you save it, and the S2 runs the new code. Press Ctrl-C to stop `superstack dev`. Code that keeps running, such as a loop, carries on after you stop it.
 
 You can now unplug the S2, power it from a battery, and update its code from anywhere with cellular coverage.
 
@@ -299,7 +305,7 @@ The S2 can make HTTP requests from Lua. Superstack makes each request on the S2'
 
 Your server receives a `POST` with a body such as `{"temperature":21.5}`. The server must have a public address, because Superstack does not connect to `localhost` or a private network.
 
-`network.post` waits for the response and returns it as `response.status` and `response.content`. When no response arrives, `error` says why, such as `timeout` or `no credit`. Each request and its response spend credit at €1 per MB.
+`network.post` waits up to 8 seconds for the response and returns it as `response.status` and `response.content`. The [API reference](/pages/superstack/api#receive-requests-from-a-device) lists what your server must do to answer. When no response arrives, `error` says why, such as `timeout` or `no credit`. Each request and its response spend credit at €1 per MB.
 
 ---
 
@@ -349,7 +355,7 @@ Your own project can send a message to an S2 with an HTTP `POST` to Superstack. 
     ```sh
     curl -X POST "https://supernext.siliconwitchery.com/fleets/<fleet_id>/messages?imei=<imei>" \
         -H "Authorization: Bearer <fleet_key>" \
-        --data "on"
+        --data-binary "on"
     ```
 
     Superstack answers `202 Accepted` and holds the message until the S2 collects it. The S2 turns on the motor and logs `Motor on`. Send `off` to stop the motor.

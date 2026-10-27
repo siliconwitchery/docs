@@ -14,7 +14,7 @@ redirect_from:
 Active
 {: .label .label-blue }
 
-The S1 Popout board is a straightforward development to help you get started with the [S1 Module](https://www.siliconwitchery.com/module).
+The S1 Popout board is a straightforward development to help you get started with the [S1 Module](https://www.siliconwitchery.com/s1-module).
 
 ---
 
@@ -43,7 +43,7 @@ The built-in S1 Module is designed for IoT projects where performance is key, ye
 
 Additionally, the module breaks out high speed IO and several adjustable power rails so that your design can remain compact.
 
-To read more about the S1 Module, be sure to check out the full datasheet [here](/s1-module/s1-module).
+To read more about the S1 Module, be sure to check out the full datasheet [here](/pages/s1-module).
 
 ---
 

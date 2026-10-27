@@ -8,18 +8,9 @@ If you'd like to make extensive edits, you can also clone this repository locall
 
 ## Running locally
 
-This project uses [Nix](https://nixos.org) to provide a reproducible toolchain. It works on NixOS, Linux and MacOS.
+This project uses a [Nix](https://nixos.org) flake to provide its toolchain. The flake supports x86-64 Linux only.
 
-1. On NixOS, simply add `programs.direnv.enable = true;` to your `configuration.nix`.
-
-1. On Linux/MacOS setup Nix:
-
-    ```sh
-    sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
-    nix profile install nixpkgs#direnv --extra-experimental-features nix-command --extra-experimental-features flakes
-    echo 'eval "$(direnv hook zsh)"' >> $ZDOTDIR/.zshrc
-    exec zsh
-    ```
+1. Install Nix with flakes enabled, and [direnv](https://direnv.net).
 
 1. Clone this repository:
 
@@ -27,7 +18,7 @@ This project uses [Nix](https://nixos.org) to provide a reproducible toolchain. 
     git clone git@github.com:siliconwitchery/docs.git
     ```
 
-1. Enable `direnv`:
+1. Enable `direnv`, which enters the development shell and installs the gems:
 
     ```sh
     cd docs
@@ -37,7 +28,7 @@ This project uses [Nix](https://nixos.org) to provide a reproducible toolchain. 
 1. Start the live server:
 
     ```sh
-    start
+    bundle exec jekyll serve --livereload --port 4001
     ```
 
-1. Open <http://localhost:4000>. The site rebuilds and refreshes your browser automatically as you edit.
+1. Open <http://localhost:4001>. The site rebuilds and refreshes your browser automatically as you edit.

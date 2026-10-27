@@ -1,7 +1,7 @@
 ---
 title: Lua reference
 parent: "S2 & Superstack"
-description: Lua scripting and library reference for Superstack IoT devices including the S2 Module
+description: Lua library reference for Superstack IoT devices including the S2 Module
 image: /assets/images/superstack-annotated-masthead.png
 nav_order: 2
 ---
@@ -11,7 +11,7 @@ nav_order: 2
 
 ---
 
-Superstack devices such as the S2 Module run Lua—an incredibly lightweight, efficient and simple to learn language.
+Superstack devices such as the S2 Module run Lua, a lightweight, efficient and simple to learn language.
 
 The built-in Lua libraries provide complete hardware and network level functionality to **read sensors**, **report data**, **compute on-device algorithms** and take actions such as **driving IO** automatically.
 
@@ -19,10 +19,10 @@ The Lua engine is almost as performant as writing native C firmware as it's a li
 
 Compared to writing firmware, the Superstack Lua engine allows for remote and realtime development of IoT code without the need for compiler tools, hardware debuggers or physical access to the device. There's also no risk of bricking devices as Lua runs in a container, and is always updatable and isolated from sensitive internal functions such as network management.
 
-Complete ready-to-run scripts are available in the example repository, and if you write code with an AI assistant, our plugin for Claude teaches it this entire reference.
+Complete, ready-to-run code is in the example repository. If you write code with an AI agent, the Superstack plugin for Claude Code and Codex teaches it this reference.
 
-[Example scripts](https://github.com/siliconwitchery/s2-lua-examples){: .btn .btn-purple}
-[AI plugin for Claude](https://github.com/siliconwitchery/claude-plugins){: .btn}
+[Example code](https://github.com/siliconwitchery/s2-lua-examples){: .btn .btn-purple}
+[Agent plugin](https://github.com/siliconwitchery/superstack-agent-plugins){: .btn}
 
 ---
 
@@ -61,6 +61,10 @@ while true do
 end
 ```
 
+An error that the code doesn't catch with `pcall` ends the code. The log shows `Code crashed:` followed by the error, and the code's run state becomes crashed. An error inside a handler or a request callback ends the code the same way. Handlers and callbacks can't call `coroutine.yield()`, and doing so raises an error. To run the code again, upload it or run `superstack device start <imei>`.
+
+If the code makes the S2 restart, the S2 doesn't run it again after the restart. The log shows `Code crashed the device, so it was not started again`.
+
 ---
 
 ## Standard libraries
@@ -79,6 +83,7 @@ The remaining standard libraries are not included, as they are superseded by sim
 - ❎ File IO functions - Replaced by the [temporary files](#temporary-files) library
 - ❎ Operating system functions - Replaced by the [timekeeping](#timekeeping) and [device information](#device-information) libraries
 - ❎ Debug library
+- ❎ Package library - `require` loads [code files](#code-files) without it
 
 Three basic functions differ from desktop Lua:
 
@@ -111,6 +116,10 @@ device.digital.set_output(pin, value)
 > Returns
 >
 > - **nil**
+
+{: .note }
+
+> Setting an output on a pin removes any input event handler assigned to the pin.
 
 {: .note-title }
 
@@ -147,6 +156,10 @@ device.digital.get_input(pin, { pull="PULL_DOWN" })
 > Returns
 >
 > - **boolean** - `true` if the pin is high, `false` if low
+
+{: .note }
+
+> Reading a pin removes any input event handler assigned to the pin.
 
 {: .note-title }
 
@@ -519,7 +532,7 @@ device.i2c.scan({ port="PORTA", scl_pin="A1", sda_pin="A0", frequency=100 })
 
 > Returns
 >
-> - **nil** - The address of each device found is printed to the logs. E.g. `Device found: 0x23`
+> - **nil** - The scan logs `Scanning for I2C devices`, then `Device found: 0x23` for each device it finds, then `I2C scan complete`
 
 {: .note-title }
 
@@ -851,13 +864,13 @@ network.delete(url, { headers=nil, callback=nil })
 
 > Parameters
 >
-> - `url` - **string** - The full address, starting with `https://` or `http://`, including any query string. E.g. `"https://example.com/api?city=Oslo"`
+> - `url` - **string** - The full address, starting with `https://` or `http://`, including any query string. E.g. `"https://example.com/api?city=Oslo"`. It must name a host, and any port must be a number. It can't contain control characters or invalid UTF-8, and outside the query a `%` must start an escape such as `%20`
 
 {: .note-title }
 
 > Optional parameters
 >
-> - `headers` - **table** - The request headers, as names mapped to values. E.g. `{ ["Authorization"]="Bearer abc" }`
+> - `headers` - **table** - The request headers, as names mapped to values. E.g. `{ ["Authorization"]="Bearer abc" }`. A name can contain only letters, digits and ``!#$%&'*+-.^_`|~``. A value can't contain control characters other than tab, or invalid UTF-8
 > - `callback` - **function** - If given, the call returns at once and this function is called when the request finishes. Called with the same `response` and `error` that the call would otherwise return
 
 {: .note-title }
@@ -869,7 +882,7 @@ network.delete(url, { headers=nil, callback=nil })
 >     - `content` - **string** - The response body
 > - `error` - **string** - `nil`, or the reason no response arrived:
 >     - `"no network"` - The request did not reach Superstack, or Superstack did not accept it
->     - `"timeout"` - The web service did not answer in time
+>     - `"timeout"` - The web service did not answer within 8 seconds, or its answer did not reach the device
 >     - `"connection failed"` - Superstack could not connect to the web service
 >     - `"too large"` - The response body was longer than 4096 bytes
 >
@@ -877,7 +890,9 @@ network.delete(url, { headers=nil, callback=nil })
 
 {: .note }
 
-> Superstack makes the request on the device's behalf, so the web service must have a public address. A response such as a 404 or 500 is returned in `response`, not as an `error`. A request that fails is not retried. Only one request can wait at a time, with or without `callback`, and making another raises an error.
+> Superstack makes the request on the device's behalf, so the web service must have a public address. Superstack follows redirects. A response such as a 404 or 500 is returned in `response`, not as an `error`. A request that fails is not retried. Only one request can wait at a time, with or without `callback`, and making another raises an error.
+>
+> A `url` or `headers` that breaks a rule above raises an error that names the rule. The URL and headers fit in about 5000 bytes, and a longer request raises the error `url and headers are too long`.
 
 {: .note-title }
 
@@ -908,14 +923,14 @@ network.patch(url, body, { headers=nil, callback=nil })
 
 > Parameters
 >
-> - `url` - **string** - The full address, starting with `https://` or `http://`
+> - `url` - **string** - The full address, with the same rules as [`network.get()`](#send-a-get-or-delete-request-to-a-web-service)
 > - `body` - **string** - The request body, sent unchanged. At most 4096 bytes
 
 {: .note-title }
 
 > Optional parameters
 >
-> - `headers` - **table** - The request headers, as names mapped to values
+> - `headers` - **table** - The request headers, with the same rules as [`network.get()`](#send-a-get-or-delete-request-to-a-web-service)
 > - `callback` - **function** - Called with `response` and `error` when the request finishes
 
 {: .note-title }
@@ -926,7 +941,7 @@ network.patch(url, body, { headers=nil, callback=nil })
 
 {: .note }
 
-> The URL and headers fit in about 980 bytes beside a 4096-byte body. A longer request raises an error.
+> The URL and headers fit in about 980 bytes beside a 4096-byte body. A longer request raises the error `url and headers are too long`.
 
 {: .note-title }
 
@@ -967,6 +982,8 @@ network.assign_message_event(handler)
 {: .note }
 
 > Messages reach the device when it next checks in with Superstack, which can take up to 15 minutes in low power mode. A message that arrives while no handler is assigned, or while the code is stopped, is discarded.
+>
+> The device holds messages that the handler hasn't run for yet in 4098 bytes, and each message takes 2 bytes more than its length. A message that doesn't fit stays queued in Superstack until a later check-in.
 
 {: .note-title }
 
@@ -1052,6 +1069,8 @@ network.low_power_mode(enabled)
 {: .warning }
 
 > Enabling PSM introduces up to **15 minutes of latency** for code updates from Superstack. To return to real-time updates, call `network.low_power_mode(false)` and wait up to 15 minutes for the modem to re-register.
+>
+> PSM stays on after the code ends, crashes or is stopped, until code turns it off or the S2 restarts.
 
 {: .note-title }
 
@@ -1092,6 +1111,8 @@ location.enable{ accuracy="HIGH", power_saving="OFF", tracking_interval=1 }
 {: .warning }
 
 > `location.enable()` automatically activates PSM to allow the modem to share hardware with the GPS. This introduces up to **15 minutes of latency** for code updates from Superstack. To return to real-time updates, call `location.disable()` followed by `network.low_power_mode(false)`, then wait up to 15 minutes.
+>
+> GPS and PSM stay on after the code ends, crashes or is stopped, until code turns them off or the S2 restarts.
 
 {: .note-title }
 
@@ -1169,7 +1190,7 @@ location.disable()
 
 {: .warning }
 
-> Disabling GPS alone does **not** restore real-time code updates. PSM remains active until `network.low_power_mode(false)` is called. After calling it, wait up to 15 minutes for the modem to re-register before Superstack can push updates in real time.
+> Disabling GPS alone does **not** restore real-time code updates. PSM remains active until `network.low_power_mode(false)` is called. After calling it, wait up to 15 minutes for the modem to re-register before code updates arrive in real time.
 
 {: .note-title }
 
@@ -1313,7 +1334,7 @@ device.power.battery.set_charger_cv_cc(voltage, current)
 > Parameters
 >
 > - `voltage` - **number** - The termination voltage. Can be `3.50`, `3.55`, `3.60`, `3.65`, `4.00`, `4.05`, `4.10`, `4.15`, `4.20`, `4.25`, `4.30`, `4.35`, `4.40`, or `4.45`
-> - `current` - **number** - The constant charge current in mA. Must be between `32` and `800` in steps of `2`
+> - `current` - **integer** - The constant charge current in mA. Must be between `32` and `800` in steps of `2`
 
 {: .note-title }
 
@@ -1323,7 +1344,7 @@ device.power.battery.set_charger_cv_cc(voltage, current)
 
 {: .note }
 
-> This setting reverts to the firmware default (**3.50V** termination, **32mA** charge current) at reboot. Configure the charger near the top of your code so that it is reapplied whenever the script restarts.
+> This setting reverts to the firmware default (**3.50V** termination, **32mA** charge current) at reboot. Configure the charger near the top of your code so that it is reapplied whenever the code restarts.
 
 {: .note-title }
 
@@ -1464,7 +1485,7 @@ require(name)
 
 {: .note }
 
-> A temporary file is created by `storage.open()` and reached only through the handle it returns. Closing the handle deletes the file, and every temporary file is deleted when the code starts, stops or restarts. Storage is shared with the code files in the bundle, and provides roughly **48kB** of usable space in total.
+> A temporary file is created by `storage.open()` and reached only through the handle it returns. Closing the handle deletes the file, and every temporary file is deleted when the code starts, ends, crashes, stops or restarts. Temporary files share storage with the code files in the bundle. The storage is **96KB**, and the file system uses part of it.
 
 #### Open a temporary file
 {: .no_toc}
@@ -1823,7 +1844,7 @@ json.decode(text)
 
 {: .note }
 
-> Text that is not valid JSON raises an error. Use `pcall` to handle text that might be invalid.
+> Text that is not valid JSON, or that nests more than 16 levels deep, raises an error. Use `pcall` to handle text that might be invalid.
 
 {: .note-title }
 

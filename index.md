@@ -41,7 +41,7 @@ The S1 Module combines Bluetooth, an FPGA and battery management in a 6 x 11.5 m
 
 ## Let us build it for you
 
-Silicon Witchery designs IoT devices, with LTE-M cellular and Bluetooth at its core. We take your product from the first schematic to final testing at the lab, down to the antenna, firmware and power budget. When the S1 or S2 Module fits, we build on it to save you time.
+Silicon Witchery designs IoT devices, with LTE-M cellular and Bluetooth at its core. We take your product from the first schematic to final testing at the lab, down to the antenna, firmware and power budget. When our S1 or S2 module fits, we can build on it to save you time.
 
 [Book a free 30-minute call](https://cal.com/siliconwitchery/30min){: .btn .btn-purple}
 [IoT product development services](https://www.siliconwitchery.com/services){: .btn}

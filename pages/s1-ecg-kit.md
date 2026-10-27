@@ -1,7 +1,7 @@
 ---
 title: S1 ECG Kit
 description: An all-in-kit to build and test heart algorithms with ease.
-image: /assets/images/annotated-ecg-kit.png
+image: /assets/images/s1-ecg-kit-annotated-masthead.png
 nav_order: 3
 parent: S1 Series
 redirect_from:
@@ -52,7 +52,7 @@ The built-in S1 Module is designed for IoT projects where performance is key, ye
 
 Additionally, the module breaks out high speed IO and several adjustable power rails so that your design can remain compact.
 
-To read more about the S1 Module, be sure to check out the full datasheet [here](/s1-module/s1-module).
+To read more about the S1 Module, be sure to check out the full datasheet [here](/pages/s1-module).
 
 ---
 
@@ -134,7 +134,7 @@ The first `make` command will build the Verilog project, and convert the binary 
 
 The second `make` command builds the nRF code, and flashes the module using the J-Link debugger.
 
-Once you're up and running, you can begin customizing the application to your needs. Be sure to check out the full [S1 Datasheet](/s1-module/s1-module) to learn more about the module, as well as its features.
+Once you're up and running, you can begin customizing the application to your needs. Be sure to check out the full [S1 Datasheet](/pages/s1-module) to learn more about the module, as well as its features.
 
 ---
 

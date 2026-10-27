@@ -1,7 +1,7 @@
 ---
 title: S1 MicroPython
 description: MicroPython docs for the S1 Module series products
-image: /images/annotated-micropython.png
+image: /assets/images/s1-micropython-annotated-masthead.png
 nav_order: 4
 parent: S1 Series
 redirect_from:
@@ -58,7 +58,7 @@ MicroPython works great on all of our S1 products.
 
 1. Download the latest `.hex` release from [here](https://github.com/siliconwitchery/s1-micropython/releases) 📁 <!-- TODO add link-->
 
-1. You'll need a [J-Link compatible programmer](https://docs.siliconwitchery.com/s1-popout-board/s1-popout-board/#programming) and the [J-Link software](https://www.segger.com/downloads/jlink/) installed 
+1. You'll need a [J-Link compatible programmer](/pages/s1-popout-board#programming) and the [J-Link software](https://www.segger.com/downloads/jlink/) installed 
 
 1. Make sure you have the [nRF command line tools](https://www.nordicsemi.com/Products/Development-tools/nrf-command-line-tools/download) installed
 

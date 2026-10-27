@@ -31,7 +31,7 @@ Should not be cached, because included files depend on page.
             if (region?.localName !== "main") {
                 return region?.getAttribute("aria-label") || region?.localName;
             }
-            const heading = [...region.querySelectorAll("h1, h2")]
+            const heading = [...region.querySelectorAll("h1, h2, h3, h4, h5, h6")]
                 .reverse()
                 .find((h) => h.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING);
             return heading?.textContent.replace(/\s+/g, " ").trim() || "main";

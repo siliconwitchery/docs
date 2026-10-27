@@ -16,11 +16,12 @@ Active
 
 ![Silicon Witchery S2 Module](/assets/images/s2-module-annotated-masthead.png)
 
-The S2 is a production-ready IoT module built around an advanced ARM SiP with integrated LTE Cat-M1 connectivity. Featuring comprehensive I/O support (SPI, I2C, analog), built-in GNSS, and sophisticated power management with battery charging capabilities. It's designed for rapid deployment and remote development. The module comes pre-configured with a SoftSIM and flexible data plan, eliminating cellular integration complexity. Engineers can program and debug directly over LTE using our Lua-based runtime environment, with all device management and updates handled through the Superstack platform – no local toolchain required.
+The S2 is a cellular IoT module built around the Nordic nRF9151, an ARM system in package with LTE Cat-M1 and GNSS. It has SPI, I<sup>2</sup>C, analog and digital IO, and power management with battery charging. Every S2 has a SoftSIM and a data plan built in. It runs Lua code that you upload over cellular with Superstack, so you need no debugger or local toolchain.
 
+[Get started](/pages/s2-superstack){: .btn .btn-purple}
 [Lua reference](/pages/superstack/lua){: .btn .btn-purple}
-[Example scripts](https://github.com/siliconwitchery/s2-lua-examples){: .btn .btn-purple}
-[AI plugin for Claude](https://github.com/siliconwitchery/claude-plugins){: .btn}
+[Example code](https://github.com/siliconwitchery/s2-lua-examples){: .btn}
+[Agent plugin](https://github.com/siliconwitchery/superstack-agent-plugins){: .btn}
 
 ## Feature summary
 {: .no_toc}
@@ -35,17 +36,17 @@ The S2 is a production-ready IoT module built around an advanced ARM SiP with in
 
 ### Connectivity
 {: .no_toc}
-- Pre-configured softsim with global coverage
-- No-contract data plan included
-- One-click device pairing
-- Variant with external antenna support available
+- SoftSIM built in, with LTE-M in the [countries listed below](#lte--gnss-connectivity)
+- Data plan included, with no contract
+- Pairs with a fleet by its IMEI and a press of its pairing button
+- Variant with external antenna connectors
 
 ### Development
 {: .no_toc}
-- Over-the-air programming and debugging
-- Lua-based runtime environment
-- Zero-touch firmware updates and fleet management
-- No local toolchain required
+- Runs Lua code uploaded over cellular
+- Sends its log over cellular
+- Installs firmware updates automatically
+- No debugger or local toolchain needed
 
 ## Use cases
 {: .no_toc}
@@ -102,7 +103,7 @@ The device exposes a range of I/O that can be used to connect external devices a
 
 A single button is included for easy setup and two status LEDs indicate network and power status at a glance.
 
-A multi-band antenna is included on the module supporting all the required LTE and GPS bands for global operation. A variant with [external antenna connectors](#external-antenna-variant) is available for designs where the built-in antenna is not suitable.
+The integrated antenna covers the LTE and GPS bands listed in [LTE & GNSS connectivity](#lte--gnss-connectivity). A variant with [external antenna connectors](#external-antenna-variant) is available for designs where the built-in antenna is not suitable.
 
 ## Pinout
 
@@ -134,7 +135,7 @@ The 4-pin ports follow the [Stemma QT](https://learn.adafruit.com/introducing-ad
 
 ## Status LEDs & button
 
-The on-board button is only used for initial pairing of the device with the cloud. Once paired, the button has no other functionality. This is to prevent tampering with the device when in the field. If needed, the device can later be unpaired from within Superstack and then paired again to a different deployment using the button.
+The button is the pairing button. It does nothing except pair the module with a fleet, so someone with access to the module in the field can't change what it does. To move the module to another fleet, unpair it with the [Superstack CLI](/pages/superstack/cli), then pair it again and press the button.
 
 The status LEDs, meanwhile, indicate the networking and power status of the device throughout the lifetime of the application. 
 
@@ -152,24 +153,24 @@ The table below describes each of the LED states.
 | Network LED | Meaning |
 |-------------|---------|
 | Slow blinking <br> ▇▇▇▇▁▁▁▁▇▇▇▇▁▁ | Searching for LTE network
-| Solid         <br> ▇▇▇▇▇▇▇▇▇▇▇▇▇▇ | Network found – Not connected to deployment
-| Fast blinking <br> ▇▇▁▁▇▇▁▁▇▇▁▁▇▇ | Button pressed – Pairing to deployment
-| Off           <br> ▁▁▁▁▁▁▁▁▁▁▁▁▁▁ | Connected & idle
+| Solid         <br> ▇▇▇▇▇▇▇▇▇▇▇▇▇▇ | Connected to the network – Not paired with a fleet
+| Fast blinking <br> ▇▇▁▁▇▇▁▁▇▇▁▁▇▇ | Pairing button pressed – Pairing with a fleet
+| Off           <br> ▁▁▁▁▁▁▁▁▁▁▁▁▁▁ | Paired & idle
 | Short blinks  <br> ▁▇▁▁▁▁▁▁▁▁▇▁▁▁ | Data transmission
 | Strobe        <br> ▁▇▁▇▁▇▁▇▁▇▁▇▁▇ | Firmware updating **Do not power off**
 
 ### Automatic firmware updates
 
-We periodically release firmware updates which enables connectivity between the S2 Module and Superstack. Updates are rolled out automatically and require no user intervention.
+Silicon Witchery releases firmware updates for the S2 Module. The module installs them automatically, with no action from you.
 
-If you see a continuous strobe on the network led, this means that an update has begun. The process takes around **5 minutes**, during which the module will reboot and may not show any LED activity during the final part of the update. It is important to **not power off the device** during this period as this will cause the update process to restart. Simply wait the full time until the device has rebooted and reconnects to the network.
+If you see a continuous strobe on the network LED, this means that an update has begun. The process takes around **5 minutes**, during which the module will reboot and may not show any LED activity during the final part of the update. It is important to **not power off the device** during this period as this will cause the update process to restart. Simply wait the full time until the device has rebooted and reconnects to the network.
 
 ## LTE & GNSS connectivity
 
 The S2 Module ships with **LTE Cat-M1** enabled with support for the following bands:
 **1**, **2**, **3**, **4**, **5**, **8**, **18**, **19**, **20**, **25**, **26**, **65**, and **66**. All of which are supported by the integrated antenna. Additionally, the [external antenna variant](#external-antenna-variant) of the module supports the following bands: **12**, **13**, **17**, **28**, and **85**.
 
-A softsim is pre-programmed into each module for included connectivity out of the box, where data allowance can be managed from inside the Superstack webapp.
+Each module has a SoftSIM and a data plan built in. Data is paid for with the credit on the module's fleet, which you check and top up with the [Superstack CLI](/pages/superstack/cli).
 
 The following countries are included in the data plan, with more added regularly. The list follows Onomondo's network list of 13 October 2026.
 
@@ -284,11 +285,9 @@ The module features thermal regulation such that if the ambient temperature is t
 
 ## Programming
 
-The S2 Module comes pre-programmed with the Superstack firmware, server license, as well as a provided soft SIM with attached data plan. 
+The S2 Module comes programmed with the Superstack firmware and a SoftSIM with a data plan. You don't program it directly. Instead, you upload Lua code to it over cellular with Superstack, as the [getting started guide](/pages/s2-superstack) shows.
 
-It is not expected that the user should program the device directly, but rather use Superstack to run scripts on the device via the Superstack webapp.
-
-If desired however, the module can be completely erased and a fully custom firmware may be loaded onto it. Note that this will also erase the SIM, data plan and superstack server license. After which it will be no longer possible to use the module with Superstack.
+You can erase the module and load your own firmware. This also erases the SoftSIM and the module's Superstack identity, so the module can no longer use the data plan or Superstack.
 
 {% include diagrams/s2-module-programming-port.svg %}
 
@@ -358,7 +357,7 @@ Ratings and characteristics of the module are listed below. For further details,
 | Description | Min | Typ | Max |
 |-------------|:---:|:---:|:---:|
 | Supported LTE standard       | -       | LTE Rel-14 Cat-M1 HD-FDD                                                  | -
-| Supported LTE bands          | -       | B1, B2, B3, B4, B5, B8*, B12, B13, B18, B19, B20, B25, B26, B28, B66, B85 | -
+| Supported LTE bands          | -       | B1, B2, B3, B4, B5, B8, B12, B13, B17, B18, B19, B20, B25, B26, B28, B65, B66, B85 | -
 | LTE transmission bandwidth   | -       | 1.4MHz                                                                    | -
 | LTE RX frequency range       | 728MHz  | -                                                                         | 2200MHz
 | LTE RX sensitivity low band  | -103dBm | -108dBm                                                                   | -
@@ -370,8 +369,6 @@ Ratings and characteristics of the module are listed below. For further details,
 | GPS time to first fix        | 1.3s    | -                                                                         | 30.5s
 | GPS accuracy                 | 1.8m    | -                                                                         | 3.1m
 | GPS port impedance⁑          | -       | 50Ω                                                                       | -
-
-<p>* – Band 8 is only supported with the external antenna variant of the module</p>
 
 ⁑ – External antenna variant only
 
@@ -405,15 +402,6 @@ Dimensional drawings of the module are shown below.
 
 [![Silicon Witchery S2 Module Mechanical Drawing](/assets/images/s2-module-drawing.png)](/assets/files/s2-module-drawing.pdf)
 
-## Let us build it for you
-
-Silicon Witchery builds complete products on the S2 Module. We design the carrier board that holds your sensors, connectors and power supply, write the Lua code, and take your product through CE, FCC and UKCA certification into production.
-
-[Book a free 30-minute call](https://cal.com/siliconwitchery/30min){: .btn .btn-purple}
-[IoT product development services](https://www.siliconwitchery.com/services){: .btn}
-
-You get a written proposal and price before any work starts.
-
 ## Ordering information
 
 The S2 Module is available in the following SKUs:
@@ -442,3 +430,14 @@ Purchasing parties agree to take responsibility that any delivered hardware, sof
 Silicon Witchery may hold back from delivering goods, services, or any other materials in its position, if it suspects they may be used outside the accordance of these Regulations.
 
 The Purchasing Parties agree to indemnify and hold harmless Silicon Witchery against any damages, costs, losses, and/or liabilities arising out of any non-compliance with Regulations.
+
+---
+
+## Let us build it for you
+
+Silicon Witchery designs IoT devices, with LTE-M cellular and Bluetooth at its core. We take your product from the first schematic to final testing at the lab, down to the antenna, firmware and power budget. When our S1 or S2 module fits, we can build on it to save you time.
+
+[Book a free 30-minute call](https://cal.com/siliconwitchery/30min){: .btn .btn-purple}
+[IoT product development services](https://www.siliconwitchery.com/services){: .btn}
+
+You get a written proposal and price before any work starts.
