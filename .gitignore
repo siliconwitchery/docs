@@ -18,4 +18,3 @@ node_modules
 # Draw.io temporary files
 assets/images/**/*.bkp
 assets/images/**/*.dtmp
-.claude/memories/
