@@ -50,7 +50,7 @@ These spend credit, in both directions:
 - **Messages to a device**, from your application or from another device's Lua.
 - **Web requests from Lua.** A request counts its URL, headers and body, and the response counts its body.
 
-The cellular network charges for every byte it carries, so data that a weak connection makes the S2 send again spends credit again.
+Data that the network resends on its own spends nothing, and a device that is offline spends nothing. An upload or a message that fails partway, such as over a weak connection, spends credit for the part that arrived, and each retry spends again.
 
 These are free:
 

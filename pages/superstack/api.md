@@ -125,6 +125,7 @@ The device has room for one 4096-byte message, or several shorter ones, that Lua
 Superstack discards a message without delivering it in these cases:
 
 - The device has not confirmed it before `expires_in` runs out.
+- Three attempts to deliver it have failed.
 - The device is unpaired from the fleet. Its queued messages are discarded, so a device paired with another fleet never receives them.
 
 ---
