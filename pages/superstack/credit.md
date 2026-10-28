@@ -31,7 +31,7 @@ Every S2 Module has a SIM and a data plan built in. You pay for the data that yo
 | Data | €1 per MB, where 1 MB is 1,000,000 bytes |
 | Top-up | From €1 to €1,000 at a time, before tax |
 
-The price covers the network overhead around your data, so you can estimate the cost from the size of your own data:
+The price covers the network overhead around your data. Superstack counts only your data and a few bytes that label it, such as the field names around each log, so you can estimate the cost from the size of your own data:
 
 ```
 cost per day = bytes per day / 1,000,000 × €1
@@ -48,7 +48,7 @@ These spend credit, in both directions:
 - **Code uploads.** An upload sends each device only the files that differ from the ones it holds. A fleet upload sends them to every device in the fleet.
 - **Logs.** The output of `print()`, and the logs that say code started, ended, stopped or crashed.
 - **Messages to a device**, from your application or from another device's Lua.
-- **Web requests from Lua.** A request counts its URL, headers and body, and the response counts its body.
+- **Web requests from Lua.** A request counts its URL, headers and body, and the response counts its status and body, or its error.
 
 Data that the network resends on its own spends nothing, and a device that is offline spends nothing. An upload or a message that fails partway, such as over a weak connection, spends credit for the part that arrived, and each retry spends again.
 
@@ -69,11 +69,12 @@ A fleet has no credit when its balance is zero or less. Its code keeps running, 
 - Superstack refuses messages to the fleet with `402 Payment Required`.
 - The S2 discards its logs instead of sending them.
 - A web request from Lua returns the error `no credit` straight away.
+- Superstack holds the messages already queued for the fleet, and delivers them after a top-up unless they expire first.
 - `superstack device list` shows `no credit` for a device whose code is waiting to be sent.
 
 You can still pair and unpair the S2, and start, stop and restart its code. The S2 still installs firmware updates.
 
-Data already on its way when the credit runs out is still delivered and charged, so the balance can go below zero. The next top-up pays that first.
+Data already on its way when the credit runs out is still charged, whether Superstack delivers it or refuses it, so the balance can go below zero. The next top-up pays that first.
 
 ---
 
@@ -83,7 +84,14 @@ Data already on its way when the credit runs out is still delivered and charged,
 superstack account balance
 ```
 
-The CLI lists each fleet you can reach with its balance. Add a fleet id to show one fleet.
+The CLI lists each fleet you can reach with its balance:
+
+```
+ID  NAME            BALANCE
+12  My first fleet  €9.71
+```
+
+Add a fleet id to show one fleet. The owner and every member of a fleet can see its balance and top it up.
 
 ---
 
@@ -95,10 +103,21 @@ The CLI lists each fleet you can reach with its balance. Add a fleet id to show 
     superstack account topup <fleet_id>
     ```
 
-1. Press Enter. Your browser opens the payment page.
+1. The CLI prints the address of the payment page:
+
+    ```
+    Open this page to choose an amount and pay:
+
+      https://checkout.stripe.com/c/pay/...
+
+    The credit appears on the balance once the top-up completes.
+    Press enter to open the browser.
+    ```
+
+1. Press Enter. Your browser opens the payment page. You can also open the address in any browser, such as on your phone.
 1. Choose an amount, and pay.
 
-The credit shows in `superstack account balance` once the payment completes. Each S2 in the fleet starts sending data again at its next check-in.
+The credit shows in `superstack account balance` once the payment completes. Superstack tells each S2 in the fleet straight away, and it starts sending data again. An S2 in [low power mode](/pages/superstack/lua#set-low-power-mode) waits for its next check-in.
 
 ---
 

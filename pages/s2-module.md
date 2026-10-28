@@ -143,12 +143,14 @@ The status LEDs, meanwhile, indicate the networking and power status of the devi
 
 The table below describes each of the LED states.
 
+Both LEDs on means the module is starting or applying a firmware update. This lasts a moment.
+
 | Power LED | Meaning |
 |-----------|---------|
 | Short blinks  <br> ▁▇▁▁▁▁▁▁▁▁▇▁▁▁ | Running on battery power – No external power detected
 | Slow blinking <br> ▇▇▇▇▁▁▁▁▇▇▇▇▁▁ | Battery charging
 | Solid         <br> ▇▇▇▇▇▇▇▇▇▇▇▇▇▇ | Battery charged
-| Short blanks  <br> ▇▇▇▁▇▇▇▇▇▇▇▇▁▇ | Running on external power – No battery detected
+| Short blanks  <br> ▇▇▇▁▇▇▇▇▇▇▇▇▁▇ | Running on external power – Battery absent or not charging
 
 | Network LED | Meaning |
 |-------------|---------|
@@ -163,7 +165,15 @@ The table below describes each of the LED states.
 
 Silicon Witchery releases firmware updates for the S2 Module. The module installs them automatically, with no action from you.
 
-The network status LED strobes while the module installs an update. The update takes several minutes. The module restarts during it, and its LEDs may go dark more than once. **Keep the module powered** until the LED stops strobing and the module reconnects to the network. Removing power makes the update start again.
+An update takes several minutes:
+
+1. The network status LED strobes while the module downloads the update. The code keeps running.
+1. The module restarts to install it.
+1. The module reconnects, and the code starts again from the beginning.
+
+The module updates its modem firmware one version at a time, then its own firmware, so a module that is several versions behind repeats these steps. **Keep the module powered** until the network status LED blinks slowly while the module reconnects, and then turns off, or stays on for an unpaired module. Removing power during a download makes the download start again.
+
+A module checks in with Superstack every 15 minutes, and when Superstack asks it to, such as after an upload. A new version of the module's own firmware that can't check in for 50 minutes is removed, and the module returns to the version it had before.
 
 ## LTE & GNSS connectivity
 
@@ -254,7 +264,7 @@ The S2 Module features three options for input power:
 
 {% include diagrams/s2-module-power-inputs.svg %}
 
-The USB-C input includes the proper negotiation with hosts to ensure the correct voltage and current is provided to the module. Voltage is always negotiated at 5V, with current draw either 500mA or 1A depending on the host capabilities.
+The USB-C input takes 5V, and the module draws up to 1.5A from it.
 
 The external power port allows powering of the module from a DC voltage between 5 and 17V. Up to 1A may be drawn.
 
@@ -270,7 +280,7 @@ The module has two voltage outputs which can be used for powering external senso
 | **V<sub>OUT2</sub>** | PORTD, PORTE, PORTF | 100mA across all ports | Off or 1.8 - 3.3V *
 | **V<sub>SYS</sub>**  | External Power Port | 1A ⁑ | 5V
 
-<p>* – The voltage on **V<sub>OUT1</sub>** and **V<sub>OUT2</sub>** are derived from the same internal source, therefore always track the same voltage. They can however be independently turned off to selectively shut down sensors that aren't in use.</p>
+<p>* – **V<sub>OUT1</sub>** and **V<sub>OUT2</sub>** come from the same internal source, so they always have the same voltage. [`device.power.set_vout()`](/pages/superstack/lua#set-the-io-voltage-for-all-ports) sets both, and `0` turns both off.</p>
 
 ⁑ – **V<sub>SYS</sub>** is a 5V regulated output which powers everything on the module including **V<sub>OUT1</sub>**, **V<sub>OUT2</sub>**, the radio and battery charging. Its current capability is therefore highly dependent on what else is being powered. Assuming a suitable power input to one of the input ports, **V<sub>SYS</sub>** is capable of providing up to 1A of current.
 
@@ -278,7 +288,9 @@ The module has two voltage outputs which can be used for powering external senso
 
 ### Battery charger
 
-The module features charging from a single lithium cell at a configurable current from 32mA to 800mA. The charge termination voltage can also be configured from 3.5V to 4.45V. Higher capacity cells may be used, but will result in slower charge times.
+The module features charging from a single lithium cell at a configurable current from 32mA to 800mA. The charge termination voltage can be set to 3.50, 3.55, 3.60 or 3.65V, or from 4.00 to 4.45V in 50mV steps. At boot, the charger uses 3.50V and 32mA until the code sets it with [`device.power.battery.set_charger_cv_cc()`](/pages/superstack/lua#configure-the-battery-charger). Higher capacity cells may be used, but will result in slower charge times.
+
+On battery, the module draws at most 200mA from the cell while the charge current is 150mA or less, which includes the boot default. Above 150mA, it can draw up to 1A. Set a charge current above 150mA if the sensors and radio together need more than 200mA on battery.
 
 The module features thermal regulation such that if the ambient temperature is too high to safely charge the battery, the PMIC will throttle the charge current to prevent damaging the cell. To ensure this feature works as expected, the cell must be placed against the module, and the designer should ensure to minimize any temperature differential between the cell and the module.
 
@@ -338,15 +350,15 @@ Ratings and characteristics of the module are listed below. For further details,
 | USB power-on reset release voltage                                  | -          | 3.9V       | -
 | USB brown-out trigger voltage with **V<sub>BATT</sub>** not present | -          | 3.8V       | -
 | USB brown-out trigger voltage with **V<sub>BATT</sub>** present     | -          | 3.6V       | -
-| USB input current draw: **I<sub>USB</sub>**                         | 1.8mA      | -          | 1A
+| USB input current draw: **I<sub>USB</sub>**                         | 1.8mA      | -          | 1.5A
 | Resistance between **V<sub>USB</sub>** and **V<sub>SYS</sub>**      | -          | 300mΩ      | -
 | External input current draw: **I<sub>IN</sub>**                     | 1mA        | -          | 1A
 | Battery power-on reset release voltage                              | -          | 2.75V      | -
 | Battery brown-out trigger voltage                                   | -          | 2.4V       | -
 | Minimum **V<sub>BATT</sub>** voltage for charging                   | -          | 2.1V       | -
-| Range of battery charging termination voltage                       | 3.5V<br>4V | 50mA steps | 4V<br>4.5V
+| Range of battery charging termination voltage                       | 3.50V<br>4.00V | 50mV steps | 3.65V<br>4.45V
 | Range of battery charging constant current                          | 32mA       | 2mA steps  | 800mA
-| Range of battery discharge current limit                            | 290mA      | -          | 1A
+| Range of battery discharge current limit                            | 200mA      | -          | 1A
 | Resistance between **V<sub>BATT</sub>** and **V<sub>SYS</sub>**     | -          | 160mΩ      | -
 | Battery charger temperature accuracy                                | -          | 2°C        | -
 | Trickle charge timeout                                              | -          | 10min      | -

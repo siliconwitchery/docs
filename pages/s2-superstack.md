@@ -136,7 +136,7 @@ Write down the IMEI. The next steps call it `<imei>`.
 
 {% include diagrams/s2-superstack-power-and-pairing.svg %}
 
-The network status LED comes on while the S2 starts, then blinks slowly while it searches for a cellular network. Wait until it stops blinking and stays on. The S2 is then connected and ready to pair.
+The network status LED comes on while the S2 starts, then blinks slowly while it searches for a cellular network. Wait until it has blinked and then stays on. The S2 is then connected and ready to pair.
 
 | Network status LED | Meaning | What to do |
 |--------------------|---------|------------|
@@ -145,7 +145,7 @@ The network status LED comes on while the S2 starts, then blinks slowly while it
 | Strobe <br> ▁▇▁▇▁▇▁▇▁▇▁▇▁▇ | Updating its firmware | Wait, and keep it powered |
 
 {: .note }
-**A new S2 often updates its firmware the first time it connects.** The network status LED strobes during the update. Keep the S2 powered and wait until the LED stays on. [Automatic firmware updates](/pages/s2-module#automatic-firmware-updates) describes what the S2 does during an update.
+**A new S2 often updates its firmware the first time it connects.** The network status LED strobes while the S2 downloads an update, then the S2 restarts to install it, and may repeat this a few times. Keep the S2 powered, and wait until the LED blinks slowly and then stays on. [Automatic firmware updates](/pages/s2-module#automatic-firmware-updates) describes what the S2 does during an update.
 
 If the LED keeps blinking for more than a few minutes, move the S2 closer to a window. Check that your country is in the [S2 coverage list](/pages/s2-module#lte--gnss-connectivity).
 
@@ -177,18 +177,19 @@ Pairing puts your S2 in your fleet. You press the pairing button on the S2, so o
 
 The network status LED now turns off, and flashes briefly whenever the S2 sends or receives data. If the S2 is new, pairing gave your fleet its [starter credit](/pages/superstack/credit).
 
-Press the pairing button only after the CLI asks you to. A press before that does nothing.
+Press the pairing button only after the CLI asks you to. A press before that makes the LED blink fast for a moment, but doesn't pair the S2.
 
-If pairing fails, the CLI prints why:
+The CLI asks you to press the button before it checks the IMEI and the fleet, so a failure can follow the request. If pairing fails, the CLI prints why:
 
 | The CLI prints | Meaning | What to do |
 |----------------|---------|------------|
-| `pairing timed out` | The S2 didn't report a button press within 60 seconds | Check that the LED is on, then run the command again and press the button sooner |
-| `no such device` | No S2 has that IMEI | Check the IMEI on the label |
-| `the device is already paired` | The S2 belongs to a fleet. A second-hand S2 may still belong to its last owner's fleet | Ask the person who paired it to run `superstack device unpair <imei>` |
-| `the device is not ready to pair yet` | The S2 hasn't finished unpairing from its last fleet | Keep it powered, wait a minute, then run the command again |
-| `someone is already pairing that device` | Another `superstack device pair` is waiting for the same S2 | Wait 60 seconds for it to time out, then run the command again |
-| `the device can no longer be paired` | The S2 changed while the command waited | Run the command again |
+| `superstack: pairing timed out, run device pair and press the pairing button again` | The S2 didn't report a button press within 60 seconds | Check that the LED is on and not strobing, then run the command again and press the button sooner |
+| `superstack: no such device` | No S2 has that IMEI | Check the IMEI on the label |
+| `superstack: no such fleet` | The fleet id is wrong, or you are not its owner or a member | Check the id with `superstack fleet list` |
+| `superstack: the device is already paired` | The S2 belongs to a fleet. A second-hand S2 may still belong to its last owner's fleet | Ask the person who paired it to run `superstack device unpair <imei>` |
+| `superstack: the device is not ready to pair yet` | The S2 hasn't finished unpairing from its last fleet | Keep it powered, wait a minute, then run the command again |
+| `superstack: someone is already pairing that device` | Another `superstack device pair` is waiting for the same S2 | Wait 60 seconds for it to time out, then run the command again |
+| `superstack: the device can no longer be paired, run device pair again` | The S2 or the fleet changed while the command waited | Run the command again |
 
 ---
 

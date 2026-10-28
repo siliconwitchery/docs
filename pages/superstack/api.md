@@ -45,7 +45,7 @@ A fleet key lets your application send messages to the devices in one fleet. The
 
     The CLI prints the fleet key once. Store it where your application can read it, because anyone who holds it can send messages to every device in the fleet.
 
-A fleet key reaches only its own fleet. It works until you revoke it or delete the fleet. To revoke one, find its id with `superstack key list`, then run `superstack key revoke <key_id>`.
+A fleet key starts with `ssf_` and reaches only its own fleet. It works until you revoke it or delete the fleet, even after the member who created it leaves the fleet. The owner and any member can revoke one: find its id with `superstack key list`, then run `superstack key revoke <key_id>`.
 
 A fleet can have at most 100 fleet keys, and a label is at most 100 characters.
 
@@ -75,7 +75,7 @@ POST https://supernext.siliconwitchery.com/fleets/{fleet_id}/messages
 {: .note-title }
 > Response (202 Accepted)
 >
-> The body is empty. Superstack has queued the message for every device the request names, but no device has received it yet. A request without `imei` to a fleet with no paired devices also gets `202 Accepted`, and queues nothing.
+> The body is empty. Superstack has queued the message for every device the request names, but no device has received it yet. A request without `imei` to a fleet that has credit but no paired devices also gets `202 Accepted`, and queues nothing.
 
 Send settings to one device:
 
@@ -117,15 +117,18 @@ The device confirms a message even when nothing receives it in Lua:
 
 - If the code is stopped, the device discards the message.
 - If the code has not assigned a handler with `network.assign_message_event`, the device discards the message.
+- If the code ends, stops or restarts before its handler runs, the device discards the message.
 
 If the device's confirmation is lost on the network, Superstack sends the message again, so Lua can receive the same message twice. Write a message that has the same effect when it arrives twice, such as `{"led":true}` rather than `toggle`.
 
-The device has room for one 4096-byte message, or several shorter ones, that Lua has not handled yet. Each message takes 2 bytes more than its length. The device runs one handler at a time, so messages wait on the device while a handler, such as one that makes a web request, is still running. When a message does not fit, the device refuses it, and the message stays queued in Superstack until a later check-in or until it expires.
+The device has room for one 4096-byte message, or several shorter ones, that Lua has not handled yet. Each message takes 2 bytes more than its length. The device runs one handler at a time, so messages wait on the device while a handler, such as one that makes a web request, is still running. When a message does not fit, the device refuses it. That message and every later one wait in Superstack for a later check-in.
+
+While the fleet has no [credit](/pages/superstack/credit), Superstack delivers no messages. Messages already queued wait until a top-up or until they expire.
 
 Superstack discards a message without delivering it in these cases:
 
 - The device has not confirmed it before `expires_in` runs out.
-- Three attempts to deliver it have failed.
+- The device has refused it, or stopped answering partway through it, three times.
 - The device is unpaired from the fleet. Its queued messages are discarded, so a device paired with another fleet never receives them.
 
 ---
@@ -154,16 +157,20 @@ The [Lua reference](/pages/superstack/lua#assign-an-event-handler-for-messages) 
 
 Superstack refuses the whole request when any part of it fails, and queues nothing. The response body is a plain-text sentence that says what went wrong. Superstack checks the fleet key first, so a request without a valid fleet key gets `401 Unauthorized` whatever else is wrong.
 
-| Status | Cause |
-| --- | --- |
-| `400 Bad Request` | An `imei` is not 15 digits, an `imei` names a device that is not paired with the fleet, `expires_in` is not a whole number from 30 to 1209600, or Superstack could not read the message |
-| `401 Unauthorized` | The request has no fleet key, or the fleet key is not valid, such as one that has been revoked or whose fleet has been deleted |
-| `402 Payment Required` | The fleet has no [credit](/pages/superstack/credit). Top it up, then send the message again |
-| `403 Forbidden` | The fleet key belongs to another fleet |
-| `404 Not Found` | The fleet id in the path is not a whole number above 0 |
-| `413 Content Too Large` | The message is longer than 4096 bytes |
-| `429 Too Many Requests` | A device the request names already has 100 messages queued. Try again after it collects some |
-| `503 Service Unavailable` | Superstack could not check the fleet key or queue the message. Try again |
+| Status | Response body | Cause |
+| --- | --- | --- |
+| `400 Bad Request` | `enter the 15-digit IMEI of each device` | An `imei` is not 15 digits |
+| `400 Bad Request` | `device <imei> is not paired with this fleet` | An `imei` names a device that is not paired with the fleet |
+| `400 Bad Request` | `expires_in is a whole number of seconds from 30 to 1209600 (14 days)` | `expires_in` is out of range or not a whole number |
+| `400 Bad Request` | `the server could not read the message` | The request body could not be read |
+| `401 Unauthorized` | `send a fleet key with the request` | The request has no fleet key |
+| `401 Unauthorized` | `the fleet key is not valid, create a new one` | The fleet key has been revoked, its fleet has been deleted, or it was never valid |
+| `402 Payment Required` | `the fleet has no credit, top it up to send messages` | The fleet has no [credit](/pages/superstack/credit). Top it up, then send the message again |
+| `403 Forbidden` | `the fleet key belongs to another fleet` | The fleet key is for another fleet than the one in the path |
+| `404 Not Found` | `no such fleet` | The fleet id in the path is not a whole number above 0 |
+| `413 Content Too Large` | `the message can be at most 4096 bytes` | The message is longer than 4096 bytes |
+| `429 Too Many Requests` | `device <imei> already has 100 queued messages, try again after it receives some` | A device the request names already has 100 messages queued |
+| `503 Service Unavailable` | `the server could not check the fleet key` or `the server could not queue the message` | Superstack could not reach its database. Try again |
 
 ---
 
@@ -177,9 +184,9 @@ Your application must meet these limits, or Lua receives an error in place of th
 - **8 seconds.** Superstack waits 8 seconds for the whole response, including any redirects. Lua receives `timeout`.
 - **4096 bytes.** The response body is at most 4096 bytes. Lua receives `too large`.
 
-Unless the Lua code sets them, Superstack adds a `User-Agent` header and `Accept-Encoding: gzip`. When Superstack adds `Accept-Encoding`, it unzips a gzip response before Lua receives it, and the 4096-byte limit applies to the unzipped body. Superstack sets the `Host` header from the URL, and ignores one that the Lua code sets.
+Unless the Lua code sets them, Superstack adds `User-Agent: Go-http-client/2.0`, or `Go-http-client/1.1` for a web service that does not use HTTP/2, and `Accept-Encoding: gzip`. When Superstack adds `Accept-Encoding`, it unzips a gzip response before Lua receives it, and the 4096-byte limit applies to the unzipped body. Superstack sets the `Host` header from the URL, and ignores one that the Lua code sets.
 
-Superstack follows up to 10 redirects. Lua receives the status code and body of the final response, but not its headers. A response with any status code, such as `404` or `500`, reaches Lua as a response, not as an error.
+Superstack follows up to 9 redirects. A request that needs more fails, and Lua receives `connection failed`. Lua receives the status code and body of the final response, but not its headers. A response with any status code, such as `404` or `500`, reaches Lua as a response, not as an error.
 
 {: .note }
 A `301`, `302` or `303` redirect turns the request into a `GET` without a body, and a redirect to a host other than the original or one of its subdomains drops the `Authorization` and `Cookie` headers. A `307` or `308` redirect keeps the method and body. To keep the method, body and headers, have Lua call the final URL.
