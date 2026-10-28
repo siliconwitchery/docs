@@ -43,7 +43,7 @@ This guide takes a new S2 Module from the box to running its first line of Lua o
 - A computer running macOS, Windows or Linux.
 - A GitHub or GitLab account, to log in to Superstack.
 
-You don't need a SIM card or a data plan. Every S2 has both built in, with €10 of starter credit.
+You don't need a SIM card or a data plan. Every S2 has both built in, with [starter credit](/pages/superstack/credit) for its first fleet.
 
 ---
 
@@ -72,7 +72,7 @@ Check that it installed:
 superstack version
 ```
 
-The CLI prints its version number, such as `0.0.4`.
+The CLI prints its version number.
 
 ---
 
@@ -136,7 +136,7 @@ Write down the IMEI. The next steps call it `<imei>`.
 
 {% include diagrams/s2-superstack-power-and-pairing.svg %}
 
-The network status LED blinks slowly while the S2 searches for a cellular network. Wait until it stops blinking and stays on. The S2 is then connected and ready to pair.
+The network status LED comes on while the S2 starts, then blinks slowly while it searches for a cellular network. Wait until it stops blinking and stays on. The S2 is then connected and ready to pair.
 
 | Network status LED | Meaning | What to do |
 |--------------------|---------|------------|
@@ -145,7 +145,7 @@ The network status LED blinks slowly while the S2 searches for a cellular networ
 | Strobe <br> ▁▇▁▇▁▇▁▇▁▇▁▇▁▇ | Updating its firmware | Wait, and keep it powered |
 
 {: .note }
-**A new S2 often updates its firmware the first time it connects.** The network status LED strobes during the update. The update takes several minutes, and the S2 may restart and go dark more than once. Keep the S2 powered and wait until the LED stays on. Unplugging it only makes the update start again.
+**A new S2 often updates its firmware the first time it connects.** The network status LED strobes during the update. Keep the S2 powered and wait until the LED stays on. [Automatic firmware updates](/pages/s2-module#automatic-firmware-updates) describes what the S2 does during an update.
 
 If the LED keeps blinking for more than a few minutes, move the S2 closer to a window. Check that your country is in the [S2 coverage list](/pages/s2-module#lte--gnss-connectivity).
 
@@ -168,16 +168,27 @@ Pairing puts your S2 in your fleet. You press the pairing button on the S2, so o
     Press the pairing button on device "bench".
     ```
 
-1. Press the pairing button on the S2 once, within 60 seconds. The network status LED blinks fast.
+1. Press the pairing button on the S2 once, within 60 seconds. The network status LED blinks fast, then stays on while the S2 confirms the pairing.
 1. Wait for the CLI to print:
 
     ```
     Paired device "bench" with fleet 12.
     ```
 
-The network status LED now turns off, and flashes briefly whenever the S2 sends or receives data. Pairing gave your fleet the S2's €10 of starter credit.
+The network status LED now turns off, and flashes briefly whenever the S2 sends or receives data. If the S2 is new, pairing gave your fleet its [starter credit](/pages/superstack/credit).
 
-If the CLI prints `pairing timed out`, run the command again and press the button sooner.
+Press the pairing button only after the CLI asks you to. A press before that does nothing.
+
+If pairing fails, the CLI prints why:
+
+| The CLI prints | Meaning | What to do |
+|----------------|---------|------------|
+| `pairing timed out` | The S2 didn't report a button press within 60 seconds | Check that the LED is on, then run the command again and press the button sooner |
+| `no such device` | No S2 has that IMEI | Check the IMEI on the label |
+| `the device is already paired` | The S2 belongs to a fleet. A second-hand S2 may still belong to its last owner's fleet | Ask the person who paired it to run `superstack device unpair <imei>` |
+| `the device is not ready to pair yet` | The S2 hasn't finished unpairing from its last fleet | Keep it powered, wait a minute, then run the command again |
+| `someone is already pairing that device` | Another `superstack device pair` is waiting for the same S2 | Wait 60 seconds for it to time out, then run the command again |
+| `the device can no longer be paired` | The S2 changed while the command waited | Run the command again |
 
 ---
 
@@ -280,12 +291,12 @@ The S2 can make HTTP requests from Lua. Superstack makes each request on the S2'
                 temperature = temperature - 256
             end
 
-            local response, error = network.post(SERVER_URL, json.encode({ temperature = temperature }), {
+            local response, err = network.post(SERVER_URL, json.encode({ temperature = temperature }), {
                 headers = { ["Content-Type"] = "application/json" }
             })
 
-            if error then
-                print("Post failed: " .. error)
+            if err then
+                print("Post failed: " .. err)
             else
                 print(string.format("Posted %.2f C, server answered %d", temperature, response.status))
             end
@@ -305,7 +316,7 @@ The S2 can make HTTP requests from Lua. Superstack makes each request on the S2'
 
 Your server receives a `POST` with a body such as `{"temperature":21.5}`. The server must have a public address, because Superstack does not connect to `localhost` or a private network.
 
-`network.post` waits up to 8 seconds for the response and returns it as `response.status` and `response.content`. The [API reference](/pages/superstack/api#receive-requests-from-a-device) lists what your server must do to answer. When no response arrives, `error` says why, such as `timeout` or `no credit`. Each request and its response spend credit at €1 per MB.
+`network.post` waits for the response and returns it as `response.status` and `response.content`. The [API reference](/pages/superstack/api#receive-requests-from-a-device) lists what your server must do to answer. When no response arrives, `err` says why, such as `timeout` or `no credit`. Each request and its response [spend credit](/pages/superstack/credit#what-spends-credit).
 
 ---
 
@@ -360,13 +371,14 @@ Your own project can send a message to an S2 with an HTTP `POST` to Superstack. 
 
     Superstack answers `202 Accepted` and holds the message until the S2 collects it. The S2 turns on the motor and logs `Motor on`. Send `off` to stop the motor.
 
-Leave out `imei` to send the message to every device in the fleet. A message is at most 4096 bytes and can be any text or binary, such as JSON. Superstack discards a message that the S2 has not collected within an hour. Set `expires_in` in seconds, such as `expires_in=86400`, to keep it for up to 14 days.
+Leave out `imei` to send the message to every device in the fleet. A message can be any text or binary, such as JSON. [Send a message](/pages/superstack/api#send-a-message) lists its size limit and how long Superstack keeps it.
 
 ---
 
 ## Next steps
 
 - Read the [Lua reference](/pages/superstack/lua) for every function the S2 can run.
-- Read the [CLI reference](/pages/superstack/cli) to manage fleets, members, fleet keys and credit.
+- Read the [CLI reference](/pages/superstack/cli) to manage fleets, members and fleet keys.
+- Read how [credit](/pages/superstack/credit) pays for data, and how to top up.
 - Browse the [example code](https://github.com/siliconwitchery/s2-lua-examples) for sensor drivers and complete projects.
 - Read the [S2 Module datasheet](/pages/s2-module) for the pinout, power and network coverage.

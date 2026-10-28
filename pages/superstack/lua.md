@@ -6,18 +6,14 @@ image: /assets/images/superstack-annotated-masthead.png
 nav_order: 2
 ---
 
-# Superstack Lua Library Reference
+# Superstack Lua reference
 {: .no_toc }
 
 ---
 
-Superstack devices such as the S2 Module run Lua, a lightweight, efficient and simple to learn language.
+Superstack devices such as the S2 Module run Lua. You upload your code with the [Superstack CLI](/pages/superstack/cli), and the device runs it. This reference lists every function your code can call to read sensors, drive IO, make web requests and receive messages from your application.
 
-The built-in Lua libraries provide complete hardware and network level functionality to **read sensors**, **report data**, **compute on-device algorithms** and take actions such as **driving IO** automatically.
-
-The Lua engine is almost as performant as writing native C firmware as it's a lightweight wrapper around native C functions built into the Superstack firmware.
-
-Compared to writing firmware, the Superstack Lua engine allows for remote and realtime development of IoT code without the need for compiler tools, hardware debuggers or physical access to the device. There's also no risk of bricking devices as Lua runs in a container, and is always updatable and isolated from sensitive internal functions such as network management.
+Each function runs C code in the firmware. Lua can't reach the parts of the firmware that check in with Superstack and install updates, so no code you upload can stop the device from receiving new code.
 
 Complete, ready-to-run code is in the example repository. If you write code with an AI agent, the Superstack plugin for Claude Code and Codex teaches it this reference.
 
@@ -882,15 +878,16 @@ network.delete(url, { headers=nil, callback=nil })
 >     - `content` - **string** - The response body
 > - `error` - **string** - `nil`, or the reason no response arrived:
 >     - `"no network"` - The request did not reach Superstack, or Superstack did not accept it
->     - `"timeout"` - The web service did not answer within 8 seconds, or its answer did not reach the device
+>     - `"timeout"` - The web service did not answer in time, or its answer did not reach the device
 >     - `"connection failed"` - Superstack could not connect to the web service
->     - `"too large"` - The response body was longer than 4096 bytes
+>     - `"too large"` - The response body was too long
+>     - `"no credit"` - The fleet has no [credit](/pages/superstack/credit), so the device did not send the request
 >
 > With `callback`, the call returns only `error`, which is `nil`
 
 {: .note }
 
-> Superstack makes the request on the device's behalf, so the web service must have a public address. Superstack follows redirects. A response such as a 404 or 500 is returned in `response`, not as an `error`. A request that fails is not retried. Only one request can wait at a time, with or without `callback`, and making another raises an error.
+> Superstack makes the request on the device's behalf. [Receive requests from a device](/pages/superstack/api#receive-requests-from-a-device) lists the limits the web service must meet, how Superstack follows redirects, and which responses reach Lua. Only one request can wait at a time, with or without `callback`, and making another raises an error.
 >
 > A `url` or `headers` that breaks a rule above raises an error that names the rule. The URL and headers fit in about 5000 bytes, and a longer request raises the error `url and headers are too long`.
 
@@ -971,7 +968,7 @@ network.assign_message_event(handler)
 > Parameters
 >
 > - `handler` - **function** - The function to call when a message arrives from your application through Superstack. Called with one argument:
->     - `content` - **string** - The message exactly as your application sent it. At most 4096 bytes
+>     - `content` - **string** - The message exactly as your application sent it
 
 {: .note-title }
 
@@ -981,9 +978,7 @@ network.assign_message_event(handler)
 
 {: .note }
 
-> Messages reach the device when it next checks in with Superstack, which can take up to 15 minutes in low power mode. A message that arrives while no handler is assigned, or while the code is stopped, is discarded.
->
-> The device holds messages that the handler hasn't run for yet in 4098 bytes, and each message takes 2 bytes more than its length. A message that doesn't fit stays queued in Superstack until a later check-in.
+> A message that arrives while no handler is assigned, or while the code is stopped, is discarded. [How a message reaches a device](/pages/superstack/api#how-a-message-reaches-a-device) describes when messages arrive and how many the device holds.
 
 {: .note-title }
 
@@ -1244,7 +1239,7 @@ print(...)
 
 {: .note }
 
-> `print` never waits for the network. Logs wait on the device in a 2048-byte buffer until they are sent, and a log that does not fit is dropped. Logs are not stored while the fleet has no credit.
+> `print` never waits for the network. Logs wait on the device in a 2048-byte buffer until they are sent, and a log that does not fit is dropped. [When a fleet runs out of credit](/pages/superstack/credit#when-a-fleet-runs-out-of-credit), the device discards logs instead of sending them.
 
 ---
 
@@ -1800,7 +1795,7 @@ json.encode(value)
 
 > Parameters
 >
-> - `value` - **any** - A table, string, number, boolean or `json.null`. A table with only the keys `1` to `n` becomes an array, and any other table becomes an object. An empty table becomes `{}`
+> - `value` - **any** - A table, string, number, boolean or `json.null`. A table whose keys are all whole numbers from 1 up becomes an array, with `null` for each missing key. E.g. `{[1]=1, [3]=3}` becomes `[1,null,3]`. Any other table becomes an object. An empty table becomes `{}`
 
 {: .note-title }
 
@@ -1811,6 +1806,8 @@ json.encode(value)
 {: .note }
 
 > Tables can nest up to 16 levels deep. A value that JSON cannot hold, such as a function, raises an error.
+>
+> An array table whose highest key is above 10 and more than twice its number of keys, such as `{[20]=1}`, raises the error `excessively sparse array`.
 
 {: .note-title }
 

@@ -163,14 +163,14 @@ The table below describes each of the LED states.
 
 Silicon Witchery releases firmware updates for the S2 Module. The module installs them automatically, with no action from you.
 
-If you see a continuous strobe on the network LED, this means that an update has begun. The process takes around **5 minutes**, during which the module will reboot and may not show any LED activity during the final part of the update. It is important to **not power off the device** during this period as this will cause the update process to restart. Simply wait the full time until the device has rebooted and reconnects to the network.
+The network status LED strobes while the module installs an update. The update takes several minutes. The module restarts during it, and its LEDs may go dark more than once. **Keep the module powered** until the LED stops strobing and the module reconnects to the network. Removing power makes the update start again.
 
 ## LTE & GNSS connectivity
 
 The S2 Module ships with **LTE Cat-M1** enabled with support for the following bands:
 **1**, **2**, **3**, **4**, **5**, **8**, **18**, **19**, **20**, **25**, **26**, **65**, and **66**. All of which are supported by the integrated antenna. Additionally, the [external antenna variant](#external-antenna-variant) of the module supports the following bands: **12**, **13**, **17**, **28**, and **85**.
 
-Each module has a SoftSIM and a data plan built in. Data is paid for with the credit on the module's fleet, which you check and top up with the [Superstack CLI](/pages/superstack/cli).
+Each module has a SoftSIM and a data plan built in. Data is paid for with the [credit](/pages/superstack/credit) on the module's fleet.
 
 The following countries are included in the data plan, with more added regularly. The list follows Onomondo's network list of 13 October 2026.
 

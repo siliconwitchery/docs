@@ -11,7 +11,7 @@ nav_order: 4
 
 ---
 
-Your application sends data to S2 Modules with an HTTP `POST` to Superstack. Each request carries one message of up to 4096 bytes, such as a command, a setting or a JSON document. Superstack holds the message until each device collects it, and the Lua on the device receives it through [`network.assign_message_event`](/pages/superstack/lua#assign-an-event-handler-for-messages).
+Your application sends data to S2 Modules with an HTTP `POST` to Superstack. Each request carries one message, such as a command, a setting or a JSON document. Superstack holds the message until each device collects it, and the Lua on the device receives it through [`network.assign_message_event`](/pages/superstack/lua#assign-an-event-handler-for-messages).
 
 Lua on the device sends data to your application with an HTTP request, which Superstack makes on the device's behalf. [Receive requests from a device](#receive-requests-from-a-device) describes what your application receives and how it must answer.
 
@@ -77,15 +77,15 @@ POST https://supernext.siliconwitchery.com/fleets/{fleet_id}/messages
 >
 > The body is empty. Superstack has queued the message for every device the request names, but no device has received it yet. A request without `imei` to a fleet with no paired devices also gets `202 Accepted`, and queues nothing.
 
-Send `on` to one device:
+Send settings to one device:
 
 ```sh
 curl -X POST "https://supernext.siliconwitchery.com/fleets/<fleet_id>/messages?imei=<imei>" \
     -H "Authorization: Bearer <fleet_key>" \
-    --data-binary "on"
+    --data-binary '{"interval":60,"led":true}'
 ```
 
-Send a JSON document to two devices, and keep it for a day:
+Send the same settings to two devices, and keep them for a day:
 
 ```sh
 curl -X POST "https://supernext.siliconwitchery.com/fleets/<fleet_id>/messages?imei=<imei>&imei=<imei>&expires_in=86400" \
@@ -93,7 +93,7 @@ curl -X POST "https://supernext.siliconwitchery.com/fleets/<fleet_id>/messages?i
     --data-binary '{"interval":60,"led":true}'
 ```
 
-Send a file to every device in the fleet:
+Send a settings file to every device in the fleet:
 
 ```sh
 curl -X POST "https://supernext.siliconwitchery.com/fleets/<fleet_id>/messages" \
@@ -109,7 +109,7 @@ Use `--data-binary` rather than `--data`, because `--data` removes the newlines 
 
 When Superstack accepts a request, it queues one copy of the message for each device the request names. A device paired with the fleet later does not receive it.
 
-Superstack then asks each device to collect its messages straight away. A device in power-saving mode collects them at its next check-in, which is at most 15 minutes away.
+Superstack then asks each device to collect its messages straight away. A device in [low power mode](/pages/superstack/lua#set-low-power-mode) collects them at its next check-in.
 
 Each device receives its messages in the order your application sent them. Superstack removes a message from the queue when the device confirms that it received it. A message the device does not confirm stays queued, and Superstack tries again at the next check-in.
 
@@ -120,7 +120,7 @@ The device confirms a message even when nothing receives it in Lua:
 
 If the device's confirmation is lost on the network, Superstack sends the message again, so Lua can receive the same message twice. Write a message that has the same effect when it arrives twice, such as `{"led":true}` rather than `toggle`.
 
-The device has room for one 4096-byte message, or several shorter ones, that Lua has not handled yet. Each message takes 2 bytes more than its length. When a message does not fit, the device refuses it, and the message stays queued until a later check-in.
+The device has room for one 4096-byte message, or several shorter ones, that Lua has not handled yet. Each message takes 2 bytes more than its length. The device runs one handler at a time, so messages wait on the device while a handler, such as one that makes a web request, is still running. When a message does not fit, the device refuses it, and the message stays queued in Superstack until a later check-in or until it expires.
 
 Superstack discards a message without delivering it in these cases:
 
@@ -151,12 +151,13 @@ The [Lua reference](/pages/superstack/lua#assign-an-event-handler-for-messages) 
 
 ## Message errors
 
-Superstack refuses the whole request when any part of it fails, and queues nothing. The response body is a plain-text sentence that says what went wrong.
+Superstack refuses the whole request when any part of it fails, and queues nothing. The response body is a plain-text sentence that says what went wrong. Superstack checks the fleet key first, so a request without a valid fleet key gets `401 Unauthorized` whatever else is wrong.
 
 | Status | Cause |
 | --- | --- |
 | `400 Bad Request` | An `imei` is not 15 digits, an `imei` names a device that is not paired with the fleet, `expires_in` is not a whole number from 30 to 1209600, or Superstack could not read the message |
 | `401 Unauthorized` | The request has no fleet key, or the fleet key is not valid, such as one that has been revoked or whose fleet has been deleted |
+| `402 Payment Required` | The fleet has no [credit](/pages/superstack/credit). Top it up, then send the message again |
 | `403 Forbidden` | The fleet key belongs to another fleet |
 | `404 Not Found` | The fleet id in the path is not a whole number above 0 |
 | `413 Content Too Large` | The message is longer than 4096 bytes |
@@ -167,7 +168,7 @@ Superstack refuses the whole request when any part of it fails, and queues nothi
 
 ## Receive requests from a device
 
-Lua on the device calls a function such as [`network.post()`](/pages/superstack/lua#send-a-post-put-or-patch-request-to-a-web-service), and Superstack makes the request to your application. Your application receives the method, URL, headers and body that the Lua code set, with a body of at most 4096 bytes.
+Lua on the device calls a function such as [`network.post()`](/pages/superstack/lua#send-a-post-put-or-patch-request-to-a-web-service), and Superstack makes the request to your application. Your application receives the method, URL, headers and body that the Lua code set.
 
 Your application must meet these limits, or Lua receives an error in place of the response:
 
@@ -175,6 +176,9 @@ Your application must meet these limits, or Lua receives an error in place of th
 - **8 seconds.** Superstack waits 8 seconds for the whole response, including any redirects. Lua receives `timeout`.
 - **4096 bytes.** The response body is at most 4096 bytes. Lua receives `too large`.
 
-Superstack follows redirects. Lua receives the status code and body of the final response, but not its headers. A response with any status code, such as `404` or `500`, reaches Lua as a response, not as an error.
+Superstack follows up to 10 redirects. Lua receives the status code and body of the final response, but not its headers. A response with any status code, such as `404` or `500`, reaches Lua as a response, not as an error.
+
+{: .note }
+A `301`, `302` or `303` redirect turns the request into a `GET` without a body, and a redirect to a host other than the original or one of its subdomains drops the `Authorization` and `Cookie` headers. A `307` or `308` redirect keeps the method and body. To keep the method, body and headers, have Lua call the final URL.
 
 A request that fails is not retried.
