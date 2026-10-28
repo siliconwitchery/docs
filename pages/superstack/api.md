@@ -177,6 +177,8 @@ Your application must meet these limits, or Lua receives an error in place of th
 - **8 seconds.** Superstack waits 8 seconds for the whole response, including any redirects. Lua receives `timeout`.
 - **4096 bytes.** The response body is at most 4096 bytes. Lua receives `too large`.
 
+Unless the Lua code sets them, Superstack adds a `User-Agent` header and `Accept-Encoding: gzip`. When Superstack adds `Accept-Encoding`, it unzips a gzip response before Lua receives it, and the 4096-byte limit applies to the unzipped body. Superstack sets the `Host` header from the URL, and ignores one that the Lua code sets.
+
 Superstack follows up to 10 redirects. Lua receives the status code and body of the final response, but not its headers. A response with any status code, such as `404` or `500`, reaches Lua as a response, not as an error.
 
 {: .note }

@@ -73,13 +73,13 @@ Run `superstack help` to list every command, and `superstack help <command>` to 
 | `superstack member list <fleet_id> [--json]` | List a fleet's owner and members |
 | `superstack member remove <email> <fleet_id>` | Remove a member from a fleet |
 
-### Keys
+### Fleet keys
 
 | Command | What it does |
 | --- | --- |
-| `superstack key create <fleet_id> <label>` | Create a key for sending data to a fleet |
-| `superstack key list [fleet_id] [--json]` | List the keys that can reach your fleets |
-| `superstack key revoke <key_id>` | Stop a key from reaching its fleet |
+| `superstack key create <fleet_id> <label>` | Create a fleet key for sending data to a fleet |
+| `superstack key list [fleet_id] [--json]` | List the fleet keys that can reach your fleets |
+| `superstack key revoke <key_id>` | Stop a fleet key from reaching its fleet |
 
 ### Account
 

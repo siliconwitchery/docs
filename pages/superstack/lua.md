@@ -784,7 +784,7 @@ device.uart.assign_read_event(terminator, handler, { rx_pin="A0", baudrate=9600,
 
 > Parameters
 >
-> - `terminator` - **string** - The character to wait for before calling `handler`. If `nil`, `handler` is called with whatever data has arrived
+> - `terminator` - **string** - The character to wait for before calling `handler`. E.g. `"\n"`. A string that isn't exactly one character raises an error. If `nil`, `handler` is called with whatever data has arrived
 > - `handler` - **function** - The function to call when data is received. Called with one argument:
 >     - `data` - **string** - The bytes received since the last call, including the terminator
 
@@ -1135,7 +1135,7 @@ location.get_latest()
 > Returns
 >
 > - **table** - A table of key-value pairs:
->     - `valid` - **boolean** - `true` if the latest fix is valid. If `false`, the location and speed values are from the last valid fix, or `0` before the first
+>     - `valid` - **boolean** - `true` if the latest fix is valid. If `false`, the location and speed values are from the last valid fix, or `0` before the first. GPS keeps running after the code ends, so a fix from an earlier run of the code counts until the device restarts
 >     - `latitude` - **number** - The latitude in degrees
 >     - `longitude` - **number** - The longitude in degrees
 >     - `altitude` - **number** - The altitude in meters
@@ -1808,6 +1808,8 @@ json.encode(value)
 > Tables can nest up to 16 levels deep. A value that JSON cannot hold, such as a function, raises an error.
 >
 > An array table whose highest key is above 10 and more than twice its number of keys, such as `{[20]=1}`, raises the error `excessively sparse array`.
+>
+> An integer is written exactly. Any other number is written to 14 significant digits. A `/` in a string is written as `\/`, so `"https://example.com"` becomes `"https:\/\/example.com"`, which any JSON parser reads back as the same string.
 
 {: .note-title }
 
