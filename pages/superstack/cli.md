@@ -201,5 +201,5 @@ Every fleet has one owner. The owner can add members with `superstack member add
 | Rename, transfer and delete the fleet | ✅ | - |
 | Add and remove members | ✅ | - |
 
-A user can own up to 100 fleets. A fleet name, device name or fleet key label is at most 100 characters. To delete your account, first transfer or delete every fleet you own.
+A user can own up to 100 fleets, and a fleet can have up to 100 members. A fleet name, device name or fleet key label is at most 100 characters. To delete your account, first transfer or delete every fleet you own.
 

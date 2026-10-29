@@ -155,7 +155,7 @@ The [Lua reference](/pages/superstack/lua#assign-an-event-handler-for-messages) 
 
 ## Message errors
 
-Superstack refuses the whole request when any part of it fails, and queues nothing. The response body is a plain-text sentence that says what went wrong. Superstack checks the fleet key first, so a request without a valid fleet key gets `401 Unauthorized` whatever else is wrong.
+Superstack refuses the whole request when any part of it fails, and queues nothing. The response body is a plain-text sentence that says what went wrong. Superstack checks the fleet key first, so a request without a valid fleet key gets `401 Unauthorized` whatever else is wrong. The exception is an address that has sent 20 invalid fleet keys. Superstack then refuses its requests with `429 Too Many Requests` before checking the key, and allows one more every 10 seconds.
 
 | Status | Response body | Cause |
 | --- | --- | --- |
@@ -170,6 +170,7 @@ Superstack refuses the whole request when any part of it fails, and queues nothi
 | `404 Not Found` | `no such fleet` | The fleet id in the path is not a whole number above 0 |
 | `413 Content Too Large` | `the message can be at most 4096 bytes` | The message is longer than 4096 bytes |
 | `429 Too Many Requests` | `device <imei> already has 100 queued messages, try again after it receives some` | A device the request names already has 100 messages queued |
+| `429 Too Many Requests` | `too many requests, try again in <seconds>s` | The fleet sent more than 100 requests at once, or more than 20 a second, across all of its fleet keys. Wait the number of seconds in the `Retry-After` header, then send again. Only this refusal has a `Retry-After` header |
 | `503 Service Unavailable` | `the server could not check the fleet key` or `the server could not queue the message` | Superstack could not reach its database. Try again |
 
 ---
