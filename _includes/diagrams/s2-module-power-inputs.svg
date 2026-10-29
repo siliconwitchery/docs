@@ -1,0 +1,28 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 440" role="img" aria-labelledby="s2-module-power-inputs-title">
+    <title id="s2-module-power-inputs-title">S2 Module power inputs: the external power port takes VIN on pin 2 and GND on pin 3. Its pin 1 is the VSYS output, not an input. The battery port takes VBATT and GND, and a battery temperature sensor sits beside the battery port.</title>
+
+    <image class="hardware" href="/assets/images/s2-module-front.webp" x="301.5" y="20" width="277" height="280" />
+
+    <path class="wire unused" d="M355.875 300 V340" />
+    <path class="wire power" d="M366.75 300 V372" />
+    <path class="wire ground" d="M377.625 300 V404" />
+    <path class="wire power" d="M507.25 300 V372" />
+    <path class="wire ground" d="M518.25 300 V340" />
+
+    <text class="wire-label end" x="358.25" y="372">V<tspan class="sub" dy="4">IN</tspan></text>
+    <text class="wire-label end" x="369.125" y="404">GND</text>
+    <text class="wire-label" x="515.75" y="372">V<tspan class="sub" dy="4">BATT</tspan></text>
+    <text class="wire-label" x="526.75" y="340">GND</text>
+
+    <rect class="chip" x="141.05" y="339" width="179.6" height="26" />
+    <text class="chip-text" x="151.05" y="352">External power port</text>
+    <rect class="chip" x="567.95" y="323" width="120.8" height="26" />
+    <text class="chip-text" x="577.95" y="336">Battery port</text>
+
+    <path class="leader" d="M476.25 265 L626.5 184" />
+    <circle class="point" cx="476.25" cy="265" r="4" />
+    <rect class="chip" x="626.5" y="171" width="238.4" height="26" />
+    <text class="chip-text" x="636.5" y="184">Battery temperature sensor</text>
+</svg>
+</figure>

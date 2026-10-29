@@ -20,14 +20,46 @@ Should not be cached, because included files depend on page.
         id="jtd-head-nav-stylesheet">
 
     <style id="jtd-nav-activation">
-        {
-            % include css/activation.scss.liquid %
-        }
+        {% include css/activation.scss.liquid %}
     </style>
 
     {% if site.umami_id != nil %}
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="{{ site.umami_id }}"></script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="{{ site.umami_id }}" data-exclude-hash="true"></script>
+    <script>
+        const place = (element) => {
+            const region = element.closest("nav, header, footer, main");
+            if (region?.localName !== "main") {
+                return region?.getAttribute("aria-label") || region?.localName;
+            }
+            const heading = [...region.querySelectorAll("h1, h2, h3, h4, h5, h6")]
+                .reverse()
+                .find((h) => h.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING);
+            return heading?.textContent.replace(/\s+/g, " ").trim() || "main";
+        };
+
+        document.addEventListener("click", (event) => {
+            const link = event.target.closest("a[href]");
+            if (!link) return;
+            const text = link.textContent.replace(/\s+/g, " ").trim();
+            window.umami?.track(link.host === location.host ? "link" : "outbound", {
+                href: link.href,
+                text: text || link.querySelector("img")?.alt,
+                place: place(link),
+            });
+        });
+    </script>
     {% endif %}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            for (const link of document.querySelectorAll("a[href^='http']")) {
+                if (link.host !== location.host) {
+                    link.target = "_blank";
+                    link.rel = "noopener";
+                }
+            }
+        });
+    </script>
 
     {% if site.search_enabled != false %}
     <script src="{{ '/assets/js/vendor/lunr.min.js' | relative_url }}"></script>

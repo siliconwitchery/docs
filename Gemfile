@@ -3,7 +3,7 @@
 
 source "https://rubygems.org"
 
-gem "github-pages", "~> 228", group: :jekyll_plugins
+gem "github-pages", "~> 232", group: :jekyll_plugins
 
 # Ruby 3.0+ dropped webrick from the standard library; jekyll serve needs it.
 gem "webrick", "~> 1.8.1"

@@ -1,0 +1,70 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 430" role="img" aria-labelledby="s1-module-programming-interface-title">
+    <title id="s1-module-programming-interface-title">S1 Module wiring to a J-Link 20 pin SWD interface: pin 20 GND goes to J-Link GND on pin 4, pin 19 SWDCLK to TCK on pin 9, pin 18 SWDIO to TMS on pin 7, and pin 17 VnRF / VADC to VTREF on pin 1.</title>
+
+    <image class="hardware" href="/assets/images/s1-module-front.webp" x="60" y="20" width="149" height="280" />
+
+    <path class="wire ground" d="M344 133.25 H400 V40 H790 V105.25 H750" />
+    <path class="wire signal" d="M344 149.25 H560 V195.25 H690" />
+    <path class="wire signal" d="M344 165.25 H690" />
+    <path class="wire power" d="M344 181.25 H600 V75.25 H690" />
+
+    <rect class="part" x="690" y="60.25" width="30" height="30" />
+    <text class="link-label middle" x="705" y="75.25">1</text>
+    <rect class="part" x="720" y="60.25" width="30" height="30" />
+    <text class="link-label middle" x="735" y="75.25">2</text>
+    <rect class="part" x="690" y="90.25" width="30" height="30" />
+    <text class="link-label middle" x="705" y="105.25">3</text>
+    <rect class="part" x="720" y="90.25" width="30" height="30" />
+    <text class="link-label middle" x="735" y="105.25">4</text>
+    <rect class="part" x="690" y="120.25" width="30" height="30" />
+    <text class="link-label middle" x="705" y="135.25">5</text>
+    <rect class="part" x="720" y="120.25" width="30" height="30" />
+    <text class="link-label middle" x="735" y="135.25">6</text>
+    <rect class="part" x="690" y="150.25" width="30" height="30" />
+    <text class="link-label middle" x="705" y="165.25">7</text>
+    <rect class="part" x="720" y="150.25" width="30" height="30" />
+    <text class="link-label middle" x="735" y="165.25">8</text>
+    <rect class="part" x="690" y="180.25" width="30" height="30" />
+    <text class="link-label middle" x="705" y="195.25">9</text>
+    <rect class="part" x="720" y="180.25" width="30" height="30" />
+    <text class="link-label middle" x="735" y="195.25">10</text>
+    <rect class="part" x="690" y="210.25" width="30" height="30" />
+    <text class="link-label middle" x="705" y="225.25">11</text>
+    <rect class="part" x="720" y="210.25" width="30" height="30" />
+    <text class="link-label middle" x="735" y="225.25">12</text>
+    <rect class="part" x="690" y="240.25" width="30" height="30" />
+    <text class="link-label middle" x="705" y="255.25">13</text>
+    <rect class="part" x="720" y="240.25" width="30" height="30" />
+    <text class="link-label middle" x="735" y="255.25">14</text>
+    <rect class="part" x="690" y="270.25" width="30" height="30" />
+    <text class="link-label middle" x="705" y="285.25">15</text>
+    <rect class="part" x="720" y="270.25" width="30" height="30" />
+    <text class="link-label middle" x="735" y="285.25">16</text>
+    <rect class="part" x="690" y="300.25" width="30" height="30" />
+    <text class="link-label middle" x="705" y="315.25">17</text>
+    <rect class="part" x="720" y="300.25" width="30" height="30" />
+    <text class="link-label middle" x="735" y="315.25">18</text>
+    <rect class="part" x="690" y="330.25" width="30" height="30" />
+    <text class="link-label middle" x="705" y="345.25">19</text>
+    <rect class="part" x="720" y="330.25" width="30" height="30" />
+    <text class="link-label middle" x="735" y="345.25">20</text>
+
+    <text class="wire-label pin-number" x="218.5" y="133.25">20</text>
+    <text class="wire-label" x="248.5" y="133.25">GND</text>
+    <text class="wire-label pin-number" x="218.5" y="149.25">19</text>
+    <text class="wire-label" x="248.5" y="149.25">SWDCLK</text>
+    <text class="wire-label pin-number" x="218.5" y="165.25">18</text>
+    <text class="wire-label" x="248.5" y="165.25">SWDIO</text>
+    <text class="wire-label pin-number" x="218.5" y="181.25">17</text>
+    <text class="wire-label" x="248.5" y="181.25">V<tspan class="sub" dy="4">nRF</tspan><tspan dy="-4"> / V</tspan><tspan class="sub" dy="4">ADC</tspan></text>
+
+    <text class="link-label middle" x="595" y="27">GND</text>
+    <text class="link-label middle" x="645" y="62.25">V<tspan class="sub" dy="4">TREF</tspan></text>
+    <text class="link-label middle" x="645" y="152.25">TMS</text>
+    <text class="link-label middle" x="645" y="182.25">TCK</text>
+
+    <rect class="chip" x="596.6" y="376.25" width="246.8" height="26" />
+    <text class="chip-text" x="606.6" y="389.25">J-Link 20 pin SWD interface</text>
+</svg>
+</figure>

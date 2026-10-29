@@ -1,0 +1,22 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 300" role="img" aria-labelledby="s1-module-antenna-corner-clearance-title">
+    <title id="s1-module-antenna-corner-clearance-title">S1 Module antenna corner clearance: when the SR4W035 antenna sits on the edge of the host PCB near a corner, keep at least 6mm between the board corner and the antenna.</title>
+
+    <defs>
+        <marker id="s1-module-antenna-corner-clearance-arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+            <path class="arrowhead" d="M0 0 L10 5 L0 10 z" />
+        </marker>
+    </defs>
+
+    <rect class="board" x="120" y="140" width="720" height="140" />
+    <rect class="part" x="270" y="140" width="160" height="100" />
+    <text class="link-label middle" x="350" y="165">a</text>
+    <text class="link-label middle" x="350" y="190">SR4W035</text>
+    <text class="link-label middle" x="350" y="215">YYWW</text>
+
+    <path class="dimension" d="M120 132 V40" />
+    <path class="dimension" d="M270 132 V40" />
+    <path class="dimension" d="M120 80 H270" marker-start="url(#s1-module-antenna-corner-clearance-arrow)" marker-end="url(#s1-module-antenna-corner-clearance-arrow)" />
+    <text class="link-label middle" x="195" y="62">≥6mm</text>
+</svg>
+</figure>

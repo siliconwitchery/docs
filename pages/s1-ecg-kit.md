@@ -1,8 +1,9 @@
 ---
 title: S1 ECG Kit
 description: An all-in-kit to build and test heart algorithms with ease.
-image: /assets/images/annotated-ecg-kit.png
-nav_order: 6
+image: /assets/images/s1-ecg-kit-annotated-masthead.png
+nav_order: 3
+parent: S1 Series
 redirect_from:
   - /s1-ecg-kit/s1-ecg-kit/
 ---
@@ -51,7 +52,7 @@ The built-in S1 Module is designed for IoT projects where performance is key, ye
 
 Additionally, the module breaks out high speed IO and several adjustable power rails so that your design can remain compact.
 
-To read more about the S1 Module, be sure to check out the full datasheet [here](/s1-module/s1-module).
+To read more about the S1 Module, be sure to check out the full datasheet [here](/pages/s1-module).
 
 ---
 
@@ -61,7 +62,7 @@ The block diagram below shows the simplistic nature of devices built with the S1
 
 This design features a single ECG frontend amplifier as the only active external component in the system. All other processing is done within the S1 Module.
 
-![S1 ECG kit system block diagram](/assets/images/s1-ecg-kit-block-diagram.png)
+{% include diagrams/s1-ecg-kit-block-diagram.svg %}
 
 ---
 
@@ -93,7 +94,7 @@ Seven LEDs on the front of the board display a smooth waveform of the measured E
 
 If required, up to four of the LED pins (**D1 - D4**) can be repurposed as GPIO lines via the solder points on the back of the PCB. This allows you to add additional sensors or peripherals to develop your application.
 
-![Back side IO connections of the S1 ECG Kit](/assets/images/s1-ecg-kit-back-pcb.png)
+{% include diagrams/s1-ecg-kit-back.svg %}
 
 Additionally, the raw ECG analog output is also exposed for ease of testing.
 
@@ -133,7 +134,7 @@ The first `make` command will build the Verilog project, and convert the binary 
 
 The second `make` command builds the nRF code, and flashes the module using the J-Link debugger.
 
-Once you're up and running, you can begin customizing the application to your needs. Be sure to check out the full [S1 Datasheet](/s1-module/s1-module) to learn more about the module, as well as its features.
+Once you're up and running, you can begin customizing the application to your needs. Be sure to check out the full [S1 Datasheet](/pages/s1-module) to learn more about the module, as well as its features.
 
 ---
 

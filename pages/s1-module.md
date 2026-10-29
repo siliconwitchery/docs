@@ -1,10 +1,11 @@
 ---
-title: S1 Module
+title: S1 Module datasheet
 description: Hardware datasheet for the S1 Bluetooth-FPGA Module.
 image: /assets/images/s1-module-annotated-masthead.png
-nav_order: 4
+nav_order: 1
+parent: S1 Series
 redirect_from:
-    - /s1-module/s1-module/
+  - /s1-module/s1-module/
 ---
 
 # S1 Module
@@ -73,9 +74,8 @@ The S1 Module consists of four key devices:
 - Low power FPGA - [Lattice iCE40 Ultra Plus](https://www.latticesemi.com/en/Products/FPGAandCPLD/iCE40UltraPlus)
 - Power management IC - [Maxim MAX77654](https://www.maximintegrated.com/en/products/power/power-management-ics/MAX77654.html)
 - 32-Mbit flash - [Adesto AT25SL321](https://www.mouser.se/datasheet/2/590/AT25SL321_112-1385816.pdf)
-  <br>
-  <br>
-  ![S1 Module Block Diagram](/assets/images/s1-module-block-diagram.png)
+
+{% include diagrams/s1-module-block-diagram.svg %}
 
 The devices are fully supported internally including all RF, power and decoupling circuitry. Simply connecting a battery powers up the module and brings it into its normal operating mode.
 
@@ -83,7 +83,7 @@ It's recommended to study the [module schematics](#schematics) as well as the da
 
 ## Pinout
 
-![S1 Module pinout](/assets/images/s1-module-pinout.png)
+{% include diagrams/s1-module-pinout.svg %}
 
 | Pin Number |              Signal               | Direction | Description                                                                                                                                                                                                                                                                                             |
 | :--------: | :-------------------------------: | :-------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -108,7 +108,7 @@ Download and print out a [S1 Module reference card](/assets/images/s1-module-pin
 
 The module may be programmed after assembly through the SWD pins located on pins 18 and 19. Many ARM Cortex debuggers are suitable such as the [J-Link probes](https://www.segger.com/products/debug-probes/j-link/).
 
-![S1 Module JLINK connection diagram](/assets/images/s1-module-programming-interface.png)
+{% include diagrams/s1-module-programming-interface.svg %}
 
 Note, it is important that the interface voltage matches the voltage of the V<sub>nRF</sub> pin, otherwise the module may be damaged. Additionally, the module shouldn't be powered through the V<sub>nRF</sub> pin during programming, but rather through the V<sub>CHG</sub> or V<sub>BATT</sub> pins.
 
@@ -124,7 +124,7 @@ The module does not expose the FPGA programming interface directly. It is intend
 
 The three devices are internally connected via SPI. The nRF52 controls overall communication flow, though communication is possible in any direction between the three devices.
 
-![Internal communication bus of the S1 Module](/assets/images/s1-module-internal-spi-interface.png)
+{% include diagrams/s1-module-internal-spi-interface.svg %}
 
 In order to configure the FPGA with an application binary, the nRF52 must first load the binary onto the flash memory. After this, the FPGA will automatically use that binary after power cycling or resets. The procedure shown below describes this process.
 
@@ -152,7 +152,7 @@ All of the internal devices of the S1 Module are powered from an ultra low power
 
 The PMIC is I2C controlled from the nRF52 which allow the user to dynamically adjust power requirements on they fly.
 
-![S1 Module power internal management](/assets/images/s1-module-power-management.png)
+{% include diagrams/s1-module-power-management.svg %}
 
 ### Battery management
 
@@ -278,11 +278,11 @@ A cutout should be present on the carrier board to clear the passive components 
 
 To ensure good antenna performance, the antenna side of the module should be placed along the edge of the carrier PCB. A good ground connection should be made from pins 1 and 20 to the ground plane of the carrier PCB.
 
-![S1 Module antenna edge placement on PCB](/assets/images/s1-module-antenna-edge-placement.png)
+{% include diagrams/s1-module-antenna-edge-placement.svg %}
 
 The area directly below the antenna should not contain any ground pour or signal traces, however on either side of the antenna, a ground fill is recommended.
 
-![S1 Module antenna corner placement on PCB](/assets/images/s1-module-antenna-corner-clearance.png)
+{% include diagrams/s1-module-antenna-corner-clearance.svg %}
 
 When the module cannot be placed centered to the board edge, it may be placed offset from a corner by 6mm.
 
@@ -319,3 +319,14 @@ Purchasing parties agree to take responsibility that any delivered hardware, sof
 Silicon Witchery may hold back from delivering goods, services, or any other materials in its position, if it suspects they may be used outside the accordance of these Regulations.
 
 The Purchasing Parties agree to indemnify and hold harmless Silicon Witchery against any damages, costs, losses, and/or liabilities arising out of any non-compliance with Regulations.
+
+---
+
+## Let us build it for you
+
+Silicon Witchery designs IoT devices, with LTE-M cellular and Bluetooth at its core. We take your product from the first schematic to final testing at the lab, down to the antenna, firmware and power budget. When our S1 or S2 module fits, we can build on it to save you time.
+
+[Book a free 30-minute call](https://cal.com/siliconwitchery/30min){: .btn .btn-purple}
+[IoT product development services](https://www.siliconwitchery.com/services){: .btn}
+
+You get a written proposal and price before any work starts.

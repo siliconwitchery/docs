@@ -1,0 +1,39 @@
+$color-scheme: dark;
+
+$body-font-family: "Geist", system-ui, sans-serif;
+$mono-font-family: "JetBrains Mono", ui-monospace, monospace;
+
+$purple-000: #e8c27c;
+$purple-100: #e8c27c;
+$purple-200: #f3d59c;
+$purple-300: #c9a25e;
+$blue-000: #ab95e3;
+$blue-100: #9a83d6;
+$blue-200: #8770c4;
+$blue-300: #6f59a8;
+$green-000: #b3cc8c;
+$green-100: #9fbb76;
+$green-200: #8aa863;
+$green-300: #6f8a4c;
+$red-000: #d06a54;
+$red-100: #c25c47;
+$red-200: #b04f3b;
+$red-300: #8f3f2e;
+
+$body-background-color: #100c14;
+$body-heading-color: #ece3d0;
+$body-text-color: #d8cfc0;
+$link-color: #e8c27c;
+$nav-child-link-color: #a99fae;
+$sidebar-color: #0d0a11;
+$base-button-color: #1c1622;
+$btn-primary-color: #e8c27c;
+$code-background-color: #0b0810;
+$code-linenumber-color: #756a7c;
+$feedback-color: #0b0810;
+$table-background-color: #16111b;
+$search-background-color: #16111b;
+$search-result-preview-color: #a99fae;
+$border-color: #2d2436;
+
+@import "./vendor/accessible-pygments/github-dark";

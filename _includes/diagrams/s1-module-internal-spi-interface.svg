@@ -1,0 +1,54 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 490" role="img" aria-labelledby="s1-module-internal-spi-interface-title">
+    <title id="s1-module-internal-spi-interface-title">S1 Module internal SPI bus: the nRF52 drives RESET to the iCE40 and reads DONE from it. SCK, MOSI and CS run from the nRF52 to both the iCE40 and the flash, and MISO returns from both to the nRF52. Setting LOW on RESET will reset the iCE40. CDONE goes HIGH once the FPGA is ready. After configuration, DONE can become a user defined pin. The nRF may talk to either the Flash or FPGA over SPI as long as the user FPGA application uses an inverted CS signal.</title>
+
+    <defs>
+        <marker id="s1-module-internal-spi-interface-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+            <path class="arrowhead" d="M0 0 L10 5 L0 10 z" />
+        </marker>
+    </defs>
+
+    <!-- blocks -->
+    <rect class="block" x="34" y="20" width="207.7" height="207.7" />
+    <text class="block-title" x="137.8" y="123.8">nRF52</text>
+    <rect class="block" x="638.1" y="20" width="207.7" height="207.7" />
+    <text class="block-title" x="742" y="123.8">iCE40</text>
+    <rect class="block" x="638.1" y="254.1" width="207.7" height="207.7" />
+    <text class="block-title" x="742" y="357.9">Flash</text>
+
+    <!-- links -->
+    <path class="link" d="M241.7 48.2 H638.1" marker-end="url(#s1-module-internal-spi-interface-arrow)" />
+    <text class="link-label middle" x="440.1" y="36.2">RESET</text>
+    <path class="link" d="M638.1 75.4 H241.7" marker-end="url(#s1-module-internal-spi-interface-arrow)" />
+    <text class="link-label middle" x="440.1" y="63.4">DONE</text>
+    <path class="link" d="M241.7 115.9 H638.1" marker-end="url(#s1-module-internal-spi-interface-arrow)" />
+    <path class="link" d="M567.7 115.9 V316.1 H638.1" marker-end="url(#s1-module-internal-spi-interface-arrow)" />
+    <circle class="arrowhead" cx="567.7" cy="115.9" r="3" />
+    <text class="link-label middle" x="388.2" y="103.9">SCK</text>
+    <path class="link" d="M241.7 143.2 H638.1" marker-end="url(#s1-module-internal-spi-interface-arrow)" />
+    <path class="link" d="M540.4 143.2 V343 H638.1" marker-end="url(#s1-module-internal-spi-interface-arrow)" />
+    <circle class="arrowhead" cx="540.4" cy="143.2" r="3" />
+    <text class="link-label middle" x="388.2" y="131.2">MOSI</text>
+    <path class="link" d="M638.1 170.5 H241.7" marker-end="url(#s1-module-internal-spi-interface-arrow)" />
+    <path class="link" d="M638.1 370.2 H511.8 V170.5" />
+    <circle class="arrowhead" cx="511.8" cy="170.5" r="3" />
+    <text class="link-label middle" x="388.2" y="158.5">MISO</text>
+    <path class="link" d="M241.7 197.8 H638.1" marker-end="url(#s1-module-internal-spi-interface-arrow)" />
+    <path class="link" d="M482.4 197.8 V398 H638.1" marker-end="url(#s1-module-internal-spi-interface-arrow)" />
+    <circle class="arrowhead" cx="482.4" cy="197.8" r="3" />
+    <text class="link-label middle" x="388.2" y="185.8">CS</text>
+
+    <!-- notes -->
+    <text class="link-label" x="34" y="290">•</text>
+    <text class="link-label" x="50" y="290">Setting LOW on RESET will reset the iCE40.</text>
+    <text class="link-label" x="34" y="314">•</text>
+    <text class="link-label" x="50" y="314">CDONE goes HIGH once the FPGA is ready.</text>
+    <text class="link-label" x="34" y="338">•</text>
+    <text class="link-label" x="50" y="338">After configuration, DONE can become a user</text>
+    <text class="link-label" x="50" y="362">defined pin.</text>
+    <text class="link-label" x="34" y="386">•</text>
+    <text class="link-label" x="50" y="386">The nRF may talk to either the Flash or FPGA</text>
+    <text class="link-label" x="50" y="410">over SPI as long as the user FPGA application</text>
+    <text class="link-label" x="50" y="434">uses an inverted CS signal.</text>
+</svg>
+</figure>

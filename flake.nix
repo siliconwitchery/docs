@@ -1,32 +1,24 @@
 {
-  description = "Silicon Witchery docs — Jekyll dev shell";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-  outputs = { self, nixpkgs }:
+  outputs =
+    { nixpkgs, ... }:
     let
-      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
-      forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system});
-    in {
-      devShells = forAllSystems (pkgs: {
-        default = pkgs.mkShell {
-          packages = with pkgs; [
-            ruby_3_3   # Includes `bundle` and matches github-pages (~> 228)
-            git        # Tools to build native gems
-            gcc
-            gnumake
-            pkg-config
-            zlib
-            libffi
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    in
+    {
+      devShells.x86_64-linux.default = pkgs.mkShell {
+        packages = [
+          pkgs.ruby
+          pkgs.bundler # RubyGems 3.7 in nixpkgs' Ruby warns with Ruby's default Bundler 2.6
+        ];
 
-            # Shortcut for starting the server
-            (writeShellScriptBin "start" "bundle install && exec bundle exec jekyll serve --livereload")
-          ];
-          shellHook = ''
-            export BUNDLE_PATH="$PWD/.bundle"   # Keep gems here rather than on system path
-            export BUNDLE_FORCE_RUBY_PLATFORM=1 # Build gems for Nix rather than pulling them
-          '';
-        };
-      });
+        shellHook = ''
+          export BUNDLE_PATH="$PWD/.bundle"
+          export BUNDLE_BIN="$PWD/.bundle/bin"
+          export PATH="$BUNDLE_BIN:$PATH"
+          bundle check > /dev/null || bundle install
+        '';
+      };
     };
 }

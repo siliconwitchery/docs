@@ -1,0 +1,13 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 320" role="img" aria-labelledby="s2-module-labeling-title">
+    <title id="s2-module-labeling-title">S2 Module labelling: the IMEI label, with the IMEI digits and a QR code, sits on the back of the board below the S2 Module marking.</title>
+
+    <image class="hardware" href="/assets/images/s2-module-back.webp" x="300" y="20" width="280" height="280" />
+    <image href="/assets/images/s2-module-imei-label.webp" x="374.8" y="89.4" width="132.3" height="68.4" />
+
+    <path class="leader" d="M381.3 123.6 L252 170.7" />
+    <circle class="point" cx="381.3" cy="123.6" r="4" />
+    <rect class="chip" x="148" y="157.7" width="104" height="26" />
+    <text class="chip-text" x="158" y="170.7">IMEI label</text>
+</svg>
+</figure>

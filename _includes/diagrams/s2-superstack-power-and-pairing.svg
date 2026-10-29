@@ -1,0 +1,20 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 430" role="img" aria-labelledby="s2-superstack-power-and-pairing-title">
+    <title id="s2-superstack-power-and-pairing-title">S2 Module power and pairing: the USB-C power port sits in the middle of the bottom edge. The pairing button sits above it, and the network status LED sits right of the pairing button.</title>
+
+    <image class="hardware" href="/assets/images/s2-module-front.webp" x="301.5" y="20" width="277" height="280" />
+
+    <path class="leader" d="M439.75 233 L253.5 160" />
+    <path class="leader" d="M472.5 232 L626.5 188" />
+    <path class="leader" d="M440 274.7 L626.5 392" />
+    <circle class="point" cx="439.75" cy="233" r="4" />
+    <circle class="point" cx="472.5" cy="232" r="4" />
+    <circle class="point" cx="440" cy="274.7" r="4" />
+    <rect class="chip" x="115.9" y="147" width="137.6" height="26" />
+    <text class="chip-text" x="125.9" y="160">Pairing button</text>
+    <rect class="chip" x="626.5" y="175" width="171.2" height="26" />
+    <text class="chip-text" x="636.5" y="188">Network status LED</text>
+    <rect class="chip" x="626.5" y="379" width="154.4" height="26" />
+    <text class="chip-text" x="636.5" y="392">USB-C power port</text>
+</svg>
+</figure>

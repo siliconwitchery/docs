@@ -1,0 +1,108 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 440" role="img" aria-labelledby="s2-module-bottom-pinout-title">
+    <title id="s2-module-bottom-pinout-title">S2 Module bottom pinout: pogo pin pads that carry the same signals as the top connectors, mirrored. IO ports F, E and D are on the left edge, top to bottom, and IO ports A, B and C on the right edge, top to bottom. Ports A and B: pin 1 GND, pin 2 VOUT1, pin 3 A0 or B0, pin 4 A1 or B1. Port C: pin 1 GND, pin 2 VOUT1, pins 3 to 7 C0 to C4. Ports E and F: pin 1 GND, pin 2 VOUT2, pin 3 E0 or F0, pin 4 E1 or F1. Port D: pin 1 GND, pin 2 VOUT2, pins 3 to 7 D0 to D4. C2 to C4 and D0 to D4 support analog input. The battery port pads on the bottom left are pin 1 VBATT and pin 2 GND. The power port pads on the bottom right are pin 1 VSYS, pin 2 VIN and pin 3 GND.</title>
+
+    <image class="hardware" href="/assets/images/s2-module-back.webp" x="300" y="20" width="280" height="280" />
+
+    <path class="leader" d="M370 283 V325" />
+    <path class="leader" d="M510 277.5 V325" />
+    <path class="leader" d="M322.25 112.25 L253.5 61" />
+    <path class="leader" d="M322.25 162.65 L253.5 155" />
+    <path class="leader" d="M322.25 221.5 L253.5 276" />
+    <path class="leader" d="M557.6 112.25 L626.5 61" />
+    <path class="leader" d="M557.6 162.65 L626.5 155" />
+    <path class="leader" d="M557.6 221.5 L626.5 276" />
+    <circle class="point" cx="370" cy="283" r="4" />
+    <circle class="point" cx="510" cy="277.5" r="4" />
+    <circle class="point" cx="322.25" cy="112.25" r="4" />
+    <circle class="point" cx="322.25" cy="162.65" r="4" />
+    <circle class="point" cx="322.25" cy="221.5" r="4" />
+    <circle class="point" cx="557.6" cy="112.25" r="4" />
+    <circle class="point" cx="557.6" cy="162.65" r="4" />
+    <circle class="point" cx="557.6" cy="221.5" r="4" />
+
+    <text class="wire-label end" x="208.7" y="34">F1</text>
+    <text class="wire-label pin-number end" x="225.5" y="34">4</text>
+    <text class="wire-label end" x="208.7" y="52">F0</text>
+    <text class="wire-label pin-number end" x="243.5" y="52">3</text>
+    <text class="wire-label end" x="208.7" y="70">V<tspan class="sub" dy="4">OUT2</tspan></text>
+    <text class="wire-label pin-number end" x="225.5" y="70">2</text>
+    <text class="wire-label end" x="208.7" y="88">GND</text>
+    <text class="wire-label pin-number end" x="243.5" y="88">1</text>
+    <rect class="chip" x="62.3" y="21" width="95.6" height="26" />
+    <text class="chip-text" x="72.3" y="34">IO PORT F</text>
+    <text class="wire-label end" x="208.7" y="128">E1</text>
+    <text class="wire-label pin-number end" x="225.5" y="128">4</text>
+    <text class="wire-label end" x="208.7" y="146">E0</text>
+    <text class="wire-label pin-number end" x="243.5" y="146">3</text>
+    <text class="wire-label end" x="208.7" y="164">V<tspan class="sub" dy="4">OUT2</tspan></text>
+    <text class="wire-label pin-number end" x="225.5" y="164">2</text>
+    <text class="wire-label end" x="208.7" y="182">GND</text>
+    <text class="wire-label pin-number end" x="243.5" y="182">1</text>
+    <rect class="chip" x="62.3" y="115" width="95.6" height="26" />
+    <text class="chip-text" x="72.3" y="128">IO PORT E</text>
+    <text class="wire-label end" x="208.7" y="222"><tspan class="analog">∿</tspan> D4</text>
+    <text class="wire-label pin-number end" x="243.5" y="222">7</text>
+    <text class="wire-label end" x="208.7" y="240"><tspan class="analog">∿</tspan> D3</text>
+    <text class="wire-label pin-number end" x="225.5" y="240">6</text>
+    <text class="wire-label end" x="208.7" y="258"><tspan class="analog">∿</tspan> D2</text>
+    <text class="wire-label pin-number end" x="243.5" y="258">5</text>
+    <text class="wire-label end" x="208.7" y="276"><tspan class="analog">∿</tspan> D1</text>
+    <text class="wire-label pin-number end" x="225.5" y="276">4</text>
+    <text class="wire-label end" x="208.7" y="294"><tspan class="analog">∿</tspan> D0</text>
+    <text class="wire-label pin-number end" x="243.5" y="294">3</text>
+    <text class="wire-label end" x="208.7" y="312">V<tspan class="sub" dy="4">OUT2</tspan></text>
+    <text class="wire-label pin-number end" x="225.5" y="312">2</text>
+    <text class="wire-label end" x="208.7" y="330">GND</text>
+    <text class="wire-label pin-number end" x="243.5" y="330">1</text>
+    <rect class="chip" x="62.3" y="209" width="95.6" height="26" />
+    <text class="chip-text" x="72.3" y="222">IO PORT D</text>
+    <text class="wire-label pin-number" x="636.5" y="34">1</text>
+    <text class="wire-label" x="671.3" y="34">GND</text>
+    <text class="wire-label pin-number" x="654.5" y="52">2</text>
+    <text class="wire-label" x="671.3" y="52">V<tspan class="sub" dy="4">OUT1</tspan></text>
+    <text class="wire-label pin-number" x="636.5" y="70">3</text>
+    <text class="wire-label" x="671.3" y="70">A0</text>
+    <text class="wire-label pin-number" x="654.5" y="88">4</text>
+    <text class="wire-label" x="671.3" y="88">A1</text>
+    <rect class="chip" x="722.1" y="21" width="95.6" height="26" />
+    <text class="chip-text" x="732.1" y="34">IO PORT A</text>
+    <text class="wire-label pin-number" x="636.5" y="128">1</text>
+    <text class="wire-label" x="671.3" y="128">GND</text>
+    <text class="wire-label pin-number" x="654.5" y="146">2</text>
+    <text class="wire-label" x="671.3" y="146">V<tspan class="sub" dy="4">OUT1</tspan></text>
+    <text class="wire-label pin-number" x="636.5" y="164">3</text>
+    <text class="wire-label" x="671.3" y="164">B0</text>
+    <text class="wire-label pin-number" x="654.5" y="182">4</text>
+    <text class="wire-label" x="671.3" y="182">B1</text>
+    <rect class="chip" x="722.1" y="115" width="95.6" height="26" />
+    <text class="chip-text" x="732.1" y="128">IO PORT B</text>
+    <text class="wire-label pin-number" x="636.5" y="222">1</text>
+    <text class="wire-label" x="671.3" y="222">GND</text>
+    <text class="wire-label pin-number" x="654.5" y="240">2</text>
+    <text class="wire-label" x="671.3" y="240">V<tspan class="sub" dy="4">OUT1</tspan></text>
+    <text class="wire-label pin-number" x="636.5" y="258">3</text>
+    <text class="wire-label" x="671.3" y="258">C0</text>
+    <text class="wire-label pin-number" x="654.5" y="276">4</text>
+    <text class="wire-label" x="671.3" y="276">C1</text>
+    <text class="wire-label pin-number" x="636.5" y="294">5</text>
+    <text class="wire-label" x="671.3" y="294">C2 <tspan class="analog">∿</tspan></text>
+    <text class="wire-label pin-number" x="654.5" y="312">6</text>
+    <text class="wire-label" x="671.3" y="312">C3 <tspan class="analog">∿</tspan></text>
+    <text class="wire-label pin-number" x="636.5" y="330">7</text>
+    <text class="wire-label" x="671.3" y="330">C4 <tspan class="analog">∿</tspan></text>
+    <rect class="chip" x="722.1" y="209" width="95.6" height="26" />
+    <text class="chip-text" x="732.1" y="222">IO PORT C</text>
+    <text class="wire-label end" x="362" y="340">GND <tspan class="pin-number">2</tspan></text>
+    <text class="wire-label" x="378" y="340"><tspan class="pin-number">1</tspan> V<tspan class="sub" dy="4">BATT</tspan></text>
+    <text class="wire-label pin-number" x="505.8" y="340">2</text>
+    <text class="wire-label" x="522.6" y="340">V<tspan class="sub" dy="4">IN</tspan></text>
+    <text class="wire-label end" x="502" y="358">GND <tspan class="pin-number">3</tspan></text>
+    <text class="wire-label" x="518" y="358"><tspan class="pin-number">1</tspan> V<tspan class="sub" dy="4">SYS</tspan></text>
+    <rect class="chip" x="309.6" y="385" width="120.8" height="26" />
+    <text class="chip-text" x="319.6" y="398">Battery Port</text>
+    <rect class="chip" x="458" y="385" width="104" height="26" />
+    <text class="chip-text" x="468" y="398">Power Port</text>
+    <text class="wire-label" x="62.3" y="398"><tspan class="analog">∿</tspan> Supports analog input</text>
+</svg>
+</figure>

@@ -1,0 +1,50 @@
+<figure class="diagram">
+<svg viewBox="0 0 880 580" role="img" aria-labelledby="s1-ecg-kit-block-diagram-title">
+    <title id="s1-ecg-kit-block-diagram-title">S1 ECG kit block diagram: the left hand, right hand and reference electrodes feed a 3 probe ECG frontend. The S1 Module powers the frontend from its 1.8v rail, and the frontend sends adc in and wakeup to the S1 Module. The USB-C charge port and the debugging port connect to the S1 Module, which drives an LED bar graph. A 150mAh lithium battery connects to the S1 Module through a current measurement point.</title>
+
+    <defs>
+        <marker id="s1-ecg-kit-block-diagram-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+            <path class="arrowhead" d="M0 0 L10 5 L0 10 z" />
+        </marker>
+    </defs>
+
+    <!-- blocks -->
+    <rect class="block" x="424.5" y="119.7" width="189.1" height="188.6" />
+    <text class="block-title" x="519.1" y="214">S1 Module</text>
+    <path class="link" d="M234.6 163 L322.6 214 L234.6 264.5 Z" />
+    <text class="link-label middle" x="263.6" y="295.8">3 probe ECG</text>
+    <text class="link-label middle" x="263.6" y="322.6">frontend</text>
+
+    <!-- links -->
+    <path class="link" d="M125 180.9 H234.6" marker-end="url(#s1-ecg-kit-block-diagram-arrow)" />
+    <text class="link-label end" x="119.2" y="180.9">Left hand</text>
+    <path class="link" d="M125 214 H234.6" marker-end="url(#s1-ecg-kit-block-diagram-arrow)" />
+    <text class="link-label end" x="119.2" y="214">Right hand</text>
+    <path class="link" d="M125 246.6 H234.6" marker-end="url(#s1-ecg-kit-block-diagram-arrow)" />
+    <text class="link-label end" x="119.2" y="246.6">Reference</text>
+    <path class="link" d="M322.6 214 H424.5" marker-end="url(#s1-ecg-kit-block-diagram-arrow)" />
+    <text class="link-label middle" x="365.5" y="199.7">adc in</text>
+    <path class="link" d="M424.5 166.6 H282.8 V191" marker-end="url(#s1-ecg-kit-block-diagram-arrow)" />
+    <text class="link-label middle" x="365.5" y="152.8">1.8v rail</text>
+    <path class="link" d="M282.8 236.6 V260.9 H424.5" marker-end="url(#s1-ecg-kit-block-diagram-arrow)" />
+    <text class="link-label middle" x="365.5" y="246.6">wakeup</text>
+    <path class="link" d="M476.8 57.1 V119.7" marker-end="url(#s1-ecg-kit-block-diagram-arrow)" />
+    <text class="link-label middle" x="414.3" y="34.3">USB-C charge port</text>
+    <path class="link" d="M561.8 57.1 V119.7" marker-end="url(#s1-ecg-kit-block-diagram-arrow)" />
+    <text class="link-label middle" x="613.6" y="34.3">Debugging port</text>
+    <path class="link" d="M613.6 214 H723.6" marker-end="url(#s1-ecg-kit-block-diagram-arrow)" />
+    <text class="link-label" x="731.6" y="214">LED bar graph</text>
+    <path class="link" d="M770.5 172 H783.5 L789.5 146 L797.5 198 L803.5 167 L807.5 172 H820.5" />
+    <path class="link" d="M519.3 352.6 V308.3" marker-end="url(#s1-ecg-kit-block-diagram-arrow)" />
+    <path class="link" d="M519.3 387.4 V429.9" marker-end="url(#s1-ecg-kit-block-diagram-arrow)" />
+    <circle class="link" cx="519.3" cy="370" r="17.4" />
+    <text class="link-label middle" x="519.3" y="370">A</text>
+    <text class="link-label" x="548.8" y="370">Current measurement point</text>
+    <g transform="rotate(15 519.3 471.5)">
+        <rect class="link" x="509.3" y="447.5" width="20" height="48" rx="3" />
+        <path class="link" d="M514.3 447.5 V442.5 H524.3 V447.5 M522.3 459.5 L515.3 473.5 H523.3 L516.3 485.5" />
+    </g>
+    <text class="link-label middle" x="519.3" y="525.1">150mAh</text>
+    <text class="link-label middle" x="519.3" y="552.4">lithium battery</text>
+</svg>
+</figure>

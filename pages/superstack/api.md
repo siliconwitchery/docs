@@ -1,19 +1,21 @@
 ---
-title: API Reference
-parent: Superstack Platform
-description: 
+title: Superstack API
+parent: "S2 & Superstack"
+description: API reference for sending messages from your application to S2 Modules, and for answering their requests, through Superstack.
 image: /assets/images/superstack-annotated-masthead.png
-nav_order: 2
+nav_order: 4
 ---
 
-# Superstack API Reference
+# Superstack API reference
 {: .no_toc }
 
 ---
 
-Superstack exposes all functionality featured in the web app as REST APIs. This allows for tight integration of Superstack with your own applications.
+Your application sends data to S2 Modules with an HTTP `POST` to Superstack. Each request carries one message, such as a command, a setting or a JSON document. Superstack holds the message until each device collects it, and the Lua on the device receives it through [`network.assign_message_event`](/pages/superstack/lua#assign-an-event-handler-for-messages).
 
-Use the API to pull data dynamically into your apps, expose natural language interfaces for different types of users, monitor logs from your own dashboards, manage devices alongside existing IoT infrastructure, and react to events by triggering actions on devices.
+Lua on the device sends data to your application with an HTTP request, which Superstack makes on the device's behalf. [Receive requests from a device](#receive-requests-from-a-device) describes what your application receives and how it must answer.
+
+To manage fleets, devices and code, use the [Superstack CLI](/pages/superstack/cli).
 
 ---
 
@@ -25,1037 +27,169 @@ Use the API to pull data dynamically into your apps, expose natural language int
 
 ---
 
-## Authentication
+## Create a fleet key
 
-### Deployment ID
+A fleet key lets your application send messages to the devices in one fleet. The owner and any member of the fleet can create one.
 
-The **Deployment ID** is required for accessing all data within a deployment. This ID can be found on the **Settings Tab**:
+1. Find the id of your fleet:
 
-![Superstack deployment ID](/assets/images/superstack-deployment-id.png)
+    ```sh
+    superstack fleet list
+    ```
 
-The API signatures shown below include placeholders for the Deployment ID shown as `{deploymentId}`. Wherever you see this, simply replace it with the real Deployment ID.
+1. Create a fleet key, with a label that names the application that will use it:
+
+    ```sh
+    superstack key create <fleet_id> greenhouse-controller
+    ```
+
+    The CLI prints the fleet key once. Store it where your application can read it, because anyone who holds it can send messages to every device in the fleet.
+
+A fleet key starts with `ssf_` and reaches only its own fleet. It works until you revoke it or delete the fleet, even after the member who created it leaves the fleet. The owner and any member can revoke one: find its id with `superstack key list`, then run `superstack key revoke <key_id>`.
+
+A fleet can have at most 100 fleet keys, and a label is at most 100 characters.
+
+---
+
+## Send a message
 
 ```
-https://super.siliconwitchery.com/api/{deploymentId}/logs
-# becomes
-https://super.siliconwitchery.com/api/c309cd39-e9fc-4f49-b4ed-6a5c57c8a515/logs
+POST https://supernext.siliconwitchery.com/fleets/{fleet_id}/messages
 ```
 
-### API Key
+{: .note-title }
+> Authentication
+> - Send the fleet key in the `Authorization` header as `Bearer <fleet_key>`
+> - The fleet key must belong to the fleet in the path
 
-Many of the APIs require authentication via an **API Key**. To generate an API Key, navigate to the **API Keys** section of the **Settings Tab**, and click **Create**.
+{: .note-title }
+> Query parameters
+> - `imei` - optional - The 15-digit IMEI of a device paired with the fleet. Repeat it to send the message to several devices. Leave it out to send the message to every device paired with the fleet
+> - `expires_in` - optional - How many seconds Superstack keeps the message for a device that has not collected it. From `30` to `1209600` (14 days). Defaults to `3600` (1 hour)
 
-Give the API Key a **Name** and desired **Permissions**. Permissions are granular, allowing specific keys to only access specific information.
+{: .note-title }
+> Request body
+>
+> The message, at most 4096 bytes. It can be text or binary, such as JSON or a packed struct. Lua receives exactly these bytes as a string. Superstack ignores `Content-Type`.
 
-![Superstack API Keys](/assets/images/superstack-api-key.png)
+{: .note-title }
+> Response (202 Accepted)
+>
+> The body is empty. Superstack has queued the message for every device the request names, but no device has received it yet. A request without `imei` to a fleet that has credit but no paired devices also gets `202 Accepted`, and queues nothing.
 
-Once an API Key has been created, add it to the `X-Api-Key` header when making a request:
+Send settings to one device:
 
 ```sh
-curl https://super.siliconwitchery.com/api/{deploymentId}/logs \
-    -H 'X-Api-Key: <Your newly created API key>'
+curl -X POST "https://supernext.siliconwitchery.com/fleets/<fleet_id>/messages?imei=<imei>" \
+    -H "Authorization: Bearer <fleet_key>" \
+    --data-binary '{"interval":60,"led":true}'
 ```
+
+Send the same settings to two devices, and keep them for a day:
+
+```sh
+curl -X POST "https://supernext.siliconwitchery.com/fleets/<fleet_id>/messages?imei=<imei>&imei=<imei>&expires_in=86400" \
+    -H "Authorization: Bearer <fleet_key>" \
+    --data-binary '{"interval":60,"led":true}'
+```
+
+Send a settings file to every device in the fleet:
+
+```sh
+curl -X POST "https://supernext.siliconwitchery.com/fleets/<fleet_id>/messages" \
+    -H "Authorization: Bearer <fleet_key>" \
+    --data-binary @settings.json
+```
+
+Use `--data-binary` rather than `--data`, because `--data` removes the newlines from a file.
+
+---
+
+## How a message reaches a device
+
+When Superstack accepts a request, it queues one copy of the message for each device the request names. A device paired with the fleet later does not receive it.
+
+Superstack then asks each device to collect its messages straight away. A device in [low power mode](/pages/superstack/lua#set-low-power-mode) collects them at its next check-in.
+
+Each device receives its messages in the order your application sent them. Superstack removes a message from the queue when the device confirms that it received it. A message the device does not confirm stays queued, and Superstack tries again at the next check-in.
+
+The device confirms a message even when nothing receives it in Lua:
+
+- If the code is stopped, the device discards the message.
+- If the code has not assigned a handler with `network.assign_message_event`, the device discards the message.
+- If the code ends, stops or restarts before its handler runs, the device discards the message.
+
+If the device's confirmation is lost on the network, Superstack sends the message again, so Lua can receive the same message twice. Write a message that has the same effect when it arrives twice, such as `{"led":true}` rather than `toggle`.
+
+The device has room for one 4096-byte message, or several shorter ones, that Lua has not handled yet. Each message takes 2 bytes more than its length. The device runs one handler at a time, so messages wait on the device while a handler, such as one that makes a web request, is still running. When a message does not fit, the device refuses it. That message and every later one wait in Superstack for a later check-in.
+
+While the fleet has no [credit](/pages/superstack/credit), Superstack delivers no messages. Messages already queued wait until a top-up or until they expire.
+
+Superstack discards a message without delivering it in these cases:
+
+- The device has not confirmed it before `expires_in` runs out.
+- The device has refused it, or stopped answering partway through it, three times.
+- The device is unpaired from the fleet. Its queued messages are discarded, so a device paired with another fleet never receives them.
+
+---
+
+## Receive a message in Lua
+
+Assign a handler before the messages arrive, and keep the code running, because the device discards messages while the code is stopped:
+
+```lua
+network.assign_message_event(function(content)
+    local settings = json.decode(content)
+    device.digital.set_output("B1", settings.led)
+    print("Interval is now " .. settings.interval)
+end)
+
+while true do
+    device.sleep(1)
+end
+```
+
+The [Lua reference](/pages/superstack/lua#assign-an-event-handler-for-messages) describes `network.assign_message_event` and `network.unassign_message_event`.
+
+---
+
+## Message errors
+
+Superstack refuses the whole request when any part of it fails, and queues nothing. The response body is a plain-text sentence that says what went wrong. Superstack checks the fleet key first, so a request without a valid fleet key gets `401 Unauthorized` whatever else is wrong. The exception is an address that has sent 20 invalid fleet keys. Superstack then refuses its requests with `429 Too Many Requests` before checking the key, and allows one more every 10 seconds.
+
+| Status | Response body | Cause |
+| --- | --- | --- |
+| `400 Bad Request` | `enter the 15-digit IMEI of each device` | An `imei` is not 15 digits |
+| `400 Bad Request` | `device <imei> is not paired with this fleet` | An `imei` names a device that is not paired with the fleet |
+| `400 Bad Request` | `expires_in is a whole number of seconds from 30 to 1209600 (14 days)` | `expires_in` is out of range or not a whole number |
+| `400 Bad Request` | `the server could not read the message` | The request body could not be read |
+| `401 Unauthorized` | `send a fleet key with the request` | The request has no fleet key |
+| `401 Unauthorized` | `the fleet key is not valid, create a new one` | The fleet key has been revoked, its fleet has been deleted, or it was never valid |
+| `402 Payment Required` | `the fleet has no credit, top it up to send messages` | The fleet has no [credit](/pages/superstack/credit). Top it up, then send the message again |
+| `403 Forbidden` | `the fleet key belongs to another fleet` | The fleet key is for another fleet than the one in the path |
+| `404 Not Found` | `no such fleet` | The fleet id in the path is not a whole number above 0 |
+| `413 Content Too Large` | `the message can be at most 4096 bytes` | The message is longer than 4096 bytes |
+| `429 Too Many Requests` | `device <imei> already has 100 queued messages, try again after it receives some` | A device the request names already has 100 messages queued |
+| `429 Too Many Requests` | `too many requests, try again in <seconds>s` | The fleet sent more than 100 requests at once, or more than 20 a second, across all of its fleet keys. Wait the number of seconds in the `Retry-After` header, then send again. Only this refusal has a `Retry-After` header |
+| `503 Service Unavailable` | `the server could not check the fleet key` or `the server could not queue the message` | Superstack could not reach its database. Try again |
+
+---
+
+## Receive requests from a device
+
+Lua on the device calls a function such as [`network.post()`](/pages/superstack/lua#send-a-post-put-or-patch-request-to-a-web-service), and Superstack makes the request to your application. Your application receives the method, URL, headers and body that the Lua code set.
+
+Your application must meet these limits, or Lua receives an error in place of the response:
+
+- **Public address.** Superstack connects only to public addresses, including after a redirect. It never connects to `localhost` or a private network. Lua receives `connection failed`.
+- **8 seconds.** Superstack waits 8 seconds for the whole response, including any redirects. Lua receives `timeout`.
+- **4096 bytes.** The response body is at most 4096 bytes. Lua receives `too large`.
+
+Unless the Lua code sets them, Superstack adds `User-Agent: Go-http-client/2.0`, or `Go-http-client/1.1` for a web service that does not use HTTP/2, and `Accept-Encoding: gzip`. When Superstack adds `Accept-Encoding`, it unzips a gzip response before Lua receives it, and the 4096-byte limit applies to the unzipped body. Superstack sets the `Host` header from the URL, and ignores one that the Lua code sets.
+
+Superstack follows up to 9 redirects. A request that needs more fails, and Lua receives `connection failed`. Lua receives the status code and body of the final response, but not its headers. A response with any status code, such as `404` or `500`, reaches Lua as a response, not as an error.
 
 {: .note }
-All deployments are private, and require an API Key with the relevant permissions. The only exception is the **Demo Deployments** shown when signed out, which allow read-only requests without an API Key.
+A `301`, `302` or `303` redirect turns the request into a `GET` without a body, and a redirect to a host other than the original or one of its subdomains drops the `Authorization` and `Cookie` headers. A `307` or `308` redirect keeps the method and body. To keep the method, body and headers, have Lua call the final URL.
 
-{: .note }
-Successful requests which return no data respond with `{"ok": "OK"}`. Failed requests respond with an appropriate HTTP status code, and an `{"error": "<description>"}` body.
-
-{: .warning-title }
-> Treat API Keys as secrets
->
-> To prevent unauthorized access to your data, keep API Keys securely stored, and do not expose keys in client-side code.
-
----
-
-## Deployments
-
-#### Retrieve deployment info
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/info
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read deployment info** permission
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "created": "2024-10-28T10:30:00Z",                                   // When deployment was created
->     "name": "Greenhouse Demo",                                           // Deployment name
->     "description": "A plant growth monitoring system for a greenhouse",  // Deployment description
->     "plan": "Professional"                                               // Current subscription plan
-> }
-> ```
-
----
-
-#### Update deployment info
-
-```
-PUT https://super.siliconwitchery.com/api/{deploymentId}/info
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **write deployment info** permission
-
-{: .note-title }
-> Request body
-> ```jsonc
-> {
->     "name": "Greenhouse Demo",                                          // Max 50 characters, cannot be blank
->     "description": "A plant growth monitoring system for a greenhouse"  // Max 300 characters
-> }
-> ```
-> Note: Both fields are replaced with the values given. Omitting the description clears it
-
-{: .note-title }
-> Response (200 OK)
-> 
-
----
-
-## Devices
-
-#### Retrieve all devices
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/devices
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read devices info** permission
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "devices": [
->         {
->             "id": 1,                               // Device ID
->             "name": "Tomatoes",                    // Device friendly name
->             "group": "greenhouse",                 // Group the device belongs to
->             "bookmarked": false,                   // True if device is bookmarked
->             "online": true,                        // True if device is currently online
->             "codeState": "running",                // Code state: "running", "stopped", "crashed"
->             "bytesUp": 12345,                      // Bytes sent since billing period
->             "bytesDown": 67890,                    // Bytes received since billing period
->             "powerState": "charging",              // Power state: "discharging", "charging", "charged", "external power". null if unknown
->             "batteryLevel": 85,                    // Battery level percentage. null if unknown
->             "signalStrength": 75,                  // Signal strength percentage. null if unknown
->             "gpsCoordinates": "(51.5074,-0.1278)"  // GPS coordinates (latitude,longitude). null if unknown
->         }
->     ]
-> }
-> ```
-
----
-
-#### Retrieve device groups
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/devices/groups
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read devices info** permission
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "groups": ["greenhouse", "outside"]  // List of all device groups in the deployment
-> }
-> ```
-
----
-
-#### Retrieve online device history
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/devices/online?days=
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read devices info** permission
-
-{: .note-title }
-> Optional query parameters
-> - `days` - **integer** - Number of days of history to retrieve. Defaults to the current billing period
->
-> Note: History is returned in hourly intervals for periods under 14 days, otherwise daily intervals
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "allowance": 100,                           // Maximum devices allowed by plan
->     "devices": {
->         "2024-01-15T00:00:00Z": {
->             "total": 10,                        // Total number of devices at this time
->             "online": 8                         // Number of online devices at this time
->         },
->         "2024-01-16T00:00:00Z": {
->             "total": 10,
->             "online": 9
->         }
->     }
-> }
-> ```
-
----
-
-#### Retrieve data usage
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/devices/usage?days=
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read devices info** permission
-
-{: .note-title }
-> Optional query parameters
-> - `days` - **integer** - Number of days of history to retrieve. Defaults to the current billing period
->
-> Note: History is returned in hourly intervals for periods under 14 days, otherwise daily intervals. When `days` is given, the totals cover the last `days` days rather than the billing period, and `billingDay` is returned as 0
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "allowance": 500000000,                     // Data allowance in bytes for billing period
->     "billingDay": 23,                           // Day of month when billing period resets
->     "sent": 123456,                             // Total bytes sent in billing period
->     "received": 234567,                         // Total bytes received in billing period
->     "total": 358023,                            // Total bytes (sent + received)
->     "usage": {
->         "2024-01-15T00:00:00Z": {
->             "sent": 12345,                      // Bytes sent on this day
->             "received": 23456,                  // Bytes received on this day
->             "total": 35801                      // Total bytes on this day
->         }
->     }
-> }
-> ```
-
----
-
-#### Retrieve device locations
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/devices/location
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read devices info** permission
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "locations": [
->         {
->             "deviceId": 1,                      // Device ID
->             "latitude": 51.5074,                // Latitude coordinate
->             "longitude": -0.1278                // Longitude coordinate
->         }
->     ]
-> }
-> ```
-
----
-
-#### Retrieve device info
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/info
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read devices info** permission
-
-{: .note-title }
-> Path parameters
-> - `deviceId` - **integer** - ID of the device
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "id": 1,                                    // Device ID
->     "imei": "578949671258131",                  // Device IMEI
->     "model": "sw-demo-device",                  // Hardware model
->     "added": "2024-01-15T10:30:00Z",            // Timestamp when device was added
->     "name": "Tomatoes",                         // Device friendly name
->     "group": "greenhouse",                      // Group the device belongs to
->     "bookmarked": false,                        // True if device is bookmarked
->     "role": "I monitor Roma tomato plants...",  // AI role description
->     "online": true,                             // True if device is currently online
->     "uptime": 24681,                            // Device uptime in seconds
->     "codeState": "running",                     // Code state: "running", "stopped", "crashed"
->     "firmwareVersion": "1.0.0",                 // Current firmware version
->     "storageUsed": 47293,                       // Storage used in bytes
->     "storageTotal": 1048576,                    // Total storage in bytes
->     "bytesUp": 12345,                           // Bytes sent since billing period
->     "bytesDown": 67890,                         // Bytes received since billing period
->     "powerState": "charging",                   // Power state: "discharging", "charging", "charged", "external power". null if unknown
->     "batteryLevel": 85,                         // Battery level percentage. null if unknown
->     "signalStrength": 75,                       // Signal strength percentage. null if unknown
->     "gpsCoordinates": "(51.5074,-0.1278)"       // GPS coordinates (latitude,longitude). null if unknown
-> }
-> ```
-
----
-
-#### Update device info
-
-```
-PUT https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/info
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **write devices info** permission
-
-{: .note-title }
-> Path parameters
-> - `deviceId` - **integer** - ID of the device
-
-{: .note-title }
-> Request body
-> ```jsonc
-> {
->     "name": "Tomatoes",           // Device friendly name (required, max 50 characters)
->     "group": "greenhouse",        // Group the device belongs to (required, max 50 characters)
->     "bookmarked": false,          // True to bookmark the device
->     "role": "I monitor tomatoes"  // AI role description (max 2000 characters)
-> }
-> ```
-> Note: All fields are replaced with the values given. Omitted optional fields are cleared
-
-{: .note-title }
-> Response (200 OK)
->
-
----
-
-#### Retrieve device telemetry
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/telemetry?days=
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read devices info** permission
-
-{: .note-title }
-> Path parameters
-> - `deviceId` - **integer** - ID of the device
-
-{: .note-title }
-> Optional query parameters
-> - `days` - **integer** - Number of days of history to retrieve. Defaults to the current billing period
->
-> Note: Telemetry is returned in hourly intervals for periods under 14 days, otherwise daily intervals
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "telemetry": {
->         "2024-01-15T10:30:00Z": {
->             "bytesSent": 1234,                    // Bytes sent at this time
->             "bytesReceived": 5678,                // Bytes received at this time
->             "bytesTotal": 6912,                   // Total bytes at this time
->             "powerState": "charging",             // Power state at this time: "discharging", "charging", "charged", "external power". Empty if unknown
->             "batteryLevel": 85,                   // Battery level percentage at this time. 0 if unknown
->             "signalStrength": 75,                 // Signal strength percentage at this time. 0 if unknown
->             "gpsCoordinates": "(51.5074,-0.1278)" // GPS coordinates (latitude,longitude) at this time. Empty if unknown
->         }
->     }
-> }
-> ```
-
----
-
-#### Add device to deployment
-
-```
-POST https://super.siliconwitchery.com/api/{deploymentId}/device
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **add devices** permission
-
-{: .note-title }
-> Request body
-> ```jsonc
-> {
->     "imei": "578949671258131",    // Device IMEI (required)
->     "name": "Tomatoes",           // Device friendly name (max 50 characters, defaults to the IMEI)
->     "group": "greenhouse",        // Group the device belongs to (max 50 characters, defaults to "development")
->     "role": "I monitor tomatoes", // AI role description (max 2000 characters)
->     "bookmarked": false           // True to bookmark the device
-> }
-> ```
-
-{: .warning-title }
-> Device pairing
->
-> The device must be online, and the API will wait up to 60 seconds for the button to be pressed on the device
-
-{: .note-title }
-> Response (200 OK)
->
-
----
-
-#### Remove device from deployment
-
-```
-DELETE https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **delete devices** permission
-
-{: .note-title }
-> Path parameters
-> - `deviceId` - **integer** - ID of the device
-
-{: .note-title }
-> Request body
-> ```jsonc
-> {
->     "confirm": true  // Must be true to confirm deletion
-> }
-> ```
-
-{: .note-title }
-> Response (200 OK)
->
-
----
-
-## Code
-
-#### Retrieve device code
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/code
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read code** permission
-
-{: .note-title }
-> Path parameters
-> - `deviceId` - **integer** - ID of the device
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "code": "-- Monitors temperature, light and soil moisture..."  // Lua code
-> }
-> ```
-
----
-
-#### Update device code
-
-```
-PUT https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/code
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **write code** permission
-
-{: .note-title }
-> Path parameters
-> - `deviceId` - **integer** - ID of the device
-
-{: .note-title }
-> Request body
-> ```jsonc
-> {
->     "code": "-- Your Lua code here..."  // Lua code (max 100,000 characters)
-> }
-> ```
-> Note: Updated code automatically starts running on the device
-
-{: .note-title }
-> Response (200 OK)
->
-
----
-
-#### Stop device code
-
-```
-PUT https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/code/stop
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **write code** permission
-
-{: .note-title }
-> Path parameters
-> - `deviceId` - **integer** - ID of the device
-
-{: .note-title }
-> Response (200 OK)
->
-
----
-
-#### Start device code
-
-```
-PUT https://super.siliconwitchery.com/api/{deploymentId}/device/{deviceId}/code/start
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **write code** permission
-
-{: .note-title }
-> Path parameters
-> - `deviceId` - **integer** - ID of the device
-
-{: .note-title }
-> Response (200 OK)
->
-
----
-
-#### Push code to devices
-
-```
-PUT https://super.siliconwitchery.com/api/{deploymentId}/code/push
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **write code** permission
-
-{: .note-title }
-> Request body
-> ```jsonc
-> {
->     "code": "-- Your Lua code here...",      // Lua code (max 100,000 characters)
->     "groups": ["greenhouse", "outside"],     // Groups to push code to
->     "devices": ["Tomatoes", "Kale"]          // Specific devices to push code to
-> }
-> ```
-> Note: At least one of `groups` or `devices` must be specified. Pushed code automatically starts running on the devices
-
-{: .note-title }
-> Response (200 OK)
->
-
----
-
-## Logs
-
-#### Retrieve logs
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/logs?filters=
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read logs** permission
-
-{: .note-title }
-> Optional query parameters
-> - `filters` - **json string** - JSON-encoded filter object
-> ```jsonc
-> {
->     "bookmarked": true,                  // Filter for logs from bookmarked devices if true
->     "groups": ["greenhouse", "outside"], // Filter by device groups
->     "devices": ["Tomatoes", "Kale"],     // Filter by specific devices
->     
->     "startTime": "2024-01-15T07:00:00Z", // Start of time range (defaults to 1 hour ago)
->     "endTime": "2024-01-15T11:30:00Z",   // End of time range (defaults to now)
->     // or
->     "id": 41231,                         // Reference log ID for pagination
->     "count": -10                         // Number of logs to fetch, negative = older, positive = newer (max 1000)
-> }
-> ```
-> Note: A time range cannot be combined with `id`/`count`, and may return at most 1000 logs. Without time or `id`/`count` filters, the latest 100 logs are returned
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "logs": [
->         {
->             "id": 12345,                         // Log ID. Can be used for pagination or deletion
->             "timestamp": "2024-01-15T10:30:00Z", // Timestamp the log was created
->             "device": "Tomatoes",                // Device the log originated from
->             "group": "greenhouse",               // Group that the device belongs to
->             "message": "Log message content",    // Log content
->             "level": "info"                      // Log level: "lua", "info", "error"
->         }
->     ],
->     "newerAvailable": true,                      // True if new logs are available
->     "olderAvailable": false                      // True if older logs are available
-> }
-> ```
-
----
-
-#### Delete a log
-
-```
-DELETE https://super.siliconwitchery.com/api/{deploymentId}/log/{logId}
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **delete logs** permission
-
-{: .note-title }
-> Path parameters
-> - `logId` - **integer** - The ID of the log to delete
-
-{: .note-title }
-> Request body
-> ```jsonc
-> {
->     "confirm": true // Must be true to confirm deletion
-> }
-> ```
-
-{: .note-title }
-> Response (200 OK)
-> 
-
----
-
-## Data
-
-#### Retrieve data
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/data?filters=
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read data** permission
-
-{: .note-title }
-> Optional query parameters
-> - `filters` - **json string** - JSON-encoded filter object
-> ```jsonc
-> {
->     "bookmarked": true,                  // Filter for data from bookmarked devices if true
->     "groups": ["greenhouse", "outside"], // Filter by device groups
->     "devices": ["Tomatoes", "Kale"],     // Filter by specific devices
->     
->     "startTime": "2024-01-15T07:00:00Z", // Start of time range (defaults to 1 hour ago)
->     "endTime": "2024-01-15T11:30:00Z",   // End of time range (defaults to now)
->     // or
->     "id": 41231,                         // Reference data ID for pagination
->     "count": -10                         // Number of data entries to fetch, negative = older, positive = newer (max 1000)
-> }
-> ```
-> Note: A time range cannot be combined with `id`/`count`, and may return at most 1000 entries. Without time or `id`/`count` filters, the latest 100 entries are returned
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "data": [
->         {
->             "id": 12345,                         // Data ID. Can be used for pagination or deletion
->             "timestamp": "2024-01-15T10:30:00Z", // Timestamp the data was created
->             "device": "Tomatoes",                // Device the data originated from
->             "group": "greenhouse",               // Group that the device belongs to
->             "data": {                            // JSON data payload from the device
->                 "temperature": 23.5,
->                 "light": 850,
->                 "moisture": 45.2
->             }
->         }
->     ],
->     "newerAvailable": true,                      // True if new data is available
->     "olderAvailable": false                      // True if older data is available
-> }
-> ```
-
----
-
-#### Delete a data entry
-
-```
-DELETE https://super.siliconwitchery.com/api/{deploymentId}/data/{dataId}
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **delete data** permission
-
-{: .note-title }
-> Path parameters
-> - `dataId` - **integer** - The ID of the data entry to delete
-
-{: .note-title }
-> Request body
-> ```jsonc
-> {
->     "confirm": true // Must be true to confirm deletion
-> }
-> ```
-
-{: .note-title }
-> Response (200 OK)
-> 
-
----
-
-## Agents
-
-**Agents** are AI assistants that answer natural language questions about the data in your deployment. Each agent has a **Role** describing its purpose, access to some or all **Device Groups**, and an optional list of **Users** who can chat with the agent directly over WhatsApp.
-
----
-
-#### Retrieve all agents
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/agents
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read agents** permission
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "agents": [
->         {
->             "id": 1,                                  // Agent ID
->             "name": "Greenhouse Expert",              // Agent name
->             "role": "You are an expert gardener...",  // Agent role description
->             "groups": ["greenhouse"],                 // Device groups the agent can access. Empty means all groups
->             "users": ["Amanda", "Bob"],               // Names of users who can chat with the agent over WhatsApp
->             "usage": 12500                            // Tokens used by the agent in the current billing period
->         }
->     ]
-> }
-> ```
-
----
-
-#### Create an agent
-
-```
-POST https://super.siliconwitchery.com/api/{deploymentId}/agents
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **edit agents** permission
-
-{: .note-title }
-> Request body
-> ```jsonc
-> {
->     "name": "Greenhouse Expert",                 // Agent name (max 50 characters, cannot be blank)
->     "role": "You are an expert gardener...",     // Agent role description (max 2000 characters)
->     "groups": ["greenhouse"],                    // Device groups the agent can access. Empty means all groups
->     "users": [
->         {
->             "name": "Amanda",                    // User's name
->             "phone": "+46701234567",             // User's WhatsApp number in international format
->             "admin": "Raj",                      // Name of the admin. Mentioned in the introduction message
->             "description": "Head gardener"       // User's role. Mentioned in the introduction message
->         }
->     ]
-> }
-> ```
-> Note: The deployment must contain at least one device before an agent can be created
-
-{: .note-title }
-> Response (200 OK)
->
-
-{: .note }
-Each user with a phone number receives an introduction message on WhatsApp, and can then chat with the agent directly from WhatsApp. WhatsApp queries count towards the same AI allowance as API queries.
-
----
-
-#### Retrieve agent info
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/agent/{agentId}/info
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read agents** permission
-
-{: .note-title }
-> Path parameters
-> - `agentId` - **integer** - ID of the agent
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "name": "Greenhouse Expert",                 // Agent name
->     "role": "You are an expert gardener...",     // Agent role description
->     "groups": ["greenhouse"],                    // Device groups the agent can access. Empty means all groups
->     "users": [
->         {
->             "id": 1,                             // User ID
->             "name": "Amanda",                    // User's name
->             "phone": "+46701234567"              // User's WhatsApp number
->         }
->     ],
->     "created": "2024-10-28T10:30:00Z",           // When the agent was created
->     "accessed": "2024-11-02T08:12:00Z"           // When the agent was last queried. Zero timestamp if never queried
-> }
-> ```
-
----
-
-#### Update agent info
-
-```
-PUT https://super.siliconwitchery.com/api/{deploymentId}/agent/{agentId}/info
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **edit agents** permission
-
-{: .note-title }
-> Path parameters
-> - `agentId` - **integer** - ID of the agent
-
-{: .note-title }
-> Request body
-> ```jsonc
-> {
->     "name": "Greenhouse Expert",                 // Agent name (max 50 characters, cannot be blank)
->     "role": "You are an expert gardener...",     // Agent role description (max 2000 characters)
->     "groups": ["greenhouse"],                    // Device groups the agent can access. Empty means all groups
->     "users": [
->         {
->             "name": "Amanda",                    // User's name
->             "phone": "+46701234567",             // User's WhatsApp number in international format
->             "admin": "Raj",                      // Name of the admin. Mentioned in the introduction message
->             "description": "Head gardener"       // User's role. Mentioned in the introduction message
->         }
->     ]
-> }
-> ```
-> Note: All fields are replaced with the values given. The `users` list replaces the agent's existing users, and every listed user with a phone number is sent the WhatsApp introduction message again
-
-{: .note-title }
-> Response (200 OK)
->
-
----
-
-#### Delete an agent
-
-```
-DELETE https://super.siliconwitchery.com/api/{deploymentId}/agent/{agentId}
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **edit agents** permission
-
-{: .note-title }
-> Path parameters
-> - `agentId` - **integer** - ID of the agent
-
-{: .note-title }
-> Request body
-> ```jsonc
-> {
->     "confirm": true // Must be true to confirm deletion
-> }
-> ```
-
-{: .note-title }
-> Response (200 OK)
-> 
-
----
-
-#### Retrieve total agent usage
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/agents/usage?days=
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read agents** permission
-
-{: .note-title }
-> Optional query parameters
-> - `days` - **integer** - Number of days of usage history to retrieve. Defaults to the current billing period
->
-> Note: Usage is returned in hourly intervals for periods under 14 days, otherwise daily intervals. When `days` is given, `used` and `remaining` cover the last `days` days rather than the billing period, and `billingDay` is returned as 0
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "allowance": 50000,                          // Total token allowance for the billing period
->     "used": 12500,                               // Tokens used in the current billing period
->     "remaining": 37500,                          // Tokens remaining in the current billing period
->     "billingDay": 23,                            // Day of month when billing resets
->     "usage": {                                   // Usage breakdown across all agents
->         "2024-01-15T00:00:00Z": {
->             "usage": 2500                        // Tokens used at this time
->         },
->         "2024-01-14T00:00:00Z": {
->             "usage": 3200
->         }
->     }
-> }
-> ```
-
----
-
-#### Retrieve agent usage
-
-```
-GET https://super.siliconwitchery.com/api/{deploymentId}/agent/{agentId}/usage?days=
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is not required for demo deployments
-> - API key requires **read agents** permission
-
-{: .note-title }
-> Path parameters
-> - `agentId` - **integer** - ID of the agent
-
-{: .note-title }
-> Optional query parameters
-> - `days` - **integer** - Number of days of usage history to retrieve. Defaults to the current billing period
->
-> Note: Usage is returned in hourly intervals for periods under 14 days, otherwise daily intervals
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "usage": {                                   // Usage breakdown for this agent
->         "2024-01-15T00:00:00Z": {
->             "usage": 2500                        // Tokens used at this time
->         },
->         "2024-01-14T00:00:00Z": {
->             "usage": 3200
->         }
->     }
-> }
-> ```
-
----
-
-#### Query an agent
-
-```
-POST https://super.siliconwitchery.com/api/{deploymentId}/agent/{agentId}/query
-```
-
-{: .note-title }
-> Authentication & Permissions
-> - API key is required
-> - API key requires **query agents** permission
-
-{: .note-title }
-> Path parameters
-> - `agentId` - **integer** - ID of the agent
-
-{: .note-title }
-> Request body
-> ```jsonc
-> {
->     "messages": [
->         {
->             "role": "user",  // "user" or "assistant"
->             "content": "What is the average temperature in the greenhouse?"
->         }
->     ]
-> }
-> ```
-> Note: For follow-up questions, include the previous `user` and `assistant` messages before the new question
-
-{: .note-title }
-> Response (200 OK)
-> ```jsonc
-> {
->     "response": "The average temperature in the greenhouse is currently 23.5°C. The Tomatoes sensor is reading 24.1°C and the Rosemary & basil sensor is reading 22.9°C.", // Natural language reply from the agent
->     "answer": "23.5",                        // Raw computed answer
->     "reasoning": {                           // Internal reasoning (for debugging)
->         "filter": "Filtered to greenhouse devices from the last 6 hours",
->         "analysis": "Calculated mean temperature from all greenhouse sensors"
->     },
->     "usage": 1350                            // Tokens consumed by this query
-> }
-> ```
-
-{: .warning-title }
-> AI allowance
->
-> Queries return **402 Payment Required** once the deployment's AI token allowance for the billing period has been used up. The allowance is determined by the subscription plan, and resets at the start of the next billing period.
+A request that fails is not retried.

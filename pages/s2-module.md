@@ -1,8 +1,9 @@
 ---
-title: S2 Module
+title: S2 Module datasheet
 description: Hardware datasheet for the LTE-enabled S2 Module
 image: /assets/images/s2-module-annotated-masthead.png
-nav_order: 2
+nav_order: 1
+parent: "S2 & Superstack"
 ---
 
 # S2 Module
@@ -15,11 +16,12 @@ Active
 
 ![Silicon Witchery S2 Module](/assets/images/s2-module-annotated-masthead.png)
 
-The S2 is a production-ready IoT module built around an advanced ARM SiP with integrated LTE Cat-M1 connectivity. Featuring comprehensive I/O support (SPI, I2C, analog), built-in GNSS, and sophisticated power management with battery charging capabilities. It's designed for rapid deployment and remote development. The module comes pre-configured with a SoftSIM and flexible data plan, eliminating cellular integration complexity. Engineers can program and debug directly over LTE using our Lua-based runtime environment, with all device management and updates handled through the Superstack platform – no local toolchain required.
+The S2 is a cellular IoT module built around the Nordic nRF9151, an ARM system in package with LTE Cat-M1 and GNSS. It has SPI, I<sup>2</sup>C, analog and digital IO, and power management with battery charging. Every S2 has a SoftSIM and a data plan built in. It runs Lua code that you upload over cellular with Superstack, so you need no debugger or local toolchain.
 
+[Get started](/pages/s2-superstack){: .btn .btn-purple}
 [Lua reference](/pages/superstack/lua){: .btn .btn-purple}
-[Example scripts](https://github.com/siliconwitchery/s2-lua-examples){: .btn .btn-purple}
-[AI plugin for Claude](https://github.com/siliconwitchery/claude-plugins){: .btn}
+[Example code](https://github.com/siliconwitchery/s2-lua-examples){: .btn}
+[Agent plugin](https://github.com/siliconwitchery/superstack-agent-plugins){: .btn}
 
 ## Feature summary
 {: .no_toc}
@@ -34,17 +36,17 @@ The S2 is a production-ready IoT module built around an advanced ARM SiP with in
 
 ### Connectivity
 {: .no_toc}
-- Pre-configured softsim with global coverage
-- No-contract data plan included
-- One-click device pairing
-- Variant with external antenna support available
+- SoftSIM built in, with LTE-M in the [countries listed below](#lte--gnss-connectivity)
+- Data plan included, with no contract
+- Pairs with a fleet by its IMEI and a press of its pairing button
+- Variant with external antenna connectors
 
 ### Development
 {: .no_toc}
-- Over-the-air programming and debugging
-- Lua-based runtime environment
-- Zero-touch firmware updates and fleet management
-- No local toolchain required
+- Runs Lua code uploaded over cellular
+- Sends its log over cellular
+- Installs firmware updates automatically
+- No debugger or local toolchain needed
 
 ## Use cases
 {: .no_toc}
@@ -95,23 +97,23 @@ The S2 Module features two key devices:
 
 The module includes all supporting circuitry such that no external hardware except a simple power source is needed to operate the device.
 
-![Silicon Witchery S2 Module Hardware Block Diagram](/assets/images/s2-module-block-diagram.drawio.svg)
+{% include diagrams/s2-module-block-diagram.svg %}
 
 The device exposes a range of I/O that can be used to connect external devices and features smart power management to run off either external power or a single-cell lithium polymer battery, saving power whenever possible.
 
 A single button is included for easy setup and two status LEDs indicate network and power status at a glance.
 
-A multi-band antenna is included on the module supporting all the required LTE and GPS bands for global operation. A variant with [external antenna connectors](#external-antenna-variant) is available for designs where the built-in antenna is not suitable.
+The integrated antenna covers the LTE and GPS bands listed in [LTE & GNSS connectivity](#lte--gnss-connectivity). A variant with [external antenna connectors](#external-antenna-variant) is available for designs where the built-in antenna is not suitable.
 
 ## Pinout
 
 The S2 Module features six IO ports and three power ports. Digital IO is freely configurable across all ports, while analog inputs are limited to certain pins. A detailed description of all the pins is shown in the diagram below.
 
-![Silicon Witchery S2 Module Top Pinout](/assets/images/s2-module-top-pinout-diagram.png)
+{% include diagrams/s2-module-top-pinout.svg %}
 
 The bottom of the module additionally exposes the same IO as the physical connectors such that the board can be mounted to a carrier PCB and electrically interfaced via pogo-pins. See the section on [mechanical dimensions](#mechanical-dimensions) for a recommended landing pattern.
 
-![Silicon Witchery S2 Module Bottom Pinout](/assets/images/s2-module-bottom-pinout-diagram.png)
+{% include diagrams/s2-module-bottom-pinout.svg %}
 
 The table below summarizes all ports and pins. Pin 1 of every IO port is GND, and pin 2 is the port's power rail. The pin names shown are the exact strings used in [Lua code](/pages/superstack/lua).
 
@@ -133,84 +135,97 @@ The 4-pin ports follow the [Stemma QT](https://learn.adafruit.com/introducing-ad
 
 ## Status LEDs & button
 
-The on-board button is only used for initial pairing of the device with the cloud. Once paired, the button has no other functionality. This is to prevent tampering with the device when in the field. If needed, the device can later be unpaired from within Superstack and then paired again to a different deployment using the button.
+The button is the pairing button. It does nothing except pair the module with a fleet, so someone with access to the module in the field can't change what it does. To move the module to another fleet, unpair it with the [Superstack CLI](/pages/superstack/cli), then pair it again and press the button.
 
 The status LEDs, meanwhile, indicate the networking and power status of the device throughout the lifetime of the application. 
 
-![Silicon Witchery S2 Module Button and LEDs](/assets/images/s2-module-button-led-diagram.png)
+{% include diagrams/s2-module-button-and-leds.svg %}
 
 The table below describes each of the LED states.
+
+Both LEDs on means the module is starting or applying a firmware update. This lasts a moment.
 
 | Power LED | Meaning |
 |-----------|---------|
 | Short blinks  <br> ▁▇▁▁▁▁▁▁▁▁▇▁▁▁ | Running on battery power – No external power detected
 | Slow blinking <br> ▇▇▇▇▁▁▁▁▇▇▇▇▁▁ | Battery charging
 | Solid         <br> ▇▇▇▇▇▇▇▇▇▇▇▇▇▇ | Battery charged
-| Short blanks  <br> ▇▇▇▁▇▇▇▇▇▇▇▇▁▇ | Running on external power – No battery detected
+| Short blanks  <br> ▇▇▇▁▇▇▇▇▇▇▇▇▁▇ | Running on external power – Battery absent or not charging
 
 | Network LED | Meaning |
 |-------------|---------|
 | Slow blinking <br> ▇▇▇▇▁▁▁▁▇▇▇▇▁▁ | Searching for LTE network
-| Solid         <br> ▇▇▇▇▇▇▇▇▇▇▇▇▇▇ | Network found – Not connected to deployment
-| Fast blinking <br> ▇▇▁▁▇▇▁▁▇▇▁▁▇▇ | Button pressed – Pairing to deployment
-| Off           <br> ▁▁▁▁▁▁▁▁▁▁▁▁▁▁ | Connected & idle
+| Solid         <br> ▇▇▇▇▇▇▇▇▇▇▇▇▇▇ | Connected to the network – Not paired with a fleet
+| Fast blinking <br> ▇▇▁▁▇▇▁▁▇▇▁▁▇▇ | Pairing button pressed – Pairing with a fleet
+| Off           <br> ▁▁▁▁▁▁▁▁▁▁▁▁▁▁ | Paired & idle
 | Short blinks  <br> ▁▇▁▁▁▁▁▁▁▁▇▁▁▁ | Data transmission
 | Strobe        <br> ▁▇▁▇▁▇▁▇▁▇▁▇▁▇ | Firmware updating **Do not power off**
 
 ### Automatic firmware updates
 
-We periodically release firmware updates which enables connectivity between the S2 Module and Superstack. Updates are rolled out automatically and require no user intervention.
+Silicon Witchery releases firmware updates for the S2 Module. The module installs them automatically, with no action from you.
 
-If you see a continuous strobe on the network led, this means that an update has begun. The process takes around **5 minutes**, during which the module will reboot and may not show any LED activity during the final part of the update. It is important to **not power off the device** during this period as this will cause the update process to restart. Simply wait the full time until the device has rebooted and reconnects to the network.
+An update takes several minutes:
+
+1. The network status LED strobes while the module downloads the update. The code keeps running.
+1. The module restarts to install it.
+1. The module reconnects, and the code starts again from the beginning.
+
+The module updates its modem firmware one version at a time, then its own firmware, so a module that is several versions behind repeats these steps. **Keep the module powered** until the network status LED blinks slowly while the module reconnects, and then turns off, or stays on for an unpaired module. Removing power during a download makes the download start again.
+
+A module checks in with Superstack every 15 minutes, and when Superstack asks it to, such as after an upload. A new version of the module's own firmware that can't check in for 50 minutes is removed, and the module returns to the version it had before.
 
 ## LTE & GNSS connectivity
 
 The S2 Module ships with **LTE Cat-M1** enabled with support for the following bands:
 **1**, **2**, **3**, **4**, **5**, **8**, **18**, **19**, **20**, **25**, **26**, **65**, and **66**. All of which are supported by the integrated antenna. Additionally, the [external antenna variant](#external-antenna-variant) of the module supports the following bands: **12**, **13**, **17**, **28**, and **85**.
 
-A softsim is pre-programmed into each module for included connectivity out of the box, where data allowance can be managed from inside the Superstack webapp.
+Each module has a SoftSIM and a data plan built in. Data is paid for with the [credit](/pages/superstack/credit) on the module's fleet.
 
-The following regions are currently included in the data plan with more being regularly added.
+The following countries are included in the data plan, with more added regularly. The list follows Onomondo's network list of 13 October 2026.
 
-| Region | Connected | Region | Connected soon | 
-|--------|:---------:|--------|:--------------:|
-| Austria        | ✅ | Argentina            | Validated
-| Belgium        | ✅ | Australia            | Validated
-| Colombia       | 📶 | Brazil               | Validated
-| Denmark        | ✅ | Canada               | Validated
-| Finland        | ✅ | Chile                | Validated
-| France         | ✅ | China                | Validated
-| Germany        | ✅ | Costa Rica           | Validated
-| Iceland        | 📶 | Croatia              | Validated
-| Japan          | 📶 | Czechia              | Validated
-| Latvia         | ✅ | Ecuador              | Validated
-| Luxembourg     | 📶 | Estonia              | Validated
-| Mexico         | 📶 | Faroe Islands        | Validated
-| Netherlands    | ✅ | Greece               | Validated
-| New Zealand    | 📶 | Hong Kong            | Validated
-| Norway         | ✅ | Hungary              | Validated
-| Romania        | ✅ | India                | Validated
-| Slovakia       | ✅ | Ireland              | Validated
-| Slovenia       | ✅ | Israel               | Validated
-| Spain          | ✅ | Jamaica              | Validated
-| Sweden         | ✅ | Korea                | Validated
-| Switzerland    | 📶 | Liechtenstein        | Validated
-| Taiwan         | ✅ | Lithuania            | Validated
-| United Kingdom | ✅ | Poland               | Validated
-| United States  | 📶 | Portugal             | Validated
-| Uruguay        | 📶 | Puerto Rico          | Validated
-|                |    | Saudi Arabia         | Validated
-|                |    | Singapore            | Validated
-|                |    | Thailand             | Validated
-|                |    | Turkey               | Validated
-|                |    | United Arab Emirates | Validated
+| Country | Connected | Country | Connected soon |
+|---------|:---------:|---------|:--------------:|
+| Austria        | ✅ | Argentina          | Validated 📶
+| Belgium        | ✅ | Australia          | Validated 📶
+| Colombia       | ✅ | Canada             | Validated 📶
+| Costa Rica     | ✅ | Chile              | Validated
+| Denmark        | ✅ | Croatia            | Validated
+| Finland        | ✅ | Czechia            | Validated
+| France         | ✅ | Dominican Republic | Validated
+| Germany        | ✅ | Ecuador            | Validated
+| Iceland        | 📶 | Estonia            | Validated
+| Japan          | ✅ | Faroe Islands      | Validated
+| Latvia         | ✅ | Greece             | Validated
+| Liechtenstein  | ✅ | Hungary            | Validated
+| Luxembourg     | ✅ | Ireland            | Validated
+| Malta          | ✅ | Jamaica            | Validated
+| Mexico         | ✅ | Lithuania          | Validated
+| Netherlands    | ✅ | Portugal           | Validated
+| New Zealand    | 📶 | Puerto Rico        | Validated
+| Norway         | ✅ | Saudi Arabia       | Validated
+| Poland         | ✅ | South Korea        | Validated
+| Romania        | ✅ | Thailand           | Validated
+| Singapore      | ✅ |                    |
+| Slovakia       | ✅ |                    |
+| Slovenia       | ✅ |                    |
+| Spain          | ✅ |                    |
+| Sweden         | ✅ |                    |
+| Switzerland    | ✅ |                    |
+| Taiwan         | ✅ |                    |
+| Turkey         | ✅ |                    |
+| United Kingdom | ✅ |                    |
+| United States  | 📶 |                    |
+| Uruguay        | 📶 |                    |
 
 {: .note }
-📶 - External antenna variant of the module is recommended for this region
+📶 - Buy the external antenna variant for this country. Its networks carry LTE-M on the 700 MHz bands 12, 13, 17 or 28, which the integrated antenna doesn't cover. In the United States and New Zealand the cities also have LTE-M on higher bands, so the integrated antenna works there but not in the countryside.
+
+A country joins this table once all of it has LTE-M coverage. Many more countries, such as Italy, already have LTE-M in cities but not everywhere, so test one module at the site before you deploy a fleet there. Brazil and Israel have LTE-M networks, but their data costs many times more, so the S2 doesn't support them. If your country isn't listed, email [info@siliconwitchery.com](mailto:info@siliconwitchery.com) before you deploy.
 
 The module also supports **GPS L1 C/A** and **QZSS L1 C/A** reception with a maximum accuracy of 2.0m in continuous tracking mode, or 3.4m in periodic tracking mode.
 
-![Silicon Witchery S2 Module GNSS section](/assets/images/s2-module-lte-and-gnss-diagram.png)
+{% include diagrams/s2-module-lte-and-gnss.svg %}
 
 ### Antenna considerations
 
@@ -218,13 +233,13 @@ The S2 Module features an integrated multi-band antenna supporting all the LTE a
 
 For optimum GPS accuracy, the antenna should have line of sight to open sky.
 
-![Silicon Witchery S2 Module Antenna clearance](/assets/images/s2-module-antenna-clearance.png)
+{% include diagrams/s2-module-antenna-clearance.svg %}
 
 ### External antenna variant
 
 If the mounting requirements for the module within an installation make it difficult for the integrated antenna to receive good reception, then a variant of the module is available with external antenna connectors. This variant allows the module to be placed inside metal enclosures with antenna routed outside to achieve better reception.
 
-![Silicon Witchery S2 Module External Antenna diagram](/assets/images/s2-module-external-antenna-diagram.png)
+{% include diagrams/s2-module-external-antenna.svg %}
 
 A wide variety of external antennas are available from various manufacturers. LTE antennas should support 698-960MHz and 1745-2200MHz with a VSWR of 3 or better. GPS antennas should support 1575MHz with a VSWR of 2 or better.
 
@@ -237,7 +252,7 @@ Examples of external antennas are listed below:
 
 The S2 Module features an extensive power management solution built in. It can be powered in a variety of ways, includes lithium battery charging capabilities, as well as outputting multiple voltages to power sensors or other low power electronics. Additionally, the power management ensures low power operation of the module, saving power whenever possible.
 
-![Silicon Witchery S2 Module power section](/assets/images/s2-module-power-interfaces-diagram.png)
+{% include diagrams/s2-module-power-interfaces.svg %}
 
 ### Power inputs
 
@@ -247,9 +262,9 @@ The S2 Module features three options for input power:
 - External 5 - 17VDC input – **V<sub>IN</sub>**
 - Single lithium polymer cell – **V<sub>BATT</sub>**
 
-![Silicon Witchery S2 Module power inputs](/assets/images/s2-module-power-inputs.png)
+{% include diagrams/s2-module-power-inputs.svg %}
 
-The USB-C input includes the proper negotiation with hosts to ensure the correct voltage and current is provided to the module. Voltage is always negotiated at 5V, with current draw either 500mA or 1A depending on the host capabilities.
+The USB-C input takes 5V, and the module draws up to 1.5A from it.
 
 The external power port allows powering of the module from a DC voltage between 5 and 17V. Up to 1A may be drawn.
 
@@ -265,28 +280,28 @@ The module has two voltage outputs which can be used for powering external senso
 | **V<sub>OUT2</sub>** | PORTD, PORTE, PORTF | 100mA across all ports | Off or 1.8 - 3.3V *
 | **V<sub>SYS</sub>**  | External Power Port | 1A ⁑ | 5V
 
-<p>* – The voltage on **V<sub>OUT1</sub>** and **V<sub>OUT2</sub>** are derived from the same internal source, therefore always track the same voltage. They can however be independently turned off to selectively shut down sensors that aren't in use.</p>
+<p>* – **V<sub>OUT1</sub>** and **V<sub>OUT2</sub>** come from the same internal source, so they always have the same voltage. [`device.power.set_vout()`](/pages/superstack/lua#set-the-io-voltage-for-all-ports) sets both, and `0` turns both off.</p>
 
 ⁑ – **V<sub>SYS</sub>** is a 5V regulated output which powers everything on the module including **V<sub>OUT1</sub>**, **V<sub>OUT2</sub>**, the radio and battery charging. Its current capability is therefore highly dependent on what else is being powered. Assuming a suitable power input to one of the input ports, **V<sub>SYS</sub>** is capable of providing up to 1A of current.
 
-![Silicon Witchery S2 Module power outputs](/assets/images/s2-module-power-outputs.png)
+{% include diagrams/s2-module-power-outputs.svg %}
 
 ### Battery charger
 
-The module features charging from a single lithium cell at a configurable current from 32mA to 800mA. The charge termination voltage can also be configured from 3.5V to 4.45V. Higher capacity cells may be used, but will result in slower charge times.
+The module features charging from a single lithium cell at a configurable current from 32mA to 800mA. The charge termination voltage can be set to 3.50, 3.55, 3.60 or 3.65V, or from 4.00 to 4.45V in 50mV steps. At boot, the charger uses 3.50V and 32mA until the code sets it with [`device.power.battery.set_charger_cv_cc()`](/pages/superstack/lua#configure-the-battery-charger). Higher capacity cells may be used, but will result in slower charge times.
+
+On battery, the module draws at most 200mA from the cell while the charge current is 150mA or less, which includes the boot default. Above 150mA, it can draw up to 1A. Set a charge current above 150mA if the sensors and radio together need more than 200mA on battery.
 
 The module features thermal regulation such that if the ambient temperature is too high to safely charge the battery, the PMIC will throttle the charge current to prevent damaging the cell. To ensure this feature works as expected, the cell must be placed against the module, and the designer should ensure to minimize any temperature differential between the cell and the module.
 
 
 ## Programming
 
-The S2 Module comes pre-programmed with the Superstack firmware, server license, as well as a provided soft SIM with attached data plan. 
+The S2 Module comes programmed with the Superstack firmware and a SoftSIM with a data plan. You don't program it directly. Instead, you upload Lua code to it over cellular with Superstack, as the [getting started guide](/pages/s2-superstack) shows.
 
-It is not expected that the user should program the device directly, but rather use Superstack to run scripts on the device via the Superstack webapp.
+You can erase the module and load your own firmware. This also erases the SoftSIM and the module's Superstack identity, so the module can no longer use the data plan or Superstack.
 
-If desired however, the module can be completely erased and a fully custom firmware may be loaded onto it. Note that this will also erase the SIM, data plan and superstack server license. After which it will be no longer possible to use the module with Superstack.
-
-![Silicon Witchery S2 Module programming interface](/assets/images/s2-module-programming-interface-diagram.png)
+{% include diagrams/s2-module-programming-port.svg %}
 
 The S2 Module is compatible with [Tag-Connect TC2030-CTX](https://www.tag-connect.com/product/tc2030-ctx-6-pin-cable-for-arm-cortex) programming cables, which can be used in conjunction with [Segger J-Link debug probes](https://www.segger.com/debug-trace-embedded-systems/) for firmware development and debugging.
 
@@ -335,15 +350,15 @@ Ratings and characteristics of the module are listed below. For further details,
 | USB power-on reset release voltage                                  | -          | 3.9V       | -
 | USB brown-out trigger voltage with **V<sub>BATT</sub>** not present | -          | 3.8V       | -
 | USB brown-out trigger voltage with **V<sub>BATT</sub>** present     | -          | 3.6V       | -
-| USB input current draw: **I<sub>USB</sub>**                         | 1.8mA      | -          | 1A
+| USB input current draw: **I<sub>USB</sub>**                         | 1.8mA      | -          | 1.5A
 | Resistance between **V<sub>USB</sub>** and **V<sub>SYS</sub>**      | -          | 300mΩ      | -
 | External input current draw: **I<sub>IN</sub>**                     | 1mA        | -          | 1A
 | Battery power-on reset release voltage                              | -          | 2.75V      | -
 | Battery brown-out trigger voltage                                   | -          | 2.4V       | -
 | Minimum **V<sub>BATT</sub>** voltage for charging                   | -          | 2.1V       | -
-| Range of battery charging termination voltage                       | 3.5V<br>4V | 50mA steps | 4V<br>4.5V
+| Range of battery charging termination voltage                       | 3.50V<br>4.00V | 50mV steps | 3.65V<br>4.45V
 | Range of battery charging constant current                          | 32mA       | 2mA steps  | 800mA
-| Range of battery discharge current limit                            | 290mA      | -          | 1A
+| Range of battery discharge current limit                            | 200mA      | -          | 1A
 | Resistance between **V<sub>BATT</sub>** and **V<sub>SYS</sub>**     | -          | 160mΩ      | -
 | Battery charger temperature accuracy                                | -          | 2°C        | -
 | Trickle charge timeout                                              | -          | 10min      | -
@@ -354,7 +369,7 @@ Ratings and characteristics of the module are listed below. For further details,
 | Description | Min | Typ | Max |
 |-------------|:---:|:---:|:---:|
 | Supported LTE standard       | -       | LTE Rel-14 Cat-M1 HD-FDD                                                  | -
-| Supported LTE bands          | -       | B1, B2, B3, B4, B5, B8*, B12, B13, B18, B19, B20, B25, B26, B28, B66, B85 | -
+| Supported LTE bands          | -       | B1, B2, B3, B4, B5, B8, B12, B13, B17, B18, B19, B20, B25, B26, B28, B65, B66, B85 | -
 | LTE transmission bandwidth   | -       | 1.4MHz                                                                    | -
 | LTE RX frequency range       | 728MHz  | -                                                                         | 2200MHz
 | LTE RX sensitivity low band  | -103dBm | -108dBm                                                                   | -
@@ -366,8 +381,6 @@ Ratings and characteristics of the module are listed below. For further details,
 | GPS time to first fix        | 1.3s    | -                                                                         | 30.5s
 | GPS accuracy                 | 1.8m    | -                                                                         | 3.1m
 | GPS port impedance⁑          | -       | 50Ω                                                                       | -
-
-<p>* – Band 8 is only supported with the external antenna variant of the module</p>
 
 ⁑ – External antenna variant only
 
@@ -382,7 +395,7 @@ Both variants of the module ships with a plastic housing, as well as a set of ny
 
 The module may be mounted to either a chassis, or a host PCB. If using the internal antenna variant of the module, ensure that there are no metal objects [close to the antenna](#antenna-considerations).
 
-![Silicon Witchery S2 Module Mounting](/assets/images/s2-module-mounting.png)
+{% include diagrams/s2-module-mounting.svg %}
 
 If mounted to a PCB, it is possible to interface with all of the module power and IO connections using spring loaded pogo pins which press against the gold pads on the bottom of the module. If using the included 6mm standoffs, the following pogo pins are suitable:
 
@@ -393,7 +406,7 @@ If mounted to a PCB, it is possible to interface with all of the module power an
 
 The position of the pre-attached IMEI label is shown below. The label displays the IMEI in both text and QR code format as shown:
 
-![Silicon Witchery S2 Module Labeling](/assets/images/s2-module-labeling.png)
+{% include diagrams/s2-module-labeling.svg %}
 
 ## Mechanical dimensions
 
@@ -429,3 +442,14 @@ Purchasing parties agree to take responsibility that any delivered hardware, sof
 Silicon Witchery may hold back from delivering goods, services, or any other materials in its position, if it suspects they may be used outside the accordance of these Regulations.
 
 The Purchasing Parties agree to indemnify and hold harmless Silicon Witchery against any damages, costs, losses, and/or liabilities arising out of any non-compliance with Regulations.
+
+---
+
+## Let us build it for you
+
+Silicon Witchery designs IoT devices, with LTE-M cellular and Bluetooth at its core. We take your product from the first schematic to final testing at the lab, down to the antenna, firmware and power budget. When our S1 or S2 module fits, we can build on it to save you time.
+
+[Book a free 30-minute call](https://cal.com/siliconwitchery/30min){: .btn .btn-purple}
+[IoT product development services](https://www.siliconwitchery.com/services){: .btn}
+
+You get a written proposal and price before any work starts.
