@@ -1509,7 +1509,7 @@ storage.open()
 
 {: .note }
 
-> Every method raises an error once the handle is closed. A handle dropped without closing is closed when the garbage collector reclaims it, so close a file as soon as it is no longer needed to free its space.
+> If storage is full, `storage.open()` raises `there is not enough storage`. Every method raises an error once the handle is closed. A handle dropped without closing is closed when the garbage collector reclaims it, so close a file as soon as it is no longer needed to free its space.
 
 ---
 
