@@ -45,7 +45,7 @@ Code that sends 200 bytes a minute sends 288,000 bytes a day, which costs about 
 
 These spend credit, in both directions:
 
-- **Code uploads.** An upload sends each device only the files that differ from the ones it holds. A fleet upload sends them to every device in the fleet.
+- **Code uploads.** An upload sends each device the whole bundle, which is every code file, not only the ones that changed. Each save during `superstack dev` therefore spends the bundle's size. A fleet upload sends the bundle to every device in the fleet. An upload of identical files sends nothing.
 - **Logs.** The output of `print()`, and the logs that say code started, ended, stopped or crashed.
 - **Messages to a device**, from your application or from another device's Lua.
 - **Web requests from Lua.** A request counts its URL, headers and body, and the response counts its status and body, or its error.
