@@ -377,12 +377,16 @@ Ratings and characteristics of the module are listed below. For further details,
 | LTE TX frequency range       | 698MHz  | -                                                                         | 1980MHz
 | LTE TX power output          | -40dBm  | -                                                                         | Power class 3: 23dBm<br>Power class 5: 20dBm
 | LTE port impedance⁑          | -       | 50Ω                                                                       | -
-| GPS sensitivity              | TBD     | -                                                                         | TBD
+| GPS sensitivity, cold start† | -       | -146.5dBm                                                                 | -
+| GPS sensitivity, hot start†  | -       | -152.5dBm                                                                 | -
+| GPS sensitivity, tracking†   | -       | -156.5dBm                                                                 | -
 | GPS time to first fix        | 1.3s    | -                                                                         | 30.5s
 | GPS accuracy                 | 1.8m    | -                                                                         | 3.1m
 | GPS port impedance⁑          | -       | 50Ω                                                                       | -
 
 ⁑ – External antenna variant only
+
+† – Nordic's figures for the nRF9151 with an external LNA and SAW filter, in open sky at 25°C. The S2 Module has both, in U3 on the [schematic](#schematic). These figures aren't measured on the S2 Module.
 
 ## Housing & mounting
 
@@ -420,14 +424,18 @@ The S2 Module is available in the following SKUs:
 
 | Description | Part number | Package quantity |
 |-------------|:-----------:|:----------------:|
-| S2 Module with integrated antenna          | S2-MODULE     | 1
-| S2 Module with external antenna connectors | S2-MODULE-EXT | 1
+| S2 Module with integrated antenna          | S2-MODULE         | 1
+| S2 Module with external antenna connectors | S2-MODULE-EXT-ANT | 1
 
 ## Compliance
 
 ### Approved bands
 
 Approved bands for the nRF9151 SiP are listed within [Nordic's documentation](https://docs.nordicsemi.com/bundle/ps_nrf9151/page/regulatory_information.html)
+
+### nRF9151 SiP certification
+
+The nRF9151 SiP is certified to FCC and ISED rules, as FCC ID 2ANPO00NRF9151 and IC 24529-NRF9151. These certifications cover the SiP, not the S2 Module. A product that hosts the SiP must still meet FCC Part 15 Subpart B.
 
 ---
 
