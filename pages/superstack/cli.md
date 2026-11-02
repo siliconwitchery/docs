@@ -135,7 +135,7 @@ The CLI or Superstack refuses the upload with one of these messages:
 | `<name> would be uploaded twice, from <path> and <path>` | Two files you named land on the same path on the device |
 | `a file and a directory cannot share the name <name>` | A file has the same path as a folder |
 | `a file path cannot be used on the device` | A path is longer than 255 bytes, contains a control character, or has an empty, `.` or `..` part |
-| `tmp/ is reserved for the device` | A path is `tmp` or starts with `tmp/`, where the device keeps [temporary files](/pages/superstack/lua#temporary-files) |
+| `.bundle is reserved for the device` | A path is `.bundle` or starts with `.bundle/`, a name the device keeps for itself |
 | `the files are too large to upload` | The files are far larger than the device's storage |
 | `the files need <n> KiB of storage, but the device has <n> KiB` | The files don't fit the device's storage |
 | `the files need <n> KiB of storage, but device <imei> has <n> KiB` | The files don't fit a device in the fleet. The message names the smallest |
@@ -166,7 +166,7 @@ A fleet upload is refused whole when any part of it fails.
 
 `superstack device start` and `superstack device restart` refuse a device in `no code`, `no space`, `rejected` or `failed`. Upload code first.
 
-Storage shows the space the code and temporary files use, out of the 96 KiB the device has. The device stores files in 4 KiB blocks. A file of up to 512 bytes shares a block with others, but a larger one takes at least a whole block, so a 600-byte file uses 4 KiB. The file system uses part of the storage too, so it never shows zero.
+Storage shows the space the code uses, out of the 96 KiB the device has. The device stores files in 4 KiB blocks. A file of up to 512 bytes shares a block with others, but a larger one takes at least a whole block, so a 600-byte file uses 4 KiB. The file system uses part of the storage too, so it never shows zero.
 
 ---
 
