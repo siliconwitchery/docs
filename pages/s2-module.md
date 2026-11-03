@@ -243,6 +243,8 @@ If the mounting requirements for the module within an installation make it diffi
 
 A wide variety of external antennas are available from various manufacturers. LTE antennas should support 698-960MHz and 1745-2200MHz with a VSWR of 3 or better. GPS antennas should support 1575MHz with a VSWR of 2 or better.
 
+To keep within EU radio frequency exposure limits, an LTE antenna must have a gain of no more than 7 dBi from 698 to 960MHz and 11 dBi from 1710 to 2200MHz, and be installed at least 20cm from people.
+
 Examples of external antennas are listed below:
 
 - LTE: [Pulse BTPA0061204G0C4Axx](https://www.mouser.se/datasheet/2/447/datasheet_btpa0061204g0c4axx_2321p_tds_draft_v01_2-3450051.pdf)
