@@ -31,6 +31,10 @@ Silicon Witchery AB makes the S2 Module and Superstack.
 
 Report a security vulnerability to security@siliconwitchery.com, as the [security and vulnerability disclosure policy](https://www.siliconwitchery.com/security) describes.
 
+## EU declaration of conformity
+
+The [EU declaration of conformity](/assets/files/s2-module-eu-declaration-of-conformity.pdf) covers the S2 Module, its firmware and Superstack.
+
 ## Products this page covers
 
 | Product | How to identify it |
@@ -48,7 +52,7 @@ The S2 Module is a cellular module that puts a maker's own project online. It ru
 
 - Each S2 has its own device key. None has a default password.
 - The S2 talks only to Superstack, over DTLS 1.2 with AES-128 encryption. The CLI and your own project talk to Superstack over HTTPS.
-- The S2 checks the signature of new firmware before it runs it.
+- The S2 accepts new firmware only from Superstack, over its encrypted connection. It checks each image for damage before it runs it, and returns to the firmware before it if the new image can't reconnect.
 - Pairing needs the IMEI and a press of the [pairing button](/pages/s2-module#status-leds--button).
 - Lua on the S2 reaches the internet only through Superstack, which refuses requests to private network addresses.
 - A fleet key reaches only its own fleet, and you can revoke it.
