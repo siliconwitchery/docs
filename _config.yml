@@ -7,6 +7,8 @@ description: "Technical documentation for all Silicon Witchery hardware and firm
 permalink: pretty
 heading_anchors: true
 url: "https://docs.siliconwitchery.com"
+include:
+  - .well-known
 
 # Plugins
 plugins:
